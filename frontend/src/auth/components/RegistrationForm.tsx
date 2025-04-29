@@ -1,5 +1,5 @@
-import Button from "@/shared/Button";
-import Input from "@/shared/Input";
+import Button from "@/shared/components/Button";
+import Input from "@/shared/components/Input";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -12,7 +12,7 @@ const registerSchema = z.object({
 
 export type FormFields = z.infer<typeof registerSchema>;
 
-const RegistrationForm = () => {
+const RegistrationForm = ({ role }: { role: string }) => {
   const {
     register,
     handleSubmit,
@@ -22,7 +22,7 @@ const RegistrationForm = () => {
   });
 
   const onSubmit = (formData: FormFields) => {
-    console.log("Datos validados --> ", formData);
+    console.log("Datos validados --> ", { ...formData, role });
   };
 
   return (
