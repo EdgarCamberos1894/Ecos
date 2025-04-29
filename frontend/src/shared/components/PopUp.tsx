@@ -9,7 +9,7 @@ interface PopupProps {
   highlightedText: string;
 }
 
-const Popup = ({ isOpen, onClose, children, normalText, highlightedText }: PopupProps) => {
+const PopUp = ({ isOpen, onClose, children, normalText, highlightedText }: PopupProps) => {
   if (!isOpen) return null;
 
   return (
@@ -27,4 +27,4 @@ const Popup = ({ isOpen, onClose, children, normalText, highlightedText }: Popup
   );
 };
 
-export default Popup;
+export default PopUp;

@@ -1,12 +1,14 @@
 import image from "@/assets/image.webp";
-import Button from "@/shared/Button";
+import Button from "@/shared/components/Button";
 import { useState } from "react";
 import RegistrationForm from "./RegistrationForm";
 
 const RoleSelector = () => {
   const [showRegistrationForm, setShowRegistrationForm] = useState(false);
+  const [role, setRole] = useState("");
 
-  const handleRoleSelection = () => {
+  const handleRoleSelection = (role: string) => {
+    setRole(role);
     setShowRegistrationForm(true);
   };
 
@@ -20,7 +22,9 @@ const RoleSelector = () => {
               <Button
                 type="button"
                 className="bg-transparent font-bold"
-                onClick={handleRoleSelection}
+                onClick={() => {
+                  handleRoleSelection("FAN");
+                }}
               >
                 Registrate como Fan
               </Button>
@@ -37,7 +41,9 @@ const RoleSelector = () => {
               <Button
                 type="button"
                 className="bg-transparent font-bold"
-                onClick={handleRoleSelection}
+                onClick={() => {
+                  handleRoleSelection("MUSICIAN");
+                }}
               >
                 Registrate como Músico
               </Button>
@@ -49,7 +55,7 @@ const RoleSelector = () => {
           </div>
         </>
       ) : (
-        <RegistrationForm />
+        <RegistrationForm role={role} />
       )}
     </div>
   );
