@@ -37,9 +37,9 @@
 		<mapstruct.version>1.5.5.Final</mapstruct.version>
 
 		<!-- JWT -->
-		<jwt.version>0.11.5</jwt.version>
+		<jwt.version>4.5.0</jwt.version>
 
-		<!-- -->
+		<!-- OpenAPI -->
 		<springdoc.version>2.8.6</springdoc.version>
 	</properties>
 	
@@ -94,21 +94,9 @@
 			<version>${mapstruct.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>io.jsonwebtoken</groupId>
-			<artifactId>jjwt-api</artifactId>
+			<groupId>com.auth0</groupId>
+			<artifactId>java-jwt</artifactId>
 			<version>${jwt.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>io.jsonwebtoken</groupId>
-			<artifactId>jjwt-impl</artifactId>
-			<version>${jwt.version}</version>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>io.jsonwebtoken</groupId>
-			<artifactId>jjwt-jackson</artifactId>
-			<version>${jwt.version}</version>
-			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
