@@ -1,30 +1,7 @@
-import Popup from "./shared/PopUp";
-import { useState } from "react";
-import Header from "./shared/Header";
-import RoleSelector from "./auth/components/RoleSelector";
+import { AppRoutes } from "./routes";
 
 function App() {
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
-
-  return (
-    <div>
-      <Header
-        onOpenPopup={() => {
-          setIsPopupOpen(true);
-        }}
-      />
-      <Popup
-        isOpen={isPopupOpen}
-        onClose={() => {
-          setIsPopupOpen(false);
-        }}
-        normalText="Registrate en "
-        highlightedText=" ECOS"
-      >
-        <RoleSelector />
-      </Popup>
-    </div>
-  );
+  return <AppRoutes />;
 }
 
 export default App;
