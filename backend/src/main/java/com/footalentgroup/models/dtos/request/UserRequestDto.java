@@ -2,6 +2,7 @@ package com.footalentgroup.models.dtos.request;
 
 import com.footalentgroup.models.entities.UserEntity;
 import com.footalentgroup.models.enums.Role;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -21,6 +22,7 @@ public class UserRequestDto {
     private final String name;
 
     @NotBlank(message = "El correo electrónico no puede estar vacío.")
+    @Email(message = "El correo electrónico no tiene un formato válido.")
     private final String email;
 
     @NotBlank(message = "La contraseña no puede estar vacía.")
