@@ -1,6 +1,5 @@
-import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import Button from "@/shared/components/Button";
 import Input from "@/shared/components/Input";
@@ -12,7 +11,7 @@ const LoginSchema = z.object({
 
 type LoginFormData = z.infer<typeof LoginSchema>;
 
-const LoginForm: React.FC = () => {
+const LoginForm = () => {
   const {
     register,
     handleSubmit,
@@ -21,14 +20,14 @@ const LoginForm: React.FC = () => {
     resolver: zodResolver(LoginSchema),
   });
 
-  const handleFormSubmit = async (data: LoginFormData) => {
+  const handleFormSubmit: SubmitHandler<LoginFormData> = async (data: LoginFormData) => {
     await new Promise((resolve) => setTimeout(resolve, 3000));
     console.log("Datos enviados:", data);
   };
 
   return (
     <div className="flex h-full flex-col items-center justify-around">
-      <form onSubmit={handleSubmit(handleFormSubmit)} className="w-full">
+      <form onSubmit={void handleSubmit(handleFormSubmit)} className="w-full">
         <div className="mb-9 flex flex-col gap-4">
           <div className="flex flex-col gap-[12px]">
             <Input type="email" {...register("email")} placeholder="email@mail.com" />
