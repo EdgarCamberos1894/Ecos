@@ -38,4 +38,9 @@ class UserRepositoryIT {
         assertEquals("jane.doe@example.com", user2.getEmail());
         assertEquals(Role.MUSICIAN, user2.getRole());
     }
+
+    @Test
+    void testFindByEmail() {
+        assertTrue(userRepository.findByEmail("john.doe@example.com").isPresent());
+    }
 }
