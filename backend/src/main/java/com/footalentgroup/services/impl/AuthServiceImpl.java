@@ -2,9 +2,11 @@ package com.footalentgroup.services.impl;
 
 import com.footalentgroup.exceptions.ConflictException;
 import com.footalentgroup.models.dtos.request.UserRequestDto;
+import com.footalentgroup.models.dtos.response.TokenResponseDto;
 import com.footalentgroup.models.entities.UserEntity;
 import com.footalentgroup.repositories.UserRepository;
 import com.footalentgroup.services.AuthService;
+import com.footalentgroup.services.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,11 +14,15 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
+    private final JwtService jwtService;
 
     @Override
-    public void createUser(UserEntity user) {
+    public TokenResponseDto createUser(UserEntity user) {
         this.assertEmailNotExist(user.getEmail());
-        this.userRepository.save(user);
+
+        UserEntity savedUser = this.userRepository.save(user);
+        String token = this.jwtService.createToken(savedUser.getEmail(), savedUser.getName(), savedUser.getRole().name());
+        return new TokenResponseDto(token);
     }
 
     private void assertEmailNotExist(String email) {

@@ -1,6 +1,7 @@
 package com.footalentgroup.controllers;
 
 import com.footalentgroup.models.dtos.request.UserRequestDto;
+import com.footalentgroup.models.dtos.response.TokenResponseDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,7 +27,9 @@ class AuthControllerIT {
                 .uri(AuthController.AUTH)
                 .body(BodyInserters.fromValue(userDto))
                 .exchange()
-                .expectStatus().isCreated();
+                .expectStatus().isCreated()
+                .expectBody(TokenResponseDto.class)
+                .value(System.out::println);
     }
 
     @Test

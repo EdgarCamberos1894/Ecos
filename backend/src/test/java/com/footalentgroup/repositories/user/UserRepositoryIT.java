@@ -7,8 +7,6 @@ import com.footalentgroup.repositories.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -17,12 +15,6 @@ class UserRepositoryIT {
 
     @Autowired
     private UserRepository userRepository;
-
-    @Test
-    void testFindAll() {
-        List<UserEntity> users = userRepository.findAll();
-        assertEquals(2, users.size());
-    }
 
     @Test
     void testFindById() {

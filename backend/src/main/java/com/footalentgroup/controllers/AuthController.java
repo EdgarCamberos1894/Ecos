@@ -1,6 +1,7 @@
 package com.footalentgroup.controllers;
 
 import com.footalentgroup.models.dtos.request.UserRequestDto;
+import com.footalentgroup.models.dtos.response.TokenResponseDto;
 import com.footalentgroup.services.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,8 +21,9 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping
-    public ResponseEntity<?> register(@Valid @RequestBody UserRequestDto userDto) {
-        this.authService.createUser(userDto.toEntity());
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<TokenResponseDto> register(@Valid @RequestBody UserRequestDto userDto) {
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(this.authService.createUser(userDto.toEntity()));
     }
 }
