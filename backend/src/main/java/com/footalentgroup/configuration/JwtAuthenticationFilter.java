@@ -28,7 +28,23 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     @NonNull HttpServletResponse response,
                                     @NonNull FilterChain filterChain) throws ServletException, IOException {
         String token = jwtService.extractToken(request.getHeader(AUTHORIZATION));
-        if (!token.isEmpty()) {
+
+        if (request.getServletPath().contains("/auth")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        if (token.isEmpty()) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        if (jwtService.isTokenExpired(token)) {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401 Unauthorized
+                response.getWriter().write("El token ha expirado");
+                return;
+            }
+
             GrantedAuthority authority = new SimpleGrantedAuthority(Role.PREFIX + jwtService.role(token));
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                     jwtService.email(token),
@@ -36,7 +52,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     List.of(authority)
             );
             SecurityContextHolder.getContext().setAuthentication(authentication);
-        }
+
 
         filterChain.doFilter(request, response);
     }
