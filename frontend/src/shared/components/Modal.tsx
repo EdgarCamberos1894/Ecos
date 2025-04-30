@@ -34,7 +34,7 @@ const Modal = ({ isOpen, onClose, children, normalText, highlightedText }: Modal
         >
           <img src={closeIcon} alt="close modal" />
         </button>
-        <div className="flex flex-1 items-center justify-center">{children}</div>
+        {children}
       </div>
     </div>,
     portalRoot,

@@ -3,6 +3,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import Button from "@/shared/components/Button";
 import Input from "@/shared/components/Input";
+import { EyeOff } from "./ui/EyeOff";
 
 const LoginSchema = z.object({
   email: z.string().email({ message: "El email ingresado no es válido" }),
@@ -20,35 +21,27 @@ const LoginForm = () => {
     resolver: zodResolver(LoginSchema),
   });
 
-  const handleFormSubmit: SubmitHandler<LoginFormData> = async (data: LoginFormData) => {
-    await new Promise((resolve) => setTimeout(resolve, 3000));
+  const handleFormSubmit: SubmitHandler<LoginFormData> = (data: LoginFormData) => {
     console.log("Datos enviados:", data);
   };
 
   return (
-    <div className="flex h-full flex-col items-center justify-around">
-      <form onSubmit={void handleSubmit(handleFormSubmit)} className="w-full">
-        <div className="mb-9 flex flex-col gap-4">
-          <div className="flex flex-col gap-[12px]">
-            <Input type="email" {...register("email")} placeholder="email@mail.com" />
-            {errors.email && <span className="text-sm text-red-500">{errors.email.message}</span>}
+    <form onSubmit={handleSubmit(handleFormSubmit)} className="flex flex-col gap-4">
+      <div>
+        <Input type="email" {...register("email")} placeholder="e-mail@mail.com" />
+        {errors.email && <span className="text-sm text-red-500">{errors.email.message}</span>}
+      </div>
 
-            <Input type="password" {...register("password")} placeholder="Contraseña" />
-            {errors.password && (
-              <span className="text-sm text-red-500">{errors.password.message}</span>
-            )}
-          </div>
+      <div className="relative flex items-center">
+        <Input type="password" placeholder="Contraseña" {...register("password")} />{" "}
+        <EyeOff className="absolute right-6" />
+        {errors.password && <p className="mt-1 h-6 text-red-500">{errors.password.message}</p>}
+      </div>
 
-          <Button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? "Cargando..." : "Iniciar sesión"}
-          </Button>
-        </div>
-
-        <a href="#" className="font-[roboto] text-[14px]">
-          Olvidé mi contraseña
-        </a>
-      </form>
-    </div>
+      <Button type="submit" disabled={isSubmitting}>
+        {isSubmitting ? "Cargando..." : "Iniciar sesión"}
+      </Button>
+    </form>
   );
 };
 
