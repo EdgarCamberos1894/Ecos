@@ -4,6 +4,9 @@ import { z } from "zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { EyeOff } from "./ui/EyeOff";
+import { useApiMutation } from "../hooks/useApiMutation";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const registerSchema = z.object({
   name: z.string().min(3, { message: "Su nombre es obligatorio" }),
@@ -16,6 +19,8 @@ const registerSchema = z.object({
 
 export type FormFields = z.infer<typeof registerSchema>;
 
+type RegistrationData = Omit<FormFields, "terms"> & { role: string };
+
 interface RegistrationFormProps {
   role: string;
 }
@@ -24,29 +29,59 @@ const RegistrationForm = ({ role }: RegistrationFormProps) => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<FormFields>({
     resolver: zodResolver(registerSchema),
   });
 
-  const onSubmit: SubmitHandler<FormFields> = (formData: FormFields) => {
-    console.log("Datos validados --> ", { ...formData, role }); //TODO --> Eliminar el campo terms para enviar al backend
+  const { mutate, isPending } = useApiMutation<RegistrationData>();
+  const navigate = useNavigate();
+  const [serverMessage, setServerMessage] = useState<string | null>(null);
+
+  const onSubmit: SubmitHandler<FormFields> = (formData) => {
+    const dataToSend: RegistrationData = {
+      name: formData.name,
+      email: formData.email,
+      password: formData.password,
+      role,
+    };
+
+    mutate(
+      {
+        url: "https://ecos-ed30.onrender.com/auth",
+        method: "POST",
+        data: dataToSend,
+      },
+      {
+        onSuccess: (response) => {
+          if (response.success) {
+            setServerMessage("Registro exitoso 🎉 Redirigiendo...");
+          } else {
+            setServerMessage(response.message ?? "Registro exitoso.");
+            void navigate("/profile");
+          }
+        },
+        onError: (error) => {
+          setServerMessage(error.message);
+        },
+      },
+    );
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
       <div>
-        <Input type="text" placeholder="Nombre" {...register("name")} />{" "}
+        <Input type="text" placeholder="Nombre" {...register("name")} />
         {errors.name && <p className="mt-1 h-6 text-red-500">{errors.name.message}</p>}
       </div>
 
       <div>
-        <Input type="email" placeholder="e-mail@mail.com" {...register("email")} />{" "}
+        <Input type="email" placeholder="e-mail@mail.com" {...register("email")} />
         {errors.email && <p className="mt-1 h-6 text-red-500">{errors.email.message}</p>}
       </div>
 
       <div className="relative flex items-center">
-        <Input type="password" placeholder="Contraseña" {...register("password")} />{" "}
+        <Input type="password" placeholder="Contraseña" {...register("password")} />
         <EyeOff className="absolute right-6" />
         {errors.password && <p className="mt-1 h-6 text-red-500">{errors.password.message}</p>}
       </div>
@@ -58,9 +93,12 @@ const RegistrationForm = ({ role }: RegistrationFormProps) => {
         </span>
       </label>
       {errors.terms && <p className="mt-1 h-6 text-red-500">{errors.terms.message}</p>}
+      {serverMessage && (
+        <p className={`mt-2 ${isPending ? "text-blue-500" : "text-green-500"}`}>{serverMessage}</p>
+      )}
 
-      <Button className="hover:cursor-pointer" type="submit" disabled={isSubmitting}>
-        {isSubmitting ? "Registrándose..." : "Registrate"}
+      <Button className="hover:cursor-pointer" type="submit" disabled={isPending}>
+        {isPending ? "Registrándose..." : "Registrate"}
       </Button>
     </form>
   );
