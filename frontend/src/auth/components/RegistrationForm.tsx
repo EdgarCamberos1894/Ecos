@@ -34,30 +34,36 @@ const RegistrationForm = ({ role }: RegistrationFormProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+    <form onSubmit={handleSubmit(onSubmit)} className="flex w-[329px] flex-col gap-4">
       <div>
         <Input type="text" placeholder="Nombre" {...register("name")} />{" "}
-        {errors.name && <p className="mt-1 h-6 text-red-500">{errors.name.message}</p>}
+        {errors.name && <p className="mt-1 h-6 text-sm text-red-500">{errors.name.message}</p>}
       </div>
 
       <div>
         <Input type="email" placeholder="e-mail@mail.com" {...register("email")} />{" "}
-        {errors.email && <p className="mt-1 h-6 text-red-500">{errors.email.message}</p>}
+        {errors.email && <p className="mt-1 h-6 text-sm text-red-500">{errors.email.message}</p>}
       </div>
 
-      <div className="relative flex items-center">
-        <Input type="password" placeholder="Contraseña" {...register("password")} />{" "}
-        <EyeOff className="absolute right-6" />
-        {errors.password && <p className="mt-1 h-6 text-red-500">{errors.password.message}</p>}
+      <div>
+        <div className="relative">
+          <Input type="password" placeholder="Contraseña" {...register("password")} />
+          <EyeOff className="absolute top-2 right-4 text-gray-500" />
+        </div>
+        {errors.password && (
+          <p className="mt-1 h-6 text-sm text-red-500">{errors.password.message}</p>
+        )}
       </div>
 
-      <label className="flex items-center justify-center gap-2 text-sm">
-        <input type="checkbox" {...register("terms")} className="size-6" />
-        <span className="checkbox-label text-[#6E6E6E]">
-          Leí y acepto los <u className="hover:cursor-pointer">Términos de uso</u>.
-        </span>
-      </label>
-      {errors.terms && <p className="mt-1 h-6 text-red-500">{errors.terms.message}</p>}
+      <div className="flex flex-col items-center justify-center">
+        <label className="flex items-center justify-center gap-2 text-sm">
+          <input type="checkbox" {...register("terms")} className="size-6" />
+          <span className="checkbox-label text-[#6E6E6E]">
+            Leí y acepto los <u className="hover:cursor-pointer">Términos de uso</u>.
+          </span>
+        </label>
+        {errors.terms && <p className="mt-1 h-6 text-sm text-red-500">{errors.terms.message}</p>}
+      </div>
 
       <Button className="hover:cursor-pointer" type="submit" disabled={isSubmitting}>
         {isSubmitting ? "Registrándose..." : "Registrate"}
