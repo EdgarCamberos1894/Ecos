@@ -58,7 +58,9 @@ const RegistrationForm = ({ role }: RegistrationFormProps) => {
             setServerMessage("Registro exitoso 🎉 Redirigiendo...");
           } else {
             setServerMessage(response.message ?? "Registro exitoso.");
-            void navigate("/profile");
+            setTimeout(() => {
+              void navigate("/profile");
+            }, 2000);
           }
         },
         onError: (error) => {
@@ -69,7 +71,7 @@ const RegistrationForm = ({ role }: RegistrationFormProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+    <form onSubmit={handleSubmit(onSubmit)} className="flex w-[329px] flex-col gap-4">
       <div>
         <Input type="text" placeholder="Nombre" {...register("name")} />
         {errors.name && <p className="mt-1 h-6 text-red-500">{errors.name.message}</p>}
