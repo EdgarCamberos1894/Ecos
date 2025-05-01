@@ -5,7 +5,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { EyeOff } from "./ui/EyeOff";
 import { useApiMutation } from "../hooks/useApiMutation";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { useState } from "react";
 
 const registerSchema = z.object({
