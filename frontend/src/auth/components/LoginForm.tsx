@@ -4,8 +4,14 @@ import { z } from "zod";
 import Button from "@/shared/components/Button";
 import Input from "@/shared/components/Input";
 import { EyeOff } from "./ui/EyeOff";
+<<<<<<< HEAD
 import { EyeOn } from "./ui/EyeOn";
 import { useState } from "react";
+=======
+import { useApiMutation } from "@/shared/hooks/use-api-mutation";
+import { useAuth } from "../hooks/use-auth";
+import { useNavigate } from "react-router";
+>>>>>>> 3c4c2cb (feat: add token store with useAuth and redirect on login success. #11 #13)
 
 const LoginSchema = z.object({
   email: z.string().email({ message: "El email ingresado no es válido" }),
@@ -14,19 +20,44 @@ const LoginSchema = z.object({
 
 type LoginFormData = z.infer<typeof LoginSchema>;
 
+interface LoginResponse {
+  token: string;
+}
+
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    setError,
+    formState: { errors },
   } = useForm<LoginFormData>({
     resolver: zodResolver(LoginSchema),
   });
 
+  const navigate = useNavigate();
+
+  const { handleLogin } = useAuth();
+
+  const { mutate, isPending } = useApiMutation<LoginResponse, LoginFormData>("/auth/login", "post");
+
   const handleFormSubmit: SubmitHandler<LoginFormData> = (data: LoginFormData) => {
     console.log("Datos enviados:", data);
+
+    mutate(data, {
+      onSuccess: (response) => {
+        console.log("Login exitoso:", response.token);
+        handleLogin(response.token);
+        navigate("/profile");
+      },
+      onError: (error) => {
+        console.log("Login fallido:", error);
+        setError("root", {
+          message: error.message,
+        });
+      },
+    });
   };
 
   return (
@@ -63,9 +94,11 @@ const LoginForm = () => {
         )}
       </div>
 
-      <Button type="submit" disabled={isSubmitting}>
-        {isSubmitting ? "Cargando..." : "Iniciar sesión"}
+      <Button type="submit" disabled={isPending}>
+        {isPending ? "Iniciando sesión..." : "Iniciar sesión"}
       </Button>
+
+      {errors.root && <p className="text-red-500">{errors.root.message}</p>}
     </form>
   );
 };
