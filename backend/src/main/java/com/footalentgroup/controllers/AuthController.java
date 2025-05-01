@@ -28,24 +28,17 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping
-    public ResponseEntity<TokenResponseDto> register(@Valid @RequestBody UserRequestDto userDto) {
+    public ResponseEntity<TokenResponseDto> register(@Valid @RequestBody UserRequestDto userDto, HttpServletResponse response) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(this.authService.createUser(userDto.toEntity()));
+                .body(this.authService.createUser(userDto.toEntity(), response));
     }
 
     @PostMapping(LOGIN)
-    public ResponseEntity<TokenResponseDto> login(@Valid @RequestBody LoginRequestDto loginDto) {
+    public ResponseEntity<TokenResponseDto> login(@Valid @RequestBody LoginRequestDto loginDto, HttpServletResponse response) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(this.authService.login(loginDto));
+                .body(this.authService.login(loginDto, response));
     }
 
-    @PostMapping(REFRESHTOKEN)
-    public ResponseEntity<TokenResponseDto> refreshToken(HttpServletRequest request,
-                             HttpServletResponse response) throws IOException {
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(this.authService.refreshToken(request, response));
-    }
 }

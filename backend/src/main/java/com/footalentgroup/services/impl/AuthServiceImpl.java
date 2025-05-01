@@ -8,6 +8,7 @@ import com.footalentgroup.models.entities.UserEntity;
 import com.footalentgroup.repositories.UserRepository;
 import com.footalentgroup.services.AuthService;
 import com.footalentgroup.services.JwtService;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -28,17 +29,25 @@ public class AuthServiceImpl implements AuthService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public TokenResponseDto createUser(UserEntity user) {
+    public TokenResponseDto createUser(UserEntity user, HttpServletResponse response) {
         this.assertEmailNotExist(user.getEmail());
 
         UserEntity savedUser = this.userRepository.save(user);
         String token = this.jwtService.createToken(savedUser.getEmail(), savedUser.getName(), savedUser.getRole().name());
         String refreshToken= this.jwtService.refreshToken(savedUser.getEmail(), savedUser.getName(), savedUser.getRole().name());
-        return new TokenResponseDto(token, refreshToken);
+
+        Cookie refreshCookie = new Cookie("refresh_token", refreshToken);
+        refreshCookie.setHttpOnly(true);
+        refreshCookie.setSecure(false);
+        refreshCookie.setPath("/");
+        refreshCookie.setMaxAge(7 * 24 * 60 * 60);
+        response.addCookie(refreshCookie);
+
+        return new TokenResponseDto(token);
     }
 
     @Override
-    public TokenResponseDto login(LoginRequestDto loginDto) {
+    public TokenResponseDto login(LoginRequestDto loginDto,HttpServletResponse response ) {
         UserEntity user = userRepository.findByEmail(loginDto.getEmail()).orElse(null);
 
         if (user == null || !passwordEncoder.matches(loginDto.getPassword(), user.getPassword())) {
@@ -48,7 +57,14 @@ public class AuthServiceImpl implements AuthService {
         String token = this.jwtService.createToken(user.getEmail(), user.getName(), user.getRole().name());
         String refreshToken= this.jwtService.refreshToken(user.getEmail(), user.getName(), user.getRole().name());
 
-        return new TokenResponseDto(token, refreshToken);
+        Cookie refreshCookie = new Cookie("refresh_token", refreshToken);
+        refreshCookie.setHttpOnly(true);
+        refreshCookie.setSecure(false);
+        refreshCookie.setPath("/");
+        refreshCookie.setMaxAge(7 * 24 * 60 * 60); // Establece la duración de la cookie en 7 días (en segundos), se puede ajustar
+        response.addCookie(refreshCookie);
+
+        return new TokenResponseDto(token);
     }
 
     private void assertEmailNotExist(String email) {
@@ -57,28 +73,4 @@ public class AuthServiceImpl implements AuthService {
                 .ifPresent(user -> { throw new ConflictException("El correo ya está registrado: " + email); });
     }
 
-    public TokenResponseDto refreshToken(HttpServletRequest request,
-                              HttpServletResponse response) throws IOException {
-        final String authHeader= request.getHeader(HttpHeaders.AUTHORIZATION);
-        final String refreshToken;
-        final String email;
-
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            throw new BadRequestException("Header de autorización inválido");
-        }
-        refreshToken= authHeader.substring(7);
-        email= jwtService.email(refreshToken);
-
-        if (email == null) {
-            throw new BadRequestException("Token de refresh inválido o expirado");
-        }
-
-        UserEntity user= this.userRepository.findByEmail(email)
-                    .orElseThrow(()-> new UsernameNotFoundException(""));
-
-            String accessToken= jwtService.createToken(user.getEmail(), user.getName(), user.getRole().name());
-
-            return new TokenResponseDto(accessToken, refreshToken);
-
-    }
 }

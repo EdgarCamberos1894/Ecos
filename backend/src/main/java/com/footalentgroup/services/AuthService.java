@@ -9,9 +9,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public interface AuthService {
-    public TokenResponseDto createUser(UserEntity userDto);
+    public TokenResponseDto createUser(UserEntity userDto, HttpServletResponse response);
 
-    public TokenResponseDto login(LoginRequestDto loginRequestDto);
+    public TokenResponseDto login(LoginRequestDto loginRequestDto, HttpServletResponse response);
 
-    public TokenResponseDto refreshToken(HttpServletRequest request,HttpServletResponse response) throws IOException;
+
 }

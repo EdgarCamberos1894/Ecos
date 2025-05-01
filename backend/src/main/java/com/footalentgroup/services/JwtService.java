@@ -51,6 +51,7 @@ public class JwtService {
                 .withClaim(ROLE_CLAIM, role)
                 .sign(getAlgorithm());
     }
+
     public String refreshToken(String email, String name, String role) {
         return generateToken(email, name, role, this.refreshExpiration);
     }
