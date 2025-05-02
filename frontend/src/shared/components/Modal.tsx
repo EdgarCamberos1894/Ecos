@@ -3,7 +3,6 @@ import { createPortal } from "react-dom";
 import { CloseArrow } from "@/auth/components/ui/CloseArrow";
 
 interface ModalProps extends PropsWithChildren {
-  isOpen: boolean;
   onClose: () => void;
   normalText: string;
   highlightedText: string;
@@ -11,9 +10,7 @@ interface ModalProps extends PropsWithChildren {
 
 const portalRoot = document.getElementById("portal-root");
 
-const Modal = ({ isOpen, onClose, children, normalText, highlightedText }: ModalProps) => {
-  if (!isOpen) return null;
-
+const Modal = ({ onClose, children, normalText, highlightedText }: ModalProps) => {
   if (!portalRoot) return;
 
   return createPortal(
