@@ -4,14 +4,11 @@ import { z } from "zod";
 import Button from "@/shared/components/Button";
 import Input from "@/shared/components/Input";
 import { EyeOff } from "./ui/EyeOff";
-<<<<<<< HEAD
 import { EyeOn } from "./ui/EyeOn";
 import { useState } from "react";
-=======
 import { useApiMutation } from "@/shared/hooks/use-api-mutation";
 import { useAuth } from "../hooks/use-auth";
 import { useNavigate } from "react-router";
->>>>>>> 3c4c2cb (feat: add token store with useAuth and redirect on login success. #11 #13)
 
 const LoginSchema = z.object({
   email: z.string().email({ message: "El email ingresado no es válido" }),
