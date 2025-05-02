@@ -9,7 +9,6 @@ import MenuIcon from "@/assets/hamburgerMenu.svg?react";
 import Lens from "@/assets/lens.svg?react";
 import ForgotPasswordForm from "@/auth/components/ForgotPasswordForm";
 
-
 export const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState<"login" | "register" | "forgot">();
@@ -101,7 +100,7 @@ export const Header = () => {
 
         {modalMode === "forgot" && (
           <div className="flex h-full flex-col items-center justify-center">
-            <ForgotPasswordForm onChange={handleChangeModal}/>
+            <ForgotPasswordForm onChange={handleChangeModal} />
           </div>
         )}
       </Modal>

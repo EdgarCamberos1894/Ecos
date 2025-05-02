@@ -4,6 +4,7 @@ import { z } from "zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { EyeOff } from "./ui/EyeOff";
+import { EyeOn } from "./ui/EyeOn";
 import { useApiMutation } from "../hooks/useApiMutation";
 import { useNavigate } from "react-router";
 import { useState } from "react";
@@ -26,6 +27,8 @@ interface RegistrationFormProps {
 }
 
 const RegistrationForm = ({ role }: RegistrationFormProps) => {
+  const [showPassword, setShowPassword] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -82,10 +85,24 @@ const RegistrationForm = ({ role }: RegistrationFormProps) => {
         {errors.email && <p className="mt-1 h-6 text-red-500">{errors.email.message}</p>}
       </div>
 
-      <div className="relative flex items-center">
-        <Input type="password" placeholder="Contraseña" {...register("password")} />
-        <EyeOff className="absolute right-6" />
-        {errors.password && <p className="mt-1 h-6 text-red-500">{errors.password.message}</p>}
+      <div className="relative">
+        <Input
+          type={showPassword ? "text" : "password"}
+          placeholder="Contraseña"
+          {...register("password")}
+        />
+        <button
+          type="button"
+          onClick={() => {
+            setShowPassword(!showPassword);
+          }}
+          className="absolute top-2 right-4 text-gray-500"
+        >
+          {showPassword ? <EyeOn /> : <EyeOff />}
+          <span className="sr-only">
+            {showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+          </span>
+        </button>
       </div>
 
       <label className="flex items-center justify-center gap-2 text-sm">
