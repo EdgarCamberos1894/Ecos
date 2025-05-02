@@ -1,25 +1,21 @@
 package com.footalentgroup.services.impl;
 
-import com.footalentgroup.exceptions.BadRequestException;
 import com.footalentgroup.exceptions.ConflictException;
 import com.footalentgroup.models.dtos.request.LoginRequestDto;
 import com.footalentgroup.models.dtos.response.TokenResponseDto;
 import com.footalentgroup.models.entities.UserEntity;
+import com.footalentgroup.models.enums.Role;
 import com.footalentgroup.repositories.UserRepository;
 import com.footalentgroup.services.AuthService;
 import com.footalentgroup.services.JwtService;
+import com.footalentgroup.services.MusicianProfileService;
 import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.http.HttpHeaders;
-
-import java.io.IOException;
-
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -27,12 +23,19 @@ public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
+    private final MusicianProfileService musicService;
 
     @Override
+    @Transactional
     public TokenResponseDto createUser(UserEntity user, HttpServletResponse response) {
         this.assertEmailNotExist(user.getEmail());
 
         UserEntity savedUser = this.userRepository.save(user);
+
+        if (Role.MUSICIAN.equals(user.getRole())) {
+            musicService.createProfile(savedUser);
+        }
+
         String token = this.jwtService.createToken(savedUser.getEmail(), savedUser.getName(), savedUser.getRole().name());
         String refreshToken= this.jwtService.refreshToken(savedUser.getEmail(), savedUser.getName(), savedUser.getRole().name());
 
