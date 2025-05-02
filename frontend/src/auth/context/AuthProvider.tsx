@@ -9,7 +9,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>();
 
   const handleLogin = (userToken: string) => {
-    localStorage.setItem("userToken", userToken);
+    localStorage.setItem("userToken", JSON.stringify(userToken));
 
     const userData = jwtDecode<User>(userToken);
     setUser(userData);
