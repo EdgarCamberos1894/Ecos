@@ -20,7 +20,5 @@ class EventRepositoryIT {
     void testFindAllByOrganizer_Id() {
         List<EventEntity> events = this.eventRepository.findAllByOrganizer_Id(1L);
         assertEquals(2, events.size());
-        System.out.println(events.get(0));
-        System.out.println(events.get(1));
     }
 }

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 
 @Service
@@ -24,6 +25,10 @@ public class OrganizerSeederService {
     public void seedDatabase() {
         LogManager.getLogger(this.getClass()).info("----- Organizer Initial Load -----");
         OrganizerUserEntity organizer = OrganizerUserEntity.builder()
+                .name("Bob Smith")
+                .gender("Masculino")
+                .country("Argentina")
+                .description("Productor musical con experiencia en festivales y conciertos")
                 .user(UserEntity.builder().id(3L).build())
                 .build();
         this.organizerUserRepository.save(organizer);
@@ -31,18 +36,19 @@ public class OrganizerSeederService {
         LogManager.getLogger(this.getClass()).info("----- Event Initial Load -----");
         EventEntity[] events = {
                 EventEntity.builder()
-                        .name("Rock Fest")
-                        .date(LocalDate.of(2025, 5, 4))
-                        .location("Mendoza, Argentina")
-                        .description("Un festival que reúne a bandas de rock nacionales e internacionales")
-                        .image("https://rockfest.jpg")
-                        .active(true)
+                        .name("Rock en Vivo")
+                        .category("Rock")
+                        .date(LocalDateTime.of(2025, 2, 5, 20, 45))
+                        .location("Estadio Malvinas Argentinas, Mendoza, Argentina")
+                        .description("Concierto con bandas de rock nacionales e internacionales")
                         .organizer(organizer)
                         .build(),
                 EventEntity.builder()
-                        .name("Jazz Night")
-                        .date(LocalDate.of(2025, 7, 7))
-                        .active(false)
+                        .name("Festival de Jazz")
+                        .category("Jazz")
+                        .date(LocalDateTime.of(2025, 6, 20, 21, 0))
+                        .location("Club de Jazz Buenos Aires, Buenos Aires, Argentina")
+                        .description("Evento con los mejores exponentes del jazz argentino")
                         .organizer(organizer)
                         .build(),
         };
