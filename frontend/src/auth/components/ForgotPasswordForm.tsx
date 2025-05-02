@@ -4,28 +4,32 @@ import { z } from "zod";
 import Button from "@/shared/components/Button";
 import Input from "@/shared/components/Input";
 import { EyeOff } from "./ui/EyeOff";
+import { EyeOn } from "./ui/EyeOn";
+import { useState } from "react";
 
-interface RoleSelectorProps {
+interface ForgotPasswordFormProps {
   onChange: () => void;
 }
 
-const LoginSchema = z.object({
+const ForgotPasswordSchema = z.object({
   name: z.string().min(3, { message: "Su nombre es obligatorio" }),
   password: z.string().min(8, { message: "Su contraseña debe tener al menos 8 caracteres" }),
 });
 
-type LoginFormData = z.infer<typeof LoginSchema>;
+type FormFields = z.infer<typeof ForgotPasswordSchema>;
 
-const ForgotPasswordForm = ({ onChange }: RoleSelectorProps) => {
+const ForgotPasswordForm = ({ onChange }: ForgotPasswordFormProps) => {
+  const [showPassword, setShowPassword] = useState(false);
+
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<LoginFormData>({
-    resolver: zodResolver(LoginSchema),
+  } = useForm<FormFields>({
+    resolver: zodResolver(ForgotPasswordSchema),
   });
 
-  const handleFormSubmit: SubmitHandler<LoginFormData> = (data: LoginFormData) => {
+  const handleFormSubmit: SubmitHandler<FormFields> = (data: FormFields) => {
     console.log("Datos enviados:", data);
   };
 
@@ -40,8 +44,23 @@ const ForgotPasswordForm = ({ onChange }: RoleSelectorProps) => {
 
       <div>
         <div className="relative">
-          <Input type="password" placeholder="Cambiar contraseña" {...register("password")} />{" "}
-          <EyeOff className="absolute top-2 right-4 text-gray-500" />
+          <Input
+            type={showPassword ? "text" : "password"}
+            placeholder="Cambiar contraseña"
+            {...register("password")}
+          />
+          <button
+            type="button"
+            onClick={() => {
+              setShowPassword(!showPassword);
+            }}
+            className="absolute top-2 right-4 text-gray-500"
+          >
+            {showPassword ? <EyeOn /> : <EyeOff />}
+            <span className="sr-only">
+              {showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+            </span>
+          </button>
         </div>
         {errors.password && (
           <p className="mt-1 h-6 text-sm text-red-500">{errors.password.message}</p>
