@@ -8,6 +8,7 @@ import { EyeOn } from "./ui/EyeOn";
 import { useApiMutation } from "@/shared/hooks/use-api-mutation";
 import { useNavigate } from "react-router";
 import { useAuth } from "../hooks/use-auth";
+import { useState } from "react";
 
 const registerSchema = z.object({
   name: z.string().min(3, { message: "Su nombre es obligatorio" }),
