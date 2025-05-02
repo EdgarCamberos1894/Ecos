@@ -19,7 +19,7 @@ const Modal = ({ isOpen, onClose, children, normalText, highlightedText }: Modal
   return createPortal(
     <div className="fixed inset-0 grid bg-black/50" onClick={onClose}>
       <div
-        className="relative flex h-full max-h-[501px] w-full max-w-[700px] flex-col place-self-center rounded-[30px] bg-white shadow-lg"
+        className="relative flex h-full max-h-[540px] w-full max-w-[700px] flex-col place-self-center rounded-[30px] bg-white shadow-lg"
         onClick={(event) => {
           event.stopPropagation();
         }}

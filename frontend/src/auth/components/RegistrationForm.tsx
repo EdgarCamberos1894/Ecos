@@ -10,12 +10,28 @@ import { useNavigate } from "react-router";
 import { useAuth } from "../hooks/use-auth";
 import { useState } from "react";
 
+const nameRegex = /^[a-zA-Z0-9\s]+$/;
+const noOnlySpaces = /^(?!\s*$).+/;
+const passwordRegex = /^[a-zA-Z0-9!@#$%&*_-]+$/;
+
 const registerSchema = z.object({
-  name: z.string().min(3, { message: "Su nombre es obligatorio" }),
-  email: z.string().email({ message: "El email ingresado no es válido" }),
-  password: z.string().min(8, { message: "Su contraseña debe tener al menos 8 caracteres" }),
+  name: z
+    .string()
+    .min(3, { message: "Su nombre debe tener al menos 3 caracteres." })
+    .regex(noOnlySpaces, { message: "Este campo no puede contener solo espacios." })
+    .regex(nameRegex, {
+      message: "Su nombre solo puede contener letras, números y espacios.",
+    }),
+  email: z.string().email({ message: "El email ingresado no es válido." }),
+  password: z
+    .string()
+    .min(8, { message: "Su contraseña debe tener al menos 8 caracteres." })
+    .regex(noOnlySpaces, { message: "Este campo no puede contener solo espacios." })
+    .regex(passwordRegex, {
+      message: "La contraseña solo puede contener letras, números y ! @ # $ % & * _ -",
+    }),
   terms: z.literal(true, {
-    errorMap: () => ({ message: "Debes aceptar los términos" }),
+    errorMap: () => ({ message: "Debes aceptar los términos." }),
   }),
 });
 
@@ -72,7 +88,7 @@ const RegistrationForm = ({ role }: RegistrationFormProps) => {
     <form onSubmit={handleSubmit(onSubmit)} className="flex w-[329px] flex-col gap-4">
       <div>
         <Input type="text" placeholder="Nombre" {...register("name")} />
-        {errors.name && <p className="mt-1 h-6 text-red-500">{errors.name.message}</p>}
+        {errors.name && <p className="mt-1 mb-3 h-6 text-red-500">{errors.name.message}</p>}
       </div>
 
       <div>
@@ -86,6 +102,8 @@ const RegistrationForm = ({ role }: RegistrationFormProps) => {
           placeholder="Contraseña"
           {...register("password")}
         />
+        {errors.password && <p className="mt-1 mb-3 h-6 text-red-500">{errors.password.message}</p>}
+
         <button
           type="button"
           onClick={() => {
