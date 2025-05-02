@@ -78,7 +78,7 @@ export const Header = () => {
 
         {modalMode === "forgot" && (
           <div className="flex h-full flex-col items-center justify-center">
-            <ForgotPasswordForm onChange={handleChangeModal}/>
+            <ForgotPasswordForm onChange={handleChangeModal} />
           </div>
         )}
       </Modal>
