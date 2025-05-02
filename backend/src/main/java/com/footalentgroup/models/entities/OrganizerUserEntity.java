@@ -17,6 +17,27 @@ public class OrganizerUserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
+    private String gender;
+
+    @Column(nullable = false)
+    private String country;
+
+    @Column(nullable = true)
+    private String whatsapp;
+
+    @Column(nullable = true)
+    private String website;
+
+    @Column(nullable = false, length = 255)
+    private String description;
+
+    @Column(nullable = true)
+    private String image;
+
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false, unique = true)
     private UserEntity user;

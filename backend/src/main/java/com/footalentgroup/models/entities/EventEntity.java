@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.type.TrueFalseConverter;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -24,13 +24,16 @@ public class EventEntity {
     private String name;
 
     @Column(nullable = false)
-    @Temporal(TemporalType.DATE)
-    private LocalDate date;
+    private String category;
 
-    @Column(nullable = true)
+    @Column(nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private LocalDateTime date;
+
+    @Column(nullable = false)
     private String location;
 
-    @Column(nullable = true, columnDefinition = "TEXT")
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
 
     @Column(nullable = true)
