@@ -4,6 +4,8 @@ import { z } from "zod";
 import Button from "@/shared/components/Button";
 import Input from "@/shared/components/Input";
 import { EyeOff } from "./ui/EyeOff";
+import { EyeOn } from "./ui/EyeOn";
+import { useState } from "react";
 
 const LoginSchema = z.object({
   email: z.string().email({ message: "El email ingresado no es válido" }),
@@ -13,6 +15,8 @@ const LoginSchema = z.object({
 type LoginFormData = z.infer<typeof LoginSchema>;
 
 const LoginForm = () => {
+  const [showPassword, setShowPassword] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -36,8 +40,23 @@ const LoginForm = () => {
 
       <div>
         <div className="relative">
-          <Input type="password" placeholder="Contraseña" {...register("password")} />{" "}
-          <EyeOff className="absolute top-2 right-4 text-gray-500" />
+          <Input
+            type={showPassword ? "text" : "password"}
+            placeholder="Contraseña"
+            {...register("password")}
+          />
+          <button
+            type="button"
+            onClick={() => {
+              setShowPassword(!showPassword);
+            }}
+            className="absolute top-2 right-4 text-gray-500"
+          >
+            {showPassword ? <EyeOn /> : <EyeOff />}
+            <span className="sr-only">
+              {showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+            </span>
+          </button>
         </div>
         {errors.password && (
           <p className="mt-1 h-6 text-sm text-red-500">{errors.password.message}</p>
