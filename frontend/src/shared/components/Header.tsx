@@ -73,7 +73,7 @@ export const Header = () => {
               ? "Registrate en "
               : "Olvidé mi contraseña"
         }
-        highlightedText="ECOS"
+        highlightedText={modalMode !== "forgot" ? "ECOS" : ""}
       >
         {modalMode === "login" && (
           <div className="flex h-full flex-col items-center justify-center">
