@@ -18,7 +18,7 @@ const LoginSchema = z.object({
   password: z.string().min(8, { message: "Su contraseña debe tener al menos 8 caracteres" }),
 });
 
-type LoginFormData = z.infer<typeof LoginSchema>;
+type FormFields = z.infer<typeof LoginSchema>;
 
 interface LoginResponse {
   token: string;
@@ -32,7 +32,7 @@ const LoginForm = () => {
     handleSubmit,
     setError,
     formState: { errors },
-  } = useForm<LoginFormData>({
+  } = useForm<FormFields>({
     resolver: zodResolver(LoginSchema),
   });
 
@@ -40,9 +40,9 @@ const LoginForm = () => {
 
   const { handleLogin } = useAuth();
 
-  const { mutate, isPending } = useApiMutation<LoginResponse, LoginFormData>("/auth/login", "post");
+  const { mutate, isPending } = useApiMutation<LoginResponse, FormFields>("/auth/login", "POST");
 
-  const handleFormSubmit: SubmitHandler<LoginFormData> = (data: LoginFormData) => {
+  const handleFormSubmit: SubmitHandler<FormFields> = (data: FormFields) => {
     console.log("Datos enviados:", data);
 
     mutate(data, {
