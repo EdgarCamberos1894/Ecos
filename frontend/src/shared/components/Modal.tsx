@@ -1,6 +1,6 @@
 import { PropsWithChildren } from "react";
 import { createPortal } from "react-dom";
-import closeIcon from "@/assets/x-circle-contained.svg";
+import { CloseArrow } from "@/auth/components/ui/CloseArrow";
 
 interface ModalProps extends PropsWithChildren {
   isOpen: boolean;
@@ -32,7 +32,7 @@ const Modal = ({ isOpen, onClose, children, normalText, highlightedText }: Modal
           onClick={onClose}
           className="absolute top-2 right-2 hover:cursor-pointer"
         >
-          <img src={closeIcon} alt="close modal" />
+          <CloseArrow />
         </button>
         {children}
       </div>

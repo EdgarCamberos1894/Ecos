@@ -1,5 +1,5 @@
 import { Outlet } from "react-router";
-import { Header } from "../Header.tsx";
+import { Header } from "../Header/components/Header.tsx";
 import { Footer } from "../Footer.tsx";
 
 export const MainLayout = () => {
