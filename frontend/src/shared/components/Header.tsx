@@ -1,8 +1,14 @@
 import { useState } from "react";
+import { Link } from "react-router";
 import Modal from "./Modal";
 import LoginForm from "@/auth/components/LoginForm";
 import RoleSelector from "@/auth/components/RoleSelector";
+import genericAvatar from "@/assets/genericAvatar.svg";
+import Input from "./Input";
+import MenuIcon from "@/assets/hamburgerMenu.svg?react";
+import Lens from "@/assets/lens.svg?react";
 import ForgotPasswordForm from "@/auth/components/ForgotPasswordForm";
+
 
 export const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -34,12 +40,29 @@ export const Header = () => {
   return (
     <>
       <header className="flex w-full items-center justify-around bg-[#B1B1B1] p-4 shadow">
-        <button type="button" onClick={handleOpenLogin}>
-          Iniciar Sesión
-        </button>
-        <button type="button" onClick={handleOpenRegister}>
-          Crear cuenta
-        </button>
+        <Link to="/" className="px-6 py-5">
+          <img src="LOGO" alt="logo" />
+        </Link>
+        <nav className="flex items-center gap-20">
+          <Link to="/explorer">Explorar</Link>
+          <Link to="/artist">Artistas</Link>
+          <Link to="/play">Play</Link>
+        </nav>
+        <Input
+          placeholder="Busca Artista, Album, Canción"
+          className="flex w-[720px] items-center justify-around gap-1 bg-[#ECE6F0] p-1"
+          startIcon={<MenuIcon />}
+          endIcon={<Lens />}
+        />
+        <div className="inline-flex shrink items-center justify-center gap-6">
+          <button type="button" onClick={handleOpenLogin}>
+            Iniciar Sesión
+          </button>
+          <button type="button" onClick={handleOpenRegister}>
+            Crear cuenta
+          </button>
+        </div>
+        <img src={genericAvatar} alt="avatar" className="h-auto w-20 px-5 py-1" />
       </header>
       <Modal
         isOpen={isModalOpen}
