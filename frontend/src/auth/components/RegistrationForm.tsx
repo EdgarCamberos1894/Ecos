@@ -4,8 +4,10 @@ import { z } from "zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { EyeOff } from "./ui/EyeOff";
-import { useApiMutation } from "../hooks/useApiMutation";
+import { EyeOn } from "./ui/EyeOn";
+import { useApiMutation } from "@/shared/hooks/use-api-mutation";
 import { useNavigate } from "react-router";
+import { useAuth } from "../hooks/use-auth";
 import { useState } from "react";
 
 const registerSchema = z.object({
@@ -25,49 +27,45 @@ interface RegistrationFormProps {
   role: string;
 }
 
+interface RegisterResponse {
+  token: string;
+}
+
 const RegistrationForm = ({ role }: RegistrationFormProps) => {
+  const [showPassword, setShowPassword] = useState(false);
+
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm<FormFields>({
     resolver: zodResolver(registerSchema),
   });
 
-  const { mutate, isPending } = useApiMutation<RegistrationData>();
   const navigate = useNavigate();
-  const [serverMessage, setServerMessage] = useState<string | null>(null);
 
-  const onSubmit: SubmitHandler<FormFields> = (formData) => {
-    const dataToSend: RegistrationData = {
-      name: formData.name,
-      email: formData.email,
-      password: formData.password,
-      role,
-    };
+  const { handleLogin } = useAuth();
 
-    mutate(
-      {
-        url: "https://ecos-ed30.onrender.com/auth",
-        method: "POST",
-        data: dataToSend,
+  const { mutate, isPending } = useApiMutation<RegisterResponse, RegistrationData>("/auth", "POST");
+
+  const onSubmit: SubmitHandler<FormFields> = ({ name, email, password }) => {
+    const userData = { name, email, password, role };
+    console.log("Datos enviados:", userData);
+
+    mutate(userData, {
+      onSuccess: (response) => {
+        console.log("Login exitoso:", response.token);
+        handleLogin(response.token);
+        navigate("/profile");
       },
-      {
-        onSuccess: (response) => {
-          if (response.success) {
-            setServerMessage("Registro exitoso 🎉 Redirigiendo...");
-          } else {
-            setServerMessage(response.message ?? "Registro exitoso.");
-            setTimeout(() => {
-              void navigate("/profile");
-            }, 2000);
-          }
-        },
-        onError: (error) => {
-          setServerMessage(error.message);
-        },
+      onError: (error) => {
+        console.log("Login fallido:", error);
+        setError("root", {
+          message: error.message,
+        });
       },
-    );
+    });
   };
 
   return (
@@ -82,10 +80,24 @@ const RegistrationForm = ({ role }: RegistrationFormProps) => {
         {errors.email && <p className="mt-1 h-6 text-red-500">{errors.email.message}</p>}
       </div>
 
-      <div className="relative flex items-center">
-        <Input type="password" placeholder="Contraseña" {...register("password")} />
-        <EyeOff className="absolute right-6" />
-        {errors.password && <p className="mt-1 h-6 text-red-500">{errors.password.message}</p>}
+      <div className="relative">
+        <Input
+          type={showPassword ? "text" : "password"}
+          placeholder="Contraseña"
+          {...register("password")}
+        />
+        <button
+          type="button"
+          onClick={() => {
+            setShowPassword(!showPassword);
+          }}
+          className="absolute top-2 right-4 text-gray-500"
+        >
+          {showPassword ? <EyeOn /> : <EyeOff />}
+          <span className="sr-only">
+            {showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+          </span>
+        </button>
       </div>
 
       <label className="flex items-center justify-center gap-2 text-sm">
@@ -95,13 +107,12 @@ const RegistrationForm = ({ role }: RegistrationFormProps) => {
         </span>
       </label>
       {errors.terms && <p className="mt-1 h-6 text-red-500">{errors.terms.message}</p>}
-      {serverMessage && (
-        <p className={`mt-2 ${isPending ? "text-blue-500" : "text-green-500"}`}>{serverMessage}</p>
-      )}
 
       <Button className="hover:cursor-pointer" type="submit" disabled={isPending}>
         {isPending ? "Registrándose..." : "Registrate"}
       </Button>
+
+      {errors.root && <p className="text-red-500">{errors.root.message}</p>}
     </form>
   );
 };
