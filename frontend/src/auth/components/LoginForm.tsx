@@ -73,7 +73,7 @@ const LoginForm = () => {
             placeholder="Contraseña"
             {...register("password")}
             onKeyDown={(e) => {
-              if (e.key === " ") {
+              if (e.code === "Space") {
                 e.preventDefault();
               }
             }}
