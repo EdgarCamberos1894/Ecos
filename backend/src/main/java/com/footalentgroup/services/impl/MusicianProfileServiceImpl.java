@@ -3,6 +3,7 @@ package com.footalentgroup.services.impl;
 import com.footalentgroup.exceptions.MusicianProfileNotFoundException;
 import com.footalentgroup.models.dtos.mapper.MusicProfileMapper;
 import com.footalentgroup.models.dtos.request.MusicianProfileRequestDto;
+import com.footalentgroup.models.dtos.request.MusicianSearchRequestDTO;
 import com.footalentgroup.models.dtos.response.MusicianProfileResponseDto;
 import com.footalentgroup.models.entities.MusicianProfileEntity;
 import com.footalentgroup.models.entities.UserEntity;
@@ -69,9 +70,9 @@ public class MusicianProfileServiceImpl implements MusicianProfileService {
     }
 
     @Override
-    public Page<MusicianProfileResponseDto> searchMusicians(String stageName, String genre, int page, int size) {
+    public Page<MusicianProfileResponseDto> searchMusicians(MusicianSearchRequestDTO requestDTO) {
         //Orden por nombre de forma ascendente
-        Pageable pageable= PageRequest.of(page, size, Sort.by(Sort.Order.asc("stageName")));
-        return  musicianRepository.findByStageNameContainingIgnoreCaseAndGenreContainingIgnoreCase(stageName,genre,pageable);
+        Pageable pageable= PageRequest.of(requestDTO.getPage(), requestDTO.getSize(), Sort.by(Sort.Order.asc("stageName")));
+        return  musicianRepository.findByStageNameContainingIgnoreCaseAndGenreContainingIgnoreCase(requestDTO.getStageName(),requestDTO.getGenre() ,pageable);
     }
 }

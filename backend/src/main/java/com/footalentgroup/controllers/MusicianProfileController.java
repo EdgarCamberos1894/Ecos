@@ -1,6 +1,7 @@
 package com.footalentgroup.controllers;
 
 import com.footalentgroup.models.dtos.request.MusicianProfileRequestDto;
+import com.footalentgroup.models.dtos.request.MusicianSearchRequestDTO;
 import com.footalentgroup.models.dtos.response.ApiResponse;
 import com.footalentgroup.services.MusicianProfileService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -10,7 +11,9 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -42,14 +45,10 @@ public class MusicianProfileController {
 
     @Operation(summary = "Buscar musicos por nombre y genero (paginado)")
     @GetMapping("/search")
-    public ResponseEntity<?> searchMusicians(
-            @RequestParam(required = false, defaultValue = "") String stageName,
-            @RequestParam(required = false, defaultValue = "") String genre,
-            @RequestParam(defaultValue = "0") @Min(0) int page,
-            @RequestParam(defaultValue = "3" )@Min(1) int size
-            ){
+    public ResponseEntity<?> searchMusicians(@ParameterObject @ModelAttribute @Valid MusicianSearchRequestDTO requestDto){
+
         return ResponseEntity
                 .ok()
-                .body(this.musicService.searchMusicians(stageName, genre, page, size));
+                .body(this.musicService.searchMusicians(requestDto));
     }
 }
