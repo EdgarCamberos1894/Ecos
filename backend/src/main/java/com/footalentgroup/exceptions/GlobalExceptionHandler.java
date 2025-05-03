@@ -90,4 +90,14 @@ public class GlobalExceptionHandler {
         ex.printStackTrace();   // The error must be corrected
         return new ErrorResponse(ex, HttpStatus.INTERNAL_SERVER_ERROR.value());
     }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(MusicianProfileNotFoundException.class)
+    public ErrorResponse musicianProfileNotFound(MusicianProfileNotFoundException ex) {
+        return new ErrorResponse(
+                "MusicianProfileNotFoundException",
+                ex.getMessage(),
+                HttpStatus.NOT_FOUND.value()
+        );
+    }
 }

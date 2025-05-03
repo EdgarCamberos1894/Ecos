@@ -19,11 +19,13 @@ public class JwtService {
     private final String secret;
     private final String issuer;
     private final int expire;
+    private final int refreshExpiration;
 
-    public JwtService(@Value("${jwt.secret}") String secret, @Value("${jwt.issuer}") String issuer, @Value("${jwt.expire}") int expire) {
+    public JwtService(@Value("${jwt.secret}") String secret, @Value("${jwt.issuer}") String issuer, @Value("${jwt.expire}") int expire, @Value("${JWT_REFRESH_EXPIRE}") int refreshExpiration) {
         this.secret = secret;
         this.issuer = issuer;
         this.expire = expire;
+        this.refreshExpiration = refreshExpiration;
     }
 
     public String extractToken(String bearer) {
@@ -35,15 +37,23 @@ public class JwtService {
     }
 
     public String createToken(String email, String name, String role) {
+        return generateToken(email, name, role, this.expire);
+    }
+
+    public String generateToken(String email, String name, String role, long expirationTime) {
         return JWT.create()
                 .withIssuer(this.issuer)
                 .withIssuedAt(new Date())
                 .withNotBefore(new Date())
-                .withExpiresAt(new Date(System.currentTimeMillis() + this.expire * 1000L))
+                .withExpiresAt(new Date(System.currentTimeMillis() + expirationTime * 1000L))
                 .withClaim(EMAIL_CLAIM, email)
                 .withClaim(NAME_CLAIM, name)
                 .withClaim(ROLE_CLAIM, role)
                 .sign(getAlgorithm());
+    }
+
+    public String refreshToken(String email, String name, String role) {
+        return generateToken(email, name, role, this.refreshExpiration);
     }
 
     public String email(String authorization) {
@@ -76,6 +86,12 @@ public class JwtService {
             return Optional.empty();
         }
     }
+
+    public boolean isTokenExpired(String token) {
+        Optional<DecodedJWT> decodedJWT = verifyToken(token);
+        return decodedJWT.isEmpty() || decodedJWT.get().getExpiresAt().before(new Date());
+    }
+
 
     private Algorithm getAlgorithm() {
         return Algorithm.HMAC256(this.secret);
