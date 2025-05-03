@@ -72,6 +72,11 @@ const LoginForm = () => {
             type={showPassword ? "text" : "password"}
             placeholder="Contraseña"
             {...register("password")}
+            onKeyDown={(e) => {
+              if (e.code === "Space") {
+                e.preventDefault();
+              }
+            }}
           />
           <button
             type="button"
