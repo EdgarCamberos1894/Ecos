@@ -1,4 +1,4 @@
-import Button from "../Button";
+import Button from "@/app/ui/Button";
 import img from "@/assets/image.webp";
 
 interface FeaturedArtistCardProps {
