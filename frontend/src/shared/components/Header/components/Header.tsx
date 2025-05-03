@@ -1,17 +1,22 @@
 import { useState } from "react";
 import { Link } from "react-router";
-import Modal from "./Modal";
+import Modal from "../../Modal";
 import LoginForm from "@/auth/components/LoginForm";
 import RoleSelector from "@/auth/components/RoleSelector";
-import genericAvatar from "@/assets/genericAvatar.svg";
-import Input from "./Input";
+import { Avatar } from "@/auth/components/ui/Avatar";
+import Input from "../../Input";
 import MenuIcon from "@/assets/hamburgerMenu.svg?react";
 import Lens from "@/assets/lens.svg?react";
 import ForgotPasswordForm from "@/auth/components/ForgotPasswordForm";
+import { useAuth } from "@/auth/hooks/use-auth";
+import UserMenu from "@/auth/components/UserMenu";
+import { Bell } from "../ui/Bell";
 
 export const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState<"login" | "register" | "forgot">();
+
+  const { user } = useAuth();
 
   const handleOpenLogin = () => {
     setModalMode("login");
@@ -53,15 +58,24 @@ export const Header = () => {
           startIcon={<MenuIcon />}
           endIcon={<Lens />}
         />
-        <div className="inline-flex shrink items-center justify-center gap-6">
-          <button type="button" onClick={handleOpenLogin}>
-            Iniciar Sesión
-          </button>
-          <button type="button" onClick={handleOpenRegister}>
-            Crear cuenta
-          </button>
-        </div>
-        <img src={genericAvatar} alt="avatar" className="h-auto w-20 px-5 py-1" />
+        {!user ? (
+          <>
+            <div className="inline-flex shrink items-center justify-center gap-6">
+              <button type="button" onClick={handleOpenLogin}>
+                Iniciar Sesión
+              </button>
+              <button type="button" onClick={handleOpenRegister}>
+                Crear cuenta
+              </button>
+            </div>
+            <Avatar />
+          </>
+        ) : (
+          <>
+            <Bell />
+            <UserMenu />
+          </>
+        )}
       </header>
       <Modal
         isOpen={isModalOpen}
