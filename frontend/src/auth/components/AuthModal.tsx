@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Modal from "@/shared/components/Modal";
+import Modal from "@/app/ui/Modal";
 import LoginForm from "./LoginForm";
 import RoleSelector from "./RoleSelector";
 import RegistrationForm from "./RegistrationForm";

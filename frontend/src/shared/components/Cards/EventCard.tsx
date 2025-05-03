@@ -1,5 +1,5 @@
 import img from "@/assets/image.webp";
-import Button from "../Button";
+import Button from "@/app/ui/Button";
 
 interface EventCardProps {
   headline: string;

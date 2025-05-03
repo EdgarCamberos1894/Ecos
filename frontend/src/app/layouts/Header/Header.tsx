@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { Link } from "react-router";
 import { Avatar } from "@/auth/components/ui/Avatar";
-import Input from "../../Input";
+import Input from "@/app/ui/Input";
 import AuthModal, { AuthMode } from "@/auth/components/AuthModal";
 import MenuIcon from "@/assets/hamburgerMenu.svg?react";
 import Lens from "@/assets/lens.svg?react";
 import { useAuth } from "@/auth/hooks/use-auth";
 import UserMenu from "@/auth/components/UserMenu";
-import { Bell } from "../ui/Bell";
+import { Bell } from "./Bell";
 
 export const Header = () => {
   const [openModal, setOpenModal] = useState<AuthMode | null>(null);
