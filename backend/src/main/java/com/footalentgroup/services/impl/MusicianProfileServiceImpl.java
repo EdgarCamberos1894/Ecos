@@ -71,7 +71,7 @@ public class MusicianProfileServiceImpl implements MusicianProfileService {
 
     @Override
     public Page<MusicianProfileResponseDto> searchMusicians(MusicianSearchRequestDTO requestDTO) {
-        //Orden por nombre de forma ascendente
+        //Ordenamiento por nombre de forma ascendente
         Pageable pageable= PageRequest.of(requestDTO.getPage(), requestDTO.getSize(), Sort.by(Sort.Order.asc("stageName")));
         return  musicianRepository.findByStageNameContainingIgnoreCaseAndGenreContainingIgnoreCase(requestDTO.getStageName(),requestDTO.getGenre() ,pageable);
     }
