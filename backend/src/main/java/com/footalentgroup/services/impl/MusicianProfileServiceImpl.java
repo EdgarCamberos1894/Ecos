@@ -11,6 +11,10 @@ import com.footalentgroup.services.AuthenticatedUserService;
 import com.footalentgroup.services.CloudinaryService;
 import com.footalentgroup.services.MusicianProfileService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -62,5 +66,12 @@ public class MusicianProfileServiceImpl implements MusicianProfileService {
         }
 
         musicianRepository.save(music);
+    }
+
+    @Override
+    public Page<MusicianProfileResponseDto> searchMusicians(String stageName, String genre, int page, int size) {
+        //Orden por nombre de forma ascendente
+        Pageable pageable= PageRequest.of(page, size, Sort.by(Sort.Order.asc("stageName")));
+        return  musicianRepository.findByStageNameContainingIgnoreCaseAndGenreContainingIgnoreCase(stageName,genre,pageable);
     }
 }

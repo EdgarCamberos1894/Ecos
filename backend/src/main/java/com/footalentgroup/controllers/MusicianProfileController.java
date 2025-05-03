@@ -7,6 +7,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,4 +40,16 @@ public class MusicianProfileController {
                 .body(new ApiResponse<>("Perfil de musico Actualizado"));
     }
 
+    @Operation(summary = "Buscar musicos por nombre y genero (paginado)")
+    @GetMapping("/search")
+    public ResponseEntity<?> searchMusicians(
+            @RequestParam(required = false, defaultValue = "") String stageName,
+            @RequestParam(required = false, defaultValue = "") String genre,
+            @RequestParam(defaultValue = "0") @Min(0) int page,
+            @RequestParam(defaultValue = "3" )@Min(1) int size
+            ){
+        return ResponseEntity
+                .ok()
+                .body(this.musicService.searchMusicians(stageName, genre, page, size));
+    }
 }
