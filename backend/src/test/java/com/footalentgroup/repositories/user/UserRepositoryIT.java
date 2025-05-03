@@ -19,16 +19,22 @@ class UserRepositoryIT {
     @Test
     void testFindById() {
         assertTrue(userRepository.findById(1L).isPresent());
-        UserEntity user1 = userRepository.findById(1L).get();
-        assertEquals("John Doe", user1.getName());
-        assertEquals("john.doe@example.com", user1.getEmail());
-        assertEquals(Role.FAN, user1.getRole());
+        UserEntity userFan = userRepository.findById(1L).get();
+        assertEquals("John Doe", userFan.getName());
+        assertEquals("john.doe@example.com", userFan.getEmail());
+        assertEquals(Role.FAN, userFan.getRole());
 
         assertTrue(userRepository.findById(2L).isPresent());
-        UserEntity user2 = userRepository.findById(2L).get();
-        assertEquals("Jane Doe", user2.getName());
-        assertEquals("jane.doe@example.com", user2.getEmail());
-        assertEquals(Role.MUSICIAN, user2.getRole());
+        UserEntity userMusician = userRepository.findById(2L).get();
+        assertEquals("Jane Doe", userMusician.getName());
+        assertEquals("jane.doe@example.com", userMusician.getEmail());
+        assertEquals(Role.MUSICIAN, userMusician.getRole());
+
+        assertTrue(userRepository.findById(3L).isPresent());
+        UserEntity userOrganizer = userRepository.findById(3L).get();
+        assertEquals("Bob Smith", userOrganizer.getName());
+        assertEquals("bob.smith@example.com", userOrganizer.getEmail());
+        assertEquals(Role.ORGANIZER, userOrganizer.getRole());
     }
 
     @Test
