@@ -1,14 +1,19 @@
 package com.footalentgroup.controllers;
 
 import com.footalentgroup.models.dtos.request.MusicianProfileRequestDto;
+import com.footalentgroup.models.dtos.request.MusicianSearchRequestDTO;
 import com.footalentgroup.models.dtos.response.ApiResponse;
 import com.footalentgroup.services.MusicianProfileService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -38,4 +43,12 @@ public class MusicianProfileController {
                 .body(new ApiResponse<>("Perfil de musico Actualizado"));
     }
 
+    @Operation(summary = "Buscar musicos por nombre y genero (paginado)")
+    @GetMapping("/search")
+    public ResponseEntity<?> searchMusicians(@ParameterObject @Valid MusicianSearchRequestDTO requestDto){
+
+        return ResponseEntity
+                .ok()
+                .body(this.musicService.searchMusicians(requestDto));
+    }
 }
