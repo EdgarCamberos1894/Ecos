@@ -45,7 +45,7 @@ public class MusicianProfileController {
 
     @Operation(summary = "Buscar musicos por nombre y genero (paginado)")
     @GetMapping("/search")
-    public ResponseEntity<?> searchMusicians(@ParameterObject @ModelAttribute @Valid MusicianSearchRequestDTO requestDto){
+    public ResponseEntity<?> searchMusicians(@ParameterObject @Valid MusicianSearchRequestDTO requestDto){
 
         return ResponseEntity
                 .ok()

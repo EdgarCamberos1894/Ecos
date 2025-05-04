@@ -12,11 +12,11 @@ import lombok.Data;
 public class MusicianSearchRequestDTO {
 
     @Schema(example = "")
-    @Pattern(regexp = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]*$", message = "El nombre del artista solo puede contener letras y espacios")
+    @Pattern(regexp = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9 ./\\-_'&!#,+()?]*$", message = "El nombre del artista solo puede contener letras y espacios (se permiten ., /, - y ')")
     private String stageName;
 
     @Schema(example = "")
-    @Pattern(regexp = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]*$", message = "El género musical solo puede contener letras y espacios")
+    @Pattern(regexp = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9 ./\\-_'&!#,+()?]*$", message = "El género musical solo puede contener letras y espacios (se permiten ., /, - y ')")
     private String genre;
 
     @Schema(defaultValue = "0")
