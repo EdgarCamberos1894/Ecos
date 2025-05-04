@@ -30,6 +30,7 @@ const Modal = ({ onClose, children, normalText, highlightedText }: ModalProps) =
           className="absolute top-2 right-2 hover:cursor-pointer"
         >
           <CloseArrow />
+          CloseArrow
         </button>
         {children}
       </div>

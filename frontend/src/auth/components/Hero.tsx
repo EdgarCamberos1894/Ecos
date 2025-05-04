@@ -1,6 +1,6 @@
 export default function Hero() {
   return (
-    <div className="flex h-216 max-w-[1920px] flex-col justify-start bg-[url('@/assets/imageBanner.webp')] bg-cover bg-center">
+    <div className="flex h-216 w-full flex-col justify-start bg-[url('@/assets/imageBanner.webp')] bg-cover bg-center">
       <div className="ms-48 w-120">
         <h1 className="mt-38 text-start font-sans text-[42px] leading-14 font-bold">
           Bienvenidos a Ecos

@@ -26,6 +26,7 @@ const UserMenu = () => {
     <div className="relative inline-block">
       <button type="button" onClick={toggleMenu}>
         <Avatar />
+        Avatar
       </button>
 
       {isOpen && (
