@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Objects;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -27,4 +29,12 @@ public class OrganizerRequestDto {
     private String description;
 
     private MultipartFile image;
+
+    private Boolean deletedImage;
+
+    public void doDefault() {
+        if (Objects.isNull(deletedImage)) {
+            this.deletedImage = false;
+        }
+    }
 }

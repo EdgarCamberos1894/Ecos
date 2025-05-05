@@ -38,6 +38,9 @@ public class OrganizerUserEntity {
     @Column(nullable = true)
     private String image;
 
+    @Column(name = "image_public_id", nullable = true)
+    private String imagePublicId;
+
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false, unique = true)
     private UserEntity user;

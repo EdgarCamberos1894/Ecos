@@ -18,6 +18,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Map;
+
 @Service
 @RequiredArgsConstructor
 public class OrganizerServiceImpl implements OrganizerService {
@@ -28,11 +30,31 @@ public class OrganizerServiceImpl implements OrganizerService {
     private final OrganizerMapper organizerMapper;
 
     @Override
+    public OrganizerResponseDto read(Long id) {
+        OrganizerUserEntity organizer = this.organizerRepository
+                .findById(id)
+                .orElseThrow(() -> new NotFoundException("Organizador no encontrado: " + id));
+        return this.organizerMapper.toResponse(organizer);
+    }
+
+    @Override
     @Transactional
     public OrganizerResponseDto create(OrganizerRequestDto organizerDto) {
         OrganizerUserEntity organizer = this.organizerMapper.toEntity(organizerDto);
         organizer.setUser(getRequestUser());
-        organizer.setImage(saveImage(organizerDto.getImage()));
+        this.saveImage(organizerDto.getImage(), organizer);
+
+        return this.organizerMapper.toResponse(this.organizerRepository.save(organizer));
+    }
+
+    @Override
+    @Transactional
+    public OrganizerResponseDto update(Long id, OrganizerRequestDto organizerDto) {
+        OrganizerUserEntity organizer = this.organizerRepository
+                .findById(id)
+                .orElseThrow(() -> new NotFoundException("Organizador no encontrado: " + id));
+        this.organizerMapper.updateEntity(organizerDto, organizer);
+        this.updateImage(organizerDto.getImage(), organizer, organizerDto.getDeletedImage());
 
         return this.organizerMapper.toResponse(this.organizerRepository.save(organizer));
     }
@@ -51,11 +73,21 @@ public class OrganizerServiceImpl implements OrganizerService {
         return user;
     }
 
-    private String saveImage(MultipartFile file) {
+    private void saveImage(MultipartFile file, OrganizerUserEntity organizer) {
         if (file != null && !file.isEmpty()) {
-            return this.cloudinaryService.uploadImage(file).get("secure_url").toString();
+            Map<String, Object> image = this.cloudinaryService.uploadImage(file);
+            organizer.setImage(image.get("secure_url").toString());
+            organizer.setImagePublicId(image.get("public_id").toString());
+        }
+    }
+
+    private void updateImage(MultipartFile file, OrganizerUserEntity organizer, Boolean deleteImage) {
+        if (deleteImage && (organizer.getImagePublicId() != null && !organizer.getImagePublicId().isEmpty())) {
+            this.cloudinaryService.deleteImage(organizer.getImagePublicId());
+            organizer.setImage(null);
+            organizer.setImagePublicId(null);
         }
 
-        return null;
+        this.saveImage(file, organizer);
     }
 }
