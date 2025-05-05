@@ -9,6 +9,7 @@ import { useApiMutation } from "@/shared/hooks/use-api-mutation";
 import { useNavigate } from "react-router";
 import { useAuth } from "../hooks/use-auth";
 import { useState } from "react";
+import { toast } from "sonner";
 
 const nameRegex = /^[a-zA-Z0-9\s]+$/;
 const noOnlySpaces = /^(?!\s*$).+/;
@@ -73,6 +74,7 @@ const RegistrationForm = ({ role }: RegistrationFormProps) => {
       onSuccess: (response) => {
         console.log("Login exitoso:", response.token);
         handleLogin(response.token);
+        toast.success(`Tu registro fue exitoso`);
         navigate("/profile");
       },
       onError: (error) => {

@@ -3,7 +3,7 @@ import { User } from "../types";
 
 interface AuthContext {
   user?: User | null;
-  handleLogin: (userToken: string) => void;
+  handleLogin: (userToken: string) => User;
   handleLogout: () => void;
 }
 
