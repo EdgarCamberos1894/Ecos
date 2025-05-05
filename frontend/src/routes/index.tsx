@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router";
-import { HomePage } from "@/home/components/HomePage";
+import { HomePage } from "@/home/HomePage";
 import { MainLayout } from "@/app/layout/MainLayout";
 import ProfilePage from "@/profiles/components/ProfilePage";
 import ExplorerPage from "@/explorer/components/ExplorerPage";
