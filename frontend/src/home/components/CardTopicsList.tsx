@@ -37,20 +37,18 @@ const favoriteList = [
 
 const CardTopicsList = () => {
   return (
-    <div className="mx-auto w-full space-y-4 sm:w-auto">
+    <div className="space-y-4">
       {favoriteList.map((item) => (
-        <div
-          key={item.id}
-          className="flex w-full max-w-[611px] items-start gap-4 rounded-lg bg-gray-50 p-4 sm:w-full"
-        >
+        <div key={item.id} className="flex max-w-[611px] gap-4 rounded-l p-4">
           <div className="h-21 w-21 flex-shrink-0 rounded-xl">
             <img src={item.image} alt="image" className="h-21 w-21 rounded-xl" />
           </div>
-          <div className="flex flex-1 flex-col justify-between">
-            <div>
+          <div className="flex flex-col">
+            <header>
               <h3 className="text-start text-sm font-semibold">{item.title}</h3>
-              <p className="text-xs text-gray-600">{item.description}</p>
-            </div>
+            </header>
+            <p className="flex-auto text-start text-xs text-gray-600">{item.description}</p>
+
             <div className="mt-2 flex items-center justify-between text-xs text-gray-500">
               <div className="flex items-center gap-3">
                 <span>{item.icon1}</span>

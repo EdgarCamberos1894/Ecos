@@ -1,4 +1,3 @@
-import Button from "@/app/ui/Button";
 import media from "@/assets/media.webp";
 
 const favoriteArtistList = [
@@ -8,7 +7,7 @@ const favoriteArtistList = [
     title: "Headline",
     date: "Published date",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua <br/> Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum..",
   },
   {
     id: 2,
@@ -48,16 +47,14 @@ const CardFeaturedArtists = () => {
             <img src={item.image} alt="image" className="h-full w-full rounded-xl object-cover" />
           </div>
           <div className="flex flex-col justify-between gap-4 text-start">
-            <div className="flex flex-col gap-1">
+            <header>
               <h3 className="font-semibold">{item.title}</h3>
               <p className="text-xs text-[#49454F]">{item.date}</p>
-              <p className="text-sm text-gray-600">{item.description}</p>
-            </div>
-            <div className="mt-6 h-[75px] w-[144px]">
-              <Button type="submit" className="w-[111px]">
-                Download
-              </Button>
-            </div>
+            </header>
+            <p className="flex-auto text-sm text-gray-600">{item.description}</p>
+            <button type="submit" className="max-w-max rounded-[27px] px-6 py-2.5">
+              Ver más
+            </button>
           </div>
         </div>
       ))}
