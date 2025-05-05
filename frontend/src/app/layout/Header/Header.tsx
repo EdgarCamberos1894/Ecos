@@ -43,6 +43,7 @@ export const Header = () => {
           <>
             <div className="inline-flex shrink items-center justify-center gap-6">
               <button
+                className="cursor-pointer"
                 type="button"
                 onClick={() => {
                   handleOpenModal("login");
@@ -51,6 +52,7 @@ export const Header = () => {
                 Iniciar Sesión
               </button>
               <button
+                className="cursor-pointer"
                 type="button"
                 onClick={() => {
                   handleOpenModal("register");

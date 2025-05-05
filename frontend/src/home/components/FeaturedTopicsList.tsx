@@ -5,63 +5,60 @@ import { ArrowRightIcon } from "@/auth/components/ui/ArrowRightIcon";
 import Button from "@/app/ui/Button";
 import { CheckIcon } from "@/auth/components/ui/CheckIcon";
 
+const SECTIONS = [
+  {
+    id: 1,
+    title: "Section title",
+  },
+  {
+    id: 2,
+    title: "Section title",
+  },
+  {
+    id: 3,
+    title: "Section title",
+  },
+];
+
 const FeaturedTopicsList = () => {
   return (
-    <section className="ms-52 mt-24 max-w-[1920px]">
+    <section className="max-w-[1920px]">
       <h1 className="mb-4 text-center font-[roboto] text-[40px] font-semibold">
         Encuentra tu artista favorito
       </h1>
 
-      <div className="mb-6 flex justify-center">
-        <div className="relative w-full max-w-[720px]">
-          <input
-            type="text"
-            placeholder="Busca Artista, Álbum, Canción"
-            className="w-full rounded-full bg-gray-100 py-2 pr-4 pl-12 text-sm focus:outline-none"
-          />
-          <span className="absolute top-1 left-3 text-gray-400">
-            <HamburgerIcon />
-          </span>
-          <span className="absolute top-1 right-3 text-gray-400">
-            <SearchIcon />
-          </span>
-        </div>
+      <div className="relative mb-6 w-full max-w-[720px] place-self-center">
+        <input
+          type="text"
+          placeholder="Busca Artista, Álbum, Canción"
+          className="w-full rounded-full bg-gray-100 py-2 pr-4 pl-12 text-sm focus:outline-none"
+        />
+        <span className="absolute top-1 left-3 text-gray-400">
+          <HamburgerIcon />
+        </span>
+        <span className="absolute top-1 right-3 text-gray-400">
+          <SearchIcon />
+        </span>
       </div>
 
-      <div className="flex flex-col gap-8">
+      <div className="mx-40 flex flex-col gap-8">
         <h2 className="mb-4 text-start font-[roboto] text-2xl lg:text-[40px]">Temas destacados</h2>
-        <div className="flex flex-col gap-8 lg:grid lg:grid-cols-3">
-          <div className="w-full">
-            <div className="flex gap-2 pl-4">
-              <h2>Section title</h2>
-              <span>
-                <ArrowRightIcon />
-              </span>
+        <div className="flex gap-32">
+          {SECTIONS.map(({ id, title }) => (
+            <div key={id}>
+              <div className="flex gap-2 pl-4">
+                <h2>{title}</h2>
+                <span>
+                  <ArrowRightIcon />
+                </span>
+              </div>
+              <CardTopicsList />
             </div>
-            <CardTopicsList />
-          </div>
-          <div>
-            <div className="flex gap-2 pl-4">
-              <h2>Section title</h2>
-              <span>
-                <ArrowRightIcon />
-              </span>
-            </div>
-            <CardTopicsList />
-          </div>
-          <div>
-            <div className="flex gap-2 pl-4">
-              <h2>Section title</h2>
-              <span>
-                <ArrowRightIcon />
-              </span>
-            </div>
-            <CardTopicsList />
-          </div>
+          ))}
         </div>
       </div>
 
-      <div className="mt-8 h-[75px] w-[144px]">
+      <div className="mt-8 ml-45 h-[75px] w-[144px]">
         <Button type="submit" className="rounded-l-none">
           <span className="flex items-center">
             <CheckIcon className="mr-2" />
