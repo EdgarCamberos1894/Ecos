@@ -1,9 +1,9 @@
-import { HamburgerIcon } from "@/auth/components/ui/HamburgerIcon";
+import { HamburgerIcon } from "@/home/components/ui/HamburgerIcon";
 import CardTopicsList from "./CardTopicsList";
-import { SearchIcon } from "@/auth/components/ui/SearchIcon";
-import { ArrowRightIcon } from "@/auth/components/ui/ArrowRightIcon";
+import { SearchIcon } from "@/home/components/ui/SearchIcon";
+import { ArrowRightIcon } from "@/home/components/ui/ArrowRightIcon";
 import Button from "@/app/ui/Button";
-import { CheckIcon } from "@/auth/components/ui/CheckIcon";
+import { CheckIcon } from "@/home/components/ui/CheckIcon";
 
 const SECTIONS = [
   {
