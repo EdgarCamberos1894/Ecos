@@ -3,6 +3,7 @@ import OptionsRegister from "@/home/components/OptionsRegister";
 import FeaturedTopicsList from "./components/FeaturedTopicsList";
 import FeaturedArtists from "./components/FeaturedArtists";
 import UpcomingEvents from "./components/UpcomingEvents";
+import FAQList from "./components/FAQList";
 
 export const HomePage = () => {
   return (
@@ -12,6 +13,7 @@ export const HomePage = () => {
       <FeaturedTopicsList />
       <FeaturedArtists />
       <UpcomingEvents />
+      <FAQList />
     </main>
   );
 };
