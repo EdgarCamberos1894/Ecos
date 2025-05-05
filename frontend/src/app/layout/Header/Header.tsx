@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import { Avatar } from "@/auth/components/ui/Avatar";
 import Input from "@/app/ui/Input";
@@ -21,6 +21,10 @@ export const Header = () => {
   const handleCloseModal = () => {
     setOpenModal(null);
   };
+
+  useEffect(() => {
+    if (user) setOpenModal(null);
+  }, [user]);
 
   return (
     <>
