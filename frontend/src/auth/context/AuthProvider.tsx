@@ -13,6 +13,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
     const userData = jwtDecode<User>(userToken);
     setUser(userData);
+    return userData;
   };
 
   const handleLogout = () => {
