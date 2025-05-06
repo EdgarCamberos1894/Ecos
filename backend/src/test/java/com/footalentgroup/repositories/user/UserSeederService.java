@@ -21,7 +21,6 @@ public class UserSeederService {
         UserEntity[] users = {
                 UserEntity.builder().name("John Doe").email("john.doe@example.com").password("12345678").role(Role.FAN).build(),
                 UserEntity.builder().name("Jane Doe").email("jane.doe@example.com").password("1234abcd").role(Role.MUSICIAN).build(),
-                UserEntity.builder().name("Bob Smith").email("bob.smith@example.com").password("secure123").role(Role.ORGANIZER).build(),
         };
 
         this.userRepository.saveAll(Arrays.asList(users));

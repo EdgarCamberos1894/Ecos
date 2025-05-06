@@ -29,12 +29,6 @@ class UserRepositoryIT {
         assertEquals("Jane Doe", userMusician.getName());
         assertEquals("jane.doe@example.com", userMusician.getEmail());
         assertEquals(Role.MUSICIAN, userMusician.getRole());
-
-        assertTrue(userRepository.findById(3L).isPresent());
-        UserEntity userOrganizer = userRepository.findById(3L).get();
-        assertEquals("Bob Smith", userOrganizer.getName());
-        assertEquals("bob.smith@example.com", userOrganizer.getEmail());
-        assertEquals(Role.ORGANIZER, userOrganizer.getRole());
     }
 
     @Test
