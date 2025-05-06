@@ -52,7 +52,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     //se genera un nuevo token de acceso
                     String newAccessToken = jwtService.createToken(
                             user.getEmail(),
-                            user.getPassword(),
+                            user.getName(),
+                            user.getId(),
                             user.getRole().name()
                     );
                     response.setHeader("Nuevo-token-acceso", newAccessToken);

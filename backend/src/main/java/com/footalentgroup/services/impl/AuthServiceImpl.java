@@ -36,8 +36,8 @@ public class AuthServiceImpl implements AuthService {
             musicService.createProfile(savedUser);
         }
 
-        String token = this.jwtService.createToken(savedUser.getEmail(), savedUser.getName(), savedUser.getRole().name());
-        String refreshToken= this.jwtService.refreshToken(savedUser.getEmail(), savedUser.getName(), savedUser.getRole().name());
+        String token = this.jwtService.createToken(savedUser.getEmail(), savedUser.getName(), savedUser.getId(), savedUser.getRole().name());
+        String refreshToken= this.jwtService.refreshToken(savedUser.getEmail(), savedUser.getName(),savedUser.getId(), savedUser.getRole().name());
 
         Cookie refreshCookie = new Cookie("refresh_token", refreshToken);
         refreshCookie.setHttpOnly(true);
@@ -57,8 +57,8 @@ public class AuthServiceImpl implements AuthService {
             throw new BadCredentialsException("");
         }
 
-        String token = this.jwtService.createToken(user.getEmail(), user.getName(), user.getRole().name());
-        String refreshToken= this.jwtService.refreshToken(user.getEmail(), user.getName(), user.getRole().name());
+        String token = this.jwtService.createToken(user.getEmail(), user.getName(), user.getId(), user.getRole().name());
+        String refreshToken= this.jwtService.refreshToken(user.getEmail(), user.getName(), user.getId(), user.getRole().name());
 
         Cookie refreshCookie = new Cookie("refresh_token", refreshToken);
         refreshCookie.setHttpOnly(true);
