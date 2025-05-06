@@ -30,7 +30,8 @@ export const Header = () => {
     <>
       <header className="flex w-full items-center justify-around bg-[#B1B1B1] p-4 shadow">
         <Link to="/" className="px-6 py-5">
-          <img src="LOGO" alt="logo" />
+          {/* <img src="LOGO" alt="logo" /> */}
+          <p className="text-4xl font-bold">LOGO</p>
         </Link>
         <nav className="flex items-center gap-20">
           <Link to="/explorer">Explorar</Link>
