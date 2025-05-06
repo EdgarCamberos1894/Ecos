@@ -3,6 +3,7 @@ package com.footalentgroup.services.impl;
 import com.footalentgroup.exceptions.MusicianProfileNotFoundException;
 import com.footalentgroup.models.dtos.mapper.MusicProfileMapper;
 import com.footalentgroup.models.dtos.request.MusicianProfileRequestDto;
+import com.footalentgroup.models.dtos.request.MusicianSearchRequestDTO;
 import com.footalentgroup.models.dtos.response.MusicianProfileResponseDto;
 import com.footalentgroup.models.entities.MusicianProfileEntity;
 import com.footalentgroup.models.entities.UserEntity;
@@ -11,6 +12,10 @@ import com.footalentgroup.services.AuthenticatedUserService;
 import com.footalentgroup.services.CloudinaryService;
 import com.footalentgroup.services.MusicianProfileService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -62,5 +67,12 @@ public class MusicianProfileServiceImpl implements MusicianProfileService {
         }
 
         musicianRepository.save(music);
+    }
+
+    @Override
+    public Page<MusicianProfileResponseDto> searchMusicians(MusicianSearchRequestDTO requestDTO) {
+        //Ordenamiento por nombre de forma ascendente
+        Pageable pageable= PageRequest.of(requestDTO.getPage(), requestDTO.getSize(), Sort.by(Sort.Order.asc("stageName")));
+        return  musicianRepository.findByStageNameContainingIgnoreCaseAndGenreContainingIgnoreCase(requestDTO.getStageName(),requestDTO.getGenre() ,pageable);
     }
 }

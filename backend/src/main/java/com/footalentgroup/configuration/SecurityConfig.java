@@ -1,6 +1,7 @@
 package com.footalentgroup.configuration;
 
 import com.footalentgroup.models.entities.UserEntity;
+import com.footalentgroup.models.enums.Role;
 import com.footalentgroup.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -57,6 +58,7 @@ public class SecurityConfig {
                                 "/swagger-ui/**"
                         ).permitAll()
                         .requestMatchers(HttpMethod.GET, "/musician-profile/*").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/musician-profile").hasRole(Role.MUSICIAN.name())
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider())
