@@ -41,8 +41,4 @@ public class EventEntity {
 
     @Convert(converter = TrueFalseConverter.class)
     private Boolean active;
-
-    @ManyToOne
-    @JoinColumn(name = "organizer_id", nullable = false)
-    private OrganizerUserEntity organizer;
 }
