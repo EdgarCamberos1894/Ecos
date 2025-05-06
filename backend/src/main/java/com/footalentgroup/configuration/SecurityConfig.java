@@ -57,6 +57,8 @@ public class SecurityConfig {
                                 "/swagger-ui.html",
                                 "/swagger-ui/**"
                         ).permitAll()
+                        .requestMatchers(HttpMethod.GET, "/songs", "/songs/{id}").permitAll()
+                        .requestMatchers("/songs/**").hasRole(Role.MUSICIAN.name())
                         .requestMatchers(HttpMethod.GET, "/musician-profile/*").permitAll()
                         .requestMatchers(HttpMethod.PUT, "/musician-profile").hasRole(Role.MUSICIAN.name())
                         .anyRequest().authenticated()

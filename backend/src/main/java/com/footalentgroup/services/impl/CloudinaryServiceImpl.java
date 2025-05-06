@@ -24,11 +24,34 @@ public class CloudinaryServiceImpl implements CloudinaryService {
         }
     }
 
+    public Map<String, Object> uploadAudio(MultipartFile file) {
+        try {
+            return cloudinary.uploader().upload(
+                    file.getBytes(),
+                    ObjectUtils.asMap("resource_type", "video")
+            );
+        } catch (IOException e) {
+            throw new RuntimeException("Error al subir el audio", e);
+        }
+    }
+
     public void deleteImage(String publicId) {
         try {
             cloudinary.uploader().destroy(publicId, ObjectUtils.emptyMap());
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public void deleteAudio(String publicId) {
+        try {
+            Map result = cloudinary.uploader().destroy(
+                    publicId,
+                    ObjectUtils.asMap("resource_type", "video")
+            );
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error al eliminar archivo de Cloudinary", e);
         }
     }
 }
