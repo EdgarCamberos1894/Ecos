@@ -1,4 +1,3 @@
-import { Link } from "react-router";
 import { useAuth } from "@/auth/hooks/use-auth";
 import BannerUploader from "./components/BannerUploader";
 
@@ -7,11 +6,12 @@ export default function ProfilePage() {
 
   return (
     <div>
-      <h2>Hola {user?.name}, este es tu perfil</h2>
-      <Link to="/" className="text-center text-blue-500 hover:underline">
-        Volver a la página de inicio
-      </Link>
       <BannerUploader />
+      <div className="mb-24 ml-40 space-y-2">
+        <h2 className="text-4xl font-bold">¡Bienvenido!</h2>
+        <h1 className="text-8xl font-bold">{user?.name}</h1>
+        <h3 className="mt-6 text-2xl font-medium">Editar Perfil</h3>
+      </div>
     </div>
   );
 }
