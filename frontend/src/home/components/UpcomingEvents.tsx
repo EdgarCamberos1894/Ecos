@@ -1,13 +1,13 @@
-import { CheckIcon } from "@/home/components/ui/CheckIcon";
-import CardFeaturedArtists from "./CardFeaturedArtists";
 import Button from "@/app/ui/Button";
+import CardUpcomingEvents from "./CardUpcomingEvents";
+import { CheckIcon } from "@/home/components/ui/CheckIcon";
 
-const FeaturedArtists = () => {
+const UpcomingEvents = () => {
   return (
     <section className="ms-52 mt-24 max-w-[1920px]">
-      <h2 className="mb-8 text-start font-[roboto] text-[40px]">Artista destacado</h2>
+      <h2 className="mb-8 text-start font-[roboto] text-[40px]">Próximos Eventos</h2>
 
-      <CardFeaturedArtists />
+      <CardUpcomingEvents />
 
       <div className="mt-8 h-[75px] w-[144px]">
         <Button type="submit" className="rounded-l-none">
@@ -21,4 +21,4 @@ const FeaturedArtists = () => {
   );
 };
 
-export default FeaturedArtists;
+export default UpcomingEvents;

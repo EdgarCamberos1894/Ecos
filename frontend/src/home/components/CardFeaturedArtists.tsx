@@ -9,7 +9,6 @@ const favoriteArtistList = [
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\n\n Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
   },
-
   {
     id: 2,
     image: image,
@@ -51,7 +50,6 @@ const CardFeaturedArtists = () => {
                 {description}
               </p>
             </div>
-
             <button type="submit" className="max-w-max rounded-[27px] bg-[#B4B4B4] px-6 py-2.5">
               Ver más
             </button>

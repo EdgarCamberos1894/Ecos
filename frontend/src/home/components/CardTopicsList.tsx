@@ -1,5 +1,5 @@
-import { PlayIcon } from "@/auth/components/ui/PlayIcon";
-import { PlusCircle } from "@/auth/components/ui/PlusCircle";
+import { PlayIcon } from "@/home/components/ui/PlayIcon";
+import { PlusCircle } from "@/home/components/ui/PlusCircle";
 import image from "@/assets/image.webp";
 
 const FAVORITE_LIST = [
