@@ -4,81 +4,114 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.footalentgroup.models.entities.UserEntity;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Optional;
 
 @Service
 public class JwtService {
-    private static final String EMAIL_CLAIM = "email";
-    private static final String NAME_CLAIM = "name";
-    private static final String ROLE_CLAIM = "role";
     private static final String ID_CLAIM = "id";
+    private static final String NAME_CLAIM = "name";
+    private static final String EMAIL_CLAIM = "email";
+    private static final String ROLE_CLAIM = "role";
 
     private final String secret;
     private final String issuer;
-    private final int expire;
+    private final int accessExpiration;
     private final int refreshExpiration;
 
-    public JwtService(@Value("${jwt.secret}") String secret, @Value("${jwt.issuer}") String issuer, @Value("${jwt.expire}") int expire, @Value("${JWT_REFRESH_EXPIRE}") int refreshExpiration) {
+    public JwtService(@Value("${jwt.secret}") String secret,
+                      @Value("${jwt.issuer}") String issuer,
+                      @Value("${jwt.expire}") int accessExpiration,
+                      @Value("${JWT_REFRESH_EXPIRE}") int refreshExpiration) {
         this.secret = secret;
         this.issuer = issuer;
-        this.expire = expire;
+        this.accessExpiration = accessExpiration;
         this.refreshExpiration = refreshExpiration;
     }
 
     public String extractToken(String bearer) {
         if (bearer != null && bearer.startsWith("Bearer ") && 3 == bearer.split("\\.").length) {
             return bearer.substring(7);
-        } else {
-            return "";
         }
+
+        return "";
     }
 
-    public String createToken(String email, String name,Long id, String role) {
-        return generateToken(email, name, id, role, this.expire);
+    public String extractRefreshToken(HttpServletRequest request) {
+        if (request.getCookies() != null) {
+            return Arrays.stream(request.getCookies())
+                    .filter(cookie -> "refresh_token".equals(cookie.getName()))
+                    .map(Cookie::getValue)
+                    .findFirst()
+                    .orElse(null);
+        }
+
+        return null;
     }
 
-    public String generateToken(String email, String name, Long id, String role, long expirationTime) {
+    public String generateAccessToken(UserEntity user) {
+        return generateToken(user, this.accessExpiration);
+    }
+
+    public String generateRefreshToken(UserEntity user) {
+        return generateToken(user, this.refreshExpiration);
+    }
+
+    public void setRefreshToken(HttpServletResponse response, String refreshToken) {
+        Cookie refreshCookie = new Cookie("refresh_token", refreshToken);
+        refreshCookie.setHttpOnly(true);
+        refreshCookie.setSecure(true);
+        refreshCookie.setPath("/");
+        refreshCookie.setMaxAge(this.refreshExpiration);
+
+        response.addCookie(refreshCookie);
+    }
+
+    private String generateToken(UserEntity user, int expirationTime) {
         return JWT.create()
                 .withIssuer(this.issuer)
                 .withIssuedAt(new Date())
                 .withNotBefore(new Date())
                 .withExpiresAt(new Date(System.currentTimeMillis() + expirationTime * 1000L))
-                .withClaim(EMAIL_CLAIM, email)
-                .withClaim(NAME_CLAIM, name)
-                .withClaim(ID_CLAIM, id)
-                .withClaim(ROLE_CLAIM, role)
+                .withClaim(ID_CLAIM, user.getId())
+                .withClaim(NAME_CLAIM, user.getName())
+                .withClaim(EMAIL_CLAIM, user.getEmail())
+                .withClaim(ROLE_CLAIM, user.getRole().name())
                 .sign(getAlgorithm());
     }
 
-    public String refreshToken(String email, String name, Long id, String role) {
-        return generateToken(email, name,id,  role, this.refreshExpiration);
+    public boolean isTokenExpired(String token) {
+        Optional<DecodedJWT> decodedJWT = verifyToken(token);
+        return decodedJWT.isEmpty() || decodedJWT.get().getExpiresAt().before(new Date());
     }
 
-    public String email(String authorization) {
-        return this.verifyToken(authorization)
-                .map(jwt -> jwt.getClaim(EMAIL_CLAIM).asString())
-                .orElse(null);
+    public Long id(String token) {
+        return extractClaim(token, ID_CLAIM, Long.class);
     }
 
-    public String name(String authorization) {
-        return this.verifyToken(authorization)
-                .map(jwt -> jwt.getClaim(NAME_CLAIM).asString())
-                .orElse(null);
+    public String name(String token) {
+        return extractClaim(token, NAME_CLAIM, String.class);
     }
 
-    public Long id(String authorization) {
-        return this.verifyToken(authorization)
-                .map(jwt -> jwt.getClaim(ID_CLAIM).asLong())
-                .orElse(null);
+    public String email(String token) {
+        return extractClaim(token, EMAIL_CLAIM, String.class);
     }
 
-    public String role(String authorization) {
-        return this.verifyToken(authorization)
-                .map(jwt -> jwt.getClaim(ROLE_CLAIM).asString())
+    public String role(String token) {
+        return extractClaim(token, ROLE_CLAIM, String.class);
+    }
+
+    private <T> T extractClaim(String token, String claim, Class<T> type) {
+        return verifyToken(token)
+                .map(jwt -> jwt.getClaim(claim).as(type))
                 .orElse(null);
     }
 
@@ -94,12 +127,6 @@ public class JwtService {
             return Optional.empty();
         }
     }
-
-    public boolean isTokenExpired(String token) {
-        Optional<DecodedJWT> decodedJWT = verifyToken(token);
-        return decodedJWT.isEmpty() || decodedJWT.get().getExpiresAt().before(new Date());
-    }
-
 
     private Algorithm getAlgorithm() {
         return Algorithm.HMAC256(this.secret);

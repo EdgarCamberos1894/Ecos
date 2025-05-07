@@ -6,7 +6,6 @@ import com.footalentgroup.repositories.UserRepository;
 import com.footalentgroup.services.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
@@ -33,7 +32,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(@NonNull HttpServletRequest request,
                                     @NonNull HttpServletResponse response,
                                     @NonNull FilterChain filterChain) throws ServletException, IOException {
-
         String token = jwtService.extractToken(request.getHeader(AUTHORIZATION));
 
         if (request.getServletPath().contains("/auth") || token.isEmpty()) {
@@ -41,53 +39,45 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        if (jwtService.isTokenExpired(token)) { // si el token expiro
+        if (jwtService.isTokenExpired(token)) {
+            token = handleExpiredToken(request, response);
+        }
 
-            String refreshToken = extractRefreshTokenFromCookies(request);
-            if (refreshToken != null && !jwtService.isTokenExpired(refreshToken)) {
-                String email = jwtService.email(refreshToken);
-                UserEntity user = userRepository.findByEmail(email).orElse(null);
-
-                if (user != null) {
-                    //se genera un nuevo token de acceso
-                    String newAccessToken = jwtService.createToken(
-                            user.getEmail(),
-                            user.getName(),
-                            user.getId(),
-                            user.getRole().name()
-                    );
-                    response.setHeader("Nuevo-token-acceso", newAccessToken);
-
-                    GrantedAuthority authority = new SimpleGrantedAuthority(Role.PREFIX + jwtService.role(token));
-                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                            user.getEmail(),
-                            token,
-                            List.of(authority)
-                    );
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-                }
-                }
-            } else {
-                String email = jwtService.email(token);
-                GrantedAuthority authority = new SimpleGrantedAuthority(Role.PREFIX + jwtService.role(token));
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                        email,
-                        null,
-                        List.of(authority)
-                );
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-            }
-            filterChain.doFilter(request, response);
+        authenticateUser(token);
+        filterChain.doFilter(request, response);
     }
 
-    private String extractRefreshTokenFromCookies(HttpServletRequest request) {
-        if (request.getCookies() != null) {
-            for (Cookie cookie : request.getCookies()) {
-                if (cookie.getName().equals("refresh_token")) {
-                    return cookie.getValue();
-                }
+    private String handleExpiredToken(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("TOKEN EXPIRED -> NEW TOKEN (REFRESH)");
+        String refreshToken = jwtService.extractRefreshToken(request);
+
+        if (refreshToken != null && !refreshToken.isEmpty() && !jwtService.isTokenExpired(refreshToken)) {
+            String email = jwtService.email(refreshToken);
+            UserEntity user = userRepository.findByEmail(email).orElse(null);
+
+            if (user != null) {
+                String newAccessToken = jwtService.generateAccessToken(user);
+                response.setHeader("Authorization", "Bearer " + newAccessToken);
+                return newAccessToken;
             }
         }
+
         return null;
+    }
+
+    private void authenticateUser(String token) {
+        if (token == null || token.isEmpty()) {
+            return;
+        }
+
+        String email = jwtService.email(token);
+        String role = jwtService.role(token);
+
+        if (email != null && role != null) {
+            GrantedAuthority authority = new SimpleGrantedAuthority(Role.PREFIX + role);
+            UsernamePasswordAuthenticationToken authentication =
+                    new UsernamePasswordAuthenticationToken(email, null, List.of(authority));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        }
     }
 }
