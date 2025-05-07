@@ -1,10 +1,11 @@
 import { Route, Routes } from "react-router";
-import { HomePage } from "@/home/components/HomePage";
+import { HomePage } from "@/home/HomePage";
 import { MainLayout } from "@/app/layout/MainLayout";
 import ExplorerPage from "@/explorer/components/ExplorerPage";
 import ArtistPage from "@/artist/components/ArtistPage";
 import PlayPage from "@/play/components/PlayPage";
 import SettingPage from "@/settings/components/SettingPage";
+import ProtectedRoute from "@/auth/components/ProtectedRoute";
 
 export const AppRoutes = () => {
   return (
@@ -15,7 +16,9 @@ export const AppRoutes = () => {
         <Route path="/explorer" element={<ExplorerPage />} />
         <Route path="/artist" element={<ArtistPage />} />
         <Route path="/play" element={<PlayPage />} />
-        <Route path="/setting" element={<SettingPage />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/setting" element={<SettingPage />} />
+        </Route>
       </Route>
     </Routes>
   );

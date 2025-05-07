@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import { Avatar } from "@/auth/components/ui/Avatar";
 import Input from "@/app/ui/Input";
@@ -22,11 +22,16 @@ export const Header = () => {
     setOpenModal(null);
   };
 
+  useEffect(() => {
+    if (user) setOpenModal(null);
+  }, [user]);
+
   return (
     <>
       <header className="flex w-full items-center justify-around bg-[#B1B1B1] p-4 shadow">
         <Link to="/" className="px-6 py-5">
-          <img src="LOGO" alt="logo" />
+          {/* <img src="LOGO" alt="logo" /> */}
+          <p className="text-4xl font-bold">LOGO</p>
         </Link>
         <nav className="flex items-center gap-20">
           <Link to="/explorer">Explorar</Link>
@@ -43,6 +48,7 @@ export const Header = () => {
           <>
             <div className="inline-flex shrink items-center justify-center gap-6">
               <button
+                className="cursor-pointer"
                 type="button"
                 onClick={() => {
                   handleOpenModal("login");
@@ -51,6 +57,7 @@ export const Header = () => {
                 Iniciar Sesión
               </button>
               <button
+                className="cursor-pointer"
                 type="button"
                 onClick={() => {
                   handleOpenModal("register");

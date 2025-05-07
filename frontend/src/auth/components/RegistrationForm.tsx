@@ -11,6 +11,7 @@ import { useAuth } from "../hooks/use-auth";
 import { useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import WelcomeMusicianModal from "./WelcomeMusicianModal";
+import { toast } from "sonner";
 
 const nameRegex = /^[a-zA-Z0-9\s]+$/;
 const noOnlySpaces = /^(?!\s*$).+/;
@@ -75,7 +76,7 @@ const RegistrationForm = ({ role }: RegistrationFormProps) => {
       onSuccess: (response) => {
         handleLogin(response.token);
         const decoded = jwtDecode<{ role: string }>(response.token);
-
+        toast.success(`Tu registro fue exitoso`);
         if (decoded.role === "MUSICIAN") {
           setShowWelcomeModal(true);
         } else {

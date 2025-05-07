@@ -9,6 +9,7 @@ import { useState } from "react";
 import { useApiMutation } from "@/shared/hooks/use-api-mutation";
 import { useAuth } from "../hooks/use-auth";
 import { useNavigate } from "react-router";
+import { toast } from "sonner";
 
 const LoginSchema = z.object({
   email: z.string().email({ message: "El email ingresado no es válido" }),
@@ -45,7 +46,8 @@ const LoginForm = () => {
     mutate(data, {
       onSuccess: (response) => {
         console.log("Login exitoso:", response.token);
-        handleLogin(response.token);
+        const user = handleLogin(response.token);
+        toast.success(`Bienvenido ${user.name}`);
         navigate("/");
       },
       onError: (error) => {
