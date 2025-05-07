@@ -33,7 +33,7 @@ const AuthModal = ({ mode, onClose }: AuthModalProps) => {
   return (
     <Modal
       onClose={onClose}
-      normalText={
+      firstNormalText={
         authMode === "login"
           ? "Inicia sesión en "
           : authMode === "register"

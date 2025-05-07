@@ -46,7 +46,7 @@ const LoginForm = () => {
       onSuccess: (response) => {
         console.log("Login exitoso:", response.token);
         handleLogin(response.token);
-        navigate("/profile");
+        navigate("/");
       },
       onError: (error) => {
         console.log("Login fallido:", error);
