@@ -15,6 +15,7 @@ public class JwtService {
     private static final String EMAIL_CLAIM = "email";
     private static final String NAME_CLAIM = "name";
     private static final String ROLE_CLAIM = "role";
+    private static final String ID_CLAIM = "id";
 
     private final String secret;
     private final String issuer;
@@ -36,11 +37,11 @@ public class JwtService {
         }
     }
 
-    public String createToken(String email, String name, String role) {
-        return generateToken(email, name, role, this.expire);
+    public String createToken(String email, String name,Long id, String role) {
+        return generateToken(email, name, id, role, this.expire);
     }
 
-    public String generateToken(String email, String name, String role, long expirationTime) {
+    public String generateToken(String email, String name, Long id, String role, long expirationTime) {
         return JWT.create()
                 .withIssuer(this.issuer)
                 .withIssuedAt(new Date())
@@ -48,12 +49,13 @@ public class JwtService {
                 .withExpiresAt(new Date(System.currentTimeMillis() + expirationTime * 1000L))
                 .withClaim(EMAIL_CLAIM, email)
                 .withClaim(NAME_CLAIM, name)
+                .withClaim(ID_CLAIM, id)
                 .withClaim(ROLE_CLAIM, role)
                 .sign(getAlgorithm());
     }
 
-    public String refreshToken(String email, String name, String role) {
-        return generateToken(email, name, role, this.refreshExpiration);
+    public String refreshToken(String email, String name, Long id, String role) {
+        return generateToken(email, name,id,  role, this.refreshExpiration);
     }
 
     public String email(String authorization) {
@@ -65,6 +67,12 @@ public class JwtService {
     public String name(String authorization) {
         return this.verifyToken(authorization)
                 .map(jwt -> jwt.getClaim(NAME_CLAIM).asString())
+                .orElse(null);
+    }
+
+    public Long id(String authorization) {
+        return this.verifyToken(authorization)
+                .map(jwt -> jwt.getClaim(ID_CLAIM).asLong())
                 .orElse(null);
     }
 

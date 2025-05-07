@@ -19,11 +19,12 @@ class JwtServiceIT {
 
     @Test
     void testCreateAndVerifyToken() {
-        String token = jwtService.createToken("email@example.com", "name", "ROLE");
+        String token = jwtService.createToken("email@example.com", "name", 1L,"ROLE");
 
         assertEquals(3, token.split("\\.").length);
         assertEquals("email@example.com", jwtService.email(token));
         assertEquals("name", jwtService.name(token));
+        assertEquals(1L, jwtService.id(token));
         assertEquals("ROLE", jwtService.role(token));
     }
 }
