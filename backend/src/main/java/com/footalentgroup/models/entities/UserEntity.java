@@ -29,7 +29,4 @@ public class UserEntity {
 
     @Enumerated(EnumType.STRING)
     private Role role;
-
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    private MusicianProfileEntity musicProfile;
 }
