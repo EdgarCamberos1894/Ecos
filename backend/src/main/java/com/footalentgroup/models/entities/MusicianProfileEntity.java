@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -32,5 +34,8 @@ public class MusicianProfileEntity {
     @MapsId
     @JoinColumn(name = "id")
     private UserEntity user;
+
+    @OneToMany(mappedBy = "musicianProfile", fetch = FetchType.LAZY)
+    private List<SongEntity> songs;
 
 }
