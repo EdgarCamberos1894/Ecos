@@ -3,7 +3,6 @@ package com.footalentgroup.models.entities;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 import java.util.Date;
 
@@ -26,7 +25,7 @@ public class SongEntity {
 
     String spotifyUrl;
     String youtubeUrl;
-    String soundcloadUrl;
+    String soundcloudUrl;
 
     @Column(nullable = false)
     Date releaseDate;
