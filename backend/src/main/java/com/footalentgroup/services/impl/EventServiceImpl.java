@@ -36,6 +36,8 @@ public class EventServiceImpl implements EventService {
     @Override
     @Transactional
     public EventResponseDto create(EventRequestDto eventDto) {
+        eventDto.doDefault();
+
         MusicianProfileEntity musician = this.musicianRepository
                 .findById(eventDto.getMusicianId())
                 .orElseThrow(() -> new NotFoundException("Musico/Banda no encontrado"));
@@ -50,6 +52,8 @@ public class EventServiceImpl implements EventService {
     @Override
     @Transactional
     public EventResponseDto update(Long id, EventRequestDto eventDto) {
+        eventDto.doDefault();
+
         EventEntity event = this.eventRepository
                 .findById(id)
                 .orElseThrow(() -> new NotFoundException("Evento no encontrado: " + id));
@@ -69,12 +73,18 @@ public class EventServiceImpl implements EventService {
     }
 
     private void updateImage(MultipartFile file, EventEntity event, Boolean deleteImage) {
-        if (deleteImage && event.getImagePublicId() != null && !event.getImagePublicId().isEmpty()) {
-            cloudinaryService.deleteImage(event.getImagePublicId());
-            event.setImage(null);
-            event.setImagePublicId(null);
-        }
+        if (deleteImage) {
+            if (event.getImagePublicId() != null && !event.getImagePublicId().isEmpty()) {
+                cloudinaryService.deleteImage(event.getImagePublicId());
+                event.setImage(null);
+                event.setImagePublicId(null);
+            }
+        } else if (file != null && !file.isEmpty()) {
+            if (event.getImagePublicId() != null && !event.getImagePublicId().isEmpty()) {
+                cloudinaryService.deleteImage(event.getImagePublicId());
+            }
 
-        saveImage(file, event);
+            saveImage(file, event);
+        }
     }
 }

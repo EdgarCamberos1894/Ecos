@@ -28,8 +28,6 @@ public class EventController {
     @PostMapping(consumes = "multipart/form-data")
     @PreAuthorize("hasRole('MUSICIAN')")
     public ResponseEntity<?> create(@ModelAttribute @Valid EventRequestDto eventDto) {
-        eventDto.doDefault();
-
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(this.eventService.create(eventDto));
@@ -38,7 +36,6 @@ public class EventController {
     @PutMapping(value = ID_ID, consumes = "multipart/form-data")
     @PreAuthorize("hasRole('MUSICIAN')")
     public ResponseEntity<?> update(@PathVariable Long id, @ModelAttribute @Valid EventRequestDto eventDto) {
-        eventDto.doDefault();
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(this.eventService.update(id, eventDto));
