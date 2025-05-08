@@ -1,6 +1,8 @@
 import { useAuth } from "@/auth/hooks/use-auth";
 import BannerUploader from "./components/BannerUploader";
 import { MediaEmbedForm } from "./components/MediaEmbedForm";
+import { MusicUploader } from "./components/MusicUploader";
+import CreateEventoCard from "./components/CreateEventCard";
 
 export default function ProfilePage() {
   const { user } = useAuth();
@@ -15,9 +17,13 @@ export default function ProfilePage() {
         <h3 className="text-2xl font-bold uppercase">
           Compartí tu música a través de spotify o subí tu archivo mp3/wav
         </h3>
-        <MediaEmbedForm platform="spotify" />
+        <section className="mt-12 flex items-start gap-32">
+          <MediaEmbedForm platform="spotify" />
+          <MusicUploader />
+        </section>
         <h3 className="text-2xl font-bold uppercase">Compartí tu VIDEOS a través de YOUTUBE</h3>
         <MediaEmbedForm platform="youtube" />
+        <CreateEventoCard />
       </div>
     </>
   );
