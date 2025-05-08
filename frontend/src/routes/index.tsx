@@ -4,7 +4,7 @@ import { MainLayout } from "@/app/layout/MainLayout";
 import ProfilePage from "@/profile/ProfilePage";
 import ExplorerPage from "@/explorer/components/ExplorerPage";
 import ArtistPage from "@/artist/components/ArtistPage";
-import PlayPage from "@/play/components/PlayPage";
+import PlayPage from "@/play/PlayPage";
 import SettingPage from "@/settings/components/SettingPage";
 import ProtectedRoute from "@/auth/components/ProtectedRoute";
 
