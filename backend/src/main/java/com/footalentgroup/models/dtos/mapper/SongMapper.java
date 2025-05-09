@@ -19,11 +19,14 @@ import java.util.stream.Collectors;
 public interface SongMapper {
 
     @Mapping(target = "audioUrl", ignore = true)
+    @Mapping(target = "spotifyUrl", ignore = true)
     SongEntity toEntity(SongUploadRequestDto dto);
 
     @Mapping(target = "musicianInfo", expression = "java(mapMusicianInfo(song.getMusicianProfile()))")
     SongResponseDto toSongResponseDto(SongEntity song);
 
+    @Mapping(target = "audioUrl", ignore = true)
+    @Mapping(target = "spotifyUrl", ignore = true)
     void updateEntity(SongUploadRequestDto requestDto, @MappingTarget SongEntity song);
 
 
