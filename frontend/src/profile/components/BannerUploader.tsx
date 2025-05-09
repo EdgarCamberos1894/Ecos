@@ -71,12 +71,12 @@ export default function BannerUploader() {
   };
 
   return (
-    <section className="mb-40 flex w-full flex-col items-center gap-4">
+    <section className="flex w-full flex-col items-center gap-4 py-10">
       <label
         htmlFor="fileInput"
         onDrop={handleDrop}
         onDragOver={handleDragOver}
-        className={`flex w-full cursor-pointer flex-col items-center justify-center rounded-lg ${file ? "" : "border-2 border-dashed"} border-gray-400 px-4 py-8 text-center`}
+        className={`flex cursor-pointer flex-col items-center justify-center rounded-lg ${file ? "" : "border-2 border-dashed"} border-gray-400 px-4 py-8 text-center`}
       >
         {imageUrl ? (
           <img
@@ -88,13 +88,13 @@ export default function BannerUploader() {
           <>
             <UploadCloud className="mb-4" />
             <p className="text-lg font-semibold">Subí tu imagen aquí</p>
-            <p className="mt-2 text-sm text-gray-600">
+            <p className="mt-2 text-sm text-balance text-gray-600">
               La imagen debe tener al menos 1170 píxeles de ancho y 504 de alto
               <br />
               Formatos válidos: JPG, GIF, PNG.
             </p>
             <span className="my-2 font-bold text-gray-500">o</span>
-            <div className="rounded-full bg-gray-500 px-6 py-2 text-sm font-semibold text-white">
+            <div className="bg-ecos-blue rounded-full px-20 py-2.5 text-sm font-medium text-white">
               BUSCAR ARCHIVO
             </div>
           </>
@@ -115,7 +115,7 @@ export default function BannerUploader() {
             type="button"
             onClick={handleSubmit}
             disabled={!file}
-            className="rounded-full bg-purple-700 px-6 py-2 font-semibold text-white hover:bg-purple-800"
+            className="bg-ecos-orange-light hover:bg-ecos-orange cursor-pointer rounded-full px-16 py-2.5 font-medium text-white transition-colors"
           >
             Guardar
           </button>
@@ -123,7 +123,7 @@ export default function BannerUploader() {
             type="button"
             onClick={handleDelete}
             disabled={!file}
-            className="rounded-full bg-gray-300 px-6 py-2 font-semibold text-gray-800 hover:bg-gray-400"
+            className="bg-ecos-blue cursor-pointer rounded-full px-16 py-2.5 font-medium text-white transition-colors hover:bg-gray-400"
           >
             Eliminar
           </button>
