@@ -7,6 +7,7 @@ import ArtistPage from "@/artist/components/ArtistPage";
 import PlayPage from "@/play/PlayPage";
 import SettingPage from "@/settings/components/SettingPage";
 import ProtectedRoute from "@/auth/components/ProtectedRoute";
+import EventPage from "@/event/EventPage";
 
 export const AppRoutes = () => {
   return (
@@ -20,6 +21,7 @@ export const AppRoutes = () => {
         <Route element={<ProtectedRoute />}>
           <Route path="/setting" element={<SettingPage />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/event" element={<EventPage />} />
         </Route>
       </Route>
     </Routes>
