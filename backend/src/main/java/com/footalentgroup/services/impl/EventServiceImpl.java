@@ -6,6 +6,7 @@ import com.footalentgroup.models.dtos.request.EventRequestDto;
 import com.footalentgroup.models.dtos.response.EventResponseDto;
 import com.footalentgroup.models.entities.EventEntity;
 import com.footalentgroup.models.entities.MusicianProfileEntity;
+import com.footalentgroup.models.entities.TicketEntity;
 import com.footalentgroup.repositories.EventRepository;
 import com.footalentgroup.repositories.MusicianProfileRepository;
 import com.footalentgroup.services.CloudinaryService;
@@ -15,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -40,10 +42,11 @@ public class EventServiceImpl implements EventService {
 
         MusicianProfileEntity musician = this.musicianRepository
                 .findById(eventDto.getMusicianId())
-                .orElseThrow(() -> new NotFoundException("Musico/Banda no encontrado"));
+                .orElseThrow(() -> new NotFoundException("Músico/Banda no encontrado"));
 
         EventEntity event = this.eventMapper.toEntity(eventDto);
         event.setMusician(musician);
+        associateTicketsToEvent(event);
         saveImage(eventDto.getImage(), event);
 
         return this.eventMapper.toDto(this.eventRepository.save(event));
@@ -59,9 +62,23 @@ public class EventServiceImpl implements EventService {
                 .orElseThrow(() -> new NotFoundException("Evento no encontrado: " + id));
 
         this.eventMapper.updateEntity(eventDto, event);
+        associateNewTicketsToEvent(event, eventDto);
         updateImage(eventDto.getImage(), event, eventDto.getDeleteImage());
 
         return this.eventMapper.toDto(this.eventRepository.save(event));
+    }
+
+    private void associateTicketsToEvent(EventEntity event) {
+        if (event.getTickets() != null && !event.getTickets().isEmpty()) {
+            event.getTickets().forEach(ticket -> ticket.setEvent(event));
+        }
+    }
+
+    private void associateNewTicketsToEvent(EventEntity event, EventRequestDto eventDto) {
+        event.getTickets().clear();
+        List<TicketEntity> tickets = this.eventMapper.toTicketEntityList(eventDto.getTickets());
+        tickets.forEach(ticket -> ticket.setEvent(event));
+        event.getTickets().addAll(tickets);
     }
 
     private void saveImage(MultipartFile file, EventEntity event) {
