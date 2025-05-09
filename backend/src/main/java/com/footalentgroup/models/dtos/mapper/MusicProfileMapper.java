@@ -1,5 +1,6 @@
 package com.footalentgroup.models.dtos.mapper;
 
+import com.footalentgroup.models.dtos.request.BannerUploadReqestDto;
 import com.footalentgroup.models.dtos.request.MusicianProfileRequestDto;
 import com.footalentgroup.models.dtos.response.MusicianProfileResponseDto;
 import com.footalentgroup.models.entities.MusicianProfileEntity;
@@ -17,8 +18,7 @@ public interface MusicProfileMapper{
     MusicianProfileResponseDto toResponse(MusicianProfileEntity entity);
 
     @Mapping(target = "photoUrl", ignore = true)
-    void updateEntity(MusicianProfileRequestDto dto, @MappingTarget MusicianProfileEntity musicEntityProfile);
-
+    void updateEntity(MusicianProfileRequestDto dto, @MappingTarget MusicianProfileEntity entity);
 
 
 }

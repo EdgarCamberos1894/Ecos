@@ -19,19 +19,14 @@ public class SongEntity {
     @Column(nullable = false)
     String title;
 
+    @Column(nullable = false)
+    String genre;
+
     String audioUrl;
     String audioPublicId;
 
-
     String spotifyUrl;
     String youtubeUrl;
-    String soundcloudUrl;
-
-    @Column(nullable = false)
-    Date releaseDate;
-
-    @Column(nullable = false)
-    String genre;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "musician_id", nullable = false)

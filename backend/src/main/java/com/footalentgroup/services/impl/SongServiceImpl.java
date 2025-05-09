@@ -6,6 +6,7 @@ import com.footalentgroup.models.dtos.response.PageResponseDto;
 import com.footalentgroup.models.dtos.response.SongResponseDto;
 import com.footalentgroup.models.entities.MusicianProfileEntity;
 import com.footalentgroup.models.entities.SongEntity;
+import com.footalentgroup.models.enums.SongSourceType;
 import com.footalentgroup.repositories.MusicianProfileRepository;
 import com.footalentgroup.repositories.SongRepository;
 import com.footalentgroup.services.AuthenticatedUserService;
@@ -25,24 +26,30 @@ public class SongServiceImpl implements SongService {
     private final SongRepository songRepository;
     private final SongMapper mapper;
     private final AuthenticatedUserService authenticatedUserService;
-    private final MusicianProfileRepository musician;
+    private final MusicianProfileRepository musicianRepository;
     private final CloudinaryService cloudinaryService;
 
 
     @Override
     public SongResponseDto uploadSong(SongUploadRequestDto requestDto) {
-        String email = authenticatedUserService.getAuthenticatedUsername();
-        MusicianProfileEntity entity = musician.findByUserEmail(email).orElseThrow();
-        SongEntity song = mapper.toEntity(requestDto);
-        song.setMusicianProfile(entity);
+        validateSongRequest(requestDto);
 
-       if (requestDto.audio() != null && !requestDto.audio().isEmpty()) {
-            Map<String, Object> uploadResult = cloudinaryService.uploadAudio(requestDto.audio());
-            song.setAudioUrl ((String) uploadResult.get("secure_url"));
-            song.setAudioPublicId((String) uploadResult.get("public_id"));
+        String email = authenticatedUserService.getAuthenticatedUsername();
+        MusicianProfileEntity musician = musicianRepository.findByUserEmail(email).orElseThrow();
+        SongEntity song = mapper.toEntity(requestDto);
+
+        song.setMusicianProfile(musician);
+
+        switch (requestDto.sourceType()) {
+            case SPOTIFY -> song.setSpotifyUrl(requestDto.spotifyUrl());
+            case FILE -> {
+                Map<String, Object> uploadResult = cloudinaryService.uploadAudio(requestDto.audio());
+                song.setAudioUrl((String) uploadResult.get("secure_url"));
+                song.setAudioPublicId((String) uploadResult.get("public_id"));
+            }
         }
 
-       songRepository.save(song);
+        songRepository.save(song);
         return null;
     }
 
@@ -60,18 +67,34 @@ public class SongServiceImpl implements SongService {
 
     @Override
     public SongResponseDto updateSong(Long idSong, SongUploadRequestDto requestDto) {
+        validateSongRequest(requestDto);
         String email = authenticatedUserService.getAuthenticatedUsername();
         SongEntity song = songRepository.findByIdAndMusicianProfile_User_Email(idSong, email)
                 .orElseThrow(() -> new RuntimeException("La canción no pertenece al perfil del músico autenticado o no existe"));
 
         mapper.updateEntity(requestDto, song);
-        if (requestDto.audio() != null && !requestDto.audio().isEmpty()) {
-            if (song.getAudioPublicId()!=null){
-                cloudinaryService.deleteAudio(song.getAudioPublicId());
+
+        switch (requestDto.sourceType()) {
+            case FILE -> {
+                if (requestDto.audio() != null && !requestDto.audio().isEmpty()) {
+                    if (song.getAudioPublicId() != null) {
+                        cloudinaryService.deleteAudio(song.getAudioPublicId());
+                    }
+                    Map<String, Object> uploadResult = cloudinaryService.uploadAudio(requestDto.audio());
+                    song.setAudioUrl((String) uploadResult.get("secure_url"));
+                    song.setAudioPublicId((String) uploadResult.get("public_id"));
+                }
+                song.setSpotifyUrl(null);
             }
-            Map<String, Object> uploadResult = cloudinaryService.uploadAudio(requestDto.audio());
-            song.setAudioUrl((String) uploadResult.get("secure_url"));
-            song.setAudioPublicId((String) uploadResult.get("public_id"));
+
+            case SPOTIFY -> {
+                song.setSpotifyUrl(requestDto.spotifyUrl());
+                if (song.getAudioPublicId() != null) {
+                    cloudinaryService.deleteAudio(song.getAudioPublicId());
+                }
+                song.setAudioUrl(null);
+                song.setAudioPublicId(null);
+            }
         }
 
         songRepository.save(song);
@@ -79,7 +102,29 @@ public class SongServiceImpl implements SongService {
     }
 
     @Override
+    public PageResponseDto<SongResponseDto> getAllSongsByMusicianId(Long idMusician, Pageable pageable) {
+        Page<SongEntity> songPage = songRepository.findByMusicianProfileId(idMusician,pageable);
+        return mapper.toPageResponse(songPage);
+    }
+
+    @Override
     public void deleteSong(Long id) {
         //delete logico o no?
+    }
+
+    private void validateSongRequest(SongUploadRequestDto dto) {
+        switch (dto.sourceType()) {
+            case SPOTIFY -> {
+                if (dto.spotifyUrl() == null || dto.spotifyUrl().isBlank()) {
+                    throw new IllegalArgumentException("Debe proporcionar una URL válida de Spotify.");
+                }
+            }
+            case FILE -> {
+                if (dto.audio() == null || dto.audio().isEmpty()) {
+                    throw new IllegalArgumentException("Debe adjuntar un archivo de audio.");
+                }
+            }
+            default -> throw new IllegalArgumentException("Tipo de fuente no válido.");
+        }
     }
 }
