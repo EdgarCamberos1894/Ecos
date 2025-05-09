@@ -71,12 +71,12 @@ export default function BannerUploader() {
   };
 
   return (
-    <section className="mb-40 flex w-full flex-col items-center gap-4">
+    <section className="flex w-full flex-col items-center gap-4 py-10">
       <label
         htmlFor="fileInput"
         onDrop={handleDrop}
         onDragOver={handleDragOver}
-        className={`flex w-full cursor-pointer flex-col items-center justify-center rounded-lg ${file ? "" : "border-2 border-dashed"} border-gray-400 px-4 py-8 text-center`}
+        className={`flex cursor-pointer flex-col items-center justify-center rounded-lg ${file ? "" : "border-2 border-dashed"} border-gray-400 px-4 py-8 text-center`}
       >
         {imageUrl ? (
           <img
