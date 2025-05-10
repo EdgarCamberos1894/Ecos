@@ -73,7 +73,7 @@ export default function BannerUploader({ onImageUpload }: BannerUploaderProps) {
         htmlFor="fileInput"
         onDrop={handleDrop}
         onDragOver={handleDragOver}
-        className={`flex w-full cursor-pointer flex-col items-center justify-center rounded-lg ${file ? "" : "border-2 border-dashed"} border-gray-400 px-4 py-8 text-center`}
+        className={`flex cursor-pointer flex-col items-center justify-center rounded-lg ${file ? "" : "border-2 border-dashed"} border-gray-400 px-4 py-8 text-center`}
       >
         {imageUrl ? (
           <img src={imageUrl} alt="Banner" className="h-[253px] w-full rounded-lg object-cover" />
@@ -81,13 +81,13 @@ export default function BannerUploader({ onImageUpload }: BannerUploaderProps) {
           <>
             <UploadCloud className="mb-2" />
             <p className="text-lg font-semibold">Subí tu imagen aquí</p>
-            <p className="mt-2 text-sm text-gray-600">
+            <p className="mt-2 text-sm text-balance text-gray-600">
               La imagen debe tener al menos 1170 píxeles de ancho y 504 de alto
               <br />
               Formatos válidos: JPG, GIF, PNG.
             </p>
             <span className="my-2 font-bold text-gray-500">o</span>
-            <div className="rounded-full bg-gray-500 px-6 py-2 text-sm font-semibold text-white">
+            <div className="bg-ecos-blue rounded-full px-20 py-2.5 text-sm font-medium text-white">
               BUSCAR ARCHIVO
             </div>
           </>

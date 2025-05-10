@@ -52,12 +52,18 @@ const UserMenu = () => {
             <Avatar />
           )}
         </button>
-
         {isOpen && (
           <div className="absolute right-0 z-10 mt-4 flex h-[450px] w-80 flex-col items-center justify-around bg-white text-2xl shadow-lg">
             <h2 className="leading-5 font-medium tracking-tight uppercase">{user.name}</h2>
             <div className="flex flex-col items-start gap-6">
-              <button type="button" className="flex items-center gap-5 leading-1">
+              <button
+                type="button"
+                onClick={() => {
+                  navigate("/profile/edit");
+                  setIsOpen(false);
+                }}
+                className="flex items-center gap-5 leading-1"
+              >
                 <EditContainer />
                 Editar Perfil
               </button>
@@ -87,9 +93,7 @@ const UserMenu = () => {
       {isOpenPerfilModal && (
         <ProfileMusicianModal
           onClose={() => {
-            {
-              setIsOpenPerfilModal(false);
-            }
+            setIsOpenPerfilModal(false);
           }}
         />
       )}
