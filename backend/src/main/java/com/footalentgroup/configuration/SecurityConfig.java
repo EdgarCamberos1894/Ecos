@@ -65,6 +65,12 @@ public class SecurityConfig {
                                 "/musician-profile/{id}/banner",
                                 "/musician-profile/search"
                         ).permitAll()
+                        .requestMatchers(
+                                HttpMethod.GET,
+                                "/events/{id}",
+                                "/events/search",
+                                "/events/musician/{musicianId}"
+                        ).permitAll()
                         .requestMatchers(HttpMethod.POST, "/songs").hasRole(Role.MUSICIAN.name())
                         .requestMatchers(HttpMethod.PUT, "/songs/{id}").hasRole(Role.MUSICIAN.name())
                         .requestMatchers(HttpMethod.PUT, "/musician-profile").hasRole(Role.MUSICIAN.name())
