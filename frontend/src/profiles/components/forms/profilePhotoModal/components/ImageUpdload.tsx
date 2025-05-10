@@ -1,4 +1,4 @@
-import BannerUploader from "../../../BannerUploader";
+import BannerUploader from "@/profiles/components/BannerUploader";
 
 interface ImageUploadProps {
   onImageUpload: (file: File | null, imageUrl: string | null) => void;

@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { UploadCloud } from "./ui/UploadCloud";
 
 interface BannerUploaderProps {
-  onImageUpload: (file: File | null, imageUrl: string | null) => void;
+  onImageUpload?: (file: File | null, imageUrl: string | null) => void;
 }
 
 export default function BannerUploader({ onImageUpload }: BannerUploaderProps) {
@@ -39,7 +39,7 @@ export default function BannerUploader({ onImageUpload }: BannerUploaderProps) {
     const url = URL.createObjectURL(file);
     setImageUrl(url);
     setFile(file);
-    onImageUpload(file, url);
+    onImageUpload?.(file, url);
   };
 
   const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {

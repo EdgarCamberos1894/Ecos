@@ -1,13 +1,13 @@
 import { Route, Routes } from "react-router";
 import { HomePage } from "@/home/HomePage";
 import { MainLayout } from "@/app/layout/MainLayout";
-import ProfilePage from "@/profile/ProfilePage";
+import ProfilePage from "@/profiles/ProfilePage";
 import ExplorerPage from "@/explorer/components/ExplorerPage";
 import ArtistPage from "@/artist/components/ArtistPage";
 import PlayPage from "@/play/PlayPage";
 import ProtectedRoute from "@/auth/components/ProtectedRoute";
 import EventPage from "@/event/EventPage";
-import { EditProfilePage } from "@/profile/EditProfilePage";
+import { EditProfilePage } from "@/profiles/EditProfilePage";
 import { BackButtonLayout } from "@/app/layout/BackButtonLayout";
 
 export const AppRoutes = () => {
