@@ -6,6 +6,7 @@ import com.footalentgroup.models.dtos.request.EventRequestDto;
 import com.footalentgroup.models.dtos.response.EventResponseDto;
 import com.footalentgroup.models.entities.EventEntity;
 import com.footalentgroup.models.entities.MusicianProfileEntity;
+import com.footalentgroup.models.entities.TicketEntity;
 import com.footalentgroup.repositories.EventRepository;
 import com.footalentgroup.repositories.MusicianProfileRepository;
 import com.footalentgroup.services.CloudinaryService;
@@ -15,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -36,12 +38,15 @@ public class EventServiceImpl implements EventService {
     @Override
     @Transactional
     public EventResponseDto create(EventRequestDto eventDto) {
+        eventDto.doDefault();
+
         MusicianProfileEntity musician = this.musicianRepository
                 .findById(eventDto.getMusicianId())
-                .orElseThrow(() -> new NotFoundException("Musico/Banda no encontrado"));
+                .orElseThrow(() -> new NotFoundException("Músico/Banda no encontrado"));
 
         EventEntity event = this.eventMapper.toEntity(eventDto);
         event.setMusician(musician);
+        associateTicketsToEvent(event);
         saveImage(eventDto.getImage(), event);
 
         return this.eventMapper.toDto(this.eventRepository.save(event));
@@ -50,14 +55,30 @@ public class EventServiceImpl implements EventService {
     @Override
     @Transactional
     public EventResponseDto update(Long id, EventRequestDto eventDto) {
+        eventDto.doDefault();
+
         EventEntity event = this.eventRepository
                 .findById(id)
                 .orElseThrow(() -> new NotFoundException("Evento no encontrado: " + id));
 
         this.eventMapper.updateEntity(eventDto, event);
+        associateNewTicketsToEvent(event, eventDto);
         updateImage(eventDto.getImage(), event, eventDto.getDeleteImage());
 
         return this.eventMapper.toDto(this.eventRepository.save(event));
+    }
+
+    private void associateTicketsToEvent(EventEntity event) {
+        if (event.getTickets() != null && !event.getTickets().isEmpty()) {
+            event.getTickets().forEach(ticket -> ticket.setEvent(event));
+        }
+    }
+
+    private void associateNewTicketsToEvent(EventEntity event, EventRequestDto eventDto) {
+        event.getTickets().clear();
+        List<TicketEntity> tickets = this.eventMapper.toTicketEntityList(eventDto.getTickets());
+        tickets.forEach(ticket -> ticket.setEvent(event));
+        event.getTickets().addAll(tickets);
     }
 
     private void saveImage(MultipartFile file, EventEntity event) {
@@ -69,12 +90,18 @@ public class EventServiceImpl implements EventService {
     }
 
     private void updateImage(MultipartFile file, EventEntity event, Boolean deleteImage) {
-        if (deleteImage && event.getImagePublicId() != null && !event.getImagePublicId().isEmpty()) {
-            cloudinaryService.deleteImage(event.getImagePublicId());
-            event.setImage(null);
-            event.setImagePublicId(null);
-        }
+        if (deleteImage) {
+            if (event.getImagePublicId() != null && !event.getImagePublicId().isEmpty()) {
+                cloudinaryService.deleteImage(event.getImagePublicId());
+                event.setImage(null);
+                event.setImagePublicId(null);
+            }
+        } else if (file != null && !file.isEmpty()) {
+            if (event.getImagePublicId() != null && !event.getImagePublicId().isEmpty()) {
+                cloudinaryService.deleteImage(event.getImagePublicId());
+            }
 
-        saveImage(file, event);
+            saveImage(file, event);
+        }
     }
 }

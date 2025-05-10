@@ -1,9 +1,8 @@
 package com.footalentgroup.models.dtos.request;
 
-import com.footalentgroup.models.enums.EventTicket;
 import com.footalentgroup.models.enums.EventType;
 import com.footalentgroup.validators.ImageFile;
-import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -12,10 +11,11 @@ import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Data
@@ -55,10 +55,8 @@ public class EventRequestDto {
 
     private Boolean deleteImage;
 
-    private EventTicket ticket;
-
-    @DecimalMin(value = "0.0", inclusive = false, message = "El precio debe ser mayor a cero.")
-    private BigDecimal price;
+    @Valid
+    private List<TicketRequestDto> tickets;
 
     private Boolean active;
 
@@ -74,12 +72,12 @@ public class EventRequestDto {
             deleteImage = false;
         }
 
-        if (Objects.isNull(ticket)) {
-            ticket = EventTicket.FreeEvent;
+        if (!Objects.isNull(tickets) && !tickets.isEmpty()) {
+            tickets.forEach(TicketRequestDto::doDefault);
         }
 
-        if (Objects.isNull(price)) {
-            price = BigDecimal.ZERO;
+        if (Objects.isNull(active)) {
+            active = true;
         }
     }
 }

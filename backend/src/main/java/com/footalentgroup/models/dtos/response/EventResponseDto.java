@@ -2,14 +2,13 @@ package com.footalentgroup.models.dtos.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.footalentgroup.models.enums.EventTicket;
 import com.footalentgroup.models.enums.EventType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -28,8 +27,7 @@ public class EventResponseDto {
     private String location;
     private String description;
     private String image;
-    private EventTicket ticket;
-    private BigDecimal price;
     private Boolean active;
+    private List<TicketResponseDto> tickets;
     private Long musicianId;
 }

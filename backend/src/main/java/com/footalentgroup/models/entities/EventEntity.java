@@ -1,6 +1,6 @@
 package com.footalentgroup.models.entities;
 
-import com.footalentgroup.models.enums.EventTicket;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.footalentgroup.models.enums.EventType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -9,9 +9,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.type.TrueFalseConverter;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Builder
@@ -58,14 +59,12 @@ public class EventEntity {
     @Column(nullable = true)
     private String imagePublicId;
 
-    @Enumerated(EnumType.STRING)
-    private EventTicket ticket;
-
-    @Column(nullable = true)
-    private BigDecimal price;
-
     @Convert(converter = TrueFalseConverter.class)
     private Boolean active;
+
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<TicketEntity> tickets = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "musician_id", nullable = false)
