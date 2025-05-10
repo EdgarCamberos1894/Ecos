@@ -4,6 +4,8 @@ import com.footalentgroup.exceptions.NotFoundException;
 import com.footalentgroup.models.dtos.mapper.EventMapper;
 import com.footalentgroup.models.dtos.request.EventRequestDto;
 import com.footalentgroup.models.dtos.response.EventResponseDto;
+import com.footalentgroup.models.dtos.response.EventSimpleResponseDto;
+import com.footalentgroup.models.dtos.response.PagedResponseDto;
 import com.footalentgroup.models.entities.EventEntity;
 import com.footalentgroup.models.entities.MusicianProfileEntity;
 import com.footalentgroup.models.entities.TicketEntity;
@@ -13,9 +15,13 @@ import com.footalentgroup.services.CloudinaryService;
 import com.footalentgroup.services.EventService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -33,6 +39,43 @@ public class EventServiceImpl implements EventService {
                 .findById(id)
                 .orElseThrow(() -> new NotFoundException("Evento no encontrado: " + id));
         return this.eventMapper.toDto(event);
+    }
+
+    @Override
+    public PagedResponseDto<EventSimpleResponseDto> search(int page, int size) {
+        Page<EventEntity> eventPage = this.eventRepository
+                .findByDateAfterOrderByDateAsc(
+                        LocalDate.now(),
+                        PageRequest.of(page, size, Sort.by("date").ascending())
+                );
+
+        List<EventSimpleResponseDto> events = this.eventMapper.toSimpleDtoList(eventPage.getContent());
+        return new PagedResponseDto<>(
+                events,
+                eventPage.getNumber(),
+                eventPage.getTotalPages(),
+                eventPage.getTotalElements(),
+                eventPage.getSize()
+        );
+    }
+
+    @Override
+    public PagedResponseDto<EventSimpleResponseDto> searchByMusician(Long musicianId, int page, int size) {
+        Page<EventEntity> eventPage = this.eventRepository
+                .findByMusicianIdAndDateAfterOrderByDateAsc(
+                        musicianId,
+                        LocalDate.now(),
+                        PageRequest.of(page, size, Sort.by("date").ascending())
+                );
+
+        List<EventSimpleResponseDto> events = this.eventMapper.toSimpleDtoList(eventPage.getContent());
+        return new PagedResponseDto<>(
+                events,
+                eventPage.getNumber(),
+                eventPage.getTotalPages(),
+                eventPage.getTotalElements(),
+                eventPage.getSize()
+        );
     }
 
     @Override

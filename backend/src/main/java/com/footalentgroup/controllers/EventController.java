@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 public class EventController {
     public static final String EVENTS = "/events";
     public static final String ID_ID = "/{id}";
+    public static final String SEARCH = "/search";
+    public static final String ID_MUSICIAN = "/musician/{musicianId}";
 
     private final EventServiceImpl eventService;
 
@@ -23,6 +25,27 @@ public class EventController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(this.eventService.read(id));
+    }
+
+    @GetMapping(SEARCH)
+    public ResponseEntity<?> search(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "3") int size
+    ) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(this.eventService.search(page, size));
+    }
+
+    @GetMapping(ID_MUSICIAN)
+    public ResponseEntity<?> searchByMusician(
+            @PathVariable Long musicianId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "3") int size
+    ) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(this.eventService.searchByMusician(musicianId, page, size));
     }
 
     @PostMapping(consumes = "multipart/form-data")

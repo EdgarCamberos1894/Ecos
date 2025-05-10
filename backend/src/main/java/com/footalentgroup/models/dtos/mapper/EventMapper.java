@@ -3,6 +3,7 @@ package com.footalentgroup.models.dtos.mapper;
 import com.footalentgroup.models.dtos.request.EventRequestDto;
 import com.footalentgroup.models.dtos.request.TicketRequestDto;
 import com.footalentgroup.models.dtos.response.EventResponseDto;
+import com.footalentgroup.models.dtos.response.EventSimpleResponseDto;
 import com.footalentgroup.models.entities.EventEntity;
 import com.footalentgroup.models.entities.TicketEntity;
 import org.mapstruct.*;
@@ -22,6 +23,10 @@ public interface EventMapper {
 
     @Mapping(target = "image", ignore = true)
     void updateEntity(EventRequestDto dto, @MappingTarget EventEntity entity);
+
+    EventSimpleResponseDto toSimpleDto(EventEntity entity);
+
+    List<EventSimpleResponseDto> toSimpleDtoList(List<EventEntity> entities);
 
     // ========== TICKET MAPPINGS ==========
 
