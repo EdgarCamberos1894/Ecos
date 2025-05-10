@@ -12,11 +12,8 @@ import WelcomeMusicianModal from "@/auth/components/WelcomeMusicianModal";
 
 export const Header = () => {
   const [openModal, setOpenModal] = useState<AuthMode | null>(null);
-<<<<<<< HEAD
   const [showWelcomeMusician, setShowWelcomeMusician] = useState(false);
-=======
   const [isOpen, setIsOpen] = useState(false);
->>>>>>> frontend
 
   const { user } = useAuth();
 
