@@ -23,12 +23,15 @@ const EventCard = ({
             <h2 className="text-xl text-[#1D1B20]">{headline}</h2>
             <h4 className="font-medium text-[#49454F]">{supportingText}</h4>
           </div>
-          <Button className="gap-2 bg-[#6E6E6E] px-[24px] py-[10px] text-white"> Download </Button>
+          <Button className="cursor-pointer gap-2 bg-[#6E6E6E] px-[24px] py-[10px] text-white">
+            {" "}
+            Ver más{" "}
+          </Button>
         </div>
       </div>
       <div className="flex flex-col items-start gap-2 py-2">
         <h5 className="font-medium text-[#49454F]">{datePublished.toLocaleDateString()}</h5>
-        <p className="text-left text-[#1D1B20]">{contentPublished}</p>
+        <p className="text-left text-balance text-[#1D1B20]">{contentPublished}</p>
       </div>
     </div>
   );

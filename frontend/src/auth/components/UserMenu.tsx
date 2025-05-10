@@ -35,7 +35,7 @@ const UserMenu = () => {
             <button
               type="button"
               onClick={() => {
-                void navigate("/profile");
+                navigate("/profile/edit");
                 setIsOpen(false);
               }}
               className="flex items-center gap-5 leading-1"
@@ -46,7 +46,7 @@ const UserMenu = () => {
             <button
               type="button"
               onClick={() => {
-                void navigate("/setting");
+                navigate("/setting");
                 setIsOpen(false);
               }}
               className="flex items-center gap-5 leading-1"

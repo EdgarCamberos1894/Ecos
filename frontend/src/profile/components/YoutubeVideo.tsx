@@ -1,11 +1,12 @@
-interface PlatformIframeProps {
+import { ComponentProps } from "react";
+
+interface PlatformIframeProps extends ComponentProps<"iframe"> {
   embedUrl: string;
 }
 
-export const YouTubeVideo = ({ embedUrl }: PlatformIframeProps) => {
+export const YouTubeVideo = ({ embedUrl, ...iframeProps }: PlatformIframeProps) => {
   return (
     <iframe
-      className="mt-4 rounded-xl border-none"
       width="720"
       height="405"
       src={embedUrl}
@@ -14,6 +15,7 @@ export const YouTubeVideo = ({ embedUrl }: PlatformIframeProps) => {
       referrerPolicy="strict-origin-when-cross-origin"
       allowFullScreen
       sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-forms allow-presentation"
+      {...iframeProps}
     />
   );
 };
