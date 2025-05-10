@@ -11,7 +11,7 @@ const instagramUrlRegex = createSocialUrlRegex("instagram.com");
 const youtubeUrlRegex = createSocialUrlRegex("youtube.com");
 const spotifyUrlRegex = createSocialUrlRegex("spotify.com");
 
-export const formProfileSchema = z.object({
+export const formMusicianProfileSchema = z.object({
   stageName: z
     .string()
     .min(3, { message: "Su nombre debe tener al menos 3 caracteres." })
@@ -24,6 +24,7 @@ export const formProfileSchema = z.object({
   genre: z.string().min(1, { message: "El género es obligatorio." }),
   photoUrl: z
     .string()
+    .nullable()
     .optional()
     .refine((val) => !val || /\.(jpg|jpeg|png|gif)$/i.test(val), {
       message: "La imagen debe ser JPG, PNG o GIF",
@@ -60,4 +61,4 @@ export const formProfileSchema = z.object({
     }),
 });
 
-export type FormProfileSchema = z.infer<typeof formProfileSchema>;
+export type FormMusicianProfileSchema = z.infer<typeof formMusicianProfileSchema>;

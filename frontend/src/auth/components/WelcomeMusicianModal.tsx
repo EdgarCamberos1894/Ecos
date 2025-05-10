@@ -20,18 +20,22 @@ const WelcomeMusicianModal = ({ onClose }: WelcomeMusicianProps) => {
         firstNormalText="Registrate en "
         highlightedText="ECOS"
         secondNormalText="como músico"
+        className="h-max w-fit md:w-3/5"
       >
-        <h1>¡BIENVENIDO!</h1>
-        <h2>{user.name}</h2>
-        <h3>Empecemos a editar tu panel</h3>
-        <div>
-          <Button
-            children="CONTINUAR"
-            onClick={() => {
-              setOpenModal(true);
-            }}
-          />
-          <Button children="CANCELAR" onClick={onClose} />
+        <div className="p-20">
+          <h1 className="mb-2.5 text-5xl font-medium">¡BIENVENIDO!</h1>
+          <h2 className="mb-2.5 text-3xl">{user.name}</h2>
+          <h3 className="mb-40 text-2xl">Empecemos a editar tu panel</h3>
+          <div className="flex w-full gap-6">
+            <Button
+              children="CONTINUAR"
+              onClick={() => {
+                setOpenModal(true);
+              }}
+              className="bg-[#6E6E6E] text-white"
+            />
+            <Button children="CANCELAR" onClick={onClose} className="bg-[#B1B1B1] text-white" />
+          </div>
         </div>
       </Modal>
       {openModal && <ProfileMusicianModal onClose={onClose} />}

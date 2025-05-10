@@ -11,8 +11,9 @@ export interface Musician extends User {
   stageName: string;
   genre: string;
   country: string;
-  photoUrl: string;
-  photoPublicId: string;
+  photoUrl?: string;
+  photoPublicId?: string;
+  deletePhoto: boolean;
   whatsapp?: string;
   spotifyUrl?: string;
   youtubeUrl?: string;

@@ -6,7 +6,7 @@ import { User } from "../types";
 type AuthProviderProps = PropsWithChildren;
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [user, setUser] = useState<User | null>();
+  const [user, setUser] = useState<User | null>(null);
 
   const handleLogin = (userToken: string) => {
     localStorage.setItem("userToken", JSON.stringify(userToken));

@@ -1,10 +1,15 @@
 import { useRef, useState } from "react";
 import { UploadCloud } from "./ui/UploadCloud";
 
-export default function BannerUploader() {
+interface BannerUploaderProps {
+  onImageUpload: (file: File | null, imageUrl: string | null) => void;
+}
+
+export default function BannerUploader({ onImageUpload }: BannerUploaderProps) {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [file, setFile] = useState<File | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const validateImageDimensions = (file: File): Promise<boolean> => {
     return new Promise((resolve) => {
@@ -18,20 +23,23 @@ export default function BannerUploader() {
   };
 
   const handleFile = async (file: File) => {
+    setError(null);
+
     if (!["image/jpeg", "image/png", "image/gif"].includes(file.type)) {
-      alert("Formato inválido. Solo se aceptan JPG, PNG o GIF.");
+      setError("Formato inválido. Solo se aceptan JPG, PNG o GIF.");
       return;
     }
 
     const isValidSize = await validateImageDimensions(file);
     if (!isValidSize) {
-      alert("La imagen debe tener al menos 1170px de ancho y 504px de alto.");
+      setError("La imagen debe tener al menos 1170px de ancho y 504px de alto.");
       return;
     }
 
     const url = URL.createObjectURL(file);
     setImageUrl(url);
     setFile(file);
+    onImageUpload(file, url);
   };
 
   const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,19 +67,8 @@ export default function BannerUploader() {
     event.preventDefault();
   };
 
-  const handleDelete = () => {
-    setImageUrl(null);
-    setFile(null);
-  };
-
-  const handleSubmit = () => {
-    if (file) {
-      console.log("Enviando archivo al backend:", file);
-    }
-  };
-
   return (
-    <section className="mb-40 flex w-full flex-col items-center gap-4">
+    <section className="flex w-full flex-col items-center gap-2.5">
       <label
         htmlFor="fileInput"
         onDrop={handleDrop}
@@ -79,14 +76,10 @@ export default function BannerUploader() {
         className={`flex w-full cursor-pointer flex-col items-center justify-center rounded-lg ${file ? "" : "border-2 border-dashed"} border-gray-400 px-4 py-8 text-center`}
       >
         {imageUrl ? (
-          <img
-            src={imageUrl}
-            alt="Banner"
-            className="max-h-[300px] w-full rounded-lg object-cover"
-          />
+          <img src={imageUrl} alt="Banner" className="h-[253px] w-full rounded-lg object-cover" />
         ) : (
           <>
-            <UploadCloud className="mb-4" />
+            <UploadCloud className="mb-2" />
             <p className="text-lg font-semibold">Subí tu imagen aquí</p>
             <p className="mt-2 text-sm text-gray-600">
               La imagen debe tener al menos 1170 píxeles de ancho y 504 de alto
@@ -108,27 +101,7 @@ export default function BannerUploader() {
           className="hidden"
         />
       </label>
-
-      {file && (
-        <div className="flex gap-4">
-          <button
-            type="button"
-            onClick={handleSubmit}
-            disabled={!file}
-            className="rounded-full bg-purple-700 px-6 py-2 font-semibold text-white hover:bg-purple-800"
-          >
-            Guardar
-          </button>
-          <button
-            type="button"
-            onClick={handleDelete}
-            disabled={!file}
-            className="rounded-full bg-gray-300 px-6 py-2 font-semibold text-gray-800 hover:bg-gray-400"
-          >
-            Eliminar
-          </button>
-        </div>
-      )}
+      {error && <p className="text-center text-sm text-red-500">{error}</p>}
     </section>
   );
 }

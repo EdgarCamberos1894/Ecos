@@ -98,7 +98,7 @@ const LoginForm = () => {
         )}
       </div>
 
-      <Button type="submit" disabled={isPending}>
+      <Button type="submit" disabled={isPending} className="w-full bg-[#B4B4B4]">
         {isPending ? "Iniciando sesión..." : "Iniciar sesión"}
       </Button>
 

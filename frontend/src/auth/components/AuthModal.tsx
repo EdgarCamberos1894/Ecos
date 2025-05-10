@@ -41,6 +41,7 @@ const AuthModal = ({ mode, onClose }: AuthModalProps) => {
             : "Olvidé mi contraseña"
       }
       highlightedText={authMode !== "forgot" ? "ECOS" : ""}
+      className="h-full max-h-[540px] w-full max-w-[700px]"
     >
       {authMode === "login" && (
         <div className="flex h-full flex-col items-center justify-center">

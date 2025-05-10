@@ -17,9 +17,9 @@ const ProfileMusicianModal = ({ onClose }: ProfileModalProps) => {
       firstNormalText={"Registrate en "}
       highlightedText={"ECOS"}
       secondNormalText={" como músico"}
-      className="h-fit w-fit"
+      className="h-fit w-fit items-center justify-center overflow-y-auto md:h-full md:w-3/5"
     >
-      <FormMusicianProfile />
+      <FormMusicianProfile onClose={onClose} />
     </Modal>
   );
 };

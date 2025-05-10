@@ -10,7 +10,6 @@ import { useNavigate } from "react-router";
 import { useAuth } from "../hooks/use-auth";
 import { useState } from "react";
 import { jwtDecode } from "jwt-decode";
-import WelcomeMusicianModal from "./WelcomeMusicianModal";
 import { toast } from "sonner";
 
 const nameRegex = /^[a-zA-Z0-9\s]+$/;
@@ -52,7 +51,6 @@ interface RegisterResponse {
 
 const RegistrationForm = ({ role }: RegistrationFormProps) => {
   const [showPassword, setShowPassword] = useState(false);
-  const [showWelcomeModal, setShowWelcomeModal] = useState(false);
 
   const {
     register,
@@ -78,7 +76,7 @@ const RegistrationForm = ({ role }: RegistrationFormProps) => {
         const decoded = jwtDecode<{ role: string }>(response.token);
         toast.success(`Tu registro fue exitoso`);
         if (decoded.role === "MUSICIAN") {
-          setShowWelcomeModal(true);
+          localStorage.setItem("showWelcomeMusician", "true");
         } else {
           navigate("/");
         }
@@ -137,20 +135,12 @@ const RegistrationForm = ({ role }: RegistrationFormProps) => {
         </label>
         {errors.terms && <p className="mt-1 h-6 text-red-500">{errors.terms.message}</p>}
 
-        <Button className="hover:cursor-pointer" type="submit" disabled={isPending}>
+        <Button className="bg-[#B4B4B4] hover:cursor-pointer" type="submit" disabled={isPending}>
           {isPending ? "Registrándose..." : "Registrate"}
         </Button>
 
         {errors.root && <p className="text-red-500">{errors.root.message}</p>}
       </form>
-      {showWelcomeModal && (
-        <WelcomeMusicianModal
-          onClose={() => {
-            setShowWelcomeModal(false);
-            navigate("/");
-          }}
-        />
-      )}
     </>
   );
 };

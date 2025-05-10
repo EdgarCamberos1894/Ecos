@@ -11,15 +11,15 @@ interface LabeledInputProps {
 
 const LabeledInput = ({ label, htmlFor, className = "", inputProps, error }: LabeledInputProps) => {
   return (
-    <div className={`flex w-full flex-col items-start gap-1 self-stretch ${className}`}>
+    <div className={`flex w-full flex-col items-start gap-1 ${className}`}>
       <label htmlFor={htmlFor} className="text-2xl">
         {label}
       </label>
       <Input
         {...inputProps}
-        className="rounded-none placeholder:text-sm placeholder:text-black focus:placeholder-transparent"
+        className="w-full rounded-none placeholder:text-sm placeholder:text-black focus:placeholder-transparent"
       />
-      {error && <span className="text-sm text-red-500">{error}</span>}
+      {error && <span className="w-max text-sm text-red-500">{error}</span>}
     </div>
   );
 };
