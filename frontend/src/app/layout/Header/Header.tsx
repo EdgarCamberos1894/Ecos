@@ -37,7 +37,7 @@ export const Header = () => {
 
   return (
     <>
-      <header className="w-full bg-[#B1B1B1] shadow">
+      <header className="bg-[#B1B1B1] shadow">
         {/* Contenedor interno para centrar el contenido */}
         <div className="mx-auto flex items-center justify-between px-12 py-6">
           <div className="flex items-center gap-16">
