@@ -1,22 +1,34 @@
 package com.footalentgroup.services.impl;
 
+import com.footalentgroup.exceptions.FanProfileNotFoundException;
+import com.footalentgroup.models.dtos.mapper.FanProfileMapper;
 import com.footalentgroup.models.dtos.request.FanProfileRequestDto;
 import com.footalentgroup.models.dtos.response.FanProfileResponseDto;
 import com.footalentgroup.models.entities.FanProfileEntity;
 import com.footalentgroup.models.entities.UserEntity;
 import com.footalentgroup.repositories.FanProfileRepository;
+import com.footalentgroup.services.AuthenticatedUserService;
+import com.footalentgroup.services.CloudinaryService;
 import com.footalentgroup.services.FanProfileService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 @AllArgsConstructor
 @Service
 public class FanProfileServiceImp implements FanProfileService {
     private final FanProfileRepository fanProfileRepository;
+    private final FanProfileMapper fanMapper;
+    private final CloudinaryService cloudinaryService;
+    private final AuthenticatedUserService authenticatedUserService;
 
     @Override
     public FanProfileResponseDto getFanProfileById(Long id) {
-        return null;
+        FanProfileEntity fan = fanProfileRepository.findById(id)
+                .orElseThrow(()-> new FanProfileNotFoundException("El perfil de fan con ID " + id + " no existe."));
+
+        return fanMapper.toResponse(fan);
     }
 
     @Override
@@ -28,6 +40,20 @@ public class FanProfileServiceImp implements FanProfileService {
 
     @Override
     public void updateFanProfile(FanProfileRequestDto requestDto) {
+        String email= authenticatedUserService.getAuthenticatedUsername();
+        FanProfileEntity fan = fanProfileRepository.findByUserEmail(email)
+                .orElseThrow(()-> new FanProfileNotFoundException("Operación inválida: el usuario autenticado no posee el rol FAN por lo tanto no cuenta con un perfil de fan."));
+        fanMapper.updateEntity(requestDto, fan);
 
+        if(requestDto.deletePhoto()){
+            if(fan.getPhotoPublicId() !=null){
+                cloudinaryService.deleteImage(fan.getPhotoPublicId());
+            }
+            Map<String, Object> uploadResult = cloudinaryService.uploadImage(requestDto.photo());
+            fan.setPhotoUrl((String)uploadResult.get("secure_url"));
+            fan.setPhotoPublicId((String)uploadResult.get("public_id"));
+        }
+
+        fanProfileRepository.save(fan);
     }
 }
