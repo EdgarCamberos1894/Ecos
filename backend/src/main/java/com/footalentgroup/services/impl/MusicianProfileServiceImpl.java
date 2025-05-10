@@ -2,8 +2,10 @@ package com.footalentgroup.services.impl;
 
 import com.footalentgroup.exceptions.MusicianProfileNotFoundException;
 import com.footalentgroup.models.dtos.mapper.MusicProfileMapper;
+import com.footalentgroup.models.dtos.request.BannerUploadReqestDto;
 import com.footalentgroup.models.dtos.request.MusicianProfileRequestDto;
 import com.footalentgroup.models.dtos.request.MusicianSearchRequestDTO;
+import com.footalentgroup.models.dtos.response.BannerResponseDto;
 import com.footalentgroup.models.dtos.response.MusicianProfileResponseDto;
 import com.footalentgroup.models.entities.MusicianProfileEntity;
 import com.footalentgroup.models.entities.UserEntity;
@@ -17,8 +19,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Map;
+import java.util.function.BiConsumer;
 
 @Service
 @RequiredArgsConstructor
@@ -46,25 +50,20 @@ public class MusicianProfileServiceImpl implements MusicianProfileService {
 
     @Override
     public void updateProfile(MusicianProfileRequestDto requestDto) {
-        String email = authenticatedUserService.getAuthenticatedUsername();
-        MusicianProfileEntity music = musicianRepository.findByUserEmail(email).
-                orElseThrow(() -> new MusicianProfileNotFoundException("Operación inválida: el usuario autenticado no posee el rol MUSICIAN por lo tanto no cuenta con un perfil musical."));
+        MusicianProfileEntity music = getAuthenticatedMusicianProfile();
         mapper.updateEntity(requestDto,music);
 
-        if (requestDto.deletePhoto()) {
-            if (music.getPhotoPublicId() != null) {
-                cloudinaryService.deleteImage(music.getPhotoPublicId());
-                music.setPhotoUrl(null);
-                music.setPhotoPublicId(null);
-            }
-        } else if (requestDto.photo() != null && !requestDto.photo().isEmpty()) {
-            if (music.getPhotoPublicId()!=null){
-                cloudinaryService.deleteImage(music.getPhotoPublicId());
-            }
-            Map<String, Object> uploadResult = cloudinaryService.uploadImage(requestDto.photo());
-            music.setPhotoUrl((String) uploadResult.get("secure_url"));
-            music.setPhotoPublicId((String) uploadResult.get("public_id"));
-        }
+        handleImageUpdate(
+                requestDto.deletePhoto(), requestDto.photo(), music.getPhotoPublicId(),
+                (url, publicId) -> {
+                    music.setPhotoUrl(url);
+                    music.setPhotoPublicId(publicId);
+                },
+                () -> {
+                    music.setPhotoUrl(null);
+                    music.setPhotoPublicId(null);
+                }
+        );
 
         musicianRepository.save(music);
     }
@@ -75,4 +74,63 @@ public class MusicianProfileServiceImpl implements MusicianProfileService {
         Pageable pageable= PageRequest.of(requestDTO.getPage(), requestDTO.getSize(), Sort.by(Sort.Order.asc("stageName")));
         return  musicianRepository.findByStageNameContainingIgnoreCaseAndGenreContainingIgnoreCase(requestDTO.getStageName(),requestDTO.getGenre() ,pageable);
     }
+
+    @Override
+    public void updateBanner(BannerUploadReqestDto request) {
+        MusicianProfileEntity music = getAuthenticatedMusicianProfile();
+
+        handleImageUpdate(
+                request.deleteBanner(),
+                request.banner(),
+                music.getBannerPublicId(),
+                (url, publicId) -> {
+                    music.setBannerUrl(url);
+                    music.setBannerPublicId(publicId);
+                },
+                () -> {
+                    music.setBannerUrl(null);
+                    music.setBannerPublicId(null);
+                }
+        );
+
+        musicianRepository.save(music);
+    }
+
+    @Override
+    public BannerResponseDto getBannerByMusicianId(Long id) {
+        MusicianProfileEntity musicianProfile = musicianRepository.findById(id)
+                .orElseThrow(() -> new MusicianProfileNotFoundException("El perfil musical con ID " + id + " no existe."));
+        return new BannerResponseDto(musicianProfile.getBannerUrl());
+    }
+
+    private MusicianProfileEntity getAuthenticatedMusicianProfile() {
+        String email = authenticatedUserService.getAuthenticatedUsername();
+        return musicianRepository.findByUserEmail(email)
+                .orElseThrow(() -> new MusicianProfileNotFoundException("Operación inválida: el usuario autenticado no pose el rol MUSICIAN por lo tanto no cuenta con un perfil musical."));
+    }
+
+    private void handleImageUpdate(boolean deleteFlag,
+                                   MultipartFile newFile,
+                                   String existingPublicId,
+                                   BiConsumer<String, String> setUrlAndPublicId,
+                                   Runnable clearUrlAndPublicId) {
+
+        if (deleteFlag) {
+            if (existingPublicId != null) {
+                cloudinaryService.deleteImage(existingPublicId);
+                clearUrlAndPublicId.run();
+            }
+        } else if (newFile != null && !newFile.isEmpty()) {
+            if (existingPublicId != null) {
+                cloudinaryService.deleteImage(existingPublicId);
+            }
+            Map<String, Object> uploadResult = cloudinaryService.uploadImage(newFile);
+            setUrlAndPublicId.accept(
+                    (String) uploadResult.get("secure_url"),
+                    (String) uploadResult.get("public_id")
+            );
+        }
+    }
+
+
 }

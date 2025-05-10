@@ -15,6 +15,8 @@ public interface SongService {
 
     SongResponseDto updateSong(Long idSong, SongUploadRequestDto request);
 
+    PageResponseDto<SongResponseDto> getAllSongsByMusicianId(Long idMusician, Pageable pageable);
+
     void deleteSong(Long id);
 
 

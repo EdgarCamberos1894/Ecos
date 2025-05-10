@@ -23,6 +23,9 @@ public class MusicianProfileEntity {
     private String photoUrl;
     private String photoPublicId;
 
+    private String bannerUrl;
+    private String bannerPublicId;
+
     //Contact Data
     private String whatsapp;
     private String spotifyUrl;

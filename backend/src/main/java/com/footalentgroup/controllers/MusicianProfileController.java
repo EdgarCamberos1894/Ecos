@@ -1,8 +1,10 @@
 package com.footalentgroup.controllers;
 
+import com.footalentgroup.models.dtos.request.BannerUploadReqestDto;
 import com.footalentgroup.models.dtos.request.MusicianProfileRequestDto;
 import com.footalentgroup.models.dtos.request.MusicianSearchRequestDTO;
 import com.footalentgroup.models.dtos.response.ApiResponse;
+import com.footalentgroup.models.dtos.response.BannerResponseDto;
 import com.footalentgroup.services.MusicianProfileService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -46,9 +48,21 @@ public class MusicianProfileController {
     @Operation(summary = "Buscar musicos por nombre y genero (paginado)")
     @GetMapping("/search")
     public ResponseEntity<?> searchMusicians(@ParameterObject @Valid MusicianSearchRequestDTO requestDto){
-
         return ResponseEntity
                 .ok()
                 .body(this.musicService.searchMusicians(requestDto));
+    }
+
+    @Operation(summary = "Actualiza el banner del perfil del músico autenticado", security= @SecurityRequirement(name = "bearer-key"))
+    @PutMapping(value = "/banner", consumes = "multipart/form-data")
+    public ResponseEntity<?> updateBanner(@ModelAttribute @Valid BannerUploadReqestDto reqest){
+        this.musicService.updateBanner(reqest);
+        return ResponseEntity.ok().body(new ApiResponse<>("Banner actualizado con exito"));
+    }
+
+    @Operation(summary = "Obtiene el banner del perfil de un músico por su ID")
+    @GetMapping("/{id}/banner")
+    public ResponseEntity<BannerResponseDto> getBanner(@PathVariable Long id) {
+        return ResponseEntity.ok(this.musicService.getBannerByMusicianId(id));
     }
 }

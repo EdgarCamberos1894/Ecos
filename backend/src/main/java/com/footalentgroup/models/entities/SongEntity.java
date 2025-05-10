@@ -3,7 +3,6 @@ package com.footalentgroup.models.entities;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 import java.util.Date;
 
@@ -20,19 +19,14 @@ public class SongEntity {
     @Column(nullable = false)
     String title;
 
+    @Column(nullable = false)
+    String genre;
+
     String audioUrl;
     String audioPublicId;
 
-
     String spotifyUrl;
     String youtubeUrl;
-    String soundcloadUrl;
-
-    @Column(nullable = false)
-    Date releaseDate;
-
-    @Column(nullable = false)
-    String genre;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "musician_id", nullable = false)
