@@ -1,0 +1,16 @@
+export const musicalGenreOptions = [
+  "Rock",
+  "Pop",
+  "Reggaetón",
+  "Heavy Metal",
+  "Punk",
+  "Trap",
+  "Fusión",
+  "Cumbia",
+  "Ska",
+  "RKT",
+  "Indie",
+  "Grunge",
+  "Rap",
+  "Reggae",
+];

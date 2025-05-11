@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import { CalendarPlus } from "./ui/CalendarPlus";
+import { CalendarPlus } from "../../profiles/components/ui/CalendarPlus";
 
 export default function CreateEventoCard() {
   return (
