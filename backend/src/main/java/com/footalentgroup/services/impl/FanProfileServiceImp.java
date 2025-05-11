@@ -54,11 +54,7 @@ public class FanProfileServiceImp implements FanProfileService {
 
     private void updateGenresIfNeeded(FanProfileRequestDto request, FanProfileEntity fan) {
         if (request.genreInterest() != null && !request.genreInterest().isEmpty()) {
-            // Usamos un Set para eliminar géneros duplicados de la lista de entrada
-            Set<String> uniqueGenres = new HashSet<>(request.genreInterest());
-
-            // Agregar los géneros únicos a la lista de géneros del perfil del fan
-            for (String genre : uniqueGenres) {
+            for (String genre : request.genreInterest()) {
                 if (!fan.getGenreInterest().contains(genre)) {
                     fan.getGenreInterest().add(genre);
                 }
