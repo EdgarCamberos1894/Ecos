@@ -53,7 +53,7 @@ export const Header = () => {
               <MenuIcon />
             </button>
             {isOpen && (
-              <nav className="absolute top-18 left-0 w-48 bg-white p-4 shadow-md md:hidden">
+              <nav className="absolute top-18 left-0 w-48 bg-white p-4 shadow-md lg:hidden">
                 <Link to="/explorer" className="block py-2" onClick={closeMenu}>
                   Explorar
                 </Link>
