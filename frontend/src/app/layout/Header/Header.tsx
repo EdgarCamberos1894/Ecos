@@ -8,9 +8,11 @@ import Lens from "@/assets/lens.svg?react";
 import { useAuth } from "@/auth/hooks/use-auth";
 import UserMenu from "@/auth/components/UserMenu";
 import { Bell } from "./Bell";
+import WelcomeMusicianModal from "@/auth/components/WelcomeMusicianModal";
 
 export const Header = () => {
   const [openModal, setOpenModal] = useState<AuthMode | null>(null);
+  const [showWelcomeMusician, setShowWelcomeMusician] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
   const { user } = useAuth();
@@ -33,6 +35,15 @@ export const Header = () => {
 
   useEffect(() => {
     if (user) setOpenModal(null);
+  }, [user]);
+
+  useEffect(() => {
+    const shouldShow = localStorage.getItem("showWelcomeMusician");
+    if (user?.role === "MUSICIAN" && shouldShow) {
+      setShowWelcomeMusician(true);
+      setOpenModal(null);
+      localStorage.removeItem("showWelcomeMusician");
+    }
   }, [user]);
 
   return (
@@ -114,6 +125,13 @@ export const Header = () => {
         </div>
       </header>
       {openModal && <AuthModal mode={openModal} onClose={handleCloseModal} />}
+      {showWelcomeMusician && (
+        <WelcomeMusicianModal
+          onClose={() => {
+            setShowWelcomeMusician(false);
+          }}
+        />
+      )}
     </>
   );
 };

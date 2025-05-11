@@ -48,7 +48,7 @@ const LoginForm = () => {
         console.log("Login exitoso:", response.token);
         const user = handleLogin(response.token);
         toast.success(`Bienvenido ${user.name}`);
-        navigate("/profile");
+        navigate("/");
       },
       onError: (error) => {
         console.log("Login fallido:", error);
@@ -98,7 +98,7 @@ const LoginForm = () => {
         )}
       </div>
 
-      <Button type="submit" disabled={isPending}>
+      <Button type="submit" disabled={isPending} className="w-full bg-[#B4B4B4]">
         {isPending ? "Iniciando sesión..." : "Iniciar sesión"}
       </Button>
 
