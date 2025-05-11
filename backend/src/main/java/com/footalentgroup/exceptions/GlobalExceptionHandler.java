@@ -100,4 +100,14 @@ public class GlobalExceptionHandler {
                 HttpStatus.NOT_FOUND.value()
         );
     }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(FanProfileNotFoundException.class)
+    public ErrorResponse fanProfileNotFound(FanProfileNotFoundException ex) {
+        return new ErrorResponse(
+                "FanProfileNotFoundException",
+                ex.getMessage(),
+                HttpStatus.NOT_FOUND.value()
+        );
+    }
 }

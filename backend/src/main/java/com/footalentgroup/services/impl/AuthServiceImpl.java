@@ -7,6 +7,7 @@ import com.footalentgroup.models.entities.UserEntity;
 import com.footalentgroup.models.enums.Role;
 import com.footalentgroup.repositories.UserRepository;
 import com.footalentgroup.services.AuthService;
+import com.footalentgroup.services.FanProfileService;
 import com.footalentgroup.services.JwtService;
 import com.footalentgroup.services.MusicianProfileService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -23,6 +24,7 @@ public class AuthServiceImpl implements AuthService {
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
     private final MusicianProfileService musicService;
+    private final FanProfileService fanService;
 
     @Override
     @Transactional
@@ -32,6 +34,8 @@ public class AuthServiceImpl implements AuthService {
 
         if (Role.MUSICIAN.equals(user.getRole())) {
             musicService.createProfile(savedUser);
+        }else if (Role.FAN.equals(user.getRole())) {
+            fanService.createFanProfile(savedUser);
         }
 
         return generateToken(user, response);
