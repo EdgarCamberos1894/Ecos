@@ -31,6 +31,7 @@ public class FanProfileController {
     @Operation(summary = "Actualiza perfil del fan, solo usuario autenticado", security= @SecurityRequirement(name = "bearer-key"))
     @PutMapping(consumes = "multipart/form-data")
     public ResponseEntity<?> updateFanProfile(@ModelAttribute @Valid FanProfileRequestDto requestDto){
+        System.out.println("Foto recibida: " + (requestDto.photo() != null ? requestDto.photo().getOriginalFilename() : "null"));
         this.fanProfileService.updateFanProfile(requestDto);
         return ResponseEntity
                 .ok()

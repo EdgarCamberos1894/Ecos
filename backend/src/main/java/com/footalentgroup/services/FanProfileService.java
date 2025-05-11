@@ -10,4 +10,5 @@ public interface FanProfileService {
     void createFanProfile(UserEntity user);
 
     void updateFanProfile(FanProfileRequestDto requestDto);
+
 }

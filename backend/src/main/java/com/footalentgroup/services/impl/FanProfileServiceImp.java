@@ -13,7 +13,8 @@ import com.footalentgroup.services.FanProfileService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 
 @AllArgsConstructor
 @Service
@@ -26,7 +27,7 @@ public class FanProfileServiceImp implements FanProfileService {
     @Override
     public FanProfileResponseDto getFanProfileById(Long id) {
         FanProfileEntity fan = fanProfileRepository.findById(id)
-                .orElseThrow(()-> new FanProfileNotFoundException("El perfil de fan con ID " + id + " no existe."));
+                .orElseThrow(() -> new FanProfileNotFoundException("El perfil de fan con ID " + id + " no existe."));
 
         return fanMapper.toResponse(fan);
     }
@@ -40,20 +41,46 @@ public class FanProfileServiceImp implements FanProfileService {
 
     @Override
     public void updateFanProfile(FanProfileRequestDto requestDto) {
-        String email= authenticatedUserService.getAuthenticatedUsername();
+        String email = authenticatedUserService.getAuthenticatedUsername();
         FanProfileEntity fan = fanProfileRepository.findByUserEmail(email)
-                .orElseThrow(()-> new FanProfileNotFoundException("Operación inválida: el usuario autenticado no posee el rol FAN por lo tanto no cuenta con un perfil de fan."));
+                .orElseThrow(() -> new FanProfileNotFoundException("Operación inválida: el usuario autenticado no posee el rol FAN por lo tanto no cuenta con un perfil de fan."));
         fanMapper.updateEntity(requestDto, fan);
 
-        if(requestDto.deletePhoto()){
-            if(fan.getPhotoPublicId() !=null){
-                cloudinaryService.deleteImage(fan.getPhotoPublicId());
-            }
-            Map<String, Object> uploadResult = cloudinaryService.uploadImage(requestDto.photo());
-            fan.setPhotoUrl((String)uploadResult.get("secure_url"));
-            fan.setPhotoPublicId((String)uploadResult.get("public_id"));
-        }
+        updateGenresIfNeeded(requestDto, fan);
+        updatePhotoIfNeeded(requestDto, fan);
 
         fanProfileRepository.save(fan);
     }
+
+    private void updateGenresIfNeeded(FanProfileRequestDto request, FanProfileEntity fan) {
+        if (request.genreInterest() != null && !request.genreInterest().isEmpty()) {
+            // Usamos un Set para eliminar géneros duplicados de la lista de entrada
+            Set<String> uniqueGenres = new HashSet<>(request.genreInterest());
+
+            // Agregar los géneros únicos a la lista de géneros del perfil del fan
+            for (String genre : uniqueGenres) {
+                if (!fan.getGenreInterest().contains(genre)) {
+                    fan.getGenreInterest().add(genre);
+                }
+            }
+        }
+    }
+
+    private void updatePhotoIfNeeded(FanProfileRequestDto requestDto, FanProfileEntity fan){
+        if (requestDto.deletePhoto()) {
+            if (fan.getPhotoPublicId() != null) {
+                cloudinaryService.deleteImage(fan.getPhotoPublicId());
+                fan.setPhotoUrl(null);
+                fan.setPhotoPublicId(null);
+            }
+        } else if (requestDto.photo() != null && !requestDto.photo().isEmpty()) {
+            if (fan.getPhotoPublicId() != null) {
+                cloudinaryService.deleteImage(fan.getPhotoPublicId());
+                fan.setPhotoUrl(null);
+                fan.setPhotoPublicId(null);
+            }
+        }
+    }
+
+
 }
