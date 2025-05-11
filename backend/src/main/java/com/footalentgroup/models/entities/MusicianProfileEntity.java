@@ -1,8 +1,10 @@
 package com.footalentgroup.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.List;
 
@@ -41,4 +43,8 @@ public class MusicianProfileEntity {
     @OneToMany(mappedBy = "musicianProfile", fetch = FetchType.LAZY)
     private List<SongEntity> songs;
 
+    @ToString.Exclude
+    @JsonIgnore
+    @OneToMany(mappedBy = "fan",  fetch = FetchType.LAZY)
+    private List<MusicianFollowsEntity> followedMusicians;
 }

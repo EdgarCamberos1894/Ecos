@@ -18,7 +18,7 @@ public class MusicianFollowsEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @CreationTimestamp
     @Column(updatable = false)
     private OffsetDateTime created_at;
