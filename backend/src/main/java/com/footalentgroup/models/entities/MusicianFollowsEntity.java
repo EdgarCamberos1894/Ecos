@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
-import java.time.LocalDate;
 import java.time.OffsetDateTime;
 
 @Entity
@@ -24,10 +23,10 @@ public class MusicianFollowsEntity {
     private OffsetDateTime created_at;
 
     @ManyToOne
-    @JoinColumn(name = "musician_id", nullable = false)
+    @JoinColumn(name = "musician", nullable = false)
     private MusicianProfileEntity musician;
 
     @ManyToOne
-    @JoinColumn(name = "fan_id", nullable = false)
+    @JoinColumn(name = "fan", nullable = false)
     private FanProfileEntity fan;
 }

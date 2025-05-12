@@ -3,6 +3,8 @@ package com.footalentgroup.controllers;
 import com.footalentgroup.models.dtos.response.ApiResponse;
 import com.footalentgroup.models.entities.MusicianFollowsEntity;
 import com.footalentgroup.services.MusicianFollowsService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,33 +22,37 @@ public class MusicianFollowsController {
     private final MusicianFollowsService musicianFollowsService;
 
     @PreAuthorize("hasRole('FAN')")
-    @GetMapping("/fan/{fanId}")
-    public ResponseEntity<?> getFollowedMusicians(@PathVariable Long fanId) {
+    @Operation(summary = "Obtiene los musicos seguidos de un fan autenticado", security = @SecurityRequirement(name = "bearer-key"))
+    @GetMapping("/fan")
+    public ResponseEntity<?> getFollowedMusicians() {
         return ResponseEntity
                 .ok()
-                .body(new ApiResponse<>(this.musicianFollowsService.getFollowMusicians(fanId)));
+                .body(new ApiResponse<>(this.musicianFollowsService.getFollowMusicians()));
     }
 
     @PreAuthorize("hasRole('MUSICIAN')")
-    @GetMapping("/musician/{musicianId}")
-    public ResponseEntity<?> getFansOfMusician(@PathVariable Long musicianId) {
+    @Operation(summary = "Obtiene los fans que siguen a un músico autenticado", security = @SecurityRequirement(name = "bearer-key"))
+    @GetMapping("/musician")
+    public ResponseEntity<?> getFansOfMusician() {
         return ResponseEntity
                 .ok()
-                .body(new ApiResponse<>(this.musicianFollowsService.getFansByMusician(musicianId)));
+                .body(new ApiResponse<>(this.musicianFollowsService.getFansByMusician()));
     }
 
     @PreAuthorize("hasRole('FAN')")
-    @PostMapping("/fan/{fanId}/musician/{musicianId}")
-    public ResponseEntity<?> addMusicianToFavorites(@PathVariable Long fanId, @PathVariable Long musicianId) {
-        this.musicianFollowsService.addMusicianToFavorites(fanId, musicianId);
+    @Operation(summary = "Elimina un músico de los favoritos del fan autenticado", security = @SecurityRequirement(name = "bearer-key"))
+    @PostMapping("/follow-musician/{musicianId}")
+    public ResponseEntity<?> addMusicianToFavorites( @PathVariable Long musicianId) {
+        this.musicianFollowsService.addMusicianToFavorites(musicianId);
         return ResponseEntity.ok().body(new ApiResponse<>("Se agrego el musico correctamente a favoritos"));
     }
 
     // Endpoint para eliminar un músico de los favoritos de un fan
     @PreAuthorize("hasRole('FAN')")
-    @DeleteMapping("/fan/{fanId}/musician/{musicianId}")
-    public  ResponseEntity<?> removeMusicianFromFavorites(@PathVariable Long fanId, @PathVariable Long musicianId) {
-        this.musicianFollowsService.removeMusicianFromFavorites(fanId, musicianId);
+    @Operation(summary = "Elimina musico de favoritos de fan autenticado", security = @SecurityRequirement(name = "bearer-key"))
+    @DeleteMapping("/unfollow-musician/{musicianId}")
+    public  ResponseEntity<?> removeMusicianFromFavorites(@PathVariable Long musicianId) {
+        this.musicianFollowsService.removeMusicianFromFavorites(musicianId);
         return ResponseEntity.ok().body(new ApiResponse<>("Se elimino el musico correctamente a favoritos"));
     }
 }

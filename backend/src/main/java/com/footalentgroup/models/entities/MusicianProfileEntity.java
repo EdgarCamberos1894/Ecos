@@ -43,8 +43,4 @@ public class MusicianProfileEntity {
     @OneToMany(mappedBy = "musicianProfile", fetch = FetchType.LAZY)
     private List<SongEntity> songs;
 
-    @ToString.Exclude
-    @JsonIgnore
-    @OneToMany(mappedBy = "fan", fetch = FetchType.LAZY)
-    private List<MusicianFollowsEntity> followers;
 }

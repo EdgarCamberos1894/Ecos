@@ -33,8 +33,4 @@ public class FanProfileEntity {
     @JoinColumn(name = "id")
     private UserEntity user;
 
-    @ToString.Exclude
-    @JsonIgnore
-    @OneToMany(mappedBy = "fan",  fetch = FetchType.LAZY)
-    private List<MusicianFollowsEntity> followedMusicians;
 }
