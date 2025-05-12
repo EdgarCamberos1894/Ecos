@@ -1,4 +1,4 @@
-import { useImperativeHandle, useRef, useState } from "react";
+import { useEffect, useImperativeHandle, useRef, useState } from "react";
 import { UploadCloud } from "./ui/UploadCloud";
 
 export interface BannerUploaderRef {
@@ -7,10 +7,17 @@ export interface BannerUploaderRef {
 
 interface BannerUploaderProps {
   onImageUpload?: (file: File | null, imageUrl: string | null) => void;
-  ref: React.Ref<BannerUploaderRef>;
+  onSave?: () => void;
+  previewImageUrl?: string | null;
+  ref?: React.Ref<BannerUploaderRef>;
 }
 
-export default function BannerUploader({ onImageUpload, ref }: BannerUploaderProps) {
+export default function BannerUploader({
+  onImageUpload,
+  onSave,
+  previewImageUrl,
+  ref,
+}: BannerUploaderProps) {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [file, setFile] = useState<File | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -19,6 +26,10 @@ export default function BannerUploader({ onImageUpload, ref }: BannerUploaderPro
   useImperativeHandle(ref, () => ({
     getBannerData: () => file,
   }));
+
+  useEffect(() => {
+    if (previewImageUrl) setImageUrl(previewImageUrl);
+  }, [previewImageUrl]);
 
   const validateImageDimensions = (file: File): Promise<boolean> => {
     return new Promise((resolve) => {
@@ -117,11 +128,11 @@ export default function BannerUploader({ onImageUpload, ref }: BannerUploaderPro
       </label>
       {error && <p className="text-center text-sm text-red-500">{error}</p>}
 
-      {ref && (
+      {onSave && ref && (
         <div className="flex gap-4">
           <button
             type="button"
-            onClick={() => inputRef.current?.click()}
+            onClick={onSave}
             disabled={!file}
             className="bg-ecos-orange-light hover:bg-ecos-orange text-ecos-blue cursor-pointer rounded-full px-16 py-2.5 font-medium transition-colors"
           >
@@ -130,7 +141,7 @@ export default function BannerUploader({ onImageUpload, ref }: BannerUploaderPro
           <button
             type="button"
             onClick={handleDelete}
-            disabled={!file}
+            // disabled={!file}
             className="bg-ecos-blue cursor-pointer rounded-full px-16 py-2.5 font-medium text-white transition-colors hover:bg-gray-400"
           >
             Eliminar
