@@ -28,7 +28,7 @@ const ProfileImagen = ({ profileImage }: ProfileImagenProps) => {
 
   return (
     <div className="h-full w-fit">
-      <div className="rounded-full bg-[#A8A8A8]">
+      <div className="rounded-full">
         {imageSrc ? (
           <img
             src={imageSrc}
@@ -36,7 +36,7 @@ const ProfileImagen = ({ profileImage }: ProfileImagenProps) => {
             alt="Imagen de perfil"
           />
         ) : (
-          <Avatar className="h-60 w-60 p-16" />
+          <Avatar className="h-60 w-60" detailColor="#FFFFFF" bgColor="var(--color-ecos-blue)" />
         )}
       </div>
     </div>

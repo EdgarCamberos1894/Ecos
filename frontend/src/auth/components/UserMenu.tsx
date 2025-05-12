@@ -5,9 +5,9 @@ import { Avatar } from "@/auth/components/ui/Avatar";
 import { EditContainer } from "./ui/EditContainer";
 import { Logout } from "./ui/Logout";
 import { Settings } from "./ui/Settings";
-import ProfileMusicianModal from "@/profiles/components/profileMusicianModal/ProfileMusicianModal";
+import ProfileUserModal from "@/profile/components/ProfileUserModal";
 import { useProfileData } from "../hooks/useProfileData";
-import { Musician } from "../types";
+import { Musician, Fan } from "../types";
 
 const UserMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,11 +16,10 @@ const UserMenu = () => {
   const [isOpenPerfilModal, setIsOpenPerfilModal] = useState(false);
   const id = user?.id ?? "";
 
-  const { data: profile, refetch } = useProfileData<Musician>(
-    "musician",
-    id,
-    `musician-profile/${id}`,
-  );
+  const profileType = user?.role === "MUSICIAN" ? "musician" : "fan";
+  const endpoint = user?.role === "MUSICIAN" ? `musician-profile/${id}` : `fan-profile/${id}`;
+
+  const { data: profile, refetch } = useProfileData<Musician | Fan>(profileType, id, endpoint);
 
   const [profileImage, setProfileImage] = useState<string | undefined>(profile?.photoUrl);
 
@@ -91,7 +90,7 @@ const UserMenu = () => {
         )}
       </div>
       {isOpenPerfilModal && (
-        <ProfileMusicianModal
+        <ProfileUserModal
           onClose={() => {
             setIsOpenPerfilModal(false);
           }}

@@ -3,8 +3,8 @@ import { useState, useEffect } from "react";
 import ProfileImagen from "./components/ProfileImagen";
 import ImageUpload from "./components/ImageUpdload";
 import Button from "@/app/ui/Button";
-import { Edit } from "@/profiles/components/ui/Edit";
-import { Trash } from "@/profiles/components/ui/Trash";
+import { Edit } from "@/profile/components/ui/Edit";
+import { Trash } from "@/profile/components/ui/Trash";
 
 export type Transition = "edit" | "upload";
 
@@ -64,12 +64,14 @@ const ProfilePhotoModal = ({
             <Button
               startIcon={<Edit className="h-10 w-10 stroke-white" />}
               children="CAMBIAR"
-              className="bg-[#6E6E6E] text-white"
+              className="text-white"
+              bgType="primary"
               onClick={switchToUpload}
             />
             <Button
               children="ELIMINAR"
-              className="bg-[#B1B1B1] text-white"
+              className="text-white"
+              bgType="secondary"
               startIcon={<Trash className="h-10 w-10" />}
               onClick={() => {
                 setFile(null);
@@ -88,10 +90,16 @@ const ProfilePhotoModal = ({
             <Button
               children="GUARDAR"
               onClick={handleSave}
-              className="bg-[#6E6E6E] text-white"
+              bgType="primary"
+              className="text-white"
               disabled={!file}
             />
-            <Button children="CANCELAR" onClick={onClose} className="bg-[#B1B1B1] text-white" />
+            <Button
+              children="CANCELAR"
+              onClick={onClose}
+              className="text-white"
+              bgType="secondary"
+            />
           </div>
         </div>
       )}

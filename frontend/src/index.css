@@ -18,3 +18,30 @@
   /* Fuente */
   --font-sans: 'Roboto', system-ui, sans-serif;
 }
+
+/* Formularios Perfil */
+.formProfile {
+  @apply grid w-full gap-x-48 gap-y-14 overflow-y-auto px-3.5 py-10 sm:grid-cols-1 lg:grid-cols-2 lg:py-20 lg:pl-20;
+}
+
+.fieldsetSectionProfile {
+  @apply flex w-full flex-col items-start gap-6;
+}
+
+.legendSectionProfile {
+  @apply mb-10 text-start text-2xl font-medium;
+}
+
+.containerBtnSectionProfile {
+  @apply relative order-last col-start-1 flex gap-6 self-end sm:justify-end lg:top-15 lg:col-start-2;
+}
+
+.btnSectionProfile {
+  @apply w-full text-white sm:w-auto;
+}
+
+
+
+
+
+
