@@ -72,16 +72,31 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler({
             ConflictException.class,
-            DataIntegrityViolationException.class
+            DataIntegrityViolationException.class,
+            AlreadyFollowingMusicianException.class
     })
     public ErrorResponse conflict(Exception ex) {
         return new ErrorResponse(ex, HttpStatus.CONFLICT.value());
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(NotFoundException.class)
-    public ErrorResponse notFound(NotFoundException ex) {
+    @ExceptionHandler({
+            NotFoundException.class,
+            MusicianProfileNotFoundException.class,
+            FanProfileNotFoundException.class
+    })
+    public ErrorResponse notFound(Exception ex) {
         return new ErrorResponse(ex, HttpStatus.NOT_FOUND.value());
+    }
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(EmailSendingException.class)
+    public ErrorResponse handleEmailError(EmailSendingException ex) {
+        return new ErrorResponse(
+                "EmailSendingException",
+                ex.getMessage(),
+                HttpStatus.INTERNAL_SERVER_ERROR.value()
+        );
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -89,35 +104,5 @@ public class GlobalExceptionHandler {
     public ErrorResponse exception(Exception ex) {
         ex.printStackTrace();   // The error must be corrected
         return new ErrorResponse(ex, HttpStatus.INTERNAL_SERVER_ERROR.value());
-    }
-
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(MusicianProfileNotFoundException.class)
-    public ErrorResponse musicianProfileNotFound(MusicianProfileNotFoundException ex) {
-        return new ErrorResponse(
-                "MusicianProfileNotFoundException",
-                ex.getMessage(),
-                HttpStatus.NOT_FOUND.value()
-        );
-    }
-
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(FanProfileNotFoundException.class)
-    public ErrorResponse fanProfileNotFound(FanProfileNotFoundException ex) {
-        return new ErrorResponse(
-                "FanProfileNotFoundException",
-                ex.getMessage(),
-                HttpStatus.NOT_FOUND.value()
-        );
-    }
-
-    @ResponseStatus(HttpStatus.CONFLICT)
-    @ExceptionHandler(AlreadyFollowingMusicianException.class)
-    public ErrorResponse alreadyFollowingMusician (AlreadyFollowingMusicianException ex) {
-        return new ErrorResponse(
-                "AlreadyFollowingMusicianException",
-                ex.getMessage(),
-                HttpStatus.CONFLICT.value()
-        );
     }
 }
