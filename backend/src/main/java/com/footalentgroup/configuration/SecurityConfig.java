@@ -65,6 +65,9 @@ public class SecurityConfig {
                                 "/musician-profile/{id}/banner",
                                 "/musician-profile/search"
                         ).permitAll()
+                        .requestMatchers(HttpMethod.GET,
+                                "/fan-profile/{id}"
+                        ).permitAll()
                         .requestMatchers(
                                 HttpMethod.GET,
                                 "/events/{id}",
