@@ -4,6 +4,7 @@ import BannerUploader, { type BannerUploaderRef } from "./components/BannerUploa
 import { MediaEmbedForm } from "./components/MediaEmbedForm";
 import { MusicUploader } from "./components/MusicUploader";
 import CreateEventoCard from "./components/CreateEventCard";
+import { useNavigate } from "react-router";
 
 interface MusicData {
   title: string;
@@ -22,13 +23,15 @@ export const EditProfilePage = () => {
 
   const { user } = useAuth();
 
+  const navigate = useNavigate();
+
   const handleSubmit = () => {
     const bannerData = bannerRef.current?.getBannerData();
     console.log("Banner file:", bannerData);
   };
 
   return (
-    <main className="space-y-32">
+    <main className="mt-20 space-y-32">
       {JSON.stringify(musicData)}
       <BannerUploader ref={bannerRef} />
       <section className="text-ecos-blue mb-24 ml-40 space-y-2">
@@ -38,7 +41,7 @@ export const EditProfilePage = () => {
         <h3 className="text-2xl font-bold uppercase">
           Compartí tu música a través de spotify o subí tu archivo mp3/wav
         </h3>
-        <section className="text-ecos-blue mt-12 flex w-[777px] flex-col gap-9 rounded-2xl border px-4 py-3">
+        <section className="text-ecos-blue mt-12 mb-24 flex w-[777px] flex-col gap-9 rounded-2xl border px-4 py-3">
           <label htmlFor="title" className="flex flex-col gap-3.5 text-2xl">
             Título
             <input
@@ -102,15 +105,28 @@ export const EditProfilePage = () => {
             </button>
           </div>
         </section>
-        <section className="space-y-9 px-4">
+        <section className="mb-32 space-y-9">
           <h3 className="text-2xl font-bold uppercase">Compartí tu VIDEOS a través de YOUTUBE</h3>
           <MediaEmbedForm platform="youtube" />
         </section>
         <CreateEventoCard />
       </section>
-      <button type="button" onClick={handleSubmit}>
-        Guardar
-      </button>
+      <div className="mr-40 mb-24 flex justify-end gap-12">
+        <button
+          type="button"
+          onClick={handleSubmit}
+          className="bg-ecos-orange-light cursor-pointer rounded-full px-[120px] py-5 text-base text-white"
+        >
+          Guardar
+        </button>
+        <button
+          type="button"
+          className="bg-ecos-blue cursor-pointer rounded-full px-[120px] py-5 text-base text-white"
+          onClick={() => navigate("/profile")}
+        >
+          Cancelar
+        </button>
+      </div>
     </main>
   );
 };

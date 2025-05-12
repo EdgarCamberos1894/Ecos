@@ -123,7 +123,7 @@ export default function BannerUploader({ onImageUpload, ref }: BannerUploaderPro
             type="button"
             onClick={() => inputRef.current?.click()}
             disabled={!file}
-            className="bg-ecos-orange-light hover:bg-ecos-orange cursor-pointer rounded-full px-16 py-2.5 font-medium text-white transition-colors"
+            className="bg-ecos-orange-light hover:bg-ecos-orange text-ecos-blue cursor-pointer rounded-full px-16 py-2.5 font-medium transition-colors"
           >
             Guardar
           </button>
