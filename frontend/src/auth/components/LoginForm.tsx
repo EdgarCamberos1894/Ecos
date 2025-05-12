@@ -60,7 +60,7 @@ const LoginForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(handleFormSubmit)} className="flex w-[329px] flex-col gap-4">
+    <form onSubmit={handleSubmit(handleFormSubmit)} className="flex w-3/5 flex-col gap-6">
       <div>
         <Input type="email" {...register("email")} placeholder="e-mail@mail.com" />
         {errors.email && (
@@ -98,7 +98,7 @@ const LoginForm = () => {
         )}
       </div>
 
-      <Button type="submit" disabled={isPending} className="w-full bg-[#B4B4B4]">
+      <Button type="submit" bgType="secondary" disabled={isPending} className="w-full text-white">
         {isPending ? "Iniciando sesión..." : "Iniciar sesión"}
       </Button>
 
