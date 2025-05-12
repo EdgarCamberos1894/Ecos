@@ -19,7 +19,7 @@ export const extractEmbedUrl = (
   const cleanedInput = type === "spotify" ? cleanSpotifyUrl(input) : input;
 
   if (type === "spotify") {
-    const match = /spotify\.com\/(track|playlist|album|artist)\/([\w\d]+)/.exec(cleanedInput);
+    const match = /spotify\.com\/(track)\/([\w\d]+)/.exec(cleanedInput);
     if (match) {
       return {
         url: `https://open.spotify.com/embed/${match[1]}/${match[2]}?utm_source=generator`,
