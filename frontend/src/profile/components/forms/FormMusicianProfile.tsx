@@ -64,14 +64,10 @@ const FormMusicianProfile = ({ onClose }: FormMusicianProfileProps) => {
     user: user ?? undefined,
   });
 
-  const token =
-    "Bearer " + (localStorage.getItem("userToken") ?? "").replace(/(^"|"$)/g, "").trim();
+  // const token =
+  //   "Bearer " + (localStorage.getItem("userToken") ?? "").replace(/(^"|"$)/g, "").trim();
 
-  const { mutate, isPending } = useApiMutation<FormData>("musician-profile", "PUT", {
-    headers: {
-      Authorization: token,
-    },
-  });
+  const { mutate, isPending } = useApiMutation<FormData>("musician-profile", "PUT");
 
   const onSubmit = (data: FormMusicianProfileSchema) => {
     handleMusicianProfileSubmit({
