@@ -1,5 +1,7 @@
+import ProgresCreateEvent from "@/CreateEvent/ProgresCreateEvent";
+
 const ExplorerPage = () => {
-  return <div>ExplorerPage</div>;
+  return <ProgresCreateEvent />;
 };
 
 export default ExplorerPage;
