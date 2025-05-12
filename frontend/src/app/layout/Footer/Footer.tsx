@@ -55,7 +55,9 @@ export const Footer = () => {
         </div>
         <div className="flex flex-col items-start gap-8">
           <h3 className="text-xl font-medium">¿ERES ORGANIZADOR/PROMOTOR?</h3>
-          <Button className="max-w-72 bg-[#6E6E6E] text-white">CREAR EVENTO</Button>
+          <Button className="max-w-72 bg-[#6E6E6E] text-white">
+            <Link to="/event">CREAR EVENTO</Link>
+          </Button>
         </div>
         <div className="flex flex-col items-start gap-8">
           <h3 className="text-xl font-medium">SEGUINOS</h3>

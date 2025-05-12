@@ -1,4 +1,4 @@
-import type { FormData } from "@/CreateEvent/type/FormData";
+import type { FormData } from "@/event/type/FormData";
 
 interface StepFourProps {
   prevStep: () => void;

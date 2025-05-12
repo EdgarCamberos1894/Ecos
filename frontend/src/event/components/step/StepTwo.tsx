@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
-import { UploadCloud } from "@/profile/components/ui/UploadCloud";
-import { FormData } from "@/CreateEvent/type/FormData";
+import { FormData } from "@/event/type/FormData";
+import { UploadCloud } from "@/profiles/components/ui/UploadCloud";
 
 interface StepTwoProps {
   nextStep: () => void;
