@@ -5,6 +5,13 @@ import { MediaEmbedForm } from "./components/MediaEmbedForm";
 import { MusicUploader } from "./components/MusicUploader";
 import CreateEventoCard from "./components/CreateEventCard";
 import { useNavigate } from "react-router";
+import { useApiQuery } from "@/shared/hooks/use-api-query";
+import { useApiMutation } from "@/shared/hooks/use-api-mutation";
+import { toast } from "sonner";
+
+interface BannerUrl {
+  bannerUrl: string | null;
+}
 
 interface MusicData {
   title: string;
@@ -21,19 +28,44 @@ export const EditProfilePage = () => {
 
   const bannerRef = useRef<BannerUploaderRef>(null);
 
-  const { user } = useAuth();
-
   const navigate = useNavigate();
 
-  const handleSubmit = () => {
+  const { user } = useAuth();
+  const id = user?.id ?? "";
+
+  const { data } = useApiQuery<BannerUrl>("banner", `musician-profile/${id}/banner`, id);
+
+  const { mutate } = useApiMutation<string, FormData>("/musician-profile/banner", "PUT");
+
+  const handleSaveBanner = () => {
     const bannerData = bannerRef.current?.getBannerData();
     console.log("Banner file:", bannerData);
+
+    if (!bannerData) return;
+
+    const formData = new FormData();
+    formData.append("banner", bannerData);
+    formData.append("deleteBanner", "false");
+
+    mutate(formData, {
+      onSuccess: () => {
+        toast.success("Banner guardado con éxito");
+      },
+      onError: () => {
+        toast.error("Error al guardar el banner");
+      },
+    });
+  };
+
+  const handleSubmit = () => {
+    console.log("Enviando musica");
   };
 
   return (
     <main className="mt-20 space-y-32">
       {JSON.stringify(musicData)}
-      <BannerUploader ref={bannerRef} />
+      {JSON.stringify(data)}
+      <BannerUploader ref={bannerRef} onSave={handleSaveBanner} previewImageUrl={data?.bannerUrl} />
       <section className="text-ecos-blue mb-24 ml-40 space-y-2">
         <h2 className="text-4xl">¡Bienvenido!</h2>
         <h1 className="text-8xl font-bold">{user?.name}</h1>
