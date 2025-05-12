@@ -14,6 +14,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -75,6 +76,9 @@ public class FanProfileServiceImp implements FanProfileService {
                 fan.setPhotoUrl(null);
                 fan.setPhotoPublicId(null);
             }
+            Map<String, Object> uploadResult = cloudinaryService.uploadImage(requestDto.photo());
+            fan.setPhotoUrl(uploadResult.get("url").toString());
+            fan.setPhotoPublicId(uploadResult.get("public_id").toString());
         }
     }
 
