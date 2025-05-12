@@ -5,8 +5,6 @@ type UploadStatus = "idle" | "uploading" | "success" | "error";
 
 export function MusicUploader() {
   const [file, setFile] = useState<File | null>(null);
-  const [trackName, setTrackName] = useState("");
-  const [albumName, setAlbumName] = useState("");
   const [status, setStatus] = useState<UploadStatus>("idle");
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -40,8 +38,8 @@ export function MusicUploader() {
 
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("trackName", trackName);
-    formData.append("albumName", albumName);
+    // formData.append("trackName", trackName);
+    // formData.append("albumName", albumName);
 
     console.log("ENVIANDO AL BACKEND -->", formData);
 
@@ -54,11 +52,11 @@ export function MusicUploader() {
   }
 
   return (
-    <section className="max-w-md space-y-4 rounded-lg border p-4">
+    <section className="border-ecos-dark-grey-light max-w-md space-y-4 rounded-lg border p-4">
       <div className="space-y-2">
-        <label className="block font-semibold">Cargar audio</label>
+        <label className="text-ecos-blue block text-2xl font-semibold">Cargar audio</label>
 
-        <div className="relative">
+        <div className="border-ecos-dark-grey-light relative border px-6 py-3.5">
           <input
             id="audio-upload"
             type="file"
@@ -70,66 +68,17 @@ export function MusicUploader() {
 
           <label
             htmlFor="audio-upload"
-            className="inline-block cursor-pointer rounded border border-gray-400 bg-gray-200 px-3 py-1 text-sm"
+            className="bg-ecos-blue inline-block cursor-pointer rounded border px-3 py-1 text-sm text-white"
           >
             Buscar Archivo
           </label>
 
-          <span className="ml-2 text-sm text-gray-500">
+          <span className="text-ecos-dark-grey-light ml-2 text-sm">
             {file ? file.name : "No se ha elegido ningún archivo"}
           </span>
         </div>
 
-        <p className="text-xs text-gray-500">El audio puede ser formato mp3 o wav .....</p>
-      </div>
-
-      <label className="block font-semibold">
-        Nombre del tema
-        <input
-          type="text"
-          placeholder="Escribí el nombre del tema"
-          value={trackName}
-          onChange={(e) => {
-            setTrackName(e.target.value);
-          }}
-          className="mt-1 w-full rounded border p-2"
-        />
-      </label>
-
-      <label className="block font-semibold">
-        Nombre del álbum
-        <input
-          type="text"
-          placeholder="Escribí el nombre del álbum"
-          value={albumName}
-          onChange={(e) => {
-            setAlbumName(e.target.value);
-          }}
-          className="mt-1 w-full rounded border p-2"
-        />
-      </label>
-
-      <div className="mt-4 flex gap-2">
-        <button
-          type="button"
-          onClick={handleSubmit}
-          className="rounded-full bg-gray-600 px-4 py-2 text-white disabled:opacity-50"
-          disabled={status === "uploading" || !file}
-        >
-          Guardar
-        </button>
-        <button
-          type="button"
-          onClick={() => {
-            setFile(null);
-            setTrackName("");
-            setAlbumName("");
-            setStatus("idle");
-          }}
-          className="rounded-full bg-gray-300 px-4 py-2 text-black"
-        >
-          Cancelar
-        </button>
+        <p className="text-ecos-dark-grey text-xs">El audio puede ser formato mp3 o wav</p>
       </div>
 
       {status === "success" && <p className="text-sm text-green-600">Archivo subido con éxito!</p>}
