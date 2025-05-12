@@ -24,7 +24,7 @@ const SECTIONS = [
 const FeaturedTopicsList = () => {
   return (
     <section className="w-full">
-      <h1 className="mb-12 text-center text-2xl font-semibold sm:text-4xl lg:text-5xl">
+      <h1 className="mb-12 text-center text-2xl font-semibold text-[#19233A] sm:text-4xl lg:text-5xl">
         Encuentra tu artista favorito
       </h1>
       <div className="container mx-auto w-full px-4 pb-6">
@@ -37,7 +37,7 @@ const FeaturedTopicsList = () => {
       </div>
 
       <div className="mx-auto flex flex-col gap-4 sm:mx-36">
-        <h2 className="mx-2 mb-4 text-start text-2xl font-semibold">Temas destacados</h2>
+        <h2 className="mx-2 mb-4 text-start text-3xl font-bold text-[#19233A]">Temas destacados</h2>
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:grid-rows-2">
           {SECTIONS.map(({ id, title }) => (
             <div key={id}>
@@ -53,10 +53,10 @@ const FeaturedTopicsList = () => {
         </div>
       </div>
 
-      <div className="mx-36 mt-20 hidden h-18 w-36 lg:flex">
-        <Button type="submit" className="rounded-l-none">
+      <div className="mx-36 mt-20 hidden lg:flex lg:justify-center">
+        <Button type="submit" className="rounded bg-[#19233A] text-white lg:w-96">
           <span className="hidden items-center lg:flex">
-            <CheckIcon className="mr-2" />
+            <CheckIcon className="mr-2 text-white" />
             Ver más
           </span>
         </Button>

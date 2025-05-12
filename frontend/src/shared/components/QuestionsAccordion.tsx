@@ -11,8 +11,8 @@ const QuestionsAccordion = ({ title, content }: QuestionsProps) => {
 
   return (
     <div className="w-full">
-      <div className="flex items-center justify-between gap-6 self-stretch border-t border-black p-4">
-        <span className="font-bold">{title}</span>
+      <div className="flex items-center justify-between gap-6 self-stretch border-t border-[#19233A] p-4">
+        <span className="font-bold text-[#19233A]">{title}</span>
         <img
           src={arrow}
           alt="Desplegar"
