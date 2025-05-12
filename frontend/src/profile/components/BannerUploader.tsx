@@ -1,15 +1,24 @@
-import { useRef, useState } from "react";
+import { useImperativeHandle, useRef, useState } from "react";
 import { UploadCloud } from "./ui/UploadCloud";
+
+export interface BannerUploaderRef {
+  getBannerData: () => File | null;
+}
 
 interface BannerUploaderProps {
   onImageUpload?: (file: File | null, imageUrl: string | null) => void;
+  ref: React.Ref<BannerUploaderRef>;
 }
 
-export default function BannerUploader({ onImageUpload }: BannerUploaderProps) {
+export default function BannerUploader({ onImageUpload, ref }: BannerUploaderProps) {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [file, setFile] = useState<File | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  useImperativeHandle(ref, () => ({
+    getBannerData: () => file,
+  }));
 
   const validateImageDimensions = (file: File): Promise<boolean> => {
     return new Promise((resolve) => {
@@ -67,8 +76,13 @@ export default function BannerUploader({ onImageUpload }: BannerUploaderProps) {
     event.preventDefault();
   };
 
+  const handleDelete = () => {
+    setImageUrl(null);
+    setFile(null);
+  };
+
   return (
-    <section className="flex w-full flex-col items-center gap-2.5">
+    <section className="flex w-full flex-col items-center gap-7">
       <label
         htmlFor="fileInput"
         onDrop={handleDrop}
@@ -102,6 +116,27 @@ export default function BannerUploader({ onImageUpload }: BannerUploaderProps) {
         />
       </label>
       {error && <p className="text-center text-sm text-red-500">{error}</p>}
+
+      {ref && (
+        <div className="flex gap-4">
+          <button
+            type="button"
+            onClick={() => inputRef.current?.click()}
+            disabled={!file}
+            className="bg-ecos-orange-light hover:bg-ecos-orange cursor-pointer rounded-full px-16 py-2.5 font-medium text-white transition-colors"
+          >
+            Guardar
+          </button>
+          <button
+            type="button"
+            onClick={handleDelete}
+            disabled={!file}
+            className="bg-ecos-blue cursor-pointer rounded-full px-16 py-2.5 font-medium text-white transition-colors hover:bg-gray-400"
+          >
+            Eliminar
+          </button>
+        </div>
+      )}
     </section>
   );
 }
