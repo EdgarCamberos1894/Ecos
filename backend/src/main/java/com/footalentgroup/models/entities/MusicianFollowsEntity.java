@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.OffsetDateTime;
 
@@ -21,6 +22,13 @@ public class MusicianFollowsEntity {
     @CreationTimestamp
     @Column(updatable = false)
     private OffsetDateTime created_at;
+
+    @Column(name = "deleted_at", nullable = true)
+    private OffsetDateTime deletedAt;
+
+    @UpdateTimestamp
+    @Column(insertable = false)
+    private OffsetDateTime updatedAt;
 
     @ManyToOne
     @JoinColumn(name = "musician", nullable = false)

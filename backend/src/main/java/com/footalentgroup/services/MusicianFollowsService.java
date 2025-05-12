@@ -1,13 +1,12 @@
 package com.footalentgroup.services;
 
 import com.footalentgroup.models.dtos.response.FanProfileResponseDto;
-import com.footalentgroup.models.dtos.response.MusicianInfoReponseDto;
-import com.footalentgroup.models.dtos.response.MusicianProfileResponseDto;
+import com.footalentgroup.models.dtos.response.MusicianSimpleResponseDto;
 
 import java.util.List;
 
 public interface MusicianFollowsService {
-    public List<MusicianProfileResponseDto> getFollowMusicians ();
+    public List<MusicianSimpleResponseDto> getFollowMusicians ();
 
     public List<FanProfileResponseDto> getFansByMusician ();
 

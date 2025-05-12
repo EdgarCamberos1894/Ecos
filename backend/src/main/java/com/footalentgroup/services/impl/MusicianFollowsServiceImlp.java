@@ -8,6 +8,7 @@ import com.footalentgroup.models.dtos.mapper.MusicProfileMapper;
 import com.footalentgroup.models.dtos.response.FanProfileResponseDto;
 import com.footalentgroup.models.dtos.response.MusicianInfoReponseDto;
 import com.footalentgroup.models.dtos.response.MusicianProfileResponseDto;
+import com.footalentgroup.models.dtos.response.MusicianSimpleResponseDto;
 import com.footalentgroup.models.entities.FanProfileEntity;
 import com.footalentgroup.models.entities.MusicianFollowsEntity;
 import com.footalentgroup.models.entities.MusicianProfileEntity;
@@ -19,32 +20,35 @@ import com.footalentgroup.services.MusicianFollowsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class MusicianFollowsServiceImlp implements MusicianFollowsService {
-    private MusicianFollowsRepository musicianFollowsRepository;
-    private FanProfileRepository fanRepository;
-    private MusicianProfileRepository musicianRepository;
+    private final MusicianFollowsRepository musicianFollowsRepository;
+    private final FanProfileRepository fanRepository;
+    private final MusicianProfileRepository musicianRepository;
     private final AuthenticatedUserService authenticatedUserService;
     private final MusicProfileMapper musicianMapper;
     private final FanProfileMapper fanMapper;
 
     //Obtener musicos seguido por un fan
     @Override
-    public List<MusicianProfileResponseDto> getFollowMusicians() {
+    public List<MusicianSimpleResponseDto> getFollowMusicians() {
         String email = authenticatedUserService.getAuthenticatedUsername();
 
         FanProfileEntity fan = fanRepository.findByUserEmail(email)
                 .orElseThrow(() -> new FanProfileNotFoundException("No se encontró un perfil de fan asociado al usuario autenticado"));
 
-        List<MusicianProfileEntity> musicianProfiles = musicianFollowsRepository.findByFanId(fan.getId());
-
-        return musicianProfiles.stream()
-                .map(musicianMapper::toResponse)
+        List<MusicianSimpleResponseDto> musicians = musicianFollowsRepository.findByFanIdAndDeletedAtIsNull(fan.getId())
+                .stream()
+                .map(MusicianFollowsEntity::getMusician)
+                .map(musicianMapper::toSimpleResponse)
                 .collect(Collectors.toList());
+
+        return musicians;
     }
 
     //Obtener seguidores de musico
@@ -54,11 +58,13 @@ public class MusicianFollowsServiceImlp implements MusicianFollowsService {
         MusicianProfileEntity musician= musicianRepository.findByUserEmail(email)
                 .orElseThrow(()-> new MusicianProfileNotFoundException("No se encontró un perfil de musico asociado al usuario autenticado"));
 
-        List<FanProfileEntity> fanProfiles = musicianFollowsRepository.findByMusicianId(musician.getId());
-
-        return fanProfiles.stream()
+        List<FanProfileResponseDto> fans = musicianFollowsRepository.findByMusicianIdAndDeletedAtIsNull(musician.getId())
+         .stream()
+                .map(MusicianFollowsEntity::getFan)
                 .map(fanMapper::toResponse)
                 .collect(Collectors.toList());
+
+        return fans;
     }
 
     @Override
@@ -68,20 +74,35 @@ public class MusicianFollowsServiceImlp implements MusicianFollowsService {
         FanProfileEntity fan = fanRepository.findByUserEmail(email)
                 .orElseThrow(() -> new FanProfileNotFoundException("No se encontró un perfil de fan asociado al usuario autenticado"));
 
-      //verificamos si el musico ya se encuentra en favoritos de fan
-        if(!musicianFollowsRepository.existsByFanIdAndMusicianId(fan.getId(), musician_id)){
-            MusicianFollowsEntity follow = new MusicianFollowsEntity();
+            MusicianFollowsEntity follow = musicianFollowsRepository.findByFanIdAndMusicianId(fan.getId(), musician_id);
 
-            MusicianProfileEntity musician = musicianRepository.findById(musician_id)
-                    .orElseThrow(()-> new MusicianProfileNotFoundException("El perfil de musico con ID" + musician_id + " no existe."));
+            if (follow != null) {
+                this.restoreFollowIfDeleted(follow);
+            } else {
+                this.createNewFollow(fan, musician_id);
+            }
+    }
 
-            follow.setFan(fan);
-            follow.setMusician(musician);
 
+    private void restoreFollowIfDeleted(MusicianFollowsEntity follow) {
+        if (follow.getDeletedAt() != null) {
+            follow.setDeletedAt(null);
+            follow.setUpdatedAt(OffsetDateTime.now());
             musicianFollowsRepository.save(follow);
-        }else{
+        } else {
             throw new AlreadyFollowingMusicianException("El fan ya sigue a este músico.");
         }
+    }
+
+    private void createNewFollow(FanProfileEntity fan, Long musicianId) {
+        MusicianFollowsEntity newFollow = new MusicianFollowsEntity();
+
+        MusicianProfileEntity musician = musicianRepository.findById(musicianId)
+                .orElseThrow(() -> new MusicianProfileNotFoundException("El perfil de musico con ID " + musicianId + " no existe."));
+
+        newFollow.setFan(fan);
+        newFollow.setMusician(musician);
+        musicianFollowsRepository.save(newFollow);
     }
 
     @Override
@@ -91,12 +112,13 @@ public class MusicianFollowsServiceImlp implements MusicianFollowsService {
         FanProfileEntity fan = fanRepository.findByUserEmail(email)
                 .orElseThrow(() -> new FanProfileNotFoundException("No se encontró un perfil de fan asociado al usuario autenticado"));
 
-        if(fan!=null){
+
             MusicianFollowsEntity follow = musicianFollowsRepository.findByFanIdAndMusicianId(fan.getId(), musicianId);
             if (follow != null) {
-                musicianFollowsRepository.delete(follow);
+                follow.setDeletedAt(OffsetDateTime.now());
+                musicianFollowsRepository.save(follow);
+            }else{
+            throw new MusicianProfileNotFoundException("El músico con id "+musicianId+ "no está en tus favoritos");
             }
-        }
-
     }
 }

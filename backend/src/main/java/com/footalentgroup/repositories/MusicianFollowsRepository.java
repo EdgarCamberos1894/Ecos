@@ -11,10 +11,10 @@ import java.util.List;
 
 public interface MusicianFollowsRepository extends JpaRepository<MusicianFollowsEntity, Long> {
 
-    List<MusicianProfileEntity> findByFanId(Long fanId);
+    List<MusicianFollowsEntity> findByFanIdAndDeletedAtIsNull(Long fanId);
 
 
-    List<FanProfileEntity> findByMusicianId(Long musicianId);
+    List<MusicianFollowsEntity> findByMusicianIdAndDeletedAtIsNull(Long musicianId);
 
     // Verificar si un fan ya sigue a un músico
     boolean existsByFanIdAndMusicianId(Long fanId, Long musicianId);
