@@ -2,11 +2,7 @@
 
 ## 🛠 Tecnologías 
 
-<img src="https://skillicons.dev/icons?i=java&theme=light" height="60" alt="Java" />
-<img src="https://skillicons.dev/icons?i=spring&theme=light" height="60" alt="Spring Boot" />
-<img src="https://skillicons.dev/icons?i=maven&theme=light" height="60" alt="Maven" />
-<img src="https://skillicons.dev/icons?i=postgres&theme=light" height="60" alt="PostgreSQL" />
-<img src="https://skillicons.dev/icons?i=docker&theme=light" height="60" alt="Docker" />
+[![Tecnologías](https://skillicons.dev/icons?i=java,spring,maven,postgres,docker)](https://skillicons.dev)
 
 ## 📌 Instrucciones para ejecutar localmente
 
@@ -85,9 +81,12 @@ src/
 │   │   │       │   └── NameController.java
 │   │   │       ├── exceptions/
 │   │   │       │   ├── GlobalExceptionHandler.java
+│   │   │       │   ├── ErrorResponse.java
 │   │   │       │   └── NameException.java
 │   │   │       ├── models/
 │   │   │       │   ├── dtos/
+│   │   │       │   │   ├── mapper/
+│   │   │       │   │   │   └── NameMapper.java
 │   │   │       │   │   ├── request/
 │   │   │       │   │   │   └── NameRequestDto.java
 │   │   │       │   │   ├── response/
@@ -101,6 +100,10 @@ src/
 │   │   │       │   ├── impl/
 │   │   │       │   │   └── NameServiceImpl.java
 │   │   │       │   └── NameService.java
+│   │   │       ├── validators/
+│   │   │       │   ├── impl/
+│   │   │       │   │   └── NameValidator.java
+│   │   │       │   └── Name.java
 │   │   │       ├── Application.java
 │   ├── resources/
 │   │   ├── application.properties
@@ -168,3 +171,8 @@ tipo_commit(backend): Descripción breve y clara. #issue
     ```
 
 5. Crear una Pull Request en GitHub y solicitar revisión.
+
+## 🌐 Deploy y Documentación
+
+- **Deploy**: [Enlace al sitio en producción](https://ecos-ed30.onrender.com)
+- **Swagger**: [Documentación API](https://ecos-ed30.onrender.com/swagger-ui/index.html)
