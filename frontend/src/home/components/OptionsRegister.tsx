@@ -1,47 +1,52 @@
 import OptionsRegisterCards from "@/shared/components/Cards/OptionsRegisterCards";
-import avatar from "@/assets/avatar.svg";
-import media from "@/assets/media.webp";
+import iconoM from "@/assets/iconoM.svg";
+import iconoF from "@/assets/iconoF.svg";
+import iconoE from "@/assets/iconoE.svg";
+
+import imageDjCards from "@/assets/imageDjCards.jpg";
+import fotoFestivalCards from "@/assets/fotoFestivalCards.jpg";
+import chicaBailandoCards from "@/assets/chicaBailandoCards.jpg";
 
 export default function OptionsRegister() {
   const cardsData = [
     {
       id: "musicos",
-      icono: avatar,
+      icono: iconoM,
       option: "MÚSICOS",
       description: "**Artistas independientes y emergentes**",
-      imageSrc: media,
+      imageSrc: imageDjCards,
       title: "Conquista tu escena musical",
-      subtitle: "Plataforma diseñada para impulsar tu carrera",
+      parrafo2: "Plataforma diseñada para impulsar tu carrera.",
       parrafo: "Promociona tu música, encuentra oportunidades y conecta con tu audiencia.",
       buttonText: "Regístrate",
     },
     {
-      id: "organizadores",
-      icono: avatar,
-      option: "ORGANIZADOR",
-      description: "**Descubre y contrata el mejor talento musical**",
-      imageSrc: media,
-      title: "Crea eventos inolvidables",
-      subtitle: "Conecta con músicos ideales para tu público",
-      parrafo: "Encuentra talento, gestiona eventos y llena tus espacios con la mejor música.",
+      id: "fan",
+      icono: iconoF,
+      option: "FAN",
+      description: "**Descubre, Escucha y Sigue a tus Músicos Favoritos**",
+      imageSrc: chicaBailandoCards,
+      title: "Busca nuevas Opciones de Música",
+      parrafo2: "Conecta con músicos ideales según tus gustos.",
+      parrafo: "Encuentra talentos y llena tus espacios con la mejor música.",
       buttonText: "Regístrate",
     },
     {
       id: "eventos",
-      icono: avatar,
+      icono: iconoE,
       option: "PRÓXIMOS EVENTOS",
-      description: "Subhead",
-      imageSrc: media,
-      title: "title",
-      subtitle: "subtitle",
-      parrafo: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+      description: "No te pierdas lo que viene",
+      imageSrc: fotoFestivalCards,
+      title: "La fiesta comienza !!",
+      parrafo2: "Conciertos Únicos: Artistas independientes y emergentes creando magia musical en vivo.",
+      parrafo: "La música no espera, ¡Únete ya!.",
       buttonText: "Explorar",
     },
   ];
 
   return (
     <div className="mx-auto mt-12 w-auto text-center">
-      <div className="mx-12 w-5/6 text-start text-3xl md:mx-24 md:w-158">
+      <div className="mx-12 w-5/6 text-start text-3xl text-[#19233A] md:mx-24 md:w-158 lg:ms-36 lg:mt-32">
         <h2 className="text-4xl font-normal md:text-[40px]">
           Conectamos músicos, fans y eventos en una sola plataforma
         </h2>

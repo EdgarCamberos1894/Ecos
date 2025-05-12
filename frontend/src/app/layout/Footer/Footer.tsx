@@ -1,9 +1,9 @@
 import { Link } from "react-router";
 import Button from "@/app/ui/Button";
-import tikTok from "@/assets/tikTok.webp";
-import instagram from "@/assets/instagram.webp";
-import youtube from "@/assets/youtube.webp";
-import facebook from "@/assets/facebook.webp";
+import tiktok from "@/assets/iconoTiktok.svg";
+import instagram from "@/assets/iconoInstagram.svg";
+import youtube from "@/assets/iconoYoutube.svg";
+import facebook from "@/assets/iconoFacebook.svg";
 
 const SocialLinks = () => (
   <div className="flex w-full items-center gap-2">
@@ -14,7 +14,7 @@ const SocialLinks = () => (
       <img src={instagram} alt="Instagram" />
     </a>
     <a href="" target="_blank" rel="noopener noreferrer" className="max-h-12 max-w-12">
-      <img src={tikTok} alt="TikTok" />
+      <img src={tiktok} alt="Tiktok" />
     </a>
     <a href="" target="_blank" rel="noopener noreferrer" className="max-h-12 max-w-12">
       <img src={facebook} alt="Facebook" />
@@ -28,41 +28,41 @@ export const Footer = () => {
       <div className="flex flex-col items-start gap-18 md:inline-flex lg:mx-auto lg:flex-row">
         <div className="flex flex-col items-start gap-6">
           <h3 className="text-xl font-medium">NOSOTROS</h3>
-          <Link to="/" className="border-b">
+          <Link to="/" className="border-b text-[#19233A]">
             bienvenidos
           </Link>
-          <Link to="/explorer" className="border-b">
+          <Link to="/explorer" className="border-b text-[#19233A]">
             explorar
           </Link>
-          <Link to="/artist" className="border-b">
+          <Link to="/artist" className="border-b text-[#19233A]">
             artista
           </Link>
-          <Link to="/play" className="border-b">
+          <Link to="/play" className="border-b text-[#19233A]">
             play
           </Link>
         </div>
         <div className="flex flex-col items-start gap-8">
-          <h3 className="text-xl font-medium">ACERCA DE</h3>
-          <Link to="/ayuda" className="border-b">
+          <h3 className="text-xl font-medium text-[#19233A]">ACERCA DE</h3>
+          <Link to="/ayuda" className="border-b text-[#19233A]">
             ayuda
           </Link>
-          <Link to="/prensa" className="border-b">
+          <Link to="/prensa" className="border-b text-[#19233A]">
             prensa
           </Link>
-          <Link to="/politicaDeUso" className="border-b">
+          <Link to="/politicaDeUso" className="border-b text-[#19233A]">
             politica de uso
           </Link>
         </div>
         <div className="flex flex-col items-start gap-8">
-          <h3 className="text-xl font-medium">¿ERES ORGANIZADOR/PROMOTOR?</h3>
-          <Button className="max-w-72 bg-[#6E6E6E] text-white">CREAR EVENTO</Button>
+          <h3 className="text-xl font-medium text-[#19233A]">¿ERES ORGANIZADOR/PROMOTOR?</h3>
+          <Button className="max-w-72 bg-[#19233A] text-white lg:w-96">CREAR EVENTO</Button>
         </div>
         <div className="flex flex-col items-start gap-8">
-          <h3 className="text-xl font-medium">SEGUINOS</h3>
+          <h3 className="text-xl font-medium text-[#19233A]">SEGUINOS</h3>
           <SocialLinks />
         </div>
       </div>
-      <span className="mx-auto mt-16 mb-6">
+      <span className="mx-auto mt-16 mb-6 text-[#19233A]">
         Copyright © 2025 ECOS - Todos los derechos reservados.
       </span>
     </footer>
