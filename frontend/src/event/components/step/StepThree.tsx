@@ -2,7 +2,7 @@ import InputField from "../ui/ImputField";
 import { eventSchema } from "../../validation/EventSchema";
 import { ZodError } from "zod";
 import { useState } from "react";
-import { FormData } from "@/CreateEvent/type/FormData";
+import { FormData } from "@/event/type/FormData";
 import { PlusCircleIcon } from "../ui/PlusCircleIcon";
 
 interface StepThreeProps {
