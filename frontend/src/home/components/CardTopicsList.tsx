@@ -1,11 +1,13 @@
 import { PlayIcon } from "@/home/components/ui/PlayIcon";
 import { PlusCircle } from "@/home/components/ui/PlusCircle";
-import image from "@/assets/image.webp";
+import imageTema1 from "@/assets/imageTema1.png";
+import imageTema2 from "@/assets/imageTema2.png";
+import imageTema3 from "@/assets/imageTema3.png";
 
 const FAVORITE_LIST = [
   {
     id: 1,
-    image: image,
+    image: imageTema1,
     title: "Title",
     description: "Description duis aute irure dolor in reprehenderit in voluptate velit.",
     icon1: <PlusCircle className="stroke-[#1D1B20]" />,
@@ -15,7 +17,7 @@ const FAVORITE_LIST = [
   },
   {
     id: 2,
-    image: image,
+    image: imageTema2,
     title: "Title",
     description: "Description duis aute irure dolor in reprehenderit in voluptate velit.",
     icon1: <PlusCircle className="stroke-[#1D1B20]" />,
@@ -25,7 +27,7 @@ const FAVORITE_LIST = [
   },
   {
     id: 3,
-    image: image,
+    image: imageTema3,
     title: "Title",
     description: "Description duis aute irure dolor in reprehenderit in voluptate velit.",
     icon1: <PlusCircle className="stroke-[#1D1B20]" />,
