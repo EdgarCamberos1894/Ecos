@@ -6,10 +6,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { EyeOff } from "./ui/EyeOff";
 import { EyeOn } from "./ui/EyeOn";
 import { useApiMutation } from "@/shared/hooks/use-api-mutation";
-import { useNavigate } from "react-router";
 import { useAuth } from "../hooks/use-auth";
 import { useState } from "react";
-import { jwtDecode } from "jwt-decode";
 import { toast } from "sonner";
 
 const nameRegex = /^[a-zA-Z0-9\s]+$/;
@@ -61,8 +59,6 @@ const RegistrationForm = ({ role }: RegistrationFormProps) => {
     resolver: zodResolver(registerSchema),
   });
 
-  const navigate = useNavigate();
-
   const { handleLogin } = useAuth();
 
   const { mutate, isPending } = useApiMutation<RegisterResponse, RegistrationData>("/auth", "POST");
@@ -73,13 +69,8 @@ const RegistrationForm = ({ role }: RegistrationFormProps) => {
     mutate(userData, {
       onSuccess: (response) => {
         handleLogin(response.token);
-        const decoded = jwtDecode<{ role: string }>(response.token);
         toast.success(`Tu registro fue exitoso`);
-        if (decoded.role === "MUSICIAN") {
-          localStorage.setItem("showWelcomeMusician", "true");
-        } else {
-          navigate("/");
-        }
+        localStorage.setItem("showWelcomeUser", "true");
       },
       onError: (error) => {
         console.log("Login fallido:", error);

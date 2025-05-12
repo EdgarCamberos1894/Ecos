@@ -5,7 +5,7 @@ import { Avatar } from "@/auth/components/ui/Avatar";
 import { EditContainer } from "./ui/EditContainer";
 import { Logout } from "./ui/Logout";
 import { Settings } from "./ui/Settings";
-import ProfileMusicianModal from "@/profiles/components/profileMusicianModal/ProfileMusicianModal";
+import ProfileUserModal from "@/profile/components/ProfileUserModal";
 import { useProfileData } from "../hooks/useProfileData";
 import { Musician } from "../types";
 
@@ -91,7 +91,7 @@ const UserMenu = () => {
         )}
       </div>
       {isOpenPerfilModal && (
-        <ProfileMusicianModal
+        <ProfileUserModal
           onClose={() => {
             setIsOpenPerfilModal(false);
           }}

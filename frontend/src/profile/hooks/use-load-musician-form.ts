@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { UseFormSetValue } from "react-hook-form";
-import { FormMusicianProfileSchema } from "@/profiles/components/profileMusicianModal/components/FormMusicianProfileSchema";
+import { FormMusicianProfileSchema } from "../components/forms/shemas/ProfileSchema";
 import { User } from "@/auth/types";
-import { musicalGenreOptions } from "@/profiles/utils/musicalGenreOptions";
+import { musicalGenreOptions } from "@/profile/utils/musicalGenreOptions";
 
 interface UseLoadMusicianFormProps {
   data?: Partial<FormMusicianProfileSchema>;
@@ -39,6 +39,10 @@ export function useLoadMusicianForm({
 
     setValue("genre", genreLabel);
     setGenre(genreLabel);
+
+    setValue("paymentLink", data.paymentLink ?? "");
+    setValue("alias", data.alias ?? "");
+    setValue("accountNumber", data.accountNumber ?? "");
 
     setValue("whatsapp", data.whatsapp ?? "");
     setValue("spotifyUrl", data.spotifyUrl ?? "");

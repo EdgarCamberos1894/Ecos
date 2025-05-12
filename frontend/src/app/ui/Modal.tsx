@@ -31,7 +31,7 @@ const Modal = ({
         }}
       >
         <div className="h-fit w-full">
-          <h1 className="flex w-full items-center justify-center rounded-t-[30px] bg-[#D9D9D9] text-2xl md:h-14">
+          <h1 className="bg-ecos-blue flex w-full flex-wrap items-center justify-center overflow-hidden rounded-t-[30px] px-4 py-4 text-center text-2xl text-white md:h-14">
             {firstNormalText} &nbsp; <span className="font-bold">{highlightedText}</span> &nbsp;
             {secondNormalText}
           </h1>
@@ -40,7 +40,7 @@ const Modal = ({
             onClick={onClose}
             className="absolute top-2 right-2 hover:cursor-pointer"
           >
-            <CloseArrow />
+            <CloseArrow fill="white" />
           </button>
         </div>
 

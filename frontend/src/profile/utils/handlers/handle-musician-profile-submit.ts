@@ -1,4 +1,4 @@
-import { FormMusicianProfileSchema } from "@/profiles/components/profileMusicianModal/components/FormMusicianProfileSchema";
+import { FormMusicianProfileSchema } from "../../components/forms/shemas/ProfileSchema";
 
 interface HandleMusicianProfileSubmitParams {
   data: FormMusicianProfileSchema;
@@ -14,12 +14,16 @@ export const handleMusicianProfileSubmit = ({
   const formData = new FormData();
   let deletePhoto = "true";
 
+  console.log(data);
+
   formData.append("stageName", data.stageName);
   formData.append("country", data.country);
   formData.append("genre", data.genre);
 
-  if (profileImage instanceof File || typeof profileImage === "string") {
-    formData.append("photo", profileImage);
+  if (profileImage) {
+    if (profileImage instanceof File) {
+      formData.append("photo", profileImage);
+    }
     deletePhoto = "false";
   }
 
