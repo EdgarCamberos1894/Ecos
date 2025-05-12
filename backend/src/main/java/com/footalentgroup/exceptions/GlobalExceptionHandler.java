@@ -110,4 +110,14 @@ public class GlobalExceptionHandler {
                 HttpStatus.NOT_FOUND.value()
         );
     }
+
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler(AlreadyFollowingMusicianException.class)
+    public ErrorResponse alreadyFollowingMusician (AlreadyFollowingMusicianException ex) {
+        return new ErrorResponse(
+                "AlreadyFollowingMusicianException",
+                ex.getMessage(),
+                HttpStatus.CONFLICT.value()
+        );
+    }
 }
