@@ -72,7 +72,8 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler({
             ConflictException.class,
-            DataIntegrityViolationException.class
+            DataIntegrityViolationException.class,
+            AlreadyFollowingMusicianException.class
     })
     public ErrorResponse conflict(Exception ex) {
         return new ErrorResponse(ex, HttpStatus.CONFLICT.value());

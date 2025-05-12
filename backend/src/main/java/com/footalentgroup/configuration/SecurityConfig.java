@@ -74,6 +74,7 @@ public class SecurityConfig {
                                 "/events/search",
                                 "/events/musician/{musicianId}"
                         ).permitAll()
+                        .requestMatchers("/follows/**").authenticated()
                         .requestMatchers(HttpMethod.POST, "/songs").hasRole(Role.MUSICIAN.name())
                         .requestMatchers(HttpMethod.PUT, "/songs/{id}").hasRole(Role.MUSICIAN.name())
                         .requestMatchers(HttpMethod.PUT, "/musician-profile").hasRole(Role.MUSICIAN.name())
