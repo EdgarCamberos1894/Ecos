@@ -48,7 +48,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private String handleExpiredToken(HttpServletRequest request, HttpServletResponse response) {
-        System.out.println("TOKEN EXPIRED -> NEW TOKEN (REFRESH)");
         String refreshToken = jwtService.extractRefreshToken(request);
 
         if (refreshToken != null && !refreshToken.isEmpty() && !jwtService.isTokenExpired(refreshToken)) {

@@ -1,6 +1,5 @@
 package com.footalentgroup.controllers;
 
-
 import com.footalentgroup.models.dtos.request.FanProfileRequestDto;
 import com.footalentgroup.models.dtos.response.ApiResponse;
 import com.footalentgroup.services.FanProfileService;
@@ -28,10 +27,9 @@ public class FanProfileController {
                 .body(new ApiResponse<>(this.fanProfileService.getFanProfileById(id)));
     }
 
-    @Operation(summary = "Actualiza perfil del fan, solo usuario autenticado", security= @SecurityRequirement(name = "bearer-key"))
+    @Operation(summary = "Actualiza perfil del fan, solo usuario autenticado", security = @SecurityRequirement(name = "bearer-key"))
     @PutMapping(consumes = "multipart/form-data")
     public ResponseEntity<?> updateFanProfile(@ModelAttribute @Valid FanProfileRequestDto requestDto){
-        System.out.println("Foto recibida: " + (requestDto.photo() != null ? requestDto.photo().getOriginalFilename() : "null"));
         this.fanProfileService.updateFanProfile(requestDto);
         return ResponseEntity
                 .ok()
