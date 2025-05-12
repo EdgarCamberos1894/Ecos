@@ -4,14 +4,13 @@ import { MediaEmbedForm } from "./components/MediaEmbedForm";
 import { MusicUploader } from "./components/MusicUploader";
 import CreateEventoCard from "./components/CreateEventCard";
 
-export default function ProfilePage() {
+export const EditProfilePage = () => {
   const { user } = useAuth();
 
   return (
     <>
       <BannerUploader />
       <div className="mb-24 ml-40 space-y-2">
-        <h2 className="text-4xl font-bold">¡Bienvenido!</h2>
         <h1 className="text-8xl font-bold">{user?.name}</h1>
         <h4 className="mt-6 mb-10 text-2xl font-medium">Editar Panel</h4>
         <h3 className="text-2xl font-bold uppercase">
@@ -27,4 +26,4 @@ export default function ProfilePage() {
       </div>
     </>
   );
-}
+};

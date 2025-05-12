@@ -1,1 +1,20 @@
 @import "tailwindcss";
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('/assets/fonts/roboto.woff2') format('woff');
+  font-style: normal;
+  font-weight: 100 700;
+  font-display: swap;
+}
+
+@theme {
+  /* Colores */
+  --color-ecos-base: #F5F5F5;
+  --color-ecos-blue: #19233A;
+  --color-ecos-orange-light: #FE963D;
+  --color-ecos-orange: #DD4D2B;
+
+  /* Fuente */
+  --font-sans: 'Roboto', system-ui, sans-serif;
+}
