@@ -17,7 +17,7 @@ public interface MusicianProfileRepository extends JpaRepository<MusicianProfile
     Page<MusicianProfileResponseDto> findByStageNameContainingIgnoreCaseAndGenreContainingIgnoreCase(String stageName, String genre, Pageable pageable);
 
     @Query(
-            "SELECT new com.footalentgroup.models.dtos.response.DonationResponseDto(m.paymentLink, m.paymentAlias, m.cbu, m.user.email, m.bannerUrl) " +
+            "SELECT new com.footalentgroup.models.dtos.response.DonationResponseDto(m.paymentLink, m.paymentAlias, m.cbu, m.user.email, m.photoUrl) " +
             "FROM MusicianProfileEntity m WHERE m.id = :id"
     )
     Optional<DonationResponseDto> findDonationInfoById(@Param("id") Long id);

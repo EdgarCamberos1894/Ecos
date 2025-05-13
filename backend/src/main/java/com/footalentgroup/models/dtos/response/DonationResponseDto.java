@@ -12,5 +12,5 @@ public class DonationResponseDto {
     private String paymentAlias;
     private String cbu;
     private String email;
-    private String banner;
+    private String image;
 }
