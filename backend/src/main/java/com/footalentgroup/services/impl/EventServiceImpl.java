@@ -5,7 +5,7 @@ import com.footalentgroup.models.dtos.mapper.EventMapper;
 import com.footalentgroup.models.dtos.request.EventRequestDto;
 import com.footalentgroup.models.dtos.response.EventResponseDto;
 import com.footalentgroup.models.dtos.response.EventSimpleResponseDto;
-import com.footalentgroup.models.dtos.response.PagedResponseDto;
+import com.footalentgroup.models.dtos.response.PageResponseDto;
 import com.footalentgroup.models.entities.EventEntity;
 import com.footalentgroup.models.entities.MusicianProfileEntity;
 import com.footalentgroup.models.entities.TicketEntity;
@@ -42,25 +42,18 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public PagedResponseDto<EventSimpleResponseDto> search(int page, int size) {
+    public PageResponseDto<EventSimpleResponseDto> search(int page, int size) {
         Page<EventEntity> eventPage = this.eventRepository
                 .findByDateAfterOrderByDateAsc(
                         LocalDate.now(),
                         PageRequest.of(page, size, Sort.by("date").ascending())
                 );
 
-        List<EventSimpleResponseDto> events = this.eventMapper.toSimpleDtoList(eventPage.getContent());
-        return new PagedResponseDto<>(
-                events,
-                eventPage.getNumber(),
-                eventPage.getTotalPages(),
-                eventPage.getTotalElements(),
-                eventPage.getSize()
-        );
+        return this.eventMapper.toPagedDto(eventPage);
     }
 
     @Override
-    public PagedResponseDto<EventSimpleResponseDto> searchByMusician(Long musicianId, int page, int size) {
+    public PageResponseDto<EventSimpleResponseDto> searchByMusician(Long musicianId, int page, int size) {
         Page<EventEntity> eventPage = this.eventRepository
                 .findByMusicianIdAndDateAfterOrderByDateAsc(
                         musicianId,
@@ -68,14 +61,7 @@ public class EventServiceImpl implements EventService {
                         PageRequest.of(page, size, Sort.by("date").ascending())
                 );
 
-        List<EventSimpleResponseDto> events = this.eventMapper.toSimpleDtoList(eventPage.getContent());
-        return new PagedResponseDto<>(
-                events,
-                eventPage.getNumber(),
-                eventPage.getTotalPages(),
-                eventPage.getTotalElements(),
-                eventPage.getSize()
-        );
+        return this.eventMapper.toPagedDto(eventPage);
     }
 
     @Override
