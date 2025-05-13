@@ -58,7 +58,7 @@ const UserMenu = () => {
               <button
                 type="button"
                 onClick={() => {
-                  navigate("/profile/edit");
+                  navigate("/profile/musician/edit");
                   setIsOpen(false);
                 }}
                 className="flex items-center gap-5 leading-1"
