@@ -1,11 +1,13 @@
 package com.footalentgroup.services.impl;
 
 import com.footalentgroup.exceptions.MusicianProfileNotFoundException;
+import com.footalentgroup.exceptions.NotFoundException;
 import com.footalentgroup.models.dtos.mapper.MusicProfileMapper;
 import com.footalentgroup.models.dtos.request.BannerUploadReqestDto;
 import com.footalentgroup.models.dtos.request.MusicianProfileRequestDto;
 import com.footalentgroup.models.dtos.request.MusicianSearchRequestDTO;
 import com.footalentgroup.models.dtos.response.BannerResponseDto;
+import com.footalentgroup.models.dtos.response.DonationResponseDto;
 import com.footalentgroup.models.dtos.response.MusicianProfileResponseDto;
 import com.footalentgroup.models.entities.MusicianProfileEntity;
 import com.footalentgroup.models.entities.UserEntity;
@@ -35,7 +37,7 @@ public class MusicianProfileServiceImpl implements MusicianProfileService {
 
 
     @Override
-    public MusicianProfileResponseDto getProfilById(Long id) {
+    public MusicianProfileResponseDto getProfileById(Long id) {
         MusicianProfileEntity musician = musicianRepository.findById(id)
                 .orElseThrow(() -> new MusicianProfileNotFoundException("El perfil musical con ID " + id + " no existe."));
         return mapper.toResponse(musician);
@@ -103,6 +105,13 @@ public class MusicianProfileServiceImpl implements MusicianProfileService {
         return new BannerResponseDto(musicianProfile.getBannerUrl());
     }
 
+    @Override
+    public DonationResponseDto getDonationInfo(Long id) {
+        return this.musicianRepository
+                .findDonationInfoById(id)
+                .orElseThrow(() -> new NotFoundException("El perfil musical con ID " + id + " no existe."));
+    }
+
     private MusicianProfileEntity getAuthenticatedMusicianProfile() {
         String email = authenticatedUserService.getAuthenticatedUsername();
         return musicianRepository.findByUserEmail(email)
@@ -131,6 +140,4 @@ public class MusicianProfileServiceImpl implements MusicianProfileService {
             );
         }
     }
-
-
 }

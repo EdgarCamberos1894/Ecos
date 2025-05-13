@@ -30,6 +30,15 @@ public record MusicianProfileRequestDto(
         @Schema(description = "Número de WhatsApp de contacto", example = "+50660000000")
         String whatsapp,
 
+        @Schema(description = "Enlace de pago rápido para recibir donaciones")
+        String paymentLink,
+
+        @Schema(description = "Alias como identificador en el sistema bancario")
+        String paymentAlias,
+
+        @Schema(description = "Clave Bancaria Uniforme (CBU) para recibir transferencias")
+        String cbu,
+
         @Schema(description = "URL del perfil de Spotify", example = "https://open.spotify.com/artist/abc123")
         @Pattern(regexp = "^(https?://)?(www\\.)?spotify\\.com/.*$", message = "Debe ser una URL válida de Spotify")
         String spotifyUrl,
