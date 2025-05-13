@@ -7,7 +7,10 @@ interface ImageUploadProps {
 const ImageUpload = ({ onImageUpload }: ImageUploadProps) => {
   return (
     <div className="h-full w-fit">
-      <BannerUploader onImageUpload={onImageUpload} />
+      <BannerUploader
+        onImageUpload={onImageUpload}
+        className="flex w-full flex-col items-center gap-7"
+      />
     </div>
   );
 };
