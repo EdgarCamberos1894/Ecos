@@ -2,7 +2,7 @@ import ImageBanner from "@/assets/imageBanner.webp";
 import { SpotifyTrack } from "./components/SpotifyTrack";
 import { YouTubeVideo } from "./components/YoutubeVideo";
 import EventCard from "@/shared/components/Cards/EventCard";
-import ContactForm from "./components/ContactForm";
+import ContactForm from "../components/ContactForm";
 import FollowArtist from "./components/FollowArtist";
 import { useApiQuery } from "@/shared/hooks/use-api-query";
 import { useRequiredUser } from "@/auth/hooks/use-required-user";
@@ -11,7 +11,7 @@ interface BannerUrl {
   bannerUrl: string | null;
 }
 
-export default function ProfilePage() {
+export default function ProfileMusicianPage() {
   const user = useRequiredUser();
 
   const { data: banner } = useApiQuery<BannerUrl>(

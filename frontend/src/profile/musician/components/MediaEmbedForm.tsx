@@ -1,4 +1,4 @@
-import { useMediaEmbed } from "../hooks/use-media-embed";
+import { useMediaEmbed } from "@/profile/hooks/use-media-embed";
 import { SpotifyTrack } from "./SpotifyTrack";
 import { YouTubeVideo } from "./YoutubeVideo";
 
