@@ -14,7 +14,7 @@ const cleanSpotifyUrl = (url: string): string => {
 export const extractEmbedUrl = (
   input: string,
   platform: string,
-): { url: string | null; type: MediaType } => {
+): { url: string; type: MediaType } => {
   const type = detectMediaType(input, platform);
   const cleanedInput = type === "spotify" ? cleanSpotifyUrl(input) : input;
 
@@ -41,8 +41,8 @@ export const extractEmbedUrl = (
   }
 
   if (!cleanedInput.startsWith("http")) {
-    return { url: null, type: "unknown" };
+    return { url: "", type: "unknown" };
   }
 
-  return { url: null, type: "unknown" };
+  return { url: "", type: "unknown" };
 };
