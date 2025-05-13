@@ -1,4 +1,8 @@
 export interface FormData {
+  price: {
+    puerta: number;
+    locuras: number;
+  };
   eventName: string;
   category: string;
   date: string;
@@ -6,5 +10,4 @@ export interface FormData {
   location: string;
   description: string;
   image: File | null;
-  price: number;
 }

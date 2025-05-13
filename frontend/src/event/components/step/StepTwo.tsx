@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { FormData } from "@/event/type/FormData";
 import { UploadCloud } from "@/profiles/components/ui/UploadCloud";
+import { z, ZodError } from "zod";
 
 interface StepTwoProps {
   nextStep: () => void;
@@ -9,73 +10,52 @@ interface StepTwoProps {
   setFormData: React.Dispatch<React.SetStateAction<FormData>>;
 }
 
-export default function StepTwo({ nextStep, prevStep, setFormData }: StepTwoProps) {
-  const [file, setFile] = useState<File | null>(null);
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
-  const inputRef = useRef<HTMLInputElement | null>(null);
-
-  const validateImageSize = (file: File) => {
-    return new Promise<boolean>((resolve, reject) => {
+const imagenSchema = z.object({
+  image: z
+    .instanceof(File)
+    .refine((file) => file.size > 0, "La imagen no puede estar vacía")
+    .refine((file) => {
       const img = new Image();
       const objectUrl = URL.createObjectURL(file);
       img.onload = () => {
         const width = img.width;
         const height = img.height;
         URL.revokeObjectURL(objectUrl);
-        // Validamos el tamaño de la imagen
-        if (width >= 1170 && height >= 504) {
-          resolve(true);
-        } else {
-          reject(new Error("La imagen debe tener al menos 1170 píxeles de ancho y 504 de alto"));
-        }
+        return width >= 1170 && height >= 504;
       };
-      img.onerror = () => {
-        URL.revokeObjectURL(objectUrl);
-        reject(new Error("No se pudo cargar la imagen"));
-      };
-      img.src = objectUrl;
-    });
-  };
+      return true;
+    }, "La imagen debe tener al menos 1170 píxeles de ancho y 504 de alto"),
+});
+
+export default function StepTwo({ nextStep, prevStep, setFormData }: StepTwoProps) {
+  const [file, setFile] = useState<File | null>(null);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
     if (selectedFile) {
-      validateImageSize(selectedFile)
-        .then(() => {
-          setFile(selectedFile);
-          setFormData((prev) => ({ ...prev, image: selectedFile }));
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            setImageUrl(reader.result as string);
-          };
-          reader.readAsDataURL(selectedFile);
-        })
-        .catch((error: unknown) => {
-          if (error instanceof Error) {
-            alert(error.message);
-          }
-        });
+      setFile(selectedFile);
+      setFormData((prev) => ({ ...prev, image: selectedFile }));
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImageUrl(reader.result as string);
+      };
+      reader.readAsDataURL(selectedFile);
     }
   };
 
   const handleDrop = (e: React.DragEvent<HTMLLabelElement>) => {
     e.preventDefault();
     const droppedFile = e.dataTransfer.files[0];
-    validateImageSize(droppedFile)
-      .then(() => {
-        setFile(droppedFile);
-        setFormData((prev) => ({ ...prev, image: droppedFile }));
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          setImageUrl(reader.result as string);
-        };
-        reader.readAsDataURL(droppedFile);
-      })
-      .catch((error: unknown) => {
-        if (error instanceof Error) {
-          alert(error.message);
-        }
-      });
+    setFile(droppedFile);
+    setFormData((prev) => ({ ...prev, image: droppedFile }));
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setImageUrl(reader.result as string);
+    };
+    reader.readAsDataURL(droppedFile);
   };
 
   const handleDragOver = (e: React.DragEvent<HTMLLabelElement>) => {
@@ -95,14 +75,27 @@ export default function StepTwo({ nextStep, prevStep, setFormData }: StepTwoProp
     setFormData((prev) => ({ ...prev, image: null }));
   };
 
+  const handleNext = () => {
+    try {
+      imagenSchema.parse({ image: file });
+      nextStep();
+    } catch (error) {
+      if (error instanceof ZodError) {
+        setError(error.errors[0].message);
+      } else {
+        setError("Ocurrió un error inesperado");
+      }
+    }
+  };
+
   return (
-    <div className="mx-auto mb-40 max-w-7xl flex-1 space-y-8 p-6">
-      <section className="border[#19233A] flex h-[604px] w-full max-w-[801px] flex-col items-center justify-center gap-y-9 border">
+    <div className="mb-40 w-full flex-1 space-y-8 md:mx-auto md:max-w-7xl md:p-6">
+      <section className="border[#19233A] flex h-[604px] w-[364px] flex-col items-center justify-center gap-y-9 rounded-3xl border md:w-[801px]">
         <label
           htmlFor="fileInput"
           onDrop={handleDrop}
           onDragOver={handleDragOver}
-          className={`flex h-[390px] w-[686px] cursor-pointer flex-col items-center justify-center rounded-lg ${file ? "" : "border-2 border-dashed"} border-gray-400 px-4 py-8 text-center`}
+          className={`flex h-[390px] w-[327px] cursor-pointer flex-col items-center justify-center rounded-lg md:w-[686px] ${file ? "" : "border-2 border-dashed"} border-gray-400 px-4 py-8 text-center`}
         >
           {imageUrl ? (
             <img src={imageUrl} alt="Banner" className="w-full rounded-lg object-cover" />
@@ -111,11 +104,14 @@ export default function StepTwo({ nextStep, prevStep, setFormData }: StepTwoProp
               <UploadCloud className="mb-4" />
               <p className="text-lg font-semibold">Subí tu imagen aquí</p>
               <p className="mt-2 text-sm text-gray-600">
-                La imagen debe tener al menos 1170 píxeles de ancho y 504 de alto <br />
-                Formatos válidos: JPG, GIF, PNG.
+                <span className="block sm:hidden">formatos jpg.....</span>
+                <span className="hidden sm:block">
+                  La imagen debe tener al menos 1170 píxeles de ancho y 504 de alto <br />
+                  Formatos válidos: JPG, GIF, PNG.
+                </span>
               </p>
               <span className="my-2 font-bold text-gray-500">o</span>
-              <div className="rounded-full bg-gray-500 px-6 py-2 text-sm font-semibold text-white">
+              <div className="rounded-full bg-[#19233A] px-6 py-2 text-sm font-semibold text-white">
                 BUSCAR ARCHIVO
               </div>
             </>
@@ -129,13 +125,14 @@ export default function StepTwo({ nextStep, prevStep, setFormData }: StepTwoProp
             className="hidden"
           />
         </label>
+        {error && <p className="mt-2 text-sm font-medium text-red-500">{error}</p>}
 
         <div className="flex gap-4">
           <button
             type="button"
             onClick={handleSubmit}
             disabled={!file}
-            className="rounded-full bg-purple-700 px-6 py-2 font-semibold text-white hover:bg-purple-800"
+            className="rounded-full bg-[#FE963D] px-6 py-2 font-semibold text-white hover:bg-purple-800"
           >
             Guardar
           </button>
@@ -143,7 +140,7 @@ export default function StepTwo({ nextStep, prevStep, setFormData }: StepTwoProp
             type="button"
             onClick={handleDelete}
             disabled={!file}
-            className="rounded-full bg-gray-300 px-6 py-2 font-semibold text-gray-800 hover:bg-gray-400"
+            className="rounded-full bg-[#19233A] px-6 py-2 font-semibold text-white hover:bg-gray-400"
           >
             Eliminar
           </button>
@@ -152,7 +149,7 @@ export default function StepTwo({ nextStep, prevStep, setFormData }: StepTwoProp
       <div className="flex justify-end space-x-4">
         <button
           type="submit"
-          onClick={nextStep}
+          onClick={handleNext}
           className="rounded-[37px] bg-[#FE963D] px-6 py-2 text-white hover:opacity-90"
         >
           Guardar y continuar

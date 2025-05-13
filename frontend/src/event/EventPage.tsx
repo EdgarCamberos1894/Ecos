@@ -16,10 +16,13 @@ const initialData: FormData = {
   location: "",
   description: "",
   image: null,
-  price: 0,
+  price: {
+    puerta: 0,
+    locuras: 0,
+  },
 };
 
-export default function ProgresCreateEvent() {
+export default function EventPage() {
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState<FormData>(initialData);
 
@@ -32,8 +35,12 @@ export default function ProgresCreateEvent() {
   };
 
   return (
-    <section className="ms-52 mt-24 max-w-[1881px]">
-      <h2 className="m-10 font-[roboto] text-[32px] font-semibold">Crear nuevo evento</h2>
+    <section className="mt-24 mb-24 flex w-full flex-col items-center justify-center px-3 lg:max-w-[1881px]">
+      <header className="mb-6 flex w-full max-w-7xl flex-col gap-2 px-6 font-[Roboto] text-[#19233A]">
+        <h2 className="text-start text-[32px] font-medium">Crear nuevo evento</h2>
+        <p className="text-start text-2xl font-medium">Lugar</p>
+        <p className="text-start text-2xl font-medium">Horario</p>
+      </header>
       <ProgressBar currentStep={currentStep} steps={steps} />
 
       {currentStep === 0 && (

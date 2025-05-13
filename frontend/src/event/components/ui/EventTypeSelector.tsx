@@ -6,7 +6,7 @@ interface EventTypeSelectorProps {
 export default function EventTypeSelector({ value, onChange }: EventTypeSelectorProps) {
   return (
     <div className="w-full">
-      <p className="mb-2 font-[roboto] text-[32px] font-medium text-gray-700">Fecha y Hora</p>
+      <p className="mb-2 font-[Roboto] text-2xl font-medium">Fecha y Hora</p>
 
       <div className="mb-4 flex space-x-4">
         <span className="mb-1 block w-35 text-end text-sm font-medium text-gray-700">

@@ -6,6 +6,7 @@ interface InputFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   required?: boolean;
   placeholder?: string;
   error?: string;
+  labelClassName?: string;
 }
 
 export default function InputField({
@@ -13,11 +14,15 @@ export default function InputField({
   name,
   required = true,
   error,
+  labelClassName = "",
   ...props
 }: InputFieldProps) {
   return (
     <div className="flex w-full items-center gap-4">
-      <label htmlFor={name} className="min-w-[150px] text-end text-sm font-medium text-gray-800">
+      <label
+        htmlFor={name}
+        className={`flex min-w-[150px] text-end text-sm font-medium text-gray-800 ${labelClassName}`}
+      >
         {label}
         {required && <span className="text-red-500">*</span>}
       </label>

@@ -40,6 +40,7 @@ export default function StepOne({ nextStep, formData, setFormData }: StepOneProp
       nextStep();
     } catch (err) {
       if (err instanceof ZodError) {
+        console.log("Errores al validar:", err.errors);
         const fieldErrors: Record<string, string> = {};
         err.errors.forEach((error) => {
           if (error.path[0]) {
@@ -58,44 +59,27 @@ export default function StepOne({ nextStep, formData, setFormData }: StepOneProp
 
     const newErrors = { ...formErrors };
 
-    if (name === "startTime" && value >= form.endTime) {
-      newErrors.startTime = "La hora de inicio debe ser anterior a la hora de fin.";
-    } else if (name === "startTime") {
-      delete newErrors.startTime;
-    }
-
-    if (name === "endTime" && value <= form.startTime) {
-      newErrors.endTime = "La hora de fin debe ser posterior a la hora de inicio.";
-    } else if (name === "endTime") {
-      delete newErrors.endTime;
-    }
-
-    if (name === "date" && value === "") {
-      newErrors.date = "La fecha es obligatoria.";
-    } else if (name === "date") {
-      delete newErrors.date;
-    }
-
     try {
       const fieldSchema = eventSchema.shape[name as keyof typeof eventSchema.shape];
       fieldSchema.parse(value);
 
-      delete newErrors.name;
-      setFormErrors(newErrors);
+      const restErrors = Object.fromEntries(
+        Object.entries(newErrors).filter(([key]) => key !== name),
+      );
+
+      setFormErrors(restErrors);
     } catch (err) {
       if (err instanceof ZodError) {
         newErrors[name] = err.errors[0].message || "Error en el campo";
         setFormErrors(newErrors);
       }
     }
-
-    setFormErrors(newErrors);
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mx-auto max-w-7xl space-y-8 p-6">
+    <form onSubmit={handleSubmit} className="w-full space-y-8 md:p-6 lg:mx-auto lg:max-w-7xl">
       <div>
-        <p className="mb-2 font-[roboto] text-[32px] font-medium text-gray-700">Detalles</p>
+        <p className="mb-2 font-[Roboto] text-2xl font-medium">Detalles</p>
         <div className="grid w-full grid-cols-1 items-center justify-start gap-4">
           <InputField
             label="Nombre del evento "
@@ -126,31 +110,31 @@ export default function StepOne({ nextStep, formData, setFormData }: StepOneProp
       <InputTime form={form} handleChange={handleChange} errors={formErrors} />
 
       {/* Lugar */}
-      <p className="mb-2 font-[roboto] text-[32px] font-medium text-gray-700">Lugar</p>
-      <InputField
-        label="¿Dónde se realiza el evento?"
-        name="location"
-        value={form.location}
-        required
-        onChange={handleChange}
-        error={formErrors.location}
-        placeholder="Introduce la ubicación del evento"
-      />
+      <div className="flex flex-col">
+        <p className="mb-2 font-[Roboto] text-2xl font-medium">Lugar</p>
+        <InputField
+          label="¿Dónde se realiza el evento?"
+          name="location"
+          value={form.location}
+          required
+          onChange={handleChange}
+          error={formErrors.location}
+          placeholder="Introduce la ubicación del evento"
+        />
+      </div>
 
       {/* Información adicional */}
-      <p className="mb-2 font-[roboto] text-[32px] font-medium text-gray-700">
-        Información adicional
-      </p>
-      <div className="flex space-x-4">
+      <p className="mb-2 font-[Roboto] text-2xl font-medium">Información adicional</p>
+      <div className="flex-1 md:flex md:space-x-4">
         <label className="w-35 text-end text-sm font-medium text-gray-800">
           Descripción <span className="text-red-500">*</span>
         </label>
-        <div className="w-full">
+        <div className="w-full pl-4 md:ml-0">
           <textarea
             name="description"
             value={form.description}
             onChange={handleChange}
-            className={`h-28 w-full border p-2 text-sm placeholder:text-gray-400 focus:ring-2 focus:outline-none`}
+            className={`flex h-28 w-full border p-2 text-sm placeholder:text-gray-400 focus:ring-2 focus:outline-none`}
             placeholder="Describe un poco más tu evento para atraer al público"
           />
           {formErrors.description && (
@@ -159,10 +143,9 @@ export default function StepOne({ nextStep, formData, setFormData }: StepOneProp
         </div>
       </div>
 
-      <div className="flex justify-end space-x-4">
+      <div className="flex justify-center space-x-4 md:justify-end">
         <button
           type="submit"
-          onClick={nextStep}
           className="rounded-[37px] bg-[#FE963D] px-6 py-2 text-white hover:opacity-90"
         >
           Guardar y continuar
