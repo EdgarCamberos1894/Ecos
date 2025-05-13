@@ -1,11 +1,11 @@
 import { ChangeEvent, useRef, useState } from "react";
 // import { useApiMutation } from "@/shared/hooks/use-api-mutation";
 
-type UploadStatus = "idle" | "uploading" | "success" | "error";
+// type UploadStatus = "idle" | "uploading" | "success" | "error";
 
 export function MusicUploader() {
   const [file, setFile] = useState<File | null>(null);
-  const [status, setStatus] = useState<UploadStatus>("idle");
+  // const [status, setStatus] = useState<UploadStatus>("idle");
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   // const uploadMusic = useApiMutation<FormData>("songs", "POST", {
@@ -32,24 +32,24 @@ export function MusicUploader() {
     }
   }
 
-  function handleSubmit() {
-    if (!file) return;
-    setStatus("uploading");
+  // function handleSubmit() {
+  //   if (!file) return;
+  //   setStatus("uploading");
 
-    const formData = new FormData();
-    formData.append("file", file);
-    // formData.append("trackName", trackName);
-    // formData.append("albumName", albumName);
+  //   const formData = new FormData();
+  //   formData.append("file", file);
+  //   formData.append("trackName", trackName);
+  //   formData.append("albumName", albumName);
 
-    console.log("ENVIANDO AL BACKEND -->", formData);
+  //   console.log("ENVIANDO AL BACKEND -->", formData);
 
-    // try {
-    //   await uploadMusic.mutateAsync(formData);
-    //   setStatus("success");
-    // } catch {
-    //   setStatus("error");
-    // }
-  }
+  //   try {
+  //     await uploadMusic.mutateAsync(formData);
+  //     setStatus("success");
+  //   } catch {
+  //     setStatus("error");
+  //   }
+  // }
 
   return (
     <section className="border-ecos-dark-grey-light max-w-md space-y-4 rounded-lg border p-4">
@@ -81,10 +81,10 @@ export function MusicUploader() {
         <p className="text-ecos-dark-grey text-xs">El audio puede ser formato mp3 o wav</p>
       </div>
 
-      {status === "success" && <p className="text-sm text-green-600">Archivo subido con éxito!</p>}
+      {/* {status === "success" && <p className="text-sm text-green-600">Archivo subido con éxito!</p>}
       {status === "error" && (
         <p className="text-sm text-red-600">Error al subir el archivo. Probá de nuevo.</p>
-      )}
+      )} */}
     </section>
   );
 }
