@@ -9,6 +9,7 @@ interface BannerUploaderProps {
   onImageUpload?: (file: File | null, imageUrl: string | null) => void;
   onSave?: () => void;
   previewImageUrl?: string | null;
+  isUploading?: boolean;
   ref?: React.Ref<BannerUploaderRef>;
 }
 
@@ -16,6 +17,7 @@ export default function BannerUploader({
   onImageUpload,
   onSave,
   previewImageUrl,
+  isUploading,
   ref,
 }: BannerUploaderProps) {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
@@ -136,7 +138,7 @@ export default function BannerUploader({
             disabled={!file}
             className="bg-ecos-orange-light hover:bg-ecos-orange text-ecos-blue cursor-pointer rounded-full px-16 py-2.5 font-medium transition-colors"
           >
-            Guardar
+            {isUploading ? "Guardando" : "Guardar"}
           </button>
           <button
             type="button"

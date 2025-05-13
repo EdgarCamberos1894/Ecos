@@ -1,5 +1,4 @@
 import { useRef, useState } from "react";
-import { useAuth } from "@/auth/hooks/use-auth";
 import BannerUploader, { type BannerUploaderRef } from "./components/BannerUploader";
 import { MediaEmbedForm } from "./components/MediaEmbedForm";
 import { MusicUploader } from "./components/MusicUploader";
@@ -8,6 +7,7 @@ import { useNavigate } from "react-router";
 import { useApiQuery } from "@/shared/hooks/use-api-query";
 import { useApiMutation } from "@/shared/hooks/use-api-mutation";
 import { toast } from "sonner";
+import { useRequiredUser } from "@/auth/hooks/use-required-user";
 
 interface BannerUrl {
   bannerUrl: string | null;
@@ -30,12 +30,11 @@ export const EditProfilePage = () => {
 
   const navigate = useNavigate();
 
-  const { user } = useAuth();
-  const id = user?.id ?? "";
+  const user = useRequiredUser();
 
-  const { data } = useApiQuery<BannerUrl>("banner", `musician-profile/${id}/banner`, id);
+  const { data } = useApiQuery<BannerUrl>("banner", `musician-profile/${user.id}/banner`, user.id);
 
-  const { mutate } = useApiMutation<string, FormData>("/musician-profile/banner", "PUT");
+  const { mutate, isPending } = useApiMutation<string, FormData>("/musician-profile/banner", "PUT");
 
   const handleSaveBanner = () => {
     const bannerData = bannerRef.current?.getBannerData();
@@ -65,10 +64,15 @@ export const EditProfilePage = () => {
     <main className="mt-20 space-y-32">
       {JSON.stringify(musicData)}
       {JSON.stringify(data)}
-      <BannerUploader ref={bannerRef} onSave={handleSaveBanner} previewImageUrl={data?.bannerUrl} />
+      <BannerUploader
+        ref={bannerRef}
+        onSave={handleSaveBanner}
+        previewImageUrl={data?.bannerUrl}
+        isUploading={isPending}
+      />
       <section className="text-ecos-blue mb-24 ml-40 space-y-2">
         <h2 className="text-4xl">¡Bienvenido!</h2>
-        <h1 className="text-8xl font-bold">{user?.name}</h1>
+        <h1 className="text-8xl font-bold">{user.name}</h1>
         <h4 className="mt-6 mb-10 text-2xl font-medium">Editar Panel</h4>
         <h3 className="text-2xl font-bold uppercase">
           Compartí tu música a través de spotify o subí tu archivo mp3/wav
