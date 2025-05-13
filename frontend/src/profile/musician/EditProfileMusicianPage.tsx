@@ -9,7 +9,7 @@ import { useApiMutation } from "@/shared/hooks/use-api-mutation";
 import { toast } from "sonner";
 import { useRequiredUser } from "@/auth/hooks/use-required-user";
 import ImageBanner from "@/assets/imageBanner.webp";
-import { MediaType } from "./utils/media-utils";
+import { MediaType } from "../utils/media-utils";
 
 interface BannerUrl {
   bannerUrl: string | null;
