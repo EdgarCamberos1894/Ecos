@@ -1,5 +1,5 @@
 import { ChangeEvent, useRef, useState } from "react";
-import { SettingMusic } from "../EditProfilePage";
+import { type SettingMusic } from "../EditProfileMusicianPage";
 
 interface MusicUploaderProps {
   onSettingMusic?: (settings: SettingMusic) => void;
