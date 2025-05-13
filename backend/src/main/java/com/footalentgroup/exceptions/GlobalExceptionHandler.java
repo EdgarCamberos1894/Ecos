@@ -83,7 +83,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({
             NotFoundException.class,
             MusicianProfileNotFoundException.class,
-            FanProfileNotFoundException.class
+            FanProfileNotFoundException.class,
+            SongNotFoundException.class
     })
     public ErrorResponse notFound(Exception ex) {
         return new ErrorResponse(ex, HttpStatus.NOT_FOUND.value());
