@@ -6,10 +6,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { EyeOff } from "./ui/EyeOff";
 import { EyeOn } from "./ui/EyeOn";
 import { useApiMutation } from "@/shared/hooks/use-api-mutation";
-import { useNavigate } from "react-router";
 import { useAuth } from "../hooks/use-auth";
 import { useState } from "react";
-import { jwtDecode } from "jwt-decode";
 import { toast } from "sonner";
 
 const nameRegex = /^[a-zA-Z0-9\s]+$/;
@@ -61,8 +59,6 @@ const RegistrationForm = ({ role }: RegistrationFormProps) => {
     resolver: zodResolver(registerSchema),
   });
 
-  const navigate = useNavigate();
-
   const { handleLogin } = useAuth();
 
   const { mutate, isPending } = useApiMutation<RegisterResponse, RegistrationData>("/auth", "POST");
@@ -73,13 +69,8 @@ const RegistrationForm = ({ role }: RegistrationFormProps) => {
     mutate(userData, {
       onSuccess: (response) => {
         handleLogin(response.token);
-        const decoded = jwtDecode<{ role: string }>(response.token);
         toast.success(`Tu registro fue exitoso`);
-        if (decoded.role === "MUSICIAN") {
-          localStorage.setItem("showWelcomeMusician", "true");
-        } else {
-          navigate("/");
-        }
+        localStorage.setItem("showWelcomeUser", "true");
       },
       onError: (error) => {
         console.log("Login fallido:", error);
@@ -92,7 +83,7 @@ const RegistrationForm = ({ role }: RegistrationFormProps) => {
 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex w-[329px] flex-col gap-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="flex w-3/5 flex-col gap-6">
         <div>
           <Input type="text" placeholder="Nombre" {...register("name")} />
           {errors.name && <p className="mt-1 mb-3 h-6 text-red-500">{errors.name.message}</p>}
@@ -135,7 +126,12 @@ const RegistrationForm = ({ role }: RegistrationFormProps) => {
         </label>
         {errors.terms && <p className="mt-1 h-6 text-red-500">{errors.terms.message}</p>}
 
-        <Button className="bg-[#B4B4B4] hover:cursor-pointer" type="submit" disabled={isPending}>
+        <Button
+          bgType="secondary"
+          className="text-white hover:cursor-pointer"
+          type="submit"
+          disabled={isPending}
+        >
           {isPending ? "Registrándose..." : "Registrate"}
         </Button>
 

@@ -1,9 +1,11 @@
-import image from "@/assets/image.webp";
+import imageEvento1 from "@/assets/imageEvento1.jpg";
+import imageEvento2 from "@/assets/imageEvento2.jpg";
+import imageEvento3 from "@/assets/imageEvento3.jpg";
 
 const upcomingEventsList = [
   {
     id: 1,
-    image: image,
+    image: imageEvento1,
     title: "EVENTO",
     supporting: "supporting text",
     date: "Published date",
@@ -12,7 +14,7 @@ const upcomingEventsList = [
   },
   {
     id: 2,
-    image: image,
+    image: imageEvento2,
     title: "EVENTO",
     supporting: "supporting text",
     date: "Published date",
@@ -21,7 +23,7 @@ const upcomingEventsList = [
   },
   {
     id: 3,
-    image: image,
+    image: imageEvento3,
     title: "EVENTO",
     supporting: "supporting text",
     date: "Published date",
@@ -32,29 +34,32 @@ const upcomingEventsList = [
 
 const CardUpcomingEvents = () => {
   return (
-    <div className="gap-4">
+    <div className="gap-4 lg:flex lg:flex-row lg:gap-0">
       {upcomingEventsList.map(({ id, image, title, supporting, date, description }) => (
         <div
           key={id}
-          className="mb-6 flex h-auto w-full flex-col gap-6 rounded-lg bg-[#FEF7FF] px-4 py-2 sm:mx-auto sm:w-3/5"
+          className="mb-6 flex flex-col gap-6 bg-[#19233A] p-4 sm:mx-auto sm:w-3/5 lg:max-w-md"
         >
-          <div className="flex gap-6 px-4 text-start">
+          <div className="flex gap-6 text-start">
             <img src={image} alt="image" className="h-48 w-48 rounded-xl" />
             <div className="flex flex-col gap-6">
               <header className="flex flex-col gap-1">
-                <h3 className="text-2xl">{title}</h3>
-                <p className="line-clamp-7 text-sm font-semibold whitespace-pre-line text-gray-600">
+                <h3 className="text-2xl text-white">{title}</h3>
+                <p className="line-clamp-7 text-sm font-semibold whitespace-pre-line text-white">
                   {supporting}
                 </p>
               </header>
-              <button type="submit" className="mt-4 w-24 rounded-[27px] bg-[#A0A0A0] px-4 py-2">
+              <button
+                type="submit"
+                className="mt-4 w-24 rounded-[27px] bg-[#FE963D] px-4 py-2 text-white"
+              >
                 Download
               </button>
             </div>
           </div>
           <footer className="flex flex-col gap-1 p-1">
-            <p className="mx-4 text-xs text-[#49454F]">{date}</p>
-            <p className="mx-auto line-clamp-7 px-4 text-lg whitespace-pre-line text-gray-600">
+            <p className="mx-4 text-xs text-white">{date}</p>
+            <p className="mx-auto line-clamp-7 text-lg whitespace-pre-line text-white">
               {description}
             </p>
           </footer>

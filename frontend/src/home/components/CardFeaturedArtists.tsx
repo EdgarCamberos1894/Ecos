@@ -1,9 +1,12 @@
-import image from "@/assets/image.webp";
+import imageArtista1 from "@/assets/imageArtista1.png";
+import imageArtista2 from "@/assets/imageArtista2.png";
+import imageArtista3 from "@/assets/imageArtista3.png";
+import imageArtista4 from "@/assets/imageArtista4.png";
 
 const favoriteArtistList = [
   {
     id: 1,
-    image: image,
+    image: imageArtista1,
     title: "ARTISTA",
     date: "Published date",
     description:
@@ -11,7 +14,7 @@ const favoriteArtistList = [
   },
   {
     id: 2,
-    image: image,
+    image: imageArtista2,
     title: "ARTISTA",
     date: "Published date",
     description:
@@ -19,7 +22,7 @@ const favoriteArtistList = [
   },
   {
     id: 3,
-    image: image,
+    image: imageArtista3,
     title: "ARTISTA",
     date: "Published date",
     description:
@@ -27,7 +30,7 @@ const favoriteArtistList = [
   },
   {
     id: 4,
-    image: image,
+    image: imageArtista4,
     title: "ARTISTA",
     date: "Published date",
     description:
@@ -52,7 +55,7 @@ const CardFeaturedArtists = () => {
             </div>
             <button
               type="submit"
-              className="max-w-max rounded-[27px] bg-[#B4B4B4] px-6 py-2 lg:flex"
+              className="max-w-max rounded-[27px] bg-[#FE963D] px-6 py-2 lg:flex"
             >
               Ver más
             </button>
