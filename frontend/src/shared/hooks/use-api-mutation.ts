@@ -1,5 +1,5 @@
 import { useMutation, type UseMutationResult } from "@tanstack/react-query";
-import { AxiosError, AxiosRequestConfig } from "axios";
+import { AxiosError } from "axios";
 import { api } from "../utils/axios-instance";
 
 type HttpMethod = "POST" | "PUT" | "PATCH" | "DELETE";
@@ -7,17 +7,17 @@ type HttpMethod = "POST" | "PUT" | "PATCH" | "DELETE";
 export const useApiMutation = <T, V = unknown>(
   url: string,
   method: HttpMethod = "POST",
-  config?: AxiosRequestConfig<V>,
-  customHeaders?: Record<string, string>,
+  // config?: AxiosRequestConfig<V>,
+  // customHeaders?: Record<string, string>,
 ): UseMutationResult<T, Error, V> => {
   const mutationFn = async (data: V): Promise<T> => {
     try {
       const response = await api.request<T>({
         url,
         method,
-        headers: customHeaders,
+        // headers: customHeaders,
         data,
-        ...config,
+        // ...config,
       });
 
       return response.data;

@@ -38,7 +38,8 @@ export default function OptionsRegister() {
       description: "No te pierdas lo que viene",
       imageSrc: fotoFestivalCards,
       title: "La fiesta comienza !!",
-      parrafo2: "Conciertos Únicos: Artistas independientes y emergentes creando magia musical en vivo.",
+      parrafo2:
+        "Conciertos Únicos: Artistas independientes y emergentes creando magia musical en vivo.",
       parrafo: "La música no espera, ¡Únete ya!.",
       buttonText: "Explorar",
     },

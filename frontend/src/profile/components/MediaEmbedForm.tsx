@@ -11,15 +11,28 @@ export const MediaEmbedForm = ({ platform }: MediaEmbedFormProps) => {
     useMediaEmbed(platform);
 
   return embedUrl ? (
-    <div className="h-[504px] w-[772px] p-6">
+    <>
       {mediaType === "spotify" ? (
         <SpotifyTrack embedUrl={embedUrl} />
       ) : (
-        <YouTubeVideo embedUrl={embedUrl} />
+        <div className="space-y-9">
+          <YouTubeVideo embedUrl={embedUrl} />
+          <div className="mb-2 flex gap-10">
+            <button
+              type="button"
+              className="bg-ecos-orange-light text-ecos-blue rounded-full px-6 py-2.5"
+            >
+              Guardar
+            </button>
+            <button type="button" className="bg-ecos-blue rounded-full px-6 py-2.5 text-white">
+              Cancelar
+            </button>
+          </div>
+        </div>
       )}
-    </div>
+    </>
   ) : (
-    <div className="mb-20 flex h-[504px] w-[772px] flex-col justify-start rounded-xl bg-gray-100 p-6">
+    <div className="flex w-[743px] flex-col justify-start rounded-xl bg-[#F2F2F2] p-6">
       <h2 className="text-lg font-semibold text-black">Incrustar medio</h2>
       <p className="mt-1 text-sm text-gray-600">
         Comparte tu música a través de {platform === "spotify" ? "spotify" : "youtube"}
@@ -43,14 +56,14 @@ export const MediaEmbedForm = ({ platform }: MediaEmbedFormProps) => {
         <button
           type="button"
           onClick={handleEmbed}
-          className="rounded-md bg-[#625A67] px-6 py-2 text-sm text-white"
+          className="bg-ecos-orange-light text-ecos-blue rounded-full px-6 py-2.5"
         >
           Incrustar
         </button>
         <button
           type="button"
           onClick={handleCancel}
-          className="rounded-md bg-gray-300 px-6 py-2 text-sm text-gray-800"
+          className="bg-ecos-blue rounded-full px-6 py-2.5 text-white"
         >
           Cancelar
         </button>

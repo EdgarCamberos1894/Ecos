@@ -5,13 +5,24 @@ import { YouTubeVideo } from "./components/YoutubeVideo";
 import EventCard from "@/shared/components/Cards/EventCard";
 import ContactForm from "./components/ContactForm";
 import FollowArtist from "./components/FollowArtist";
+import { useApiQuery } from "@/shared/hooks/use-api-query";
+
+interface BannerUrl {
+  bannerUrl: string | null;
+}
 
 export default function ProfilePage() {
   const { user } = useAuth();
+  const id = user?.id ?? "";
+  const { data: banner } = useApiQuery<BannerUrl>("banner", `musician-profile/${id}/banner`, id);
 
   return (
     <main className="mb-20">
-      <img src={ImageBanner} alt={`Banner`} className="mb-10 max-h-[720px] w-full object-cover" />
+      <img
+        src={banner?.bannerUrl ?? ImageBanner}
+        alt={`Banner`}
+        className="mb-10 max-h-[720px] w-full object-cover"
+      />
       <div className="mb-40 ml-40 space-y-2 p-2">
         <h1 className="text-8xl font-medium">{user?.name}</h1>
         <h2 className="text-2xl font-medium">{user?.name}</h2>

@@ -2,7 +2,7 @@
 
 @font-face {
   font-family: 'Roboto';
-  src: url('/assets/fonts/roboto.woff2') format('woff');
+  src: url('@/assets/fonts/roboto.woff2') format('woff2');
   font-style: normal;
   font-weight: 100 700;
   font-display: swap;
@@ -14,6 +14,8 @@
   --color-ecos-blue: #19233A;
   --color-ecos-orange-light: #FE963D;
   --color-ecos-orange: #DD4D2B;
+  --color-ecos-dark-grey: #5A5A5A;
+  --color-ecos-dark-grey-light: rgba(130, 130, 130, 0.70);
 
   /* Fuente */
   --font-sans: 'Roboto', system-ui, sans-serif;
@@ -39,9 +41,3 @@
 .btnSectionProfile {
   @apply w-full text-white sm:w-auto;
 }
-
-
-
-
-
-

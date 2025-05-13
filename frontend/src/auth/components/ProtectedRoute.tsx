@@ -4,7 +4,7 @@ import { Navigate, Outlet } from "react-router";
 const ProtectedRoute = () => {
   const { user } = useAuth();
 
-  return user ? <Outlet /> : <Navigate to="/" />;
+  return user ? <Outlet /> : <Navigate to="/" replace />;
 };
 
 export default ProtectedRoute;
