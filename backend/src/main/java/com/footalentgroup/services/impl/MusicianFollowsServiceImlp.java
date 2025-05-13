@@ -6,8 +6,6 @@ import com.footalentgroup.exceptions.MusicianProfileNotFoundException;
 import com.footalentgroup.models.dtos.mapper.FanProfileMapper;
 import com.footalentgroup.models.dtos.mapper.MusicProfileMapper;
 import com.footalentgroup.models.dtos.response.FanProfileResponseDto;
-import com.footalentgroup.models.dtos.response.MusicianInfoReponseDto;
-import com.footalentgroup.models.dtos.response.MusicianProfileResponseDto;
 import com.footalentgroup.models.dtos.response.MusicianSimpleResponseDto;
 import com.footalentgroup.models.entities.FanProfileEntity;
 import com.footalentgroup.models.entities.MusicianFollowsEntity;

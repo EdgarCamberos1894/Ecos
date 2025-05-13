@@ -1,5 +1,6 @@
 package com.footalentgroup.services.impl;
 
+import com.footalentgroup.exceptions.NotFoundException;
 import com.footalentgroup.models.dtos.mapper.SongMapper;
 import com.footalentgroup.models.dtos.request.SongUploadRequestDto;
 import com.footalentgroup.models.dtos.response.PageResponseDto;
@@ -55,7 +56,10 @@ public class SongServiceImpl implements SongService {
 
     @Override
     public SongResponseDto getSongById(Long id) {
-        SongEntity song = songRepository.findById(id).orElseThrow();
+        SongEntity song = songRepository
+                .findById(id)
+                .orElseThrow(() -> new NotFoundException("Canción no encontrada: " + id));
+
         return mapper.toSongResponseDto(song);
     }
 
