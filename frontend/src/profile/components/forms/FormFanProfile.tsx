@@ -63,14 +63,7 @@ const FormFanProfile = ({ onClose }: FormFanProfileProps) => {
     user: user ?? undefined,
   });
 
-  const token =
-    "Bearer " + (localStorage.getItem("userToken") ?? "").replace(/(^"|"$)/g, "").trim();
-
-  const { mutate, isPending } = useApiMutation<FormData>("fan-profile", "PUT", {
-    headers: {
-      Authorization: token,
-    },
-  });
+  const { mutate, isPending } = useApiMutation<FormData>("fan-profile", "PUT");
 
   const onSubmit = (data: FormFanProfileSchema) => {
     handleFanProfileSubmit({
