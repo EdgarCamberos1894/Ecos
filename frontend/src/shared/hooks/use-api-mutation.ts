@@ -7,17 +7,13 @@ type HttpMethod = "POST" | "PUT" | "PATCH" | "DELETE";
 export const useApiMutation = <T, V = unknown>(
   url: string,
   method: HttpMethod = "POST",
-  // config?: AxiosRequestConfig<V>,
-  // customHeaders?: Record<string, string>,
 ): UseMutationResult<T, Error, V> => {
   const mutationFn = async (data: V): Promise<T> => {
     try {
       const response = await api.request<T>({
         url,
         method,
-        // headers: customHeaders,
         data,
-        // ...config,
       });
 
       return response.data;

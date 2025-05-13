@@ -1,5 +1,5 @@
-import { useRef, useState } from "react";
-import BannerUploader, { type BannerUploaderRef } from "./components/BannerUploader";
+import { useState } from "react";
+import BannerUploader from "./components/BannerUploader";
 import { MediaEmbedForm } from "./components/MediaEmbedForm";
 import { MusicUploader } from "./components/MusicUploader";
 import CreateEventoCard from "./components/CreateEventCard";
@@ -8,6 +8,7 @@ import { useApiQuery } from "@/shared/hooks/use-api-query";
 import { useApiMutation } from "@/shared/hooks/use-api-mutation";
 import { toast } from "sonner";
 import { useRequiredUser } from "@/auth/hooks/use-required-user";
+import ImageBanner from "@/assets/imageBanner.webp";
 
 interface BannerUrl {
   bannerUrl: string | null;
@@ -20,35 +21,46 @@ interface MusicData {
 }
 
 export const EditProfilePage = () => {
+  const [file, setFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+
   const [musicData, setMusicData] = useState<MusicData>({
     title: "",
     genre: "",
     sourceType: "SPOTIFY",
   });
 
-  const bannerRef = useRef<BannerUploaderRef>(null);
-
   const navigate = useNavigate();
 
   const user = useRequiredUser();
 
-  const { data } = useApiQuery<BannerUrl>("banner", `musician-profile/${user.id}/banner`, user.id);
+  const { data: banner, refetch } = useApiQuery<BannerUrl>(
+    "banner",
+    `musician-profile/${user.id}/banner`,
+    user.id,
+  );
 
   const { mutate, isPending } = useApiMutation<string, FormData>("/musician-profile/banner", "PUT");
 
-  const handleSaveBanner = () => {
-    const bannerData = bannerRef.current?.getBannerData();
-    console.log("Banner file:", bannerData);
+  const handleImageUpload = (file: File | null, imageUrl: string | null) => {
+    setFile(file);
+    setImagePreview(imageUrl);
+  };
 
-    if (!bannerData) return;
+  const handleBannerUpload = () => {
+    if (!file) {
+      toast.info("Debes subir una imagen para poder guardarla");
+      return;
+    }
 
     const formData = new FormData();
-    formData.append("banner", bannerData);
+    formData.append("banner", file);
     formData.append("deleteBanner", "false");
 
     mutate(formData, {
       onSuccess: () => {
         toast.success("Banner guardado con éxito");
+        refetch();
       },
       onError: () => {
         toast.error("Error al guardar el banner");
@@ -63,13 +75,20 @@ export const EditProfilePage = () => {
   return (
     <main className="mt-20 space-y-32">
       {JSON.stringify(musicData)}
-      {JSON.stringify(data)}
-      <BannerUploader
-        ref={bannerRef}
-        onSave={handleSaveBanner}
-        previewImageUrl={data?.bannerUrl}
-        isUploading={isPending}
-      />
+      {JSON.stringify(banner)}
+      <section className="relative">
+        <img
+          src={banner?.bannerUrl ?? imagePreview ?? ImageBanner}
+          alt={`Banner`}
+          className="mb-10 max-h-[680px] w-full object-cover"
+        />
+        <BannerUploader
+          onUpload={handleBannerUpload}
+          isUploading={isPending}
+          onImageUpload={handleImageUpload}
+          className="absolute top-1/2 left-1/2 z-10 flex h-[454px] w-[734px] -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center gap-7 bg-white/50"
+        />
+      </section>
       <section className="text-ecos-blue mb-24 ml-40 space-y-2">
         <h2 className="text-4xl">¡Bienvenido!</h2>
         <h1 className="text-8xl font-bold">{user.name}</h1>

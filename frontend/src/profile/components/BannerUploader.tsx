@@ -1,37 +1,22 @@
-import { useEffect, useImperativeHandle, useRef, useState } from "react";
+import { ComponentProps, useRef, useState } from "react";
 import { UploadCloud } from "./ui/UploadCloud";
 
-export interface BannerUploaderRef {
-  getBannerData: () => File | null;
-}
-
-interface BannerUploaderProps {
+interface BannerUploaderProps extends ComponentProps<"section"> {
   onImageUpload?: (file: File | null, imageUrl: string | null) => void;
-  onSave?: () => void;
-  previewImageUrl?: string | null;
+  onUpload?: () => void;
   isUploading?: boolean;
-  ref?: React.Ref<BannerUploaderRef>;
 }
 
 export default function BannerUploader({
   onImageUpload,
-  onSave,
-  previewImageUrl,
+  onUpload,
   isUploading,
-  ref,
+  ...sectionProps
 }: BannerUploaderProps) {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [file, setFile] = useState<File | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [error, setError] = useState<string | null>(null);
-
-  useImperativeHandle(ref, () => ({
-    getBannerData: () => file,
-  }));
-
-  useEffect(() => {
-    if (previewImageUrl) setImageUrl(previewImageUrl);
-  }, [previewImageUrl]);
 
   const validateImageDimensions = (file: File): Promise<boolean> => {
     return new Promise((resolve) => {
@@ -95,7 +80,7 @@ export default function BannerUploader({
   };
 
   return (
-    <section className="flex w-full flex-col items-center gap-7">
+    <section {...sectionProps}>
       <label
         htmlFor="fileInput"
         onDrop={handleDrop}
@@ -130,21 +115,21 @@ export default function BannerUploader({
       </label>
       {error && <p className="text-center text-sm text-red-500">{error}</p>}
 
-      {onSave && ref && (
+      {onUpload && (
         <div className="flex gap-4">
           <button
             type="button"
-            onClick={onSave}
-            disabled={!file}
-            className="bg-ecos-orange-light hover:bg-ecos-orange text-ecos-blue cursor-pointer rounded-full px-16 py-2.5 font-medium transition-colors"
+            onClick={onUpload}
+            disabled={isUploading}
+            className="bg-ecos-orange-light text-ecos-blue cursor-pointer rounded-full px-16 py-2.5 font-medium"
           >
             {isUploading ? "Guardando" : "Guardar"}
           </button>
           <button
             type="button"
             onClick={handleDelete}
-            // disabled={!file}
-            className="bg-ecos-blue cursor-pointer rounded-full px-16 py-2.5 font-medium text-white transition-colors hover:bg-gray-400"
+            disabled={isUploading}
+            className="bg-ecos-blue cursor-pointer rounded-full px-16 py-2.5 font-medium text-white"
           >
             Eliminar
           </button>
