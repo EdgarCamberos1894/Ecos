@@ -54,8 +54,10 @@ export const Footer = () => {
           </Link>
         </div>
         <div className="flex flex-col items-start gap-8">
-          <h3 className="text-xl font-medium text-[#19233A]">¿ERES ORGANIZADOR/PROMOTOR?</h3>
-          <Button className="max-w-72 bg-[#19233A] text-white lg:w-96">CREAR EVENTO</Button>
+          <h3 className="text-xl font-medium">¿ERES ORGANIZADOR/PROMOTOR?</h3>
+          <Button className="max-w-72 bg-[#6E6E6E] text-white">
+            <Link to="/event">CREAR EVENTO</Link>
+          </Button>
         </div>
         <div className="flex flex-col items-start gap-8">
           <h3 className="text-xl font-medium text-[#19233A]">SEGUINOS</h3>
