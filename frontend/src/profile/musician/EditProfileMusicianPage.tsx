@@ -1,5 +1,5 @@
 import { useState } from "react";
-import BannerUploader from "./components/BannerUploader";
+import BannerUploader from "../components/BannerUploader";
 import { MediaEmbedForm } from "./components/MediaEmbedForm";
 import { MusicUploader } from "./components/MusicUploader";
 import CreateEventoCard from "./components/CreateEventCard";
@@ -20,7 +20,7 @@ interface MusicData {
   sourceType: "SPOTIFY" | "FILE";
 }
 
-export const EditProfilePage = () => {
+export const EditProfileMusicianPage = () => {
   const [file, setFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
