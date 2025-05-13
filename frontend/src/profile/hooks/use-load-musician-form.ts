@@ -41,8 +41,8 @@ export function useLoadMusicianForm({
     setGenre(genreLabel);
 
     setValue("paymentLink", data.paymentLink ?? "");
-    setValue("alias", data.alias ?? "");
-    setValue("accountNumber", data.accountNumber ?? "");
+    setValue("paymentAlias", data.paymentAlias ?? "");
+    setValue("cbu", data.cbu ?? "");
 
     setValue("whatsapp", data.whatsapp ?? "");
     setValue("spotifyUrl", data.spotifyUrl ?? "");
