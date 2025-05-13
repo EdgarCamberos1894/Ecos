@@ -8,8 +8,9 @@ import com.footalentgroup.models.entities.MusicianProfileEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.ReportingPolicy;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface MusicProfileMapper{
 
     @Mapping(target = "photoUrl", ignore = true)
@@ -23,6 +24,4 @@ public interface MusicProfileMapper{
 
     @Mapping(target = "photoUrl", ignore = true)
     void updateEntity(MusicianProfileRequestDto dto, @MappingTarget MusicianProfileEntity entity);
-
-
 }

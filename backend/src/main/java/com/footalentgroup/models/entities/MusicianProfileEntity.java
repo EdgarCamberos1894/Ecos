@@ -1,10 +1,8 @@
 package com.footalentgroup.models.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import java.util.List;
 
@@ -28,8 +26,12 @@ public class MusicianProfileEntity {
     private String bannerUrl;
     private String bannerPublicId;
 
-    //Contact Data
     private String whatsapp;
+
+    private String paymentLink;
+    private String paymentAlias;
+    private String cbu;
+
     private String spotifyUrl;
     private String youtubeUrl;
     private String instagramUrl;
@@ -42,5 +44,4 @@ public class MusicianProfileEntity {
 
     @OneToMany(mappedBy = "musicianProfile", fetch = FetchType.LAZY)
     private List<SongEntity> songs;
-
 }

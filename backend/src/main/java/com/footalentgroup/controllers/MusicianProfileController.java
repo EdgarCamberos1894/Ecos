@@ -31,10 +31,10 @@ public class MusicianProfileController {
 
     @Operation(summary = "Obtiene perfil del músico especificado por id")
     @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable Long id){
+    public ResponseEntity<?> getById(@PathVariable Long id) {
         return ResponseEntity
                 .ok()
-                .body(new ApiResponse<>(this.musicService.getProfilById(id)));
+                .body(new ApiResponse<>(this.musicService.getProfileById(id)));
     }
 
     @Operation(summary = "Actualiza perfil del músico, solo usuario autenticado", security = @SecurityRequirement(name = "bearer-key"))
@@ -56,8 +56,8 @@ public class MusicianProfileController {
 
     @Operation(summary = "Actualiza el banner del perfil del músico autenticado", security = @SecurityRequirement(name = "bearer-key"))
     @PutMapping(value = "/banner", consumes = "multipart/form-data")
-    public ResponseEntity<?> updateBanner(@ModelAttribute @Valid BannerUploadReqestDto reqest){
-        this.musicService.updateBanner(reqest);
+    public ResponseEntity<?> updateBanner(@ModelAttribute @Valid BannerUploadReqestDto request) {
+        this.musicService.updateBanner(request);
         return ResponseEntity.ok().body(new ApiResponse<>("Banner actualizado con exito"));
     }
 
@@ -65,6 +65,15 @@ public class MusicianProfileController {
     @GetMapping("/{id}/banner")
     public ResponseEntity<BannerResponseDto> getBanner(@PathVariable Long id) {
         return ResponseEntity.ok(this.musicService.getBannerByMusicianId(id));
+    }
+
+    @Operation(summary = "Obtiene la información de donaciones del músico por su ID", security = @SecurityRequirement(name = "bearer-key"))
+    @GetMapping("/{id}/donations")
+    @PreAuthorize("hasAnyRole('FAN', 'MUSICIAN')")
+    public ResponseEntity<?> getDonationInfo(@PathVariable Long id) {
+        return ResponseEntity
+                .ok()
+                .body(this.musicService.getDonationInfo(id));
     }
 
     @Operation(summary = "Permite contactar a un músico mediante email", security = @SecurityRequirement(name = "bearer-key"))
