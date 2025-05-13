@@ -1,6 +1,9 @@
 package com.footalentgroup.controllers;
 
 import com.footalentgroup.models.dtos.request.EventRequestDto;
+import com.footalentgroup.models.dtos.response.EventResponseDto;
+import com.footalentgroup.models.dtos.response.EventSimpleResponseDto;
+import com.footalentgroup.models.dtos.response.PageResponseDto;
 import com.footalentgroup.services.impl.EventServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -26,7 +29,7 @@ public class EventController {
 
     @Operation(summary = "Obtener evento por ID")
     @GetMapping(ID_ID)
-    public ResponseEntity<?> read(@PathVariable Long id) {
+    public ResponseEntity<EventResponseDto> read(@PathVariable Long id) {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(this.eventService.read(id));
@@ -34,7 +37,7 @@ public class EventController {
 
     @Operation(summary = "Buscar eventos")
     @GetMapping(SEARCH)
-    public ResponseEntity<?> search(
+    public ResponseEntity<PageResponseDto<EventSimpleResponseDto>> search(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "3") int size
     ) {
@@ -43,9 +46,9 @@ public class EventController {
                 .body(this.eventService.search(page, size));
     }
 
-    @Operation(summary = "Buscar eventos por músico")
+    @Operation(summary = "Obtener eventos de un músico por su ID")
     @GetMapping(ID_MUSICIAN)
-    public ResponseEntity<?> searchByMusician(
+    public ResponseEntity<PageResponseDto<EventSimpleResponseDto>> searchByMusician(
             @PathVariable Long musicianId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "3") int size
@@ -58,7 +61,7 @@ public class EventController {
     @Operation(summary = "Crear evento", security = @SecurityRequirement(name = "bearer-key"))
     @PostMapping(consumes = "multipart/form-data")
     @PreAuthorize("hasRole('MUSICIAN')")
-    public ResponseEntity<?> create(@ModelAttribute @Valid EventRequestDto eventDto) {
+    public ResponseEntity<EventResponseDto> create(@ModelAttribute @Valid EventRequestDto eventDto) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(this.eventService.create(eventDto));
@@ -67,7 +70,7 @@ public class EventController {
     @Operation(summary = "Actualizar evento", security = @SecurityRequirement(name = "bearer-key"))
     @PutMapping(value = ID_ID, consumes = "multipart/form-data")
     @PreAuthorize("hasRole('MUSICIAN')")
-    public ResponseEntity<?> update(@PathVariable Long id, @ModelAttribute @Valid EventRequestDto eventDto) {
+    public ResponseEntity<EventResponseDto> update(@PathVariable Long id, @ModelAttribute @Valid EventRequestDto eventDto) {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(this.eventService.update(id, eventDto));
