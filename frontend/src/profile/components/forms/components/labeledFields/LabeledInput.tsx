@@ -17,7 +17,7 @@ const LabeledInput = ({ label, htmlFor, className = "", inputProps, error }: Lab
       </label>
       <Input
         {...inputProps}
-        className="w-full rounded-none placeholder:text-sm placeholder:text-black focus:placeholder-transparent"
+        className="placeholder:text-ecos-blue w-full rounded-none placeholder:text-sm focus:placeholder-transparent"
       />
       {error && <span className="w-max text-sm text-red-500">{error}</span>}
     </div>

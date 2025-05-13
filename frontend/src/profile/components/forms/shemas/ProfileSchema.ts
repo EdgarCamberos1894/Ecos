@@ -30,7 +30,7 @@ export const formMusicianProfileSchema = baseProfileSchema.extend({
     }),
   genre: z.string().min(1, { message: "El género es obligatorio." }),
   paymentLink: z.string().url({ message: "Debe ser un enlace válido" }).or(z.literal("")),
-  alias: z
+  paymentAlias: z
     .string()
     .regex(aliasRegex, {
       message: "El alias solo puede contener letras, números, puntos y guiones",
@@ -39,7 +39,7 @@ export const formMusicianProfileSchema = baseProfileSchema.extend({
       message: "El alias debe tener entre 6 y 20 caracteres",
     })
     .or(z.literal("")),
-  accountNumber: z
+  cbu: z
     .string()
     .regex(accountNumberRegex, {
       message: "Solo se permiten letras mayúsculas y números (ej. IBAN)",

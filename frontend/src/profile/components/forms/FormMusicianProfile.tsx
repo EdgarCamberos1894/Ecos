@@ -15,6 +15,7 @@ import { SocialLinksSection } from "./components/sections/SocialLinksSection";
 import ProfilePhotoSection from "./components/sections/ProfilePhotoSection";
 import { useApiMutation } from "@/shared/hooks/use-api-mutation";
 import { PersonalDataMusicianSection } from "./components/sections/PersonalDataMusicianSection";
+import { DonationDataSection } from "./components/sections/DonationDataSection";
 
 interface FormMusicianProfileProps {
   onClose: () => void;
@@ -122,10 +123,16 @@ const FormMusicianProfile = ({ onClose }: FormMusicianProfileProps) => {
         className="order-3 md:order-3 lg:order-3"
       />
 
-      <SocialLinksSection
+      <DonationDataSection
         register={register}
         errors={errors}
         className="order-4 md:order-4 lg:order-4 lg:col-start-1"
+      />
+
+      <SocialLinksSection
+        register={register}
+        errors={errors}
+        className="order-5 md:order-5 lg:order-5 lg:col-start-1"
       />
 
       <div className="containerBtnSectionProfile">

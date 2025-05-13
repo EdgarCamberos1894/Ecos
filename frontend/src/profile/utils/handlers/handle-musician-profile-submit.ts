@@ -29,6 +29,18 @@ export const handleMusicianProfileSubmit = ({
 
   formData.append("deletePhoto", deletePhoto);
 
+  if (data.paymentLink) {
+    formData.append("paymentLink", data.paymentLink);
+  }
+
+  if (data.paymentAlias) {
+    formData.append("paymentAlias", data.paymentAlias);
+  }
+
+  if (data.cbu) {
+    formData.append("cbu", data.cbu);
+  }
+
   if (data.whatsapp) {
     formData.append("whatsapp", data.whatsapp);
   }
