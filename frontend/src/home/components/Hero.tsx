@@ -22,7 +22,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <div className="relative h-auto w-full flex-col justify-start pb-48 sm:pb-64 lg:h-248">
+    <div className="relative -mt-20 h-auto w-full flex-col justify-start pb-48 sm:pb-64 lg:-mt-0 lg:h-248">
       <video
         ref={videoRef}
         className="absolute top-0 left-0 min-h-full w-full object-cover"
