@@ -8,12 +8,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 public record MusicianProfileRequestDto(
 
-        @NotBlank(message = "El nombre de artista/banda no puede estar vacío")
         @Schema(description = "Nombre artístico del artista o banda", example = "Los Rockeros", required = true)
+        @NotBlank(message = "El nombre de artista/banda no puede estar vacío")
         String stageName,
 
-        @ImageFile
         @Schema(description = "Archivo de imagen (jpg, jpeg, png, webp)")
+        @ImageFile
         MultipartFile photo,
 
         @Schema(description = "Indica si se debe eliminar la foto actual", example = "false")
@@ -26,6 +26,10 @@ public record MusicianProfileRequestDto(
         @Schema(description = "País de origen", example = "Argentina", required = true)
         @NotBlank(message = "El paíz no debe estar vacio")
         String country,
+
+        @Schema(description = "Descripción de artista/banda", required = true)
+        @NotBlank(message = "La descripción no debe estar vacia")
+        String description,
 
         @Schema(description = "Número de WhatsApp de contacto", example = "+50660000000")
         String whatsapp,

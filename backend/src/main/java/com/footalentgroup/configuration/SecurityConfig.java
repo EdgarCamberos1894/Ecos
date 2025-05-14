@@ -50,6 +50,7 @@ public class SecurityConfig {
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .authorizeHttpRequests(auth -> auth
+                        // Auth & Documentation
                         .requestMatchers(
                                 "/auth/**",
                                 "/docs/**",
@@ -57,17 +58,30 @@ public class SecurityConfig {
                                 "/swagger-ui.html",
                                 "/swagger-ui/**"
                         ).permitAll()
-                        .requestMatchers(HttpMethod.GET,
+
+                        // Songs
+                        .requestMatchers(
+                                HttpMethod.GET,
                                 "/songs",
                                 "/songs/{id}",
-                                "/songs/musician/{id}",
-                                "/musician-profile/{id}",
-                                "/musician-profile/{id}/banner",
-                                "/musician-profile/search"
+                                "/songs/musician/{id}"
                         ).permitAll()
-                        .requestMatchers(HttpMethod.GET,
+
+                        // Musician Profile
+                        .requestMatchers(
+                                HttpMethod.GET,
+                                "/musician-profile/{id}",
+                                "/musician-profile/search",
+                                "/musician-profile/{id}/banner"
+                        ).permitAll()
+
+                        // Fan Profile
+                        .requestMatchers(
+                                HttpMethod.GET,
                                 "/fan-profile/{id}"
                         ).permitAll()
+
+                        // Events
                         .requestMatchers(
                                 HttpMethod.GET,
                                 "/events/{id}",
@@ -77,12 +91,9 @@ public class SecurityConfig {
                         .requestMatchers("/follows/**").authenticated()
                         .requestMatchers(HttpMethod.POST, "/songs").hasRole(Role.MUSICIAN.name())
                         .requestMatchers(HttpMethod.PUT, "/songs/{id}").hasRole(Role.MUSICIAN.name())
-                        .requestMatchers(HttpMethod.PUT, "/musician-profile").hasRole(Role.MUSICIAN.name())
-                        .requestMatchers(HttpMethod.PUT, "/musician-profile/banner").hasRole(Role.MUSICIAN.name())
                         .requestMatchers(HttpMethod.GET, "/saved-songs").hasRole(Role.FAN.name())
                         .requestMatchers(HttpMethod.POST, "/saved-songs/save/{song_id}").hasRole(Role.FAN.name())
                         .requestMatchers(HttpMethod.DELETE, "/saved-songs/remove/{song_id}").hasRole(Role.FAN.name())
-
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider())
