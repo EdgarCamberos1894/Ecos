@@ -1,10 +1,12 @@
 package com.footalentgroup.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 @Table(name = "songs")
 @Entity
@@ -31,5 +33,10 @@ public class SongEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "musician_id", nullable = false)
     private MusicianProfileEntity musicianProfile;
+
+    @OneToMany(mappedBy = "song", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<SavedSongEntity> savedByFans;
+
 
 }
