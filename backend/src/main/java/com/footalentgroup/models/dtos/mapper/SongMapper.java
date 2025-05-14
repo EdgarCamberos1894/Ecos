@@ -36,6 +36,7 @@ public interface SongMapper {
         return new MusicianInfoResponseDto(
                 musicianProfileEntity.getId(),
                 musicianProfileEntity.getStageName(),
+                musicianProfileEntity.getPhotoUrl(),
                 musicianProfileEntity.getUser().getName(),
                 musicianProfileEntity.getSpotifyUrl(),
                 musicianProfileEntity.getYoutubeUrl()
