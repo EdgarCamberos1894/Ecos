@@ -1,7 +1,6 @@
 package com.footalentgroup.configuration;
 
 import com.footalentgroup.models.entities.UserEntity;
-import com.footalentgroup.models.enums.Role;
 import com.footalentgroup.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -88,12 +87,7 @@ public class SecurityConfig {
                                 "/events/search",
                                 "/events/musician/{musicianId}"
                         ).permitAll()
-                        .requestMatchers("/follows/**").authenticated()
-                        .requestMatchers(HttpMethod.POST, "/songs").hasRole(Role.MUSICIAN.name())
-                        .requestMatchers(HttpMethod.PUT, "/songs/{id}").hasRole(Role.MUSICIAN.name())
-                        .requestMatchers(HttpMethod.GET, "/saved-songs").hasRole(Role.FAN.name())
-                        .requestMatchers(HttpMethod.POST, "/saved-songs/save/{song_id}").hasRole(Role.FAN.name())
-                        .requestMatchers(HttpMethod.DELETE, "/saved-songs/remove/{song_id}").hasRole(Role.FAN.name())
+
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider())
