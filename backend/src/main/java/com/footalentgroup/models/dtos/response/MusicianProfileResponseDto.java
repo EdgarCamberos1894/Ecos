@@ -1,10 +1,12 @@
 package com.footalentgroup.models.dtos.response;
 
 public record MusicianProfileResponseDto(
+        Long id,
         String stageName,
-        String photoUrl,
         String genre,
         String country,
+        String description,
+        String photoUrl,
         String whatsapp,
         String paymentLink,
         String paymentAlias,
