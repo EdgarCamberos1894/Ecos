@@ -34,7 +34,7 @@ const Button = ({
       onClick={onClick}
       type={type}
       style={{ backgroundColor: bgColor }}
-      className={`flex h-[50px] items-center justify-center gap-2.5 rounded-[27px] border border-solid border-[#ECE6F0] px-4 py-2 font-medium text-[#291117] ${bgColor} ${className}`}
+      className={`flex h-[50px] items-center justify-center gap-2.5 rounded-[27px] border border-solid px-4 py-2 font-medium text-[#291117] ${bgColor} ${className}`}
     >
       {startIcon}
       {children}
