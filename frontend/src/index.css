@@ -1,0 +1,43 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('@/assets/fonts/roboto.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 100 700;
+  font-display: swap;
+}
+
+@theme {
+  /* Colores */
+  --color-ecos-base: #F5F5F5;
+  --color-ecos-blue: #19233A;
+  --color-ecos-orange-light: #FE963D;
+  --color-ecos-orange: #DD4D2B;
+  --color-ecos-dark-grey: #5A5A5A;
+  --color-ecos-dark-grey-light: rgba(130, 130, 130, 0.70);
+
+  /* Fuente */
+  --font-sans: 'Roboto', system-ui, sans-serif;
+}
+
+/* Formularios Perfil */
+.formProfile {
+  @apply grid w-full gap-x-48 gap-y-14 overflow-y-auto px-3.5 py-10 sm:grid-cols-1 lg:grid-cols-2 lg:py-20 lg:pl-20;
+}
+
+.fieldsetSectionProfile {
+  @apply flex w-full flex-col items-start gap-6;
+}
+
+.legendSectionProfile {
+  @apply mb-10 text-start text-2xl font-medium;
+}
+
+.containerBtnSectionProfile {
+  @apply relative order-last col-start-1 flex gap-6 self-end sm:justify-end lg:top-15 lg:col-start-2;
+}
+
+.btnSectionProfile {
+  @apply w-full text-white sm:w-auto;
+}
