@@ -13,8 +13,6 @@ const ProfileUserModal = ({ onClose }: ProfileModalProps) => {
 
   if (!user) return null;
 
-  console.log("User role:", role);
-
   return (
     <Modal
       onClose={onClose}
