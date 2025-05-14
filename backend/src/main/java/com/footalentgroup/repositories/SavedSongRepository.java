@@ -1,7 +1,4 @@
 package com.footalentgroup.repositories;
-
-import com.footalentgroup.models.dtos.response.SongResponseDto;
-import com.footalentgroup.models.entities.FanProfileEntity;
 import com.footalentgroup.models.entities.SavedSongEntity;
 import com.footalentgroup.models.entities.SongEntity;
 import org.springframework.data.domain.Page;
