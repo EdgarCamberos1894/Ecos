@@ -23,7 +23,6 @@ export const AppRoutes = () => {
         {/* Rutas protegidas */}
         <Route element={<ProtectedRoute />}>
           <Route path="/profile/musician" element={<ProfileMusicianPage />} />
-          <Route path="/event" element={<EventPage />} />
           <Route path="/profile/fan" element={<ProfileFanPage />} />
         </Route>
       </Route>
@@ -32,6 +31,7 @@ export const AppRoutes = () => {
       <Route element={<ProtectedRoute />}>
         <Route element={<BackButtonLayout />}>
           <Route path="/profile/musician/edit" element={<EditProfileMusicianPage />} />
+          <Route path="/event" element={<EventPage />} />
         </Route>
       </Route>
     </Routes>
