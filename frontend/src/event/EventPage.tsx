@@ -9,7 +9,7 @@ import { FormData } from "./type/FormData";
 const steps = ["Editar", "Banner", "Entradas", "Revisar"];
 
 const initialData: FormData = {
-  eventName: "",
+  name: "",
   category: "",
   date: "",
   hour: "",

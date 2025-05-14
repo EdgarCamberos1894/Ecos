@@ -1,6 +1,6 @@
 interface InputTimeProps {
   form: {
-    date: string;
+    dateString: string;
     startTime: string;
     endTime: string;
   };
@@ -14,14 +14,14 @@ export default function InputTime({ form, handleChange, errors }: InputTimeProps
       <div className="flex-1 space-y-5 md:flex md:gap-4">
         {/* Fecha */}
         <div className="flex flex-col">
-          <label htmlFor="date" className="mb-1 text-sm font-medium text-gray-800">
+          <label htmlFor="dateString" className="mb-1 text-sm font-medium text-gray-800">
             Fecha <span className="text-red-500">*</span>
           </label>
           <input
             type="date"
-            name="date"
-            id="date"
-            value={form.date}
+            name="dateString"
+            id="dateString"
+            value={form.dateString}
             onChange={handleChange}
             className={`flex border px-3 py-2`}
           />

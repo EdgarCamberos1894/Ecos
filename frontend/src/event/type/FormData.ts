@@ -3,10 +3,12 @@ export interface FormData {
     puerta: number;
     locuras: number;
   };
-  eventName: string;
+  name: string;
   category: string;
-  date: string;
-  hour: string;
+  type: string;
+  dateString: string;
+  startTime: string;
+  endTime: string;
   location: string;
   description: string;
   image: File | null;

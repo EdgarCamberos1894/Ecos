@@ -1,9 +1,9 @@
-interface EventTypeSelectorProps {
+interface TypeSelectorProps {
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export default function EventTypeSelector({ value, onChange }: EventTypeSelectorProps) {
+export default function TypeSelector({ value, onChange }: TypeSelectorProps) {
   return (
     <div className="w-full">
       <p className="mb-2 font-[Roboto] text-2xl font-medium">Fecha y Hora</p>
@@ -17,7 +17,7 @@ export default function EventTypeSelector({ value, onChange }: EventTypeSelector
             <label key={type} className="flex items-center gap-2 text-sm text-gray-700">
               <input
                 type="radio"
-                name="eventType"
+                name="type"
                 value={type}
                 checked={value === type}
                 onChange={onChange}

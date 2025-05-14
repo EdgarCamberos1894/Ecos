@@ -1,6 +1,6 @@
 import { useState } from "react";
 import InputField from "../ui/ImputField";
-import EventTypeSelector from "../ui/EventTypeSelector";
+import TypeSelector from "../ui/TypeSelector";
 import InputTime from "../ui/InputTime";
 import { eventSchema } from "../../validation/EventSchema";
 import { ZodError } from "zod";
@@ -14,12 +14,12 @@ interface StepOneProps {
 
 export default function StepOne({ nextStep, formData, setFormData }: StepOneProps) {
   const [form, setForm] = useState({
-    eventName: formData.eventName || "",
+    name: formData.name || "",
     category: formData.category || "",
-    eventType: "único",
-    date: formData.date || "",
-    startTime: formData.hour || "",
-    endTime: "",
+    type: "único",
+    dateString: formData.dateString || "",
+    startTime: formData.startTime || "",
+    endTime: formData.endTime || "",
     location: formData.location || "",
     description: formData.description || "",
   });
@@ -82,16 +82,18 @@ export default function StepOne({ nextStep, formData, setFormData }: StepOneProp
         <p className="mb-2 font-[Roboto] text-2xl font-medium">Detalles</p>
         <div className="grid w-full grid-cols-1 items-center justify-start gap-4">
           <InputField
+            type="text"
             label="Nombre del evento "
-            name="eventName"
-            value={form.eventName}
+            name="name"
+            value={form.name}
             required
             onChange={handleChange}
-            error={formErrors.eventName}
+            error={formErrors.name}
             placeholder="Introduce el nombre de tu evento"
           />
 
           <InputField
+            type="text"
             label="Categoría "
             name="category"
             value={form.category}
@@ -104,7 +106,7 @@ export default function StepOne({ nextStep, formData, setFormData }: StepOneProp
       </div>
 
       {/* Tipo de evento */}
-      <EventTypeSelector value={form.eventType} onChange={handleChange} />
+      <TypeSelector value={form.type} onChange={handleChange} />
 
       {/* Fecha y hora */}
       <InputTime form={form} handleChange={handleChange} errors={formErrors} />
@@ -113,6 +115,7 @@ export default function StepOne({ nextStep, formData, setFormData }: StepOneProp
       <div className="flex flex-col">
         <p className="mb-2 font-[Roboto] text-2xl font-medium">Lugar</p>
         <InputField
+          type="text"
           label="¿Dónde se realiza el evento?"
           name="location"
           value={form.location}
