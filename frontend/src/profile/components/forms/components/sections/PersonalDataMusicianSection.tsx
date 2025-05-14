@@ -49,6 +49,22 @@ export const PersonalDataMusicianSection = ({
         id="genre"
         error={errors.genre?.message}
       />
+
+      <div className="flex w-full flex-col items-start gap-1">
+        <label htmlFor="description" className="text-2xl">
+          Descripción de la banda *
+        </label>
+        <textarea
+          id="description"
+          placeholder="Descripción del Artista / Banda"
+          {...register("description")}
+          className="placeholder:text-ecos-blue min-h-[120px] w-full resize-none rounded-[20px] border border-[#B1B1B1] p-2 placeholder:text-sm focus:placeholder-transparent"
+        />
+        {errors.description?.message && (
+          <span className="w-max text-sm text-red-500">{errors.description.message}</span>
+        )}
+      </div>
+
       <LabeledSelect
         label="País *"
         value={country}
