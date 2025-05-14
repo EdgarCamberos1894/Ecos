@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(MusicianProfileController.MUSICIANS)
 @RequiredArgsConstructor
-@Tag(name = "Musician Profile")
+@Tag(name = "Perfil de Músico")
 public class MusicianProfileController {
     public static final String MUSICIANS = "/musician-profile";
     public static final String ID_ID = "/{id}";

@@ -1,6 +1,5 @@
 package com.footalentgroup.controllers;
 
-
 import com.footalentgroup.models.dtos.request.SongPageRequestDto;
 import com.footalentgroup.models.dtos.response.ApiResponse;
 import com.footalentgroup.services.SavedSongService;
@@ -18,27 +17,29 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(SavedSongController.PATH)
+@RequestMapping(SavedSongController.SAVED_SONGS)
 @RequiredArgsConstructor
-@Tag(name = "Saved Songs")
+@Tag(name = "Guardar Canciones")
 public class SavedSongController {
-    public static final String  PATH = "/saved-songs";
+    public static final String SAVED_SONGS = "/saved-songs";
+
     private final SavedSongService savedSongService;
 
-
-    @GetMapping()
     @Operation(summary = "Obtiene todas las canciones guardadas de fan autenticado",
             description = "Los datos del fan se obtienen del token de autenticación.",
             security = @SecurityRequirement(name = "bearer-key"))
+    @GetMapping
+    @PreAuthorize("hasRole('FAN')")
     public ResponseEntity<?> getAllSongs(@Valid @ParameterObject SongPageRequestDto request) {
         Pageable pageable = PageRequest.of(request.getPage(), request.getSize(), request.getSort());
         return ResponseEntity.ok().body(savedSongService.getSavedSongsByFan(pageable));
     }
 
-    @PostMapping("/save/{song_id}")
     @Operation(summary = "Guarda una cancion en favoritos de fan autenticado",
             description = "Los datos del fan se obtienen del token de autenticación.",
             security = @SecurityRequirement(name = "bearer-key"))
+    @PostMapping("/save/{song_id}")
+    @PreAuthorize("hasRole('FAN')")
     public ResponseEntity<?> saveSongAsFavourite(@PathVariable Long song_id) {
         savedSongService.saveSongAsFavourite(song_id);
         return ResponseEntity
@@ -46,10 +47,11 @@ public class SavedSongController {
                 .body(new ApiResponse<>("Canción guardada con exito"));
     }
 
-    @DeleteMapping("/remove/{song_id}")
     @Operation(summary = "Elimina una cancion en favoritos de fan autenticado (eliminacion logica)",
             description = "Los datos del fan se obtienen del token de autenticación.",
             security = @SecurityRequirement(name = "bearer-key"))
+    @DeleteMapping("/remove/{song_id}")
+    @PreAuthorize("hasRole('FAN')")
     public ResponseEntity<?> deleteSongFromFavourites(@PathVariable Long song_id) {
         savedSongService.deleteSongFromFavourites(song_id);
         return ResponseEntity
