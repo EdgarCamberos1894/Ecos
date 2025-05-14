@@ -23,7 +23,7 @@ export const AppRoutes = () => {
         {/* Rutas protegidas */}
         <Route element={<ProtectedRoute />}>
           <Route path="/profile/musician/:id" element={<ProfileMusicianPage />} />
-          <Route path="/profile/fan" element={<ProfileFanPage />} />
+          <Route path="/profile/fan/:id" element={<ProfileFanPage />} />
         </Route>
       </Route>
 

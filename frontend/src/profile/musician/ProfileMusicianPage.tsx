@@ -53,6 +53,8 @@ export default function ProfileMusicianPage() {
 
   const { data: songs } = useApiQuery<ApiSongs>("songs", `songs/musician/${user.id}`, user.id);
 
+  const hasItems = Boolean(songs?.items.length);
+
   return (
     <>
       <img
@@ -64,7 +66,7 @@ export default function ProfileMusicianPage() {
         <h1 className="mb-32 text-8xl font-medium">{user.name}</h1>
 
         <section className="flex flex-col gap-16">
-          {songs?.items[0].audioUrl && (
+          {hasItems && songs?.items[0].audioUrl && (
             <>
               <AudioPlayer audioUrl={songs.items[0].audioUrl} title={songs.items[0].title} />
               <div className="mt-4 mb-16 flex gap-4 sm:gap-6">
@@ -77,7 +79,7 @@ export default function ProfileMusicianPage() {
               </div>
             </>
           )}
-          {songs?.items[0].spotifyUrl && (
+          {hasItems && songs?.items[0].spotifyUrl && (
             <div>
               <SpotifyTrack
                 className="max-w-5xl rounded-4xl"
@@ -93,7 +95,7 @@ export default function ProfileMusicianPage() {
               </div>
             </div>
           )}
-          {songs?.items[0].youtubeUrl && (
+          {hasItems && songs?.items[0].youtubeUrl && (
             <YouTubeVideo
               className="mb-9 aspect-[1126/597] w-full max-w-[1126px] rounded-[20px]"
               embedUrl={songs.items[0].youtubeUrl}
