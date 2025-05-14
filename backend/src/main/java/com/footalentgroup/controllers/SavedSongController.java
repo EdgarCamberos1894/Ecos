@@ -18,7 +18,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(SavedSongController. PATH)
+@RequestMapping(SavedSongController.PATH)
 @RequiredArgsConstructor
 @Tag(name = "Saved Songs")
 public class SavedSongController {
@@ -26,16 +26,19 @@ public class SavedSongController {
     private final SavedSongService savedSongService;
 
 
-    @PreAuthorize("hasRole('FAN')" )
     @GetMapping()
-    @Operation(summary = "Obtiene todas las canciones guardadas por un fan ", security = @SecurityRequirement(name = "bearer-key"))
+    @Operation(summary = "Obtiene todas las canciones guardadas de fan autenticado",
+            description = "Los datos del fan se obtienen del token de autenticación.",
+            security = @SecurityRequirement(name = "bearer-key"))
     public ResponseEntity<?> getAllSongs(@Valid @ParameterObject SongPageRequestDto request) {
         Pageable pageable = PageRequest.of(request.getPage(), request.getSize(), request.getSort());
         return ResponseEntity.ok().body(savedSongService.getSavedSongsByFan(pageable));
     }
 
-    @PreAuthorize("hasRole('FAN')" )
     @PostMapping("/save/{song_id}")
+    @Operation(summary = "Guarda una cancion en favoritos de fan autenticado",
+            description = "Los datos del fan se obtienen del token de autenticación.",
+            security = @SecurityRequirement(name = "bearer-key"))
     public ResponseEntity<?> saveSongAsFavourite(@PathVariable Long song_id) {
         savedSongService.saveSongAsFavourite(song_id);
         return ResponseEntity
@@ -43,8 +46,10 @@ public class SavedSongController {
                 .body(new ApiResponse<>("Canción guardada con exito"));
     }
 
-    @PreAuthorize("hasRole('FAN')" )
     @DeleteMapping("/remove/{song_id}")
+    @Operation(summary = "Elimina una cancion en favoritos de fan autenticado (eliminacion logica)",
+            description = "Los datos del fan se obtienen del token de autenticación.",
+            security = @SecurityRequirement(name = "bearer-key"))
     public ResponseEntity<?> deleteSongFromFavourites(@PathVariable Long song_id) {
         savedSongService.deleteSongFromFavourites(song_id);
         return ResponseEntity
