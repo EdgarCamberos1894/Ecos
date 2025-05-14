@@ -72,8 +72,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler({
             ConflictException.class,
-            DataIntegrityViolationException.class,
-            AlreadyFollowingMusicianException.class
+            DataIntegrityViolationException.class
     })
     public ErrorResponse conflict(Exception ex) {
         return new ErrorResponse(ex, HttpStatus.CONFLICT.value());
@@ -83,7 +82,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({
             NotFoundException.class,
             MusicianProfileNotFoundException.class,
-            FanProfileNotFoundException.class
+            FanProfileNotFoundException.class,
+            SongNotFoundException.class
     })
     public ErrorResponse notFound(Exception ex) {
         return new ErrorResponse(ex, HttpStatus.NOT_FOUND.value());

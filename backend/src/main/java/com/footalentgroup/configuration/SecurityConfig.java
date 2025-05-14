@@ -79,6 +79,10 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/songs/{id}").hasRole(Role.MUSICIAN.name())
                         .requestMatchers(HttpMethod.PUT, "/musician-profile").hasRole(Role.MUSICIAN.name())
                         .requestMatchers(HttpMethod.PUT, "/musician-profile/banner").hasRole(Role.MUSICIAN.name())
+                        .requestMatchers(HttpMethod.GET, "/saved-songs").hasRole(Role.FAN.name())
+                        .requestMatchers(HttpMethod.POST, "/saved-songs/save/{song_id}").hasRole(Role.FAN.name())
+                        .requestMatchers(HttpMethod.DELETE, "/saved-songs/remove/{song_id}").hasRole(Role.FAN.name())
+
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider())
