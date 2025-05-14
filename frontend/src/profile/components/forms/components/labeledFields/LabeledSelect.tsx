@@ -30,7 +30,7 @@ const LabeledSelect = ({
         onChange={(e) => {
           onChange(e.target.value);
         }}
-        className="w-full rounded-none border border-solid border-[#B4B4B4] px-4 py-2 placeholder:text-sm placeholder:text-black focus:placeholder-transparent"
+        className="placeholder:text-ecos-blue w-full rounded-[20px] border border-[#B1B1B1] px-4 py-2 placeholder:text-sm focus:placeholder-transparent"
       >
         <option value="">{placeholder}</option>
         {options.map((opt) => {
