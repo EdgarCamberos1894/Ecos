@@ -1,5 +1,6 @@
 package com.footalentgroup.services.impl;
 
+import com.footalentgroup.exceptions.NotFoundException;
 import com.footalentgroup.models.dtos.mapper.SongMapper;
 import com.footalentgroup.models.dtos.request.SongUploadRequestDto;
 import com.footalentgroup.models.dtos.response.PageResponseDto;
@@ -13,6 +14,7 @@ import com.footalentgroup.services.AuthenticatedUserService;
 import com.footalentgroup.services.CloudinaryService;
 import com.footalentgroup.services.SongService;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -55,7 +57,10 @@ public class SongServiceImpl implements SongService {
 
     @Override
     public SongResponseDto getSongById(Long id) {
-        SongEntity song = songRepository.findById(id).orElseThrow();
+        SongEntity song = songRepository
+                .findById(id)
+                .orElseThrow(() -> new NotFoundException("Canción no encontrada: " + id));
+
         return mapper.toSongResponseDto(song);
     }
 
@@ -104,6 +109,16 @@ public class SongServiceImpl implements SongService {
     @Override
     public PageResponseDto<SongResponseDto> getAllSongsByMusicianId(Long idMusician, Pageable pageable) {
         Page<SongEntity> songPage = songRepository.findByMusicianProfileId(idMusician,pageable);
+        return mapper.toPageResponse(songPage);
+    }
+
+    @Override
+    public PageResponseDto<SongResponseDto> searchSongs(String search, Pageable pageable) {
+        Page<SongEntity> songPage =
+                StringUtils.isBlank(search)
+                        ? songRepository.findAll(pageable)
+                        : songRepository.findByTitleContainingIgnoreCaseOrGenreContainingIgnoreCase(search, search, pageable);
+
         return mapper.toPageResponse(songPage);
     }
 

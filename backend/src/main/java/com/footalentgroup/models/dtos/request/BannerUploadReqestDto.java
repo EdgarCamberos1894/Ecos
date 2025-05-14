@@ -8,7 +8,7 @@ public record BannerUploadReqestDto(
         @ImageFile
         MultipartFile banner,
 
-        @Schema(description = "Campo para indicar que se desea eliminar el banner", defaultValue = "false")
+        @Schema(description = "Campo para indicar que se desea eliminar el banner", defaultValue = "false", required = true)
         boolean deleteBanner
 ) {
 }

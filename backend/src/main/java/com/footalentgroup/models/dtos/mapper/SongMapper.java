@@ -1,7 +1,7 @@
 package com.footalentgroup.models.dtos.mapper;
 
 import com.footalentgroup.models.dtos.request.SongUploadRequestDto;
-import com.footalentgroup.models.dtos.response.MusicianInfoReponseDto;
+import com.footalentgroup.models.dtos.response.MusicianInfoResponseDto;
 import com.footalentgroup.models.dtos.response.PageResponseDto;
 import com.footalentgroup.models.dtos.response.SongResponseDto;
 import com.footalentgroup.models.entities.MusicianProfileEntity;
@@ -9,13 +9,12 @@ import com.footalentgroup.models.entities.SongEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.ReportingPolicy;
 import org.springframework.data.domain.Page;
 
-import java.lang.annotation.Target;
 import java.util.List;
-import java.util.stream.Collectors;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface SongMapper {
 
     @Mapping(target = "audioUrl", ignore = true)
@@ -29,25 +28,25 @@ public interface SongMapper {
     @Mapping(target = "spotifyUrl", ignore = true)
     void updateEntity(SongUploadRequestDto requestDto, @MappingTarget SongEntity song);
 
-
-
-    default MusicianInfoReponseDto mapMusicianInfo(MusicianProfileEntity musicianProfileEntity) {
+    default MusicianInfoResponseDto mapMusicianInfo(MusicianProfileEntity musicianProfileEntity) {
         if (musicianProfileEntity == null) {
             return null;
         }
-        return new MusicianInfoReponseDto(
+
+        return new MusicianInfoResponseDto(
+                musicianProfileEntity.getId(),
                 musicianProfileEntity.getStageName(),
+                musicianProfileEntity.getPhotoUrl(),
                 musicianProfileEntity.getUser().getName(),
                 musicianProfileEntity.getSpotifyUrl(),
                 musicianProfileEntity.getYoutubeUrl()
         );
     }
 
-    // Este método puede mapear la página y devolver la respuesta formateada
     default PageResponseDto<SongResponseDto> toPageResponse(Page<SongEntity> songPage) {
         List<SongResponseDto> songDtos = songPage.getContent().stream()
                 .map(this::toSongResponseDto)
-                .collect(Collectors.toList());
+                .toList();
 
         return new PageResponseDto<>(
                 songDtos,
@@ -59,5 +58,4 @@ public interface SongMapper {
                 songPage.isLast()
         );
     }
-
 }
