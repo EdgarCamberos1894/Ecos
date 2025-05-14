@@ -6,9 +6,37 @@ import ContactForm from "../components/ContactForm";
 import FollowArtist from "./components/FollowArtist";
 import { useApiQuery } from "@/shared/hooks/use-api-query";
 import { useRequiredUser } from "@/auth/hooks/use-required-user";
+import { AudioPlayer } from "./components/AudioPlayer";
 
 interface BannerUrl {
   bannerUrl: string | null;
+}
+
+interface MusicianInfo {
+  stageName: string | null;
+  artistName: string;
+  spotifyUrl: string | null;
+  youtubeUrl: string | null;
+}
+
+interface Item {
+  id: number;
+  title: string;
+  genre: string;
+  audioUrl: string;
+  spotifyUrl: string | null;
+  youtubeUrl: string;
+  musicianInfo: MusicianInfo;
+}
+
+interface ApiSongs {
+  items: Item[];
+  page: number;
+  size: number;
+  totalPages: number;
+  totalItems: number;
+  first: boolean;
+  last: boolean;
 }
 
 export default function ProfileMusicianPage() {
@@ -20,43 +48,56 @@ export default function ProfileMusicianPage() {
     user.id,
   );
 
+  const { data: songs } = useApiQuery<ApiSongs>("songs", `songs/musician/${user.id}`, user.id);
+
   return (
-    <main className="mb-20">
-      <img
-        src={banner?.bannerUrl ?? ImageBanner}
-        alt={`Banner`}
-        className="mb-10 max-h-[680px] w-full object-cover"
-      />
-      <div className="mb-40 ml-40 space-y-2 p-2">
-        <h1 className="text-8xl font-medium">{user.name}</h1>
-        <h2 className="text-2xl font-medium">{user.name}</h2>
-      </div>
-      <section className="ml-40 flex flex-col gap-16">
-        <div>
-          <SpotifyTrack
-            className="max-w-5xl rounded-4xl"
-            embedUrl="https://open.spotify.com/embed/track/1iW2ktyrQHNKZwFTvgP0Ta?utm_source=generator"
-          />
-          {/* TODO: componente con iconos para interactuar con la cancion */}
+    <>
+      {JSON.stringify(songs, null, 2)}
+      <main className="mb-20">
+        <img
+          src={banner?.bannerUrl ?? ImageBanner}
+          alt={`Banner`}
+          className="mb-10 max-h-[680px] w-full object-cover"
+        />
+        <div className="mb-40 ml-40 space-y-2 p-2">
+          <h1 className="text-8xl font-medium">{user.name}</h1>
+          <h2 className="text-2xl font-medium">{user.name}</h2>
         </div>
-        <div>
-          <YouTubeVideo className="w-5xl" embedUrl="https://www.youtube.com/embed/bbkNm739ULA" />
-        </div>
-        {/* TODO: componente para donar */}
-        <div className="mb-36">
-          <EventCard
-            headline="EVENTO"
-            supportingText="Supporting Text"
-            datePublished={new Date()}
-            contentPublished="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-          />
-        </div>
-      </section>
-      <section className="ml-40 space-y-28">
-        <h2 className="text-4xl uppercase">Contacto</h2>
-        <ContactForm />
-        <FollowArtist />
-      </section>
-    </main>
+        <section className="ml-40 flex flex-col gap-16">
+          {songs?.items[0].audioUrl && (
+            <AudioPlayer audioUrl={songs.items[0].audioUrl} title={songs.items[0].title} />
+          )}
+          {songs?.items[0].spotifyUrl && (
+            <div>
+              <SpotifyTrack
+                className="max-w-5xl rounded-4xl"
+                embedUrl={songs.items[0].spotifyUrl}
+              />
+              {/* TODO: componente con iconos para interactuar con la cancion */}
+            </div>
+          )}
+          {songs?.items[0].youtubeUrl && (
+            <div>
+              <YouTubeVideo className="w-5xl" embedUrl={songs.items[0].youtubeUrl} />
+              {/* TODO: componente con iconos para interactuar con la cancion */}
+            </div>
+          )}
+          {/* TODO: componente para donar */}
+          <div className="mb-36">
+            <EventCard
+              headline="EVENTO"
+              supportingText="Supporting Text"
+              datePublished={new Date()}
+              contentPublished="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+            />
+          </div>
+        </section>
+        <section className="ml-40 space-y-28">
+          <h2 className="text-4xl uppercase">Contacto</h2>
+          <ContactForm />
+          <FollowArtist />
+        </section>
+      </main>
+    </>
   );
 }
