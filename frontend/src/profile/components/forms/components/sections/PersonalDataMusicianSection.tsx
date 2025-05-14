@@ -13,7 +13,6 @@ interface PersonalDataMusicianProps {
   errors: FieldErrors<FormMusicianProfileSchema>;
   register: UseFormRegister<FormMusicianProfileSchema>;
   className?: string;
-  description: string;
 }
 
 export const PersonalDataMusicianSection = ({
