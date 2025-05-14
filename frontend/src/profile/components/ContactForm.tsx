@@ -27,7 +27,10 @@ const ContactForm = () => {
   };
 
   return (
-    <form className="flex max-w-[810px] flex-col gap-6" onSubmit={handleSubmit(onSubmit)}>
+    <form
+      className="text-ecos-blue flex max-w-[810px] flex-col gap-6"
+      onSubmit={handleSubmit(onSubmit)}
+    >
       <label className="flex flex-col gap-2 text-2xl font-normal" htmlFor="name">
         Nombre
         <input
@@ -70,7 +73,7 @@ const ContactForm = () => {
         )}
       </label>
 
-      <button type="submit" className="cursor-pointer rounded-full bg-gray-400 py-2.5 text-white">
+      <button type="submit" className="bg-ecos-blue cursor-pointer rounded-full py-2.5 text-white">
         Enviar
       </button>
 
