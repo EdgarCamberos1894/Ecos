@@ -1,13 +1,13 @@
 import { Route, Routes } from "react-router";
 import { HomePage } from "@/home/HomePage";
 import { MainLayout } from "@/app/layout/MainLayout";
-import ProfilePage from "@/profile/ProfilePage";
+import ProfileMusicianPage from "@/profile/musician/ProfileMusicianPage";
 import ExplorerPage from "@/explorer/components/ExplorerPage";
 import ArtistPage from "@/artist/components/ArtistPage";
-import PlayPage from "@/play/PlayPage";
+import ProfileFanPage from "@/profile/fan/ProfileFanPage";
 import ProtectedRoute from "@/auth/components/ProtectedRoute";
 import EventPage from "@/event/EventPage";
-import { EditProfilePage } from "@/profile/EditProfilePage";
+import { EditProfileMusicianPage } from "@/profile/musician/EditProfileMusicianPage";
 import { BackButtonLayout } from "@/app/layout/BackButtonLayout";
 
 export const AppRoutes = () => {
@@ -19,19 +19,19 @@ export const AppRoutes = () => {
         <Route path="*" element={<div>404 NOT FOUND</div>} />
         <Route path="/explorer" element={<ExplorerPage />} />
         <Route path="/artist" element={<ArtistPage />} />
-        <Route path="/play" element={<PlayPage />} />
 
         {/* Rutas protegidas */}
         <Route element={<ProtectedRoute />}>
-          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/profile/musician" element={<ProfileMusicianPage />} />
           <Route path="/event" element={<EventPage />} />
+          <Route path="/profile/fan" element={<ProfileFanPage />} />
         </Route>
       </Route>
 
       {/* Rutas protegidas con BackButtonLayout */}
       <Route element={<ProtectedRoute />}>
         <Route element={<BackButtonLayout />}>
-          <Route path="/profile/edit" element={<EditProfilePage />} />
+          <Route path="/profile/musician/edit" element={<EditProfileMusicianPage />} />
         </Route>
       </Route>
     </Routes>

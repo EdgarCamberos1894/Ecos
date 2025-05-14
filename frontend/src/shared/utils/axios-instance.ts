@@ -9,7 +9,7 @@ const rejectWithError = (error: unknown) =>
   Promise.reject(error instanceof Error ? error : new Error(String(error)));
 
 api.interceptors.request.use((config) => {
-  const token = (localStorage.getItem("userToken") ?? "").replace(/(^"|"$)/g, "").trim();
+  const token = localStorage.getItem("userToken");
 
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;

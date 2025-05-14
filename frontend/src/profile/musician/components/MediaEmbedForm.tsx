@@ -1,19 +1,43 @@
-import { useMediaEmbed } from "../hooks/use-media-embed";
+import { type SettingMusic } from "@/profile/musician/EditProfileMusicianPage";
+import { useMediaEmbed } from "@/profile/hooks/use-media-embed";
 import { SpotifyTrack } from "./SpotifyTrack";
 import { YouTubeVideo } from "./YoutubeVideo";
 
 interface MediaEmbedFormProps {
   platform: "spotify" | "youtube";
+  onSettingMusic?: (settings: SettingMusic) => void;
 }
 
-export const MediaEmbedForm = ({ platform }: MediaEmbedFormProps) => {
+export const MediaEmbedForm = ({ platform, onSettingMusic }: MediaEmbedFormProps) => {
   const { input, embedUrl, mediaType, setInput, handleEmbed, handleCancel } =
     useMediaEmbed(platform);
+
+  const handleSetMusic = () => {
+    const { url, type } = handleEmbed();
+    onSettingMusic?.({ url, type });
+  };
 
   return embedUrl ? (
     <>
       {mediaType === "spotify" ? (
-        <SpotifyTrack embedUrl={embedUrl} />
+        <>
+          <SpotifyTrack embedUrl={embedUrl} />
+          <div className="mb-2 flex gap-10">
+            <button
+              type="button"
+              className="bg-ecos-orange-light text-ecos-blue rounded-full px-6 py-2.5"
+            >
+              Guardar
+            </button>
+            <button
+              type="button"
+              onClick={handleCancel}
+              className="bg-ecos-blue rounded-full px-6 py-2.5 text-white"
+            >
+              Cancelar
+            </button>
+          </div>
+        </>
       ) : (
         <div className="space-y-9">
           <YouTubeVideo embedUrl={embedUrl} />
@@ -24,7 +48,11 @@ export const MediaEmbedForm = ({ platform }: MediaEmbedFormProps) => {
             >
               Guardar
             </button>
-            <button type="button" className="bg-ecos-blue rounded-full px-6 py-2.5 text-white">
+            <button
+              type="button"
+              onClick={handleCancel}
+              className="bg-ecos-blue rounded-full px-6 py-2.5 text-white"
+            >
               Cancelar
             </button>
           </div>
@@ -55,7 +83,7 @@ export const MediaEmbedForm = ({ platform }: MediaEmbedFormProps) => {
       <div className="mt-6 flex gap-4">
         <button
           type="button"
-          onClick={handleEmbed}
+          onClick={handleSetMusic}
           className="bg-ecos-orange-light text-ecos-blue rounded-full px-6 py-2.5"
         >
           Incrustar

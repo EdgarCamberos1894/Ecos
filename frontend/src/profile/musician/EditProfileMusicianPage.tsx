@@ -1,5 +1,5 @@
 import { useState } from "react";
-import BannerUploader from "./components/BannerUploader";
+import BannerUploader from "../components/BannerUploader";
 import { MediaEmbedForm } from "./components/MediaEmbedForm";
 import { MusicUploader } from "./components/MusicUploader";
 import CreateEventoCard from "./components/CreateEventCard";
@@ -9,18 +9,38 @@ import { useApiMutation } from "@/shared/hooks/use-api-mutation";
 import { toast } from "sonner";
 import { useRequiredUser } from "@/auth/hooks/use-required-user";
 import ImageBanner from "@/assets/imageBanner.webp";
+import { MediaType } from "../utils/media-utils";
 
 interface BannerUrl {
   bannerUrl: string | null;
+}
+
+export interface SettingMusic {
+  url?: string;
+  type?: MediaType;
+  audio?: File;
 }
 
 interface MusicData {
   title: string;
   genre: string;
   sourceType: "SPOTIFY" | "FILE";
+  audio?: File;
+  spotifyUrl?: string;
+  youtubeUrl?: string;
 }
 
-export const EditProfilePage = () => {
+interface ApiSongs {
+  items: string[];
+  page: number;
+  size: number;
+  totalPages: number;
+  totalItems: number;
+  first: boolean;
+  last: boolean;
+}
+
+export const EditProfileMusicianPage = () => {
   const [file, setFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
@@ -40,11 +60,43 @@ export const EditProfilePage = () => {
     user.id,
   );
 
-  const { mutate, isPending } = useApiMutation<string, FormData>("/musician-profile/banner", "PUT");
+  const { data: songs } = useApiQuery<ApiSongs>("songs", `songs/musician/${user.id}`, user.id);
 
-  const handleImageUpload = (file: File | null, imageUrl: string | null) => {
+  const { mutate: bannerMutate, isPending: isBannerPending } = useApiMutation<string, FormData>(
+    "/musician-profile/banner",
+    "PUT",
+  );
+
+  const { mutate: songsMutate, isPending: isSongsPending } = useApiMutation<ApiSongs, FormData>(
+    "/songs",
+    songs?.totalItems === 0 ? "POST" : "PUT",
+  );
+
+  const onImageUpload = (file: File | null, imageUrl: string | null) => {
     setFile(file);
     setImagePreview(imageUrl);
+  };
+
+  const onSettingMusic = (settings: SettingMusic) => {
+    const { url, type, audio } = settings;
+
+    setMusicData((prevMusicData) => {
+      if (type === "spotify") {
+        const { audio: _, ...rest } = prevMusicData;
+        return { ...rest, spotifyUrl: url };
+      }
+
+      if (type === "youtube") {
+        return { ...prevMusicData, youtubeUrl: url };
+      }
+
+      if (prevMusicData.sourceType === "FILE") {
+        const { spotifyUrl: _, ...rest } = prevMusicData;
+        return { ...rest, audio };
+      }
+
+      return prevMusicData;
+    });
   };
 
   const handleBannerUpload = () => {
@@ -57,7 +109,7 @@ export const EditProfilePage = () => {
     formData.append("banner", file);
     formData.append("deleteBanner", "false");
 
-    mutate(formData, {
+    bannerMutate(formData, {
       onSuccess: () => {
         toast.success("Banner guardado con éxito");
         refetch();
@@ -69,13 +121,50 @@ export const EditProfilePage = () => {
   };
 
   const handleSubmit = () => {
-    console.log("Enviando musica");
+    if (!musicData.title || !musicData.genre) {
+      toast.info("Los campos de título y género son obligatorios");
+      return;
+    }
+
+    if (!musicData.spotifyUrl && !musicData.audio) {
+      console.log(musicData);
+
+      toast.info("Se debe agregar como mínimo un enlace de Spotify o subir un archivo");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("title", musicData.title);
+    formData.append("genre", musicData.genre);
+    formData.append("sourceType", musicData.sourceType);
+
+    if (musicData.audio) {
+      formData.append("audio", musicData.audio);
+    }
+
+    if (musicData.spotifyUrl) {
+      formData.append("spotifyUrl", musicData.spotifyUrl);
+    }
+
+    if (musicData.youtubeUrl) {
+      formData.append("youtubeUrl", musicData.youtubeUrl);
+    }
+
+    songsMutate(formData, {
+      onSuccess: () => {
+        toast.success("Música guardado con éxito");
+        navigate("/profile");
+      },
+      onError: () => {
+        toast.error("Error al guardar la música");
+      },
+    });
   };
 
   return (
-    <main className="mt-20 space-y-32">
-      {JSON.stringify(musicData)}
-      {JSON.stringify(banner)}
+    <main className="space-y-32">
+      {JSON.stringify(musicData, null, 2)}
+      {JSON.stringify(songs, null, 2)}
       <section className="relative">
         <img
           src={banner?.bannerUrl ?? imagePreview ?? ImageBanner}
@@ -84,8 +173,8 @@ export const EditProfilePage = () => {
         />
         <BannerUploader
           onUpload={handleBannerUpload}
-          isUploading={isPending}
-          onImageUpload={handleImageUpload}
+          isUploading={isBannerPending}
+          onImageUpload={onImageUpload}
           className="absolute top-1/2 left-1/2 z-10 flex h-[454px] w-[734px] -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center gap-7 bg-white/50"
         />
       </section>
@@ -144,25 +233,14 @@ export const EditProfilePage = () => {
             </div>
           </label>
           {musicData.sourceType === "SPOTIFY" ? (
-            <MediaEmbedForm platform="spotify" />
+            <MediaEmbedForm platform="spotify" onSettingMusic={onSettingMusic} />
           ) : (
-            <MusicUploader />
+            <MusicUploader onSettingMusic={onSettingMusic} />
           )}
-          <div className="mb-2 flex gap-10">
-            <button
-              type="button"
-              className="bg-ecos-orange-light text-ecos-blue rounded-full px-6 py-2.5"
-            >
-              Guardar
-            </button>
-            <button type="button" className="bg-ecos-blue rounded-full px-6 py-2.5 text-white">
-              Cancelar
-            </button>
-          </div>
         </section>
         <section className="mb-32 space-y-9">
           <h3 className="text-2xl font-bold uppercase">Compartí tu VIDEOS a través de YOUTUBE</h3>
-          <MediaEmbedForm platform="youtube" />
+          <MediaEmbedForm platform="youtube" onSettingMusic={onSettingMusic} />
         </section>
         <CreateEventoCard />
       </section>
@@ -170,9 +248,10 @@ export const EditProfilePage = () => {
         <button
           type="button"
           onClick={handleSubmit}
+          disabled={isSongsPending}
           className="bg-ecos-orange-light cursor-pointer rounded-full px-[120px] py-5 text-base text-white"
         >
-          Guardar
+          {isSongsPending ? "Guardando" : "Guardar"}
         </button>
         <button
           type="button"

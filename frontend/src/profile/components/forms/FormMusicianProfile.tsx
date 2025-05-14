@@ -78,7 +78,7 @@ const FormMusicianProfile = ({ onClose }: FormMusicianProfileProps) => {
         mutate(formData, {
           onSuccess: () => {
             toast.success("¡Perfil actualizado con éxito!");
-            navigate("/profile/edit");
+            navigate("/profile/musician/edit");
             onClose();
           },
           onError: (error) => {
