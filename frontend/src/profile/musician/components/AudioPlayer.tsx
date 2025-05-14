@@ -75,13 +75,15 @@ export const AudioPlayer = ({ audioUrl, title }: AudioPlayerProps) => {
 
       {/* Info & progress */}
       <div className="flex w-full max-w-md flex-col gap-1">
-        <span className="text-sm font-medium">{title}</span>
-        <span className="text-xs text-gray-500">
-          {formatTime(currentTime)} / {formatTime(duration || 270)}
-        </span>
+        <div className="flex items-center gap-8">
+          <span className="text-sm font-medium">{title}</span>
+          <span className="text-xs text-gray-500">
+            {formatTime(currentTime)} / {formatTime(duration || 270)}
+          </span>
+        </div>
 
         <div
-          className="relative h-2 w-full cursor-pointer rounded bg-gray-300"
+          className="relative h-2 min-h-[11px] w-full max-w-[404px] cursor-pointer rounded bg-gray-300"
           onClick={handleProgressClick}
         >
           <div
