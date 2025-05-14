@@ -57,6 +57,13 @@ public class SongController {
         return ResponseEntity.ok().body(songService.getAllSongsByMusicianId(id,pageable));
     }
 
+    @GetMapping("/search")
+    @Operation(summary = "Obtiene una lista paginada de canciones cuyo título o género contenga el término de búsqueda especificado.")
+    public ResponseEntity<?> searchSongs(@RequestParam(value = "search", required = false) String search, @ParameterObject @Valid SongPageRequestDto request) {
+        Pageable pageable = PageRequest.of(request.getPage(), request.getSize(), request.getSort());
+        return ResponseEntity.ok().body(songService.searchSongs(search,pageable));
+    }
+
     @PutMapping(value = "/{id}", consumes = "multipart/form-data")
     @Operation(summary = "Actualiza una canción por ID (requiere autenticación, solo el autor puede editar)", security = @SecurityRequirement(name = "bearer-key"))
     public ResponseEntity<?> updateSong(@PathVariable Long id, @ModelAttribute @Valid SongUploadRequestDto request) {

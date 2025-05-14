@@ -17,7 +17,10 @@ public interface SongService {
 
     PageResponseDto<SongResponseDto> getAllSongsByMusicianId(Long idMusician, Pageable pageable);
 
+    PageResponseDto<SongResponseDto> searchSongs(String search, Pageable pageable);
+
     void deleteSong(Long id);
+
 
 
 }

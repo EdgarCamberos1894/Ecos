@@ -23,7 +23,7 @@ public class SongPageRequestDto {
     @Parameter(description = "Tamaño de página", example = "10")
     private int size = 10;
 
-    @Pattern(regexp = "title|artist", message = "El campo de ordenamiento no es válido")
+    @Pattern(regexp = "title|genre", message = "El campo de ordenamiento no es válido")
     @Parameter(description = "Campo por el que ordenar", example = "title")
     private String sortBy = "title";
 
