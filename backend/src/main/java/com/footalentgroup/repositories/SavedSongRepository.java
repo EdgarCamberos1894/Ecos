@@ -10,15 +10,17 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.util.List;
-import java.util.Optional;
 
 public interface SavedSongRepository extends JpaRepository<SavedSongEntity, Long> {
-    Optional<FanProfileEntity> findByUserEmail(String email);
-    List<SongResponseDto> findByFanIdAndDeletedAtIsNull(Long fanId);
+
 
     SavedSongEntity findByFanIdAndSongId(Long fan_id, Long song_id);
 
-    @Query("SELECT s.song FROM SavedSongEntity s WHERE s.fan.id = :fanId AND s.deletedAt IS NULL")
+    @Query(""" 
+          SELECT se 
+          FROM SongEntity se 
+          JOIN se.savedByFans ss 
+          WHERE ss.fan.id = :fanId AND ss.deletedAt IS NULL 
+    """)
     Page<SongEntity> findSongsByFanId(@Param("fanId") Long fanId, Pageable pageable);
 }
