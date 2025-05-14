@@ -8,12 +8,15 @@ export const useMediaEmbed = (platform: string) => {
 
   const handleEmbed = () => {
     const { url, type } = extractEmbedUrl(input, platform);
+
     if (url) {
       setEmbedUrl(url);
       setMediaType(type);
     } else {
       alert(`No se pudo detectar un link válido de ${platform}.`);
     }
+
+    return { url, type };
   };
 
   const handleCancel = () => {
