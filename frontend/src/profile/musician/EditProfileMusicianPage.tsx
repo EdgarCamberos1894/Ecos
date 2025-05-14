@@ -30,7 +30,7 @@ interface MusicData {
   youtubeUrl?: string;
 }
 
-interface ApiSongs {
+export interface ApiSongs {
   items: string[];
   page: number;
   size: number;
@@ -163,8 +163,6 @@ export const EditProfileMusicianPage = () => {
 
   return (
     <main className="space-y-32">
-      {JSON.stringify(musicData, null, 2)}
-      {JSON.stringify(songs, null, 2)}
       <section className="relative">
         <img
           src={banner?.bannerUrl ?? imagePreview ?? ImageBanner}
