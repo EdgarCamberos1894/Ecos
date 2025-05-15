@@ -1,10 +1,10 @@
-import ArtistSearchEngine from "@/app/components/ArtistSearchEngine";
+import MusicSearch from "@/app/components/MusicSearch";
 import FeaturedTopicsList from "../FeaturedTopicsList";
 
 const DiscoverArtist = () => {
   return (
     <section>
-      <ArtistSearchEngine />
+      <MusicSearch />
       <FeaturedTopicsList />
     </section>
   );

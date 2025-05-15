@@ -1,5 +1,5 @@
 import { useMemo, useEffect } from "react";
-import ArtistSearchEngine from "@/app/components/ArtistSearchEngine";
+import MusicSearch from "@/app/components/MusicSearch";
 import ImageBanner from "@/assets/bannerProfileFan.webp";
 import ArtistGrid from "@/app/components/ArtistsGrid";
 import { useApiQuery } from "@/shared/hooks/use-api-query";
@@ -39,7 +39,7 @@ const ArtistPage = () => {
   return (
     <div className="flex w-full flex-col items-center gap-24 px-2.5 lg:px-0">
       <img src={ImageBanner} alt="banner" className="w-full object-cover" />
-      <ArtistSearchEngine />
+      <MusicSearch />
 
       {genres.map((genre) => {
         const filteredMusicians = data?.items.filter((musician) => musician.genre === genre) ?? [];

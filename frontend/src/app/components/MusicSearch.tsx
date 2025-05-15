@@ -2,7 +2,7 @@ import Input from "@/app/ui/Input";
 import MenuIcon from "@/assets/hamburgerMenu.svg?react";
 import Lens from "@/assets/lens.svg?react";
 
-const ArtistSearchEngine = () => {
+const MusicSearch = () => {
   return (
     <section className="w-full">
       <h1 className="mb-12 text-center text-2xl font-semibold text-[#19233A] sm:text-4xl lg:text-5xl">
@@ -20,4 +20,4 @@ const ArtistSearchEngine = () => {
   );
 };
 
-export default ArtistSearchEngine;
+export default MusicSearch;
