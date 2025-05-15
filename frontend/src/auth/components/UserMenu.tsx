@@ -63,9 +63,9 @@ const UserMenu = () => {
                   navigate(`/profile/${user.role.toLowerCase()}/${id}`);
                   setIsOpen(false);
                 }}
-                className="flex items-center gap-5 leading-1"
+                className="flex cursor-pointer items-center gap-5 leading-1"
               >
-                <UserProfileIcon />
+                <UserProfileIcon className="size-8" />
                 Mi perfil
               </button>
 
@@ -79,9 +79,9 @@ const UserMenu = () => {
                   }
                   setIsOpen(false);
                 }}
-                className="flex items-center gap-5 leading-1"
+                className="flex cursor-pointer items-center gap-5 leading-1"
               >
-                <EditContainer />
+                <EditContainer className="size-8" />
                 Editar perfil
               </button>
 
@@ -92,9 +92,9 @@ const UserMenu = () => {
                     setIsOpenPerfilModal(true);
                     setIsOpen(false);
                   }}
-                  className="flex items-center gap-5 leading-1"
+                  className="flex cursor-pointer items-center gap-5 leading-1"
                 >
-                  <Settings />
+                  <Settings className="size-8" />
                   Configuración
                 </button>
               )}
@@ -102,9 +102,9 @@ const UserMenu = () => {
               <button
                 onClick={handleLogOut}
                 type="button"
-                className="flex items-center gap-5 leading-1"
+                className="flex cursor-pointer items-center gap-5 leading-1"
               >
-                <Logout />
+                <Logout className="size-8" />
                 Cerrar sesión
               </button>
             </div>
