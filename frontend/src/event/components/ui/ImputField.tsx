@@ -30,7 +30,6 @@ export default function InputField({
         <input
           id={name}
           name={name}
-          autoComplete="name"
           className={`w-full border p-2 text-sm placeholder:text-gray-400 focus:ring-2 focus:outline-none`}
           {...props}
         />

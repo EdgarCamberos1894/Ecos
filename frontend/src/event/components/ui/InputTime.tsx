@@ -25,7 +25,7 @@ export default function InputTime({ form, handleChange, errors }: InputTimeProps
             onChange={handleChange}
             className={`flex border px-3 py-2`}
           />
-          {errors?.date && <p className="text-sm text-red-600">{errors.date}</p>}
+          {errors?.dateString && <p className="text-sm text-red-600">{errors.dateString}</p>}
         </div>
 
         {/* Hora de inicio */}

@@ -11,15 +11,14 @@ const steps = ["Editar", "Banner", "Entradas", "Revisar"];
 const initialData: FormData = {
   name: "",
   category: "",
-  date: "",
-  hour: "",
+  dateString: "",
+  startTime: "",
+  endTime: "",
+  type: "Single",
   location: "",
   description: "",
   image: null,
-  price: {
-    puerta: 0,
-    locuras: 0,
-  },
+  tickets: [],
 };
 
 export default function EventPage() {

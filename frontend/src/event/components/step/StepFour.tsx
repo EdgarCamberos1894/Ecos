@@ -3,7 +3,6 @@ import type { FormData as FormDataType } from "@/event/type/FormData";
 import { useApiMutation } from "@/shared/hooks/use-api-mutation";
 import { toast } from "sonner";
 import { useRequiredUser } from "@/auth/hooks/use-required-user";
-import { useApiQuery } from "@/shared/hooks/use-api-query";
 
 interface StepFourProps {
   prevStep: () => void;
@@ -14,59 +13,54 @@ export default function StepFour({ prevStep, formData }: StepFourProps) {
   const user = useRequiredUser();
   const userId = user.id;
 
-  const { data: musicianProfile } = useApiQuery(
-    "musician-profile",
-    `/musician-profile/${userId}`,
-    userId,
-  );
+  function formatDateToDDMMYYYY(dateString: string): string {
+    const [year, month, day] = dateString.split("-");
+    return `${day}/${month}/${year}`;
+  }
 
   const [error, setError] = useState<string | null>(null);
 
-  const { mutate } = useApiMutation<string, FormData>("/eventos", "POST");
+  const { mutate } = useApiMutation<string, FormData>("/events", "POST");
 
   const handleSubmit = () => {
-    if (!musicianProfile) {
+    if (!userId) {
       toast.error("No se pudo obtener el perfil del músico.");
       return;
     }
+
+    if (formData.tickets.some((ticket) => typeof ticket.price !== "number" || ticket.price <= 0)) {
+      toast.error("Precio de tickets inválido");
+      return;
+    }
+
+    const formattedDate = formatDateToDDMMYYYY(formData.dateString);
+
     const data = new FormData();
     data.append("name", formData.name);
     data.append("category", formData.category);
-    data.append("type", formData.type);
-    data.append("dateString", formData.dateString);
+    data.append("dateString", formattedDate);
     data.append("startTime", formData.startTime);
     data.append("endTime", formData.endTime);
-
+    data.append("type", formData.type);
     data.append("location", formData.location);
     data.append("description", formData.description);
     data.append("musicianId", userId.toString());
-
     data.append("active", "true");
     data.append("deleteImage", "false");
 
-    const tickets = [
-      {
-        type: "Puerta",
-        price: formData.price.puerta,
-      },
-      {
-        type: "Locuras",
-        price: formData.price.locuras,
-      },
-    ];
-
-    tickets.forEach((ticket, index) => {
-      data.append(`tickets[${index.toString()}][type]`, ticket.type.toString());
-      data.append(`tickets[${index.toString()}][price]`, ticket.price.toString());
+    formData.tickets.forEach((ticket, index) => {
+      data.append(`tickets[${index.toString()}].location`, ticket.location);
+      data.append(`tickets[${index.toString()}].price`, ticket.price.toString());
     });
 
     if (formData.image) {
       data.append("image", formData.image);
     }
-
+    console.log("formData antes de enviar:", formData);
     mutate(data, {
       onSuccess: () => {
         setError(null);
+        toast.success(`Tu evento fué públicado con éxito`);
       },
       onError: () => {
         toast.error("Error al publicar evento");
@@ -77,7 +71,7 @@ export default function StepFour({ prevStep, formData }: StepFourProps) {
   return (
     <form>
       <p className="mb-4 text-sm font-normal">
-        Casi terminamos! Revisa que los datos sean correctos.
+        ¡Casi terminamos! Revisa que los datos sean correctos.
       </p>
       <div className="mx-auto flex flex-col gap-y-10 rounded-[50px] border-3 border-[#19233A] p-3 md:w-[807px] md:p-10 lg:w-7xl">
         {formData.image && (
@@ -103,7 +97,7 @@ export default function StepFour({ prevStep, formData }: StepFourProps) {
             <p className="text-2xl font-semibold">{formData.endTime}</p>
             <button
               className="text-center text-2xl font-semibold text-[#2C53AE] md:text-start"
-              type="submit"
+              type="button"
             >
               + Agregar a Calendario
             </button>
@@ -118,11 +112,11 @@ export default function StepFour({ prevStep, formData }: StepFourProps) {
             <p className="text-2xl font-bold">Tipo de entrada: Precio / entrada</p>
             <div className="flex flex-col gap-y-4">
               <p>Puerta:</p>
-              <span>{formData.price.puerta}</span>
+              <span>{formData.tickets[0]?.price}</span>
             </div>
             <div className="flex flex-col gap-y-4">
               <p>Locuras de Morón</p>
-              <span>{formData.price.locuras}</span>
+              <span>{formData.tickets[1]?.price}</span>
             </div>
           </div>
           <div className="flex flex-col gap-y-4">
