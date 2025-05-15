@@ -11,16 +11,15 @@ interface StepThreeProps {
   setFormData: React.Dispatch<React.SetStateAction<FormData>>;
 }
 
-const priceSchema = z.object({
-  puerta: z.preprocess(
-    (val) => (typeof val === "string" ? parseFloat(val) : val),
-    z.number().min(1, "Precio requerido"),
-  ),
-  locuras: z.preprocess(
-    (val) => (typeof val === "string" ? parseFloat(val) : val),
-    z.number().min(1, "Precio requerido"),
-  ),
-});
+const ticketsSchema = z.array(
+  z.object({
+    location: z.string(),
+    price: z.preprocess(
+      (val) => (typeof val === "string" ? parseFloat(val) : val),
+      z.number().min(1, "Precio requerido"),
+    ),
+  }),
+);
 
 const entryPoints = [
   { id: 1, entryKey: "puerta", entry: "Puerta", placeholder: 1500.0 },
@@ -28,12 +27,14 @@ const entryPoints = [
 ];
 
 export default function StepThree({ nextStep, prevStep, formData, setFormData }: StepThreeProps) {
-  const [form, setForm] = useState(
-    entryPoints.reduce<Record<string, number>>((acc, { entryKey }) => {
-      acc[`price-${entryKey}`] = formData.price[entryKey as keyof typeof formData.price];
-      return acc;
-    }, {}),
-  );
+  const [form, setForm] = useState<Record<string, number>>(() => {
+    const initial: Record<string, number> = {};
+    entryPoints.forEach(({ entryKey }) => {
+      const ticket = formData.tickets.find((t) => t.location.toLowerCase().includes(entryKey));
+      initial[`tickets-${entryKey}`] = ticket?.price ?? 0;
+    });
+    return initial;
+  });
 
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
 
@@ -46,31 +47,51 @@ export default function StepThree({ nextStep, prevStep, formData, setFormData }:
     }));
   };
 
+  function isZodError(error: unknown): error is ZodError {
+    return (
+      typeof error === "object" &&
+      error !== null &&
+      "errors" in error &&
+      Array.isArray((error as { errors?: unknown }).errors)
+    );
+  }
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const priceValues = entryPoints.reduce<Record<string, number>>((acc, { entryKey }) => {
-      acc[entryKey] = Number(form[`price-${entryKey}`]) || 0;
-      return acc;
-    }, {});
+    const ticketsArray = entryPoints.map(({ entryKey, entry }) => ({
+      location: entry,
+      price: Number(form[`tickets-${entryKey}`]) || 0,
+    }));
 
     try {
-      const parsedPrices = priceSchema.parse(priceValues);
+      const parsedTickets = ticketsSchema.parse(ticketsArray);
 
       setFormData((prev) => ({
         ...prev,
-        price: parsedPrices,
+        tickets: parsedTickets,
       }));
 
       nextStep();
     } catch (err) {
-      if (err instanceof ZodError) {
+      if (isZodError(err)) {
         const fieldErrors: Record<string, string> = {};
         err.errors.forEach((error) => {
-          const fieldName = error.path[0] as string;
-          fieldErrors[`price-${fieldName}`] = error.message;
+          // Validamos que el path tenga la forma esperada [index, 'price']
+          if (
+            Array.isArray(error.path) &&
+            error.path.length === 2 &&
+            typeof error.path[0] === "number" &&
+            error.path[1] === "price"
+          ) {
+            const index = error.path[0];
+            const key = `tickets-${entryPoints[index].entryKey}`;
+            fieldErrors[key] = error.message;
+          }
         });
         setFormErrors(fieldErrors);
+      } else {
+        console.error("Error inesperado:", err);
       }
     }
   };
@@ -83,12 +104,12 @@ export default function StepThree({ nextStep, prevStep, formData, setFormData }:
             <li key={id} className="flex w-full items-center gap-4">
               <InputField
                 label={entry}
-                name={`price-${entryKey}`}
+                name={`tickets-${entryKey}`}
                 type="number"
                 required={false}
-                value={form[`price-${entryKey}`] ?? 0}
+                value={form[`tickets-${entryKey}`] ?? 0}
                 onChange={handleChange}
-                error={formErrors[`price-${entryKey}`]}
+                error={formErrors[`tickets-${entryKey}`]}
                 placeholder={placeholder.toString()}
                 labelClassName="border-b border-[#000000] pb-2"
               />

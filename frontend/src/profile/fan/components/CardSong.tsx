@@ -11,6 +11,7 @@ import { useState, useRef } from "react";
 import DonationModal from "../DonationModal";
 import { useApiMutation } from "@/shared/hooks/use-api-mutation";
 import { toast } from "sonner";
+import { PauseIcon } from "../ui/PauseIcon";
 
 interface CardSongProps {
   id: number;
@@ -110,7 +111,7 @@ const CardSong = ({ id, title, artistId, stageName, photoUrl, audioUrl }: CardSo
           <img
             src={imageSrc}
             alt={`Imagen de ${stageName}`}
-            className="mx-auto max-h-[320px] max-w-[320px] rounded-[42px]"
+            className="mx-auto aspect-square max-h-[320px] max-w-[320px] rounded-[42px] object-cover"
           />
           <div className="text-center">
             <h3 className="text-ecos-blue text-center text-xl">{title}</h3>
@@ -120,7 +121,11 @@ const CardSong = ({ id, title, artistId, stageName, photoUrl, audioUrl }: CardSo
           <div className="text-ecos-orange mt-4 flex cursor-pointer items-center justify-center gap-3">
             <PrevIcon onClick={handleRestart} />
             <RepeatLeftIcon onClick={handleRewind} />
-            <PlayIcon onClick={handlePlayPause} />
+            {isPlaying ? (
+              <PauseIcon onClick={handlePlayPause} />
+            ) : (
+              <PlayIcon onClick={handlePlayPause} />
+            )}
             <RepeatRightIcon onClick={handleForward} />
             <NextIcon onClick={handleStop} />
           </div>

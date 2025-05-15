@@ -4,7 +4,7 @@ import { CheckIcon } from "@/home/components/ui/CheckIcon";
 
 const UpcomingEvents = () => {
   return (
-    <section className="mt-24 w-full lg:mx-auto lg:w-4/5">
+    <section id="eventos" className="mt-24 w-full lg:mx-auto lg:w-4/5">
       <h2 className="text[#19233A] m-8 text-start text-5xl lg:mb-24">Próximos Eventos</h2>
 
       <CardUpcomingEvents />

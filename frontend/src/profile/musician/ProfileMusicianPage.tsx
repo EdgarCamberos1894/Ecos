@@ -10,17 +10,57 @@ import { AudioPlayer } from "./components/AudioPlayer";
 import { HeartButton } from "../components/HeartButton";
 import { DonateButton } from "../components/DonateButton";
 import { DonateSection } from "./components/DonateSection";
-import { type BannerUrl, type ApiSongs, type MusicianProfile } from "./musician-types";
+import {
+  type BannerUrl,
+  type ApiSongs,
+  type MusicianProfile,
+  type FavoriteMusic,
+} from "./musician-types";
+import { useRequiredUser } from "@/auth/hooks/use-required-user";
+import { useApiMutation } from "@/shared/hooks/use-api-mutation";
+import { toast } from "sonner";
+import { useState } from "react";
+import DonationModal from "../fan/DonationModal";
 
 export default function ProfileMusicianPage() {
+  const [isDonationModalOpen, setIsDonationModalOpen] = useState(false);
+
   const { id } = useParams() as { id: string };
+  const user = useRequiredUser();
 
   const { data: banner } = useApiQuery<BannerUrl>("banner", `musician-profile/${id}/banner`, id);
   const { data: profile } = useApiQuery<MusicianProfile>("profile", `musician-profile/${id}`, id);
-  const { data: songs } = useApiQuery<ApiSongs>("songs", `songs/musician/${id}`, id);
+  const { data: songs, isSuccess } = useApiQuery<ApiSongs>("songs", `songs/musician/${id}`, id);
+  const { data: events } = useApiQuery("events", `events/musician/${id}`, id);
+
+  const { mutate: favoriteSongMutate } = useApiMutation<FavoriteMusic, undefined>(
+    isSuccess ? `/saved-songs/save/${songs.items[0].id.toString()}` : "",
+    "POST",
+  );
+
+  const handleDonationModal = () => {
+    setIsDonationModalOpen(!isDonationModalOpen);
+  };
+
+  const handleFavoriteMusic = () => {
+    if (user.role === "MUSICIAN") {
+      toast.info("Solo las cuentas con el rol FAN pueden guardar música");
+      return;
+    }
+
+    favoriteSongMutate(undefined, {
+      onSuccess: (response) => {
+        toast.success(response.message);
+      },
+      onError: () => {
+        toast.error("Error al guardar música");
+      },
+    });
+  };
 
   return (
     <>
+      {JSON.stringify(events, null, 2)}
       <img
         src={banner?.bannerUrl ?? ImageBanner}
         alt={`Banner`}
@@ -34,10 +74,16 @@ export default function ProfileMusicianPage() {
             <>
               <AudioPlayer audioUrl={songs.items[0].audioUrl} title={songs.items[0].title} />
               <div className="mt-4 mb-16 flex gap-4 sm:gap-6">
-                <HeartButton className="bg-ecos-blue flex h-14 w-28 cursor-pointer items-center justify-center gap-2.5 rounded-full px-3.5 py-1.5 text-sm text-white sm:w-44 sm:px-10 sm:py-1.5">
+                <HeartButton
+                  onClick={handleFavoriteMusic}
+                  className="bg-ecos-blue flex h-14 w-28 cursor-pointer items-center justify-center gap-2.5 rounded-full px-3.5 py-1.5 text-sm text-white sm:w-44 sm:px-10 sm:py-1.5"
+                >
                   Guardar
                 </HeartButton>
-                <DonateButton className="bg-ecos-blue flex h-14 w-28 cursor-pointer items-center justify-center gap-2.5 rounded-full px-3.5 py-1.5 text-sm text-white sm:w-44 sm:px-10 sm:py-1.5">
+                <DonateButton
+                  onClick={handleDonationModal}
+                  className="bg-ecos-blue flex h-14 w-28 cursor-pointer items-center justify-center gap-2.5 rounded-full px-3.5 py-1.5 text-sm text-white sm:w-44 sm:px-10 sm:py-1.5"
+                >
                   Donar
                 </DonateButton>
               </div>
@@ -50,10 +96,16 @@ export default function ProfileMusicianPage() {
                 embedUrl={songs.items[0].spotifyUrl}
               />
               <div className="mt-4 mb-16 flex gap-4 md:gap-6">
-                <HeartButton className="bg-ecos-blue flex h-14 w-28 cursor-pointer items-center justify-center gap-2.5 rounded-full px-3.5 py-1.5 text-sm text-white sm:w-44 sm:px-10 sm:py-1.5">
+                <HeartButton
+                  onClick={handleFavoriteMusic}
+                  className="bg-ecos-blue flex h-14 w-28 cursor-pointer items-center justify-center gap-2.5 rounded-full px-3.5 py-1.5 text-sm text-white sm:w-44 sm:px-10 sm:py-1.5"
+                >
                   Guardar
                 </HeartButton>
-                <DonateButton className="bg-ecos-blue flex h-14 w-28 cursor-pointer items-center justify-center gap-2.5 rounded-full px-3.5 py-1.5 text-sm text-white sm:w-44 sm:px-10 sm:py-1.5">
+                <DonateButton
+                  onClick={handleDonationModal}
+                  className="bg-ecos-blue flex h-14 w-28 cursor-pointer items-center justify-center gap-2.5 rounded-full px-3.5 py-1.5 text-sm text-white sm:w-44 sm:px-10 sm:py-1.5"
+                >
                   Donar
                 </DonateButton>
               </div>
@@ -65,7 +117,7 @@ export default function ProfileMusicianPage() {
               embedUrl={songs.items[0].youtubeUrl}
             />
           )}
-          <DonateSection />
+          <DonateSection handleDonationModal={handleDonationModal} />
           <div className="mb-[261px]">
             <EventCard
               headline="EVENTO"
@@ -81,6 +133,8 @@ export default function ProfileMusicianPage() {
           <FollowArtist />
         </section>
       </main>
+
+      {isDonationModalOpen && <DonationModal artistId={Number(id)} onClose={handleDonationModal} />}
     </>
   );
 }

@@ -1,15 +1,77 @@
-import type { FormData } from "@/event/type/FormData";
+import { useState } from "react";
+import type { FormData as FormDataType } from "@/event/type/FormData";
+import { useApiMutation } from "@/shared/hooks/use-api-mutation";
+import { toast } from "sonner";
+import { useRequiredUser } from "@/auth/hooks/use-required-user";
 
 interface StepFourProps {
   prevStep: () => void;
-  formData: FormData;
+  formData: FormDataType;
 }
 
 export default function StepFour({ prevStep, formData }: StepFourProps) {
+  const user = useRequiredUser();
+  const userId = user.id;
+
+  function formatDateToDDMMYYYY(dateString: string): string {
+    const [year, month, day] = dateString.split("-");
+    return `${day}/${month}/${year}`;
+  }
+
+  const [error, setError] = useState<string | null>(null);
+
+  const { mutate } = useApiMutation<string, FormData>("/events", "POST");
+
+  const handleSubmit = () => {
+    if (!userId) {
+      toast.error("No se pudo obtener el perfil del músico.");
+      return;
+    }
+
+    if (formData.tickets.some((ticket) => typeof ticket.price !== "number" || ticket.price <= 0)) {
+      toast.error("Precio de tickets inválido");
+      return;
+    }
+
+    const formattedDate = formatDateToDDMMYYYY(formData.dateString);
+
+    const data = new FormData();
+    data.append("name", formData.name);
+    data.append("category", formData.category);
+    data.append("dateString", formattedDate);
+    data.append("startTime", formData.startTime);
+    data.append("endTime", formData.endTime);
+    data.append("type", formData.type);
+    data.append("location", formData.location);
+    data.append("description", formData.description);
+    data.append("musicianId", userId.toString());
+    data.append("active", "true");
+    data.append("deleteImage", "false");
+
+    formData.tickets.forEach((ticket, index) => {
+      data.append(`tickets[${index.toString()}].location`, ticket.location);
+      data.append(`tickets[${index.toString()}].price`, ticket.price.toString());
+    });
+
+    if (formData.image) {
+      data.append("image", formData.image);
+    }
+    console.log("formData antes de enviar:", formData);
+    mutate(data, {
+      onSuccess: () => {
+        setError(null);
+        toast.success(`Tu evento fué públicado con éxito`);
+      },
+      onError: () => {
+        toast.error("Error al publicar evento");
+      },
+    });
+  };
+
   return (
     <form>
       <p className="mb-4 text-sm font-normal">
-        Casi terminamos! Revisa que los datos sean correctos
+        ¡Casi terminamos! Revisa que los datos sean correctos.
       </p>
       <div className="mx-auto flex flex-col gap-y-10 rounded-[50px] border-3 border-[#19233A] p-3 md:w-[807px] md:p-10 lg:w-7xl">
         {formData.image && (
@@ -23,15 +85,19 @@ export default function StepFour({ prevStep, formData }: StepFourProps) {
         )}
         <main className="flex flex-col gap-y-8">
           <h2 className="text-center text-3xl font-extrabold md:text-start md:text-5xl">
-            {formData.eventName}
+            {formData.name}
           </h2>
+          <h3 className="text-center text-3xl font-extrabold md:text-start md:text-5xl">
+            {formData.category}
+          </h3>
           <div className="flex flex-col gap-y-4">
             <h3 className="text-2xl font-bold">Fecha y Hora</h3>
-            <p className="text-2xl font-semibold">{formData.date}</p>
-            <p className="text-2xl font-semibold">{formData.hour}</p>
+            <p className="text-2xl font-semibold">{formData.dateString}</p>
+            <p className="text-2xl font-semibold">{formData.startTime}</p>
+            <p className="text-2xl font-semibold">{formData.endTime}</p>
             <button
               className="text-center text-2xl font-semibold text-[#2C53AE] md:text-start"
-              type="submit"
+              type="button"
             >
               + Agregar a Calendario
             </button>
@@ -46,15 +112,15 @@ export default function StepFour({ prevStep, formData }: StepFourProps) {
             <p className="text-2xl font-bold">Tipo de entrada: Precio / entrada</p>
             <div className="flex flex-col gap-y-4">
               <p>Puerta:</p>
-              <span>{formData.price.puerta}</span>
+              <span>{formData.tickets[0]?.price}</span>
             </div>
             <div className="flex flex-col gap-y-4">
               <p>Locuras de Morón</p>
-              <span>{formData.price.locuras}</span>
+              <span>{formData.tickets[1]?.price}</span>
             </div>
           </div>
           <div className="flex flex-col gap-y-4">
-            <h3 className="text-3xl font-bold">Descripcióndel Evento</h3>
+            <h3 className="text-3xl font-bold">Descripción del Evento</h3>
             <p className="text-lg font-normal">{formData.description}</p>
           </div>
         </main>
@@ -62,6 +128,7 @@ export default function StepFour({ prevStep, formData }: StepFourProps) {
       <div className="mt-6 flex justify-center space-x-4">
         <button
           type="button"
+          onClick={handleSubmit}
           className="rounded-[37px] bg-[#FE963D] px-6 py-2 text-white hover:opacity-90"
         >
           Publicar Evento
@@ -74,6 +141,7 @@ export default function StepFour({ prevStep, formData }: StepFourProps) {
           Cancelar
         </button>
       </div>
+      {error && <p className="mt-4 text-center text-red-500">{error}</p>}
     </form>
   );
 }
