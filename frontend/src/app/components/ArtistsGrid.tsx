@@ -1,11 +1,11 @@
 import CardArtist from "@/app/components/CardArtist";
 import { FeaturedMusician } from "../../home/components/types/FeaturedMusician";
 
-interface CardFeaturedArtistsProps {
+interface ArtistGridProps {
   musicians: FeaturedMusician[];
 }
 
-const CardFeaturedArtists = ({ musicians }: CardFeaturedArtistsProps) => {
+const ArtistGrid = ({ musicians }: ArtistGridProps) => {
   return (
     <div className="grid grid-cols-1 gap-6 px-6 lg:grid-cols-2 lg:grid-rows-2">
       {musicians.map((musician) => (
@@ -15,4 +15,4 @@ const CardFeaturedArtists = ({ musicians }: CardFeaturedArtistsProps) => {
   );
 };
 
-export default CardFeaturedArtists;
+export default ArtistGrid;

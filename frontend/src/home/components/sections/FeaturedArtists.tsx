@@ -1,5 +1,5 @@
 import { toast } from "sonner";
-import CardFeaturedArtists from "../../../app/components/CardFeaturedArtists";
+import ArtistGrid from "@/app/components/ArtistsGrid";
 import { useApiQuery } from "@/shared/hooks/use-api-query";
 import { FeaturedMusician } from "../types/FeaturedMusician";
 
@@ -22,7 +22,7 @@ const FeaturedArtists = () => {
       <h2 className="my-16 text-start text-5xl font-semibold text-[#19233A] lg:ms-10">
         Artistas destacados
       </h2>
-      {data && <CardFeaturedArtists musicians={data.items} />}
+      {data && <ArtistGrid musicians={data.items} />}
     </section>
   );
 };

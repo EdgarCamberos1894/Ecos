@@ -1,7 +1,7 @@
 import { useMemo, useEffect } from "react";
 import ArtistSearchEngine from "@/app/components/ArtistSearchEngine";
 import ImageBanner from "@/assets/bannerProfileFan.webp";
-import CardFeaturedArtists from "@/app/components/CardFeaturedArtists";
+import ArtistGrid from "@/app/components/ArtistsGrid";
 import { useApiQuery } from "@/shared/hooks/use-api-query";
 import { FeaturedMusician } from "@/home/components/types/FeaturedMusician";
 import { toast } from "sonner";
@@ -47,7 +47,7 @@ const ArtistPage = () => {
         return (
           <div key={genre} className="w-full">
             <h1 className="p-12 text-3xl font-bold">{genre.toLocaleUpperCase()}</h1>
-            <CardFeaturedArtists musicians={filteredMusicians} />
+            <ArtistGrid musicians={filteredMusicians} />
           </div>
         );
       })}
