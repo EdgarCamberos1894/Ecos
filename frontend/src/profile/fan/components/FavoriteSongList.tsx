@@ -21,7 +21,7 @@ interface ResponseListOfFavoriteSongs {
 const FavoriteSongList = () => {
   const { data } = useApiQuery<ResponseListOfFavoriteSongs>("songs", "/saved-songs", "all");
 
-  if (!data?.items) {
+  if (!data?.items.length) {
     return null;
   }
 

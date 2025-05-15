@@ -73,7 +73,7 @@ const FormFanProfile = ({ onClose }: FormFanProfileProps) => {
         mutate(formData, {
           onSuccess: () => {
             toast.success("¡Perfil actualizado con éxito!");
-            navigate("/profile/fan");
+            navigate(`/profile/fan/${id}`);
             onClose();
           },
           onError: (error) => {
