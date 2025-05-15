@@ -57,3 +57,22 @@ export interface FavoriteMusic {
   message: string;
   data: null;
 }
+
+interface Event {
+  id: number;
+  name: string;
+  category: string;
+  date: string;
+  description: string;
+  image: string;
+}
+
+export interface ApiEvents {
+  items: Event[];
+  page: number;
+  size: number;
+  totalPages: number;
+  totalItems: number;
+  first: boolean;
+  last: boolean;
+}

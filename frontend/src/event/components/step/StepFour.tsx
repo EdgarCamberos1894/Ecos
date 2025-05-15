@@ -3,6 +3,7 @@ import type { FormData as FormDataType } from "@/event/type/FormData";
 import { useApiMutation } from "@/shared/hooks/use-api-mutation";
 import { toast } from "sonner";
 import { useRequiredUser } from "@/auth/hooks/use-required-user";
+import { useNavigate } from "react-router";
 
 interface StepFourProps {
   prevStep: () => void;
@@ -12,6 +13,8 @@ interface StepFourProps {
 export default function StepFour({ prevStep, formData }: StepFourProps) {
   const user = useRequiredUser();
   const userId = user.id;
+
+  const navigate = useNavigate();
 
   function formatDateToDDMMYYYY(dateString: string): string {
     const [year, month, day] = dateString.split("-");
@@ -61,6 +64,7 @@ export default function StepFour({ prevStep, formData }: StepFourProps) {
       onSuccess: () => {
         setError(null);
         toast.success(`Tu evento fué públicado con éxito`);
+        navigate(`/profile/musician/${user.id}`);
       },
       onError: () => {
         toast.error("Error al publicar evento");
