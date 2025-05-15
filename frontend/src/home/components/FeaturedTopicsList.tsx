@@ -23,7 +23,7 @@ const SECTIONS = [
 
 const FeaturedTopicsList = () => {
   return (
-    <section className="w-full">
+    <section id="temas" className="w-full">
       <h1 className="mb-12 text-center text-2xl font-semibold text-[#19233A] sm:text-4xl lg:text-5xl">
         Encuentra tu artista favorito
       </h1>
