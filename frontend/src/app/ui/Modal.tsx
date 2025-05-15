@@ -23,7 +23,7 @@ const Modal = ({
   if (!portalRoot) return;
 
   return createPortal(
-    <div className="fixed inset-0 grid bg-black/50" onClick={onClose}>
+    <div className="fixed inset-0 z-101 grid bg-black/50" onClick={onClose}>
       <div
         className={`relative flex flex-col place-self-center rounded-[30px] bg-white shadow-lg ${className}`}
         onClick={(event) => {
