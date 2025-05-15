@@ -33,4 +33,8 @@ public class FanProfileEntity {
     @JoinColumn(name = "id")
     private UserEntity user;
 
+    @OneToMany(mappedBy = "fan", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<SavedSongEntity> savedSongs;
+
 }

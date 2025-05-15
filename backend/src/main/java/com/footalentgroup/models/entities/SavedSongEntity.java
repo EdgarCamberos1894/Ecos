@@ -1,5 +1,6 @@
 package com.footalentgroup.models.entities;
 
+
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,10 +12,9 @@ import java.time.OffsetDateTime;
 @Entity
 @Data
 @NoArgsConstructor
-@Table(name = "musician_follows", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"musician_id", "fan_id"})
-})
-public class MusicianFollowsEntity {
+@Table(name = "saved_songs",
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"fan_id", "song_id"})})
+public class SavedSongEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,11 +30,12 @@ public class MusicianFollowsEntity {
     @Column(insertable = false)
     private OffsetDateTime updatedAt;
 
-    @ManyToOne
-    @JoinColumn(name = "musician", nullable = false)
-    private MusicianProfileEntity musician;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "song_id", nullable = false)
+    private SongEntity song;
 
-    @ManyToOne
-    @JoinColumn(name = "fan", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "fan_id", nullable = false)
     private FanProfileEntity fan;
+
 }

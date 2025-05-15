@@ -1,7 +1,6 @@
 package com.footalentgroup.configuration;
 
 import com.footalentgroup.models.entities.UserEntity;
-import com.footalentgroup.models.enums.Role;
 import com.footalentgroup.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -50,6 +49,7 @@ public class SecurityConfig {
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .authorizeHttpRequests(auth -> auth
+                        // Auth & Documentation
                         .requestMatchers(
                                 "/auth/**",
                                 "/docs/**",
@@ -57,28 +57,37 @@ public class SecurityConfig {
                                 "/swagger-ui.html",
                                 "/swagger-ui/**"
                         ).permitAll()
-                        .requestMatchers(HttpMethod.GET,
+
+                        // Songs
+                        .requestMatchers(
+                                HttpMethod.GET,
                                 "/songs",
                                 "/songs/{id}",
-                                "/songs/musician/{id}",
-                                "/musician-profile/{id}",
-                                "/musician-profile/{id}/banner",
-                                "/musician-profile/search"
+                                "/songs/musician/{id}"
                         ).permitAll()
-                        .requestMatchers(HttpMethod.GET,
+
+                        // Musician Profile
+                        .requestMatchers(
+                                HttpMethod.GET,
+                                "/musician-profile/{id}",
+                                "/musician-profile/search",
+                                "/musician-profile/{id}/banner"
+                        ).permitAll()
+
+                        // Fan Profile
+                        .requestMatchers(
+                                HttpMethod.GET,
                                 "/fan-profile/{id}"
                         ).permitAll()
+
+                        // Events
                         .requestMatchers(
                                 HttpMethod.GET,
                                 "/events/{id}",
                                 "/events/search",
                                 "/events/musician/{musicianId}"
                         ).permitAll()
-                        .requestMatchers("/follows/**").authenticated()
-                        .requestMatchers(HttpMethod.POST, "/songs").hasRole(Role.MUSICIAN.name())
-                        .requestMatchers(HttpMethod.PUT, "/songs/{id}").hasRole(Role.MUSICIAN.name())
-                        .requestMatchers(HttpMethod.PUT, "/musician-profile").hasRole(Role.MUSICIAN.name())
-                        .requestMatchers(HttpMethod.PUT, "/musician-profile/banner").hasRole(Role.MUSICIAN.name())
+
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider())

@@ -17,8 +17,13 @@ public class MusicianProfileEntity {
     private Long id;
 
     private String stageName;
+
     private String genre;
+
     private String country;
+
+    @Column(columnDefinition = "TEXT")
+    private String description;
 
     private String photoUrl;
     private String photoPublicId;
@@ -29,12 +34,17 @@ public class MusicianProfileEntity {
     private String whatsapp;
 
     private String paymentLink;
+
     private String paymentAlias;
+
     private String cbu;
 
     private String spotifyUrl;
+
     private String youtubeUrl;
+
     private String instagramUrl;
+
     private String tiktokUrl;
 
     @OneToOne

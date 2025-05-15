@@ -9,14 +9,16 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(FanProfileController.FAN)
+@RequestMapping(FanProfileController.FANS)
 @RequiredArgsConstructor
-@Tag(name = "Fan Profile")
+@Tag(name = "Perfil de Fan")
 public class FanProfileController {
-    public static final String FAN = "/fan-profile";
+    public static final String FANS = "/fan-profile";
+
     private final FanProfileService fanProfileService;
 
     @Operation(summary = "Obtiene perfil del fan especificado por id")
@@ -29,6 +31,7 @@ public class FanProfileController {
 
     @Operation(summary = "Actualiza perfil del fan, solo usuario autenticado", security = @SecurityRequirement(name = "bearer-key"))
     @PutMapping(consumes = "multipart/form-data")
+    @PreAuthorize("hasRole('FAN')")
     public ResponseEntity<?> updateFanProfile(@ModelAttribute @Valid FanProfileRequestDto requestDto){
         this.fanProfileService.updateFanProfile(requestDto);
         return ResponseEntity
