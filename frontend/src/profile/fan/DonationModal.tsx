@@ -34,7 +34,7 @@ const DonationModal = ({ onClose, artistId }: DonationModalProps) => {
         <img
           src={imageSrc}
           alt="Imagen del artista"
-          className="max-h-[600px] w-full rounded-[20px] object-cover shadow-md"
+          className="aspect-square max-h-[600px] w-full rounded-[20px] object-cover shadow-md"
         />
 
         <div className="text-ecos-blue flex flex-col justify-center space-y-4">

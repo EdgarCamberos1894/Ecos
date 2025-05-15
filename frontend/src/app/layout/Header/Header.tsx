@@ -101,17 +101,19 @@ export const Header = () => {
                 <Link to="/" className="block py-2 text-[#19233A]" onClick={closeMenu}>
                   Inicio
                 </Link>
-                <button
-                  type="submit"
-                  title="Iniciar sesion"
-                  className="block py-2 text-[#19233A]"
-                  onClick={() => {
-                    handleOpenModal("login");
-                    closeMenu();
-                  }}
-                >
-                  Iniciar Sesión
-                </button>
+                {!user && (
+                  <button
+                    type="submit"
+                    title="Iniciar sesion"
+                    className="block py-2 text-[#19233A]"
+                    onClick={() => {
+                      handleOpenModal("login");
+                      closeMenu();
+                    }}
+                  >
+                    Iniciar Sesión
+                  </button>
+                )}
                 <a
                   className="block cursor-pointer py-2 text-[#19233A]"
                   onClick={() => {
