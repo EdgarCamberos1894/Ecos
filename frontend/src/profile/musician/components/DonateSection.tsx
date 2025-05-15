@@ -1,6 +1,10 @@
 import { Donate } from "@/profile/components/ui/Donate";
 
-export const DonateSection = () => {
+interface DonateSectionProps {
+  handleDonationModal: () => void;
+}
+
+export const DonateSection = ({ handleDonationModal }: DonateSectionProps) => {
   return (
     <div className="mb-9 flex flex-col gap-4">
       <div className="flex flex-col gap-1">
@@ -11,6 +15,7 @@ export const DonateSection = () => {
       </div>
       <button
         type="button"
+        onClick={handleDonationModal}
         className="bg-ecos-orange-light h-10 w-[298px] cursor-pointer rounded-full px-6 py-2.5 text-base text-white uppercase"
       >
         Donar
