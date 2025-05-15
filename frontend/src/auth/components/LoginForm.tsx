@@ -41,17 +41,13 @@ const LoginForm = () => {
   const { mutate, isPending } = useApiMutation<LoginResponse, FormFields>("/auth/login", "POST");
 
   const handleFormSubmit: SubmitHandler<FormFields> = (data: FormFields) => {
-    console.log("Datos enviados:", data);
-
     mutate(data, {
       onSuccess: (response) => {
-        console.log("Login exitoso:", response.token);
         const user = handleLogin(response.token);
         toast.success(`Bienvenido ${user.name}`);
         navigate("/");
       },
       onError: (error) => {
-        console.log("Login fallido:", error);
         setError("root", {
           message: error.message,
         });

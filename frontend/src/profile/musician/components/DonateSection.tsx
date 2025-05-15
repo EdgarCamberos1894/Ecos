@@ -16,7 +16,7 @@ export const DonateSection = ({ handleDonationModal }: DonateSectionProps) => {
       <button
         type="button"
         onClick={handleDonationModal}
-        className="bg-ecos-orange-light h-10 w-[298px] cursor-pointer rounded-full px-6 py-2.5 text-base text-white uppercase"
+        className="bg-ecos-orange-light text-ecos-blue h-10 w-[298px] cursor-pointer rounded-full px-6 py-2.5 text-sm font-medium uppercase"
       >
         Donar
       </button>

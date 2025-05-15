@@ -120,8 +120,6 @@ export const EditProfileMusicianPage = () => {
     }
 
     if (!musicData.spotifyUrl && !musicData.audio) {
-      console.log(musicData);
-
       toast.info("Se debe agregar como mínimo un enlace de Spotify o subir un archivo");
       return;
     }

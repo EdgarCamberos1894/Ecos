@@ -73,7 +73,7 @@ const RegistrationForm = ({ role }: RegistrationFormProps) => {
         localStorage.setItem("showWelcomeUser", "true");
       },
       onError: (error) => {
-        console.log("Login fallido:", error);
+        toast.error("Error al registrarse");
         setError("root", {
           message: error.message,
         });
