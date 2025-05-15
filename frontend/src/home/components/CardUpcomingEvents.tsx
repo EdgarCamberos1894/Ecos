@@ -34,7 +34,7 @@ const upcomingEventsList = [
 
 const CardUpcomingEvents = () => {
   return (
-    <div className="gap-4 lg:flex lg:flex-row lg:gap-0">
+    <div className="gap-4 lg:flex lg:flex-row lg:gap-10">
       {upcomingEventsList.map(({ id, image, title, supporting, date, description }) => (
         <div
           key={id}

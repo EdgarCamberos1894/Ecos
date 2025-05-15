@@ -1,5 +1,5 @@
 import { toast } from "sonner";
-import CardFeaturedArtists from "../CardFeaturedArtists";
+import CardFeaturedArtists from "../../../app/components/CardFeaturedArtists";
 import { useApiQuery } from "@/shared/hooks/use-api-query";
 import { FeaturedMusician } from "../types/FeaturedMusician";
 
@@ -18,8 +18,8 @@ const FeaturedArtists = () => {
   }
 
   return (
-    <section className="mx-auto mt-24 w-full">
-      <h2 className="mx-6 my-16 text-start text-5xl font-semibold text-[#19233A] lg:ms-10">
+    <section className="mt-24 w-full">
+      <h2 className="my-16 text-start text-5xl font-semibold text-[#19233A] lg:ms-10">
         Artistas destacados
       </h2>
       {data && <CardFeaturedArtists musicians={data.items} />}

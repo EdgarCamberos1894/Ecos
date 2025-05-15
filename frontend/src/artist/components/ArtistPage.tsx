@@ -1,46 +1,56 @@
-import { useMemo } from "react";
+import { useMemo, useEffect } from "react";
 import ArtistSearchEngine from "@/app/components/ArtistSearchEngine";
 import ImageBanner from "@/assets/bannerProfileFan.webp";
-import CardFeaturedArtists from "@/home/components/CardFeaturedArtists";
+import CardFeaturedArtists from "@/app/components/CardFeaturedArtists";
 import { useApiQuery } from "@/shared/hooks/use-api-query";
-
-interface Musician {
-  idMusician: number;
-  stageName: string;
-  genre: string;
-  photoUrl: string | null;
-  /*description: string;*/
-}
+import { FeaturedMusician } from "@/home/components/types/FeaturedMusician";
+import { toast } from "sonner";
 
 interface ApiResponse {
-  content: Musician[];
+  items: FeaturedMusician[];
 }
 
 const ArtistPage = () => {
-  const { data } = useApiQuery<ApiResponse>("musicians", "/musician-profile/search", "all");
+  const { data, isError } = useApiQuery<ApiResponse>(
+    "musicians",
+    "/musician-profile/search",
+    "all",
+  );
+
+  useEffect(() => {
+    if (isError) {
+      toast.error("Error al cargar los artistas");
+    }
+  }, [isError]);
 
   const genres = useMemo(() => {
-    if (!data?.content || data.content.length === 0) return [];
+    if (!data?.items || data.items.length === 0) return [];
 
-    return data.content.reduce<string[]>((uniqueGenres, musician) => {
-      if (!uniqueGenres.includes(musician.genre)) {
+    const uniqueGenres: string[] = [];
+    data.items.forEach((musician) => {
+      if (musician.genre && !uniqueGenres.includes(musician.genre)) {
         uniqueGenres.push(musician.genre);
       }
-      return uniqueGenres;
-    }, []);
+    });
+
+    return uniqueGenres;
   }, [data]);
 
   return (
     <div className="flex w-full flex-col items-center gap-24 px-2.5 lg:px-0">
       <img src={ImageBanner} alt="banner" className="w-full object-cover" />
       <ArtistSearchEngine />
-      {genres.map((genre) => (
-        <div key={genre} className="w-full text-center">
-          <h1 className="mb-4 text-3xl font-bold">{genre}</h1>
-          {/* Pasar los músicos filtrados por género al componente CardFeaturedArtists */}
-          <CardFeaturedArtists genre={genre} musicians={data?.content ?? []} />
-        </div>
-      ))}
+
+      {genres.map((genre) => {
+        const filteredMusicians = data?.items.filter((musician) => musician.genre === genre) ?? [];
+
+        return (
+          <div key={genre} className="w-full">
+            <h1 className="p-12 text-3xl font-bold">{genre.toLocaleUpperCase()}</h1>
+            <CardFeaturedArtists musicians={filteredMusicians} />
+          </div>
+        );
+      })}
     </div>
   );
 };

@@ -1,5 +1,5 @@
-import CardArtist from "@/app/ui/CardArtist";
-import { FeaturedMusician } from "./types/FeaturedMusician";
+import CardArtist from "@/app/components/CardArtist";
+import { FeaturedMusician } from "../../home/components/types/FeaturedMusician";
 
 interface CardFeaturedArtistsProps {
   musicians: FeaturedMusician[];

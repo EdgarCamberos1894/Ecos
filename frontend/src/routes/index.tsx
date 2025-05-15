@@ -19,10 +19,10 @@ export const AppRoutes = () => {
         <Route path="*" element={<div>404 NOT FOUND</div>} />
         <Route path="/explorer" element={<ExplorerPage />} />
         <Route path="/artist" element={<ArtistPage />} />
+        <Route path="/profile/musician/:id" element={<ProfileMusicianPage />} />
 
         {/* Rutas protegidas */}
         <Route element={<ProtectedRoute />}>
-          <Route path="/profile/musician/:id" element={<ProfileMusicianPage />} />
           <Route path="/profile/fan/:id" element={<ProfileFanPage />} />
         </Route>
       </Route>
