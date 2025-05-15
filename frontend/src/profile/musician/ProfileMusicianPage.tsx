@@ -1,3 +1,4 @@
+import { useParams } from "react-router";
 import ImageBanner from "@/assets/imageBanner.webp";
 import { SpotifyTrack } from "./components/SpotifyTrack";
 import { YouTubeVideo } from "./components/YoutubeVideo";
@@ -5,55 +6,18 @@ import EventCard from "@/shared/components/Cards/EventCard";
 import ContactForm from "../components/ContactForm";
 import FollowArtist from "./components/FollowArtist";
 import { useApiQuery } from "@/shared/hooks/use-api-query";
-import { useRequiredUser } from "@/auth/hooks/use-required-user";
 import { AudioPlayer } from "./components/AudioPlayer";
 import { HeartButton } from "../components/HeartButton";
 import { DonateButton } from "../components/DonateButton";
 import { DonateSection } from "./components/DonateSection";
-
-interface BannerUrl {
-  bannerUrl: string | null;
-}
-
-interface MusicianInfo {
-  stageName: string | null;
-  artistName: string;
-  spotifyUrl: string | null;
-  youtubeUrl: string | null;
-}
-
-interface Item {
-  id: number;
-  title: string;
-  genre: string;
-  audioUrl: string;
-  spotifyUrl: string | null;
-  youtubeUrl: string;
-  musicianInfo: MusicianInfo;
-}
-
-interface ApiSongs {
-  items: Item[];
-  page: number;
-  size: number;
-  totalPages: number;
-  totalItems: number;
-  first: boolean;
-  last: boolean;
-}
+import { type BannerUrl, type ApiSongs, type MusicianProfile } from "./musician-types";
 
 export default function ProfileMusicianPage() {
-  const user = useRequiredUser();
+  const { id } = useParams() as { id: string };
 
-  const { data: banner } = useApiQuery<BannerUrl>(
-    "banner",
-    `musician-profile/${user.id}/banner`,
-    user.id,
-  );
-
-  const { data: songs } = useApiQuery<ApiSongs>("songs", `songs/musician/${user.id}`, user.id);
-
-  const hasItems = Boolean(songs?.items.length);
+  const { data: banner } = useApiQuery<BannerUrl>("banner", `musician-profile/${id}/banner`, id);
+  const { data: profile } = useApiQuery<MusicianProfile>("profile", `musician-profile/${id}`, id);
+  const { data: songs } = useApiQuery<ApiSongs>("songs", `songs/musician/${id}`, id);
 
   return (
     <>
@@ -63,10 +27,10 @@ export default function ProfileMusicianPage() {
         className="mb-6 h-[clamp(140px,35.4vw,680px)] w-full max-w-[1920px] object-cover"
       />
       <main className="mb-20 px-[clamp(16px,8vw,160px)]">
-        <h1 className="mb-32 text-8xl font-medium">{user.name}</h1>
-
+        <h1 className="text-ecos-blue mb-3 text-8xl font-medium">{profile?.data.stageName}</h1>
+        <h2 className="text-ecos-blue mb-16 text-2xl">{profile?.data.genre}</h2>
         <section className="flex flex-col gap-16">
-          {hasItems && songs?.items[0].audioUrl && (
+          {songs?.items[0]?.audioUrl && (
             <>
               <AudioPlayer audioUrl={songs.items[0].audioUrl} title={songs.items[0].title} />
               <div className="mt-4 mb-16 flex gap-4 sm:gap-6">
@@ -79,7 +43,7 @@ export default function ProfileMusicianPage() {
               </div>
             </>
           )}
-          {hasItems && songs?.items[0].spotifyUrl && (
+          {songs?.items[0]?.spotifyUrl && (
             <div>
               <SpotifyTrack
                 className="max-w-5xl rounded-4xl"
@@ -95,9 +59,9 @@ export default function ProfileMusicianPage() {
               </div>
             </div>
           )}
-          {hasItems && songs?.items[0].youtubeUrl && (
+          {songs?.items[0]?.youtubeUrl && (
             <YouTubeVideo
-              className="mb-9 aspect-[1126/597] w-full max-w-[1126px] rounded-[20px]"
+              className="mb-9 aspect-[1126/567] max-h-[567px] min-h-[196px] w-full max-w-[1126px] min-w-[358px] rounded-[20px]"
               embedUrl={songs.items[0].youtubeUrl}
             />
           )}
