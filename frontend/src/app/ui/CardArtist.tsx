@@ -13,25 +13,29 @@ const CardArtist = ({ musician }: CardArtistProps) => {
   const { id, stageName, genre, photoUrl, description } = musician;
 
   const goToMusicianProfile = () => {
-    navigate(`/musician-profile/${String(id)}`);
+    navigate(`/profile/musician/${String(id)}`);
   };
 
   return (
-    <div key={id} className="flex gap-4 rounded-lg px-6 py-2">
-      <img src={photoUrl ?? defaultImage} alt="image" className="h-42 w-42 rounded-xl" />
+    <div key={id} className="flex h-full gap-6 px-6 py-2">
+      <img
+        src={photoUrl ?? defaultImage}
+        alt="image"
+        className="h-[228px] w-[229px] rounded-[28px] object-cover"
+      />
 
-      <div className="flex flex-col gap-4 text-start">
-        <div className="flex flex-col gap-1">
-          <h3 className="text-2xl font-semibold">{stageName}</h3>
-          <p className="text-xs text-[#49454F]">{genre}</p>
-          <p className="line-clamp-7 text-sm whitespace-pre-line text-gray-600">{description}</p>
+      <div className="text-ecos-blue flex flex-col gap-1 text-start">
+        <div className="flex flex-col gap-1 pb-6">
+          <h3 className="text-2xl">{stageName}</h3>
+          <p className="text-xs font-medium">{genre}</p>
+          <p className="line-clamp-7 text-sm whitespace-pre-line">{description}</p>
         </div>
         <Button
           children="Ver más"
           bgType="primary"
           type="button"
           onClick={goToMusicianProfile}
-          className="text-white"
+          className="w-[110px] px-6 py-2.5 text-white"
         />
       </div>
     </div>

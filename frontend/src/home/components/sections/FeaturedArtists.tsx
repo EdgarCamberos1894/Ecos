@@ -1,17 +1,10 @@
 import { toast } from "sonner";
 import CardFeaturedArtists from "../CardFeaturedArtists";
 import { useApiQuery } from "@/shared/hooks/use-api-query";
-
-interface Musician {
-  id: number;
-  stageName: string;
-  genre: string;
-  photoUrl?: string | null;
-  description: string;
-}
+import { FeaturedMusician } from "../types/FeaturedMusician";
 
 interface ApiResponse {
-  items: Musician[];
+  items: FeaturedMusician[];
 }
 
 const FeaturedArtists = () => {
