@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.time.LocalDate;
 
 public interface EventRepository extends JpaRepository<EventEntity, Long> {
-    Page<EventEntity> findByDateAfterOrderByDateAsc(LocalDate date, Pageable pageable);
-    Page<EventEntity> findByMusicianIdAndDateAfterOrderByDateAsc(Long musicianId, LocalDate date, Pageable pageable);
+    Page<EventEntity> findByDateGreaterThanEqualOrderByDateAsc(LocalDate date, Pageable pageable);
+    Page<EventEntity> findByMusicianIdAndDateGreaterThanEqualOrderByDateAsc(Long musicianId, LocalDate date, Pageable pageable);
 }
