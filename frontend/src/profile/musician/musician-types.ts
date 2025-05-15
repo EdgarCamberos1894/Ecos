@@ -51,3 +51,9 @@ interface MusicianInfo {
   spotifyUrl: string | null;
   youtubeUrl: string | null;
 }
+
+export interface FavoriteMusic {
+  isSuccess: boolean;
+  message: string;
+  data: null;
+}
