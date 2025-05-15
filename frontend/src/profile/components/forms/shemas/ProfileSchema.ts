@@ -29,6 +29,10 @@ export const formMusicianProfileSchema = baseProfileSchema.extend({
       message: "Su nombre solo puede contener letras, números y espacios.",
     }),
   genre: z.string().min(1, { message: "El género es obligatorio." }),
+  description: z
+    .string()
+    .min(5, "La descripción debe tener al menos 5 caracteres.")
+    .max(100, "La descripción no puede superar los 100 caracteres."),
   paymentLink: z.string().url({ message: "Debe ser un enlace válido" }).or(z.literal("")),
   paymentAlias: z
     .string()
@@ -57,7 +61,7 @@ export const formMusicianProfileSchema = baseProfileSchema.extend({
   spotifyUrl: z
     .string()
     .optional()
-    .refine((val) => !val || createSocialUrlRegex("spotify.com").test(val), {
+    .refine((val) => !val || createSocialUrlRegex("open.spotify.com").test(val), {
       message: "La URL de Spotify no es válida.",
     }),
   youtubeUrl: z

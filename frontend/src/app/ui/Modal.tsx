@@ -23,7 +23,7 @@ const Modal = ({
   if (!portalRoot) return;
 
   return createPortal(
-    <div className="fixed inset-0 grid bg-black/50" onClick={onClose}>
+    <div className="fixed inset-0 z-101 grid bg-black/50" onClick={onClose}>
       <div
         className={`relative flex flex-col place-self-center rounded-[30px] bg-white shadow-lg ${className}`}
         onClick={(event) => {
@@ -37,6 +37,7 @@ const Modal = ({
           </h1>
           <button
             type="button"
+            title="CloseArrow"
             onClick={onClose}
             className="absolute top-2 right-2 hover:cursor-pointer"
           >

@@ -10,10 +10,9 @@ import { toast } from "sonner";
 import { useRequiredUser } from "@/auth/hooks/use-required-user";
 import ImageBanner from "@/assets/imageBanner.webp";
 import { MediaType } from "../utils/media-utils";
-
-interface BannerUrl {
-  bannerUrl: string | null;
-}
+import { type ApiSongs, type BannerUrl } from "./musician-types";
+import { musicalGenreOptions as GENRES } from "../utils/musicalGenreOptions";
+import { ArrowDown } from "../components/ui/ArrowDown";
 
 export interface SettingMusic {
   url?: string;
@@ -28,16 +27,6 @@ interface MusicData {
   audio?: File;
   spotifyUrl?: string;
   youtubeUrl?: string;
-}
-
-interface ApiSongs {
-  items: string[];
-  page: number;
-  size: number;
-  totalPages: number;
-  totalItems: number;
-  first: boolean;
-  last: boolean;
 }
 
 export const EditProfileMusicianPage = () => {
@@ -60,7 +49,11 @@ export const EditProfileMusicianPage = () => {
     user.id,
   );
 
-  const { data: songs } = useApiQuery<ApiSongs>("songs", `songs/musician/${user.id}`, user.id);
+  const { data: songs, isSuccess } = useApiQuery<ApiSongs>(
+    "songs",
+    `songs/musician/${user.id}`,
+    user.id,
+  );
 
   const { mutate: bannerMutate, isPending: isBannerPending } = useApiMutation<string, FormData>(
     "/musician-profile/banner",
@@ -68,7 +61,7 @@ export const EditProfileMusicianPage = () => {
   );
 
   const { mutate: songsMutate, isPending: isSongsPending } = useApiMutation<ApiSongs, FormData>(
-    "/songs",
+    songs?.totalItems === 0 ? "/songs" : isSuccess ? `/songs/${songs.items[0].id.toString()}` : "",
     songs?.totalItems === 0 ? "POST" : "PUT",
   );
 
@@ -153,7 +146,7 @@ export const EditProfileMusicianPage = () => {
     songsMutate(formData, {
       onSuccess: () => {
         toast.success("Música guardado con éxito");
-        navigate("/profile");
+        navigate(`/profile/musician/${user.id}`);
       },
       onError: () => {
         toast.error("Error al guardar la música");
@@ -163,8 +156,6 @@ export const EditProfileMusicianPage = () => {
 
   return (
     <main className="space-y-32">
-      {JSON.stringify(musicData, null, 2)}
-      {JSON.stringify(songs, null, 2)}
       <section className="relative">
         <img
           src={banner?.bannerUrl ?? imagePreview ?? ImageBanner}
@@ -178,7 +169,7 @@ export const EditProfileMusicianPage = () => {
           className="absolute top-1/2 left-1/2 z-10 flex h-[454px] w-[734px] -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center gap-7 bg-white/50"
         />
       </section>
-      <section className="text-ecos-blue mb-24 ml-40 space-y-2">
+      <section className="text-ecos-blue mb-24 space-y-2 px-[clamp(16px,8vw,160px)]">
         <h2 className="text-4xl">¡Bienvenido!</h2>
         <h1 className="text-8xl font-bold">{user.name}</h1>
         <h4 className="mt-6 mb-10 text-2xl font-medium">Editar Panel</h4>
@@ -202,20 +193,30 @@ export const EditProfileMusicianPage = () => {
           </label>
           <label htmlFor="genre" className="flex flex-col gap-3.5 text-2xl">
             Género
-            <input
-              id="genre"
-              type="text"
-              placeholder="Escribí a qué género pertenece tu canción"
-              value={musicData.genre}
-              onChange={(event) => {
-                setMusicData({ ...musicData, genre: event.target.value });
-              }}
-              className="border-ecos-dark-grey-light border px-6 py-3.5 text-lg focus:outline-none"
-            />
+            <div className="relative w-full">
+              <select
+                id="genre"
+                value={musicData.genre}
+                onChange={(event) => {
+                  setMusicData({ ...musicData, genre: event.target.value });
+                }}
+                className="border-ecos-dark-grey w-full appearance-none rounded-md border px-3.5 py-3 pr-10 text-lg focus:outline-none"
+              >
+                <option value="" disabled>
+                  Seleccioná un género
+                </option>
+                {GENRES.map((genre) => (
+                  <option key={genre} value={genre}>
+                    {genre}
+                  </option>
+                ))}
+              </select>
+              <ArrowDown className="text-ecos-dark-grey pointer-events-none absolute top-1/2 right-6 h-5 w-5 -translate-y-1/2" />
+            </div>
           </label>
           <label htmlFor="sourceType" className="flex flex-col gap-3.5 text-2xl">
             Elegí como subir tu música
-            <div className="border-ecos-dark-grey-light border px-6 py-3.5 text-center">
+            <div className="border-ecos-dark-grey-light relative border px-6 py-3.5 text-center">
               <select
                 id="sourceType"
                 value={musicData.sourceType}
@@ -230,6 +231,7 @@ export const EditProfileMusicianPage = () => {
                 <option value="SPOTIFY">Spotify</option>
                 <option value="FILE">Mp3/Wav</option>
               </select>
+              <ArrowDown className="text-ecos-dark-grey pointer-events-none absolute top-1/2 right-64 h-5 w-5 -translate-y-1/2" />
             </div>
           </label>
           {musicData.sourceType === "SPOTIFY" ? (
@@ -256,7 +258,7 @@ export const EditProfileMusicianPage = () => {
         <button
           type="button"
           className="bg-ecos-blue cursor-pointer rounded-full px-[120px] py-5 text-base text-white"
-          onClick={() => navigate("/profile")}
+          onClick={() => navigate(`/profile/musician/${user.id}`)}
         >
           Cancelar
         </button>

@@ -14,11 +14,10 @@ export const handleMusicianProfileSubmit = ({
   const formData = new FormData();
   let deletePhoto = "true";
 
-  console.log(data);
-
   formData.append("stageName", data.stageName);
   formData.append("country", data.country);
   formData.append("genre", data.genre);
+  formData.append("description", data.description);
 
   if (profileImage) {
     if (profileImage instanceof File) {

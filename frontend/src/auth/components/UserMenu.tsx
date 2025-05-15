@@ -8,6 +8,7 @@ import { Settings } from "./ui/Settings";
 import ProfileUserModal from "@/profile/components/ProfileUserModal";
 import { useProfileData } from "../hooks/useProfileData";
 import { Musician, Fan } from "../types";
+import { UserProfileIcon } from "./ui/UserProfileIcon";
 
 const UserMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -51,6 +52,7 @@ const UserMenu = () => {
             <Avatar />
           )}
         </button>
+
         {isOpen && (
           <div className="absolute right-0 z-10 mt-4 flex h-[450px] w-80 flex-col items-center justify-around bg-white text-2xl shadow-lg">
             <h2 className="leading-5 font-medium tracking-tight uppercase">{user.name}</h2>
@@ -58,37 +60,58 @@ const UserMenu = () => {
               <button
                 type="button"
                 onClick={() => {
-                  navigate("/profile/musician/edit");
+                  navigate(`/profile/${user.role.toLowerCase()}/${id}`);
                   setIsOpen(false);
                 }}
-                className="flex items-center gap-5 leading-1"
+                className="flex cursor-pointer items-center gap-5 leading-1"
               >
-                <EditContainer />
-                Editar Perfil
+                <UserProfileIcon className="size-8" />
+                Mi perfil
               </button>
+
               <button
                 type="button"
                 onClick={() => {
-                  setIsOpenPerfilModal(true);
+                  if (user.role === "MUSICIAN") {
+                    navigate("/profile/musician/edit");
+                  } else {
+                    setIsOpenPerfilModal(true);
+                  }
                   setIsOpen(false);
                 }}
-                className="flex items-center gap-5 leading-1"
+                className="flex cursor-pointer items-center gap-5 leading-1"
               >
-                <Settings />
-                Configuración
+                <EditContainer className="size-8" />
+                Editar perfil
               </button>
+
+              {user.role === "MUSICIAN" && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsOpenPerfilModal(true);
+                    setIsOpen(false);
+                  }}
+                  className="flex cursor-pointer items-center gap-5 leading-1"
+                >
+                  <Settings className="size-8" />
+                  Configuración
+                </button>
+              )}
+
               <button
                 onClick={handleLogOut}
                 type="button"
-                className="flex items-center gap-5 leading-1"
+                className="flex cursor-pointer items-center gap-5 leading-1"
               >
-                <Logout />
+                <Logout className="size-8" />
                 Cerrar sesión
               </button>
             </div>
           </div>
         )}
       </div>
+
       {isOpenPerfilModal && (
         <ProfileUserModal
           onClose={() => {

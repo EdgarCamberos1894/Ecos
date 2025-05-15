@@ -40,6 +40,8 @@ export function useLoadMusicianForm({
     setValue("genre", genreLabel);
     setGenre(genreLabel);
 
+    setValue("description", data.description ?? "");
+
     setValue("paymentLink", data.paymentLink ?? "");
     setValue("paymentAlias", data.paymentAlias ?? "");
     setValue("cbu", data.cbu ?? "");
