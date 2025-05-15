@@ -30,7 +30,7 @@ interface MusicData {
   youtubeUrl?: string;
 }
 
-interface ApiSongs {
+export interface ApiSongs {
   items: string[];
   page: number;
   size: number;
@@ -153,7 +153,7 @@ export const EditProfileMusicianPage = () => {
     songsMutate(formData, {
       onSuccess: () => {
         toast.success("Música guardado con éxito");
-        navigate("/profile");
+        navigate(`/profile/musician/${user.id}`);
       },
       onError: () => {
         toast.error("Error al guardar la música");
@@ -163,8 +163,6 @@ export const EditProfileMusicianPage = () => {
 
   return (
     <main className="space-y-32">
-      {JSON.stringify(musicData, null, 2)}
-      {JSON.stringify(songs, null, 2)}
       <section className="relative">
         <img
           src={banner?.bannerUrl ?? imagePreview ?? ImageBanner}
@@ -256,7 +254,7 @@ export const EditProfileMusicianPage = () => {
         <button
           type="button"
           className="bg-ecos-blue cursor-pointer rounded-full px-[120px] py-5 text-base text-white"
-          onClick={() => navigate("/profile")}
+          onClick={() => navigate(`/profile/musician/${user.id}`)}
         >
           Cancelar
         </button>
