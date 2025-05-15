@@ -12,6 +12,32 @@ import { Bell } from "./Bell";
 import WelcomeUserModal from "@/auth/components/WelcomeUserModal";
 
 export const Header = () => {
+  const [activeSection, setActiveSection] = useState("");
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = ["inicio", "explorer", "artist", "play"];
+      const scrollY = window.scrollY;
+
+      sections.forEach((id) => {
+        const section = document.getElementById(id);
+        if (section) {
+          const offsetTop = section.offsetTop;
+          const height = section.offsetHeight;
+
+          if (scrollY >= offsetTop && scrollY < offsetTop + height) {
+            setActiveSection(id);
+          }
+        }
+      });
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   const [openModal, setOpenModal] = useState<AuthMode | null>(null);
   const [showWelcomeUser, setShowWelcomeUser] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -47,9 +73,16 @@ export const Header = () => {
     }
   }, [user]);
 
+  const scrollToSection = (id: string) => {
+    const section = document.getElementById(id);
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <>
-      <header className="fixed top-0 left-0 z-50 w-full bg-[#19233A] shadow">
+      <header className="w-full bg-[#19233A] shadow">
         <div className="mx-auto flex items-center justify-between px-12 py-6">
           <div className="flex items-center gap-16">
             <Link to="/" className="hidden px-6 py-5 lg:flex">
@@ -64,12 +97,13 @@ export const Header = () => {
               <MenuIcon className="h-12 w-12" />
             </button>
             {isOpen && (
-              <nav className="absolute top-22 left-1 z-10 w-48 rounded-xl bg-white px-4 py-10 shadow-md lg:hidden">
+              <nav className="absolute top-22 left-1 z-20 w-48 bg-white px-8 py-10 shadow-md lg:hidden">
                 <Link to="/" className="block py-2 text-[#19233A]" onClick={closeMenu}>
                   Inicio
                 </Link>
-                <Link
-                  to="/login"
+                <button
+                  type="submit"
+                  title="Iniciar sesion"
                   className="block py-2 text-[#19233A]"
                   onClick={() => {
                     handleOpenModal("login");
@@ -77,23 +111,64 @@ export const Header = () => {
                   }}
                 >
                   Iniciar Sesión
-                </Link>
-                <Link to="/explorer" className="block py-2 text-[#19233A]" onClick={closeMenu}>
-                  Explorar
-                </Link>
-                <Link to="/artist" className="block py-2 text-[#19233A]" onClick={closeMenu}>
+                </button>
+                <a
+                  className="block cursor-pointer py-2 text-[#19233A]"
+                  onClick={() => {
+                    scrollToSection("eventos");
+                    closeMenu();
+                  }}
+                >
+                  Eventos
+                </a>
+                <a
+                  className="block cursor-pointer py-2 text-[#19233A]"
+                  onClick={() => {
+                    scrollToSection("artistas");
+                    closeMenu();
+                  }}
+                >
                   Artistas
-                </Link>
-                <Link to="/play" className="block py-2 text-[#19233A]" onClick={closeMenu}>
-                  Play
-                </Link>
+                </a>
+                <a
+                  className="block cursor-pointer py-2 text-[#19233A]"
+                  onClick={() => {
+                    scrollToSection("temas");
+                    closeMenu();
+                  }}
+                >
+                  Temas
+                </a>
               </nav>
             )}
             <nav className="hidden gap-6 text-xl font-semibold text-white lg:flex xl:gap-16">
-              <Link to="/">Inicio</Link>
-              <Link to="/explorer">Explorar</Link>
-              <Link to="/artist">Artistas</Link>
-              <Link to="/play">Play</Link>
+              <Link to="/" className="hover:text-[#B1B1B1]">
+                Inicio
+              </Link>
+              <a
+                className={`cursor-pointer hover:text-[#B1B1B1] ${activeSection === "eventos" ? "text-[#FE963D]" : ""}`}
+                onClick={() => {
+                  scrollToSection("eventos");
+                }}
+              >
+                Eventos
+              </a>
+              <a
+                className={`cursor-pointer hover:text-[#B1B1B1] ${activeSection === "artistas" ? "text-[#FE963D]" : ""}`}
+                onClick={() => {
+                  scrollToSection("artistas");
+                }}
+              >
+                Artistas
+              </a>
+              <a
+                className={`cursor-pointer hover:text-[#B1B1B1] ${activeSection === "temas" ? "text-[#FE963D]" : ""}`}
+                onClick={() => {
+                  scrollToSection("temas");
+                }}
+              >
+                Temas
+              </a>
             </nav>
           </div>
           <div className="flex items-center gap-6">
