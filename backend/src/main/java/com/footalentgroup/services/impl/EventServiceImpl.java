@@ -44,7 +44,7 @@ public class EventServiceImpl implements EventService {
     @Override
     public PageResponseDto<EventSimpleResponseDto> search(int page, int size) {
         Page<EventEntity> eventPage = this.eventRepository
-                .findByDateAfterOrderByDateAsc(
+                .findByDateGreaterThanEqualOrderByDateAsc(
                         LocalDate.now(),
                         PageRequest.of(page, size, Sort.by("date").ascending())
                 );
@@ -55,7 +55,7 @@ public class EventServiceImpl implements EventService {
     @Override
     public PageResponseDto<EventSimpleResponseDto> searchByMusician(Long musicianId, int page, int size) {
         Page<EventEntity> eventPage = this.eventRepository
-                .findByMusicianIdAndDateAfterOrderByDateAsc(
+                .findByMusicianIdAndDateGreaterThanEqualOrderByDateAsc(
                         musicianId,
                         LocalDate.now(),
                         PageRequest.of(page, size, Sort.by("date").ascending())
