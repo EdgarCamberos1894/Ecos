@@ -1,9 +1,11 @@
 import ImageBanner from "@/assets/bannerProfileFan.webp";
 import FavoriteSongList from "./components/FavoriteSongList";
-import FeaturedArtists from "@/home/components/FeaturedArtists";
+import FeaturedArtists from "@/home/components/sections/FeaturedArtists";
 import FeaturedTopicsList from "@/home/components/FeaturedTopicsList";
-import UpcomingEvents from "@/home/components/UpcomingEvents";
+import UpcomingEvents from "@/home/components/sections/UpcomingEvents";
 import { useRequiredUser } from "@/auth/hooks/use-required-user";
+import Button from "@/app/ui/Button";
+import { Link } from "react-router";
 
 const ProfileFanPage = () => {
   const user = useRequiredUser();
@@ -20,6 +22,14 @@ const ProfileFanPage = () => {
       <FavoriteSongList />
       <FeaturedTopicsList />
       <FeaturedArtists />
+      <Link to={"/artist"} className="mx-36 mt-20 hidden lg:flex lg:justify-center">
+        <Button
+          type="button"
+          className="rounded bg-[#19233A] text-white lg:w-96"
+          children="VER MÁS"
+          bgType="secondary"
+        ></Button>
+      </Link>
       <UpcomingEvents />
     </div>
   );
