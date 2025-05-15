@@ -1,15 +1,21 @@
 import Button from "@/app/ui/Button";
 import defaultImage from "@/assets/imagePlay.svg";
+import { FeaturedMusician } from "@/home/components/types/FeaturedMusician";
+import { useNavigate } from "react-router";
 
-interface Musician {
-  id: number;
-  stageName: string;
-  genre: string;
-  photoUrl: string | null;
-  description: string;
+interface CardArtistProps {
+  musician: FeaturedMusician;
 }
 
-const CardArtist = ({ genre, musicians }: CardArtistProps) => {
+const CardArtist = ({ musician }: CardArtistProps) => {
+  const navigate = useNavigate();
+
+  const { id, stageName, genre, photoUrl, description } = musician;
+
+  const goToMusicianProfile = () => {
+    navigate(`/musician-profile/${String(id)}`);
+  };
+
   return (
     <div key={id} className="flex gap-4 rounded-lg px-6 py-2">
       <img src={photoUrl ?? defaultImage} alt="image" className="h-42 w-42 rounded-xl" />
@@ -24,9 +30,7 @@ const CardArtist = ({ genre, musicians }: CardArtistProps) => {
           children="Ver más"
           bgType="primary"
           type="button"
-          onClick={() => {
-            goToMusicianProfile(id);
-          }}
+          onClick={goToMusicianProfile}
           className="text-white"
         />
       </div>

@@ -1,4 +1,4 @@
-import FAQItem from "./FAQItem";
+import FAQItem from "../FAQItem";
 
 const FAQList = () => {
   return (

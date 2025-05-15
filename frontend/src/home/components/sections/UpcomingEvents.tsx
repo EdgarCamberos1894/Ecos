@@ -1,5 +1,5 @@
 import Button from "@/app/ui/Button";
-import CardUpcomingEvents from "./CardUpcomingEvents";
+import CardUpcomingEvents from "../CardUpcomingEvents";
 import { CheckIcon } from "@/home/components/ui/CheckIcon";
 
 const UpcomingEvents = () => {

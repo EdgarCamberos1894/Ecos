@@ -1,8 +1,8 @@
 import ImageBanner from "@/assets/bannerProfileFan.webp";
 import FavoriteSongList from "./components/FavoriteSongList";
-import FeaturedArtists from "@/home/components/FeaturedArtists";
+import FeaturedArtists from "@/home/components/sections/FeaturedArtists";
 import FeaturedTopicsList from "@/home/components/FeaturedTopicsList";
-import UpcomingEvents from "@/home/components/UpcomingEvents";
+import UpcomingEvents from "@/home/components/sections/UpcomingEvents";
 import { useRequiredUser } from "@/auth/hooks/use-required-user";
 
 const ProfileFanPage = () => {
