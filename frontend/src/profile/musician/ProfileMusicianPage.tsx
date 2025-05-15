@@ -3,7 +3,7 @@ import ImageBanner from "@/assets/imageBanner.webp";
 import { SpotifyTrack } from "./components/SpotifyTrack";
 import { YouTubeVideo } from "./components/YoutubeVideo";
 import EventCard from "@/shared/components/Cards/EventCard";
-import ContactForm from "../components/ContactForm";
+import ContactForm from "./components/ContactForm";
 import FollowArtist from "./components/FollowArtist";
 import { useApiQuery } from "@/shared/hooks/use-api-query";
 import { AudioPlayer } from "./components/AudioPlayer";
@@ -15,6 +15,7 @@ import {
   type ApiSongs,
   type MusicianProfile,
   type FavoriteMusic,
+  type ApiEvents,
 } from "./musician-types";
 import { useRequiredUser } from "@/auth/hooks/use-required-user";
 import { useApiMutation } from "@/shared/hooks/use-api-mutation";
@@ -29,9 +30,13 @@ export default function ProfileMusicianPage() {
   const user = useRequiredUser();
 
   const { data: banner } = useApiQuery<BannerUrl>("banner", `musician-profile/${id}/banner`, id);
-  const { data: profile } = useApiQuery<MusicianProfile>("profile", `musician-profile/${id}`, id);
+  const { data: profile, isSuccess: isProfileSuccess } = useApiQuery<MusicianProfile>(
+    "profile",
+    `musician-profile/${id}`,
+    id,
+  );
   const { data: songs, isSuccess } = useApiQuery<ApiSongs>("songs", `songs/musician/${id}`, id);
-  const { data: events } = useApiQuery("events", `events/musician/${id}`, id);
+  const { data: events } = useApiQuery<ApiEvents>("events", `events/musician/${id}`, id);
 
   const { mutate: favoriteSongMutate } = useApiMutation<FavoriteMusic, undefined>(
     isSuccess ? `/saved-songs/save/${songs.items[0].id.toString()}` : "",
@@ -60,7 +65,6 @@ export default function ProfileMusicianPage() {
 
   return (
     <>
-      {JSON.stringify(events, null, 2)}
       <img
         src={banner?.bannerUrl ?? ImageBanner}
         alt={`Banner`}
@@ -118,18 +122,24 @@ export default function ProfileMusicianPage() {
             />
           )}
           <DonateSection handleDonationModal={handleDonationModal} />
-          <div className="mb-[261px]">
-            <EventCard
-              headline="EVENTO"
-              supportingText="Supporting Text"
-              datePublished={new Date()}
-              contentPublished="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-            />
+          <h2 className="text-ecos-blue -mb-5 text-2xl font-medium uppercase">Próximos eventos</h2>
+          <div className="mb-[261px] grid grid-cols-[repeat(auto-fill,minmax(500px,1fr))] gap-4">
+            {events?.items.map((event) => (
+              <EventCard
+                key={event.id}
+                image={event.image}
+                stageName={isProfileSuccess ? profile.data.stageName : ""}
+                category={event.category}
+                supportingText={event.name}
+                datePublished={event.date}
+                contentPublished={event.description}
+              />
+            ))}
           </div>
         </section>
         <section className="space-y-28">
-          <h2 className="text-ecos-blue text-4xl uppercase">Contacto</h2>
-          <ContactForm />
+          <h2 className="text-ecos-blue text-[40px] leading-5 font-medium uppercase">Contacto</h2>
+          <ContactForm musicianId={Number(id)} />
           <FollowArtist />
         </section>
       </main>
