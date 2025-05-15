@@ -1,12 +1,16 @@
 export interface FormData {
-  price: {
-    puerta: number;
-    locuras: number;
-  };
-  eventName: string;
+  tickets: {
+    location: string;
+    price: number;
+  }[];
+  name: string;
   category: string;
-  date: string;
-  hour: string;
+  type: "Single" | "Recurring";
+  único?: string;
+  recurrente?: string;
+  dateString: string;
+  startTime: string;
+  endTime: string;
   location: string;
   description: string;
   image: File | null;
