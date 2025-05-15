@@ -4,7 +4,7 @@ import { Avatar } from "@/auth/components/ui/Avatar";
 import Input from "@/app/ui/Input";
 import AuthModal, { AuthMode } from "@/auth/components/AuthModal";
 import Layer from "@/assets/Layer.svg?react";
-import MenuIcon from "@/assets/hamburgerMenu.svg?react";
+import MenuIcon from "@/assets/hamburgerMenu-2.svg?react";
 import Lens from "@/assets/lens.svg?react";
 import { useAuth } from "@/auth/hooks/use-auth";
 import UserMenu from "@/auth/components/UserMenu";
@@ -49,7 +49,7 @@ export const Header = () => {
 
   return (
     <>
-      <header className="bg-[#19233A] shadow">
+      <header className="fixed top-0 left-0 z-50 w-full bg-[#19233A] shadow">
         <div className="mx-auto flex items-center justify-between px-12 py-6">
           <div className="flex items-center gap-16">
             <Link to="/" className="hidden px-6 py-5 lg:flex">
@@ -57,26 +57,40 @@ export const Header = () => {
             </Link>
             <button
               type="button"
-              className="block p-2 focus:outline-none lg:hidden"
+              title="Menú"
+              className="block p-4 focus:outline-none lg:hidden"
               onClick={toggleMenu}
             >
-              Menu
-              <MenuIcon />
+              <MenuIcon className="h-12 w-12" />
             </button>
             {isOpen && (
-              <nav className="absolute top-18 left-0 w-48 bg-white p-4 shadow-md lg:hidden">
-                <Link to="/explorer" className="block py-2" onClick={closeMenu}>
+              <nav className="absolute top-22 left-1 z-10 w-48 rounded-xl bg-white px-4 py-10 shadow-md lg:hidden">
+                <Link to="/" className="block py-2 text-[#19233A]" onClick={closeMenu}>
+                  Inicio
+                </Link>
+                <Link
+                  to="/login"
+                  className="block py-2 text-[#19233A]"
+                  onClick={() => {
+                    handleOpenModal("login");
+                    closeMenu();
+                  }}
+                >
+                  Iniciar Sesión
+                </Link>
+                <Link to="/explorer" className="block py-2 text-[#19233A]" onClick={closeMenu}>
                   Explorar
                 </Link>
-                <Link to="/artist" className="block py-2" onClick={closeMenu}>
+                <Link to="/artist" className="block py-2 text-[#19233A]" onClick={closeMenu}>
                   Artistas
                 </Link>
-                <Link to="/play" className="block py-2" onClick={closeMenu}>
+                <Link to="/play" className="block py-2 text-[#19233A]" onClick={closeMenu}>
                   Play
                 </Link>
               </nav>
             )}
             <nav className="hidden gap-6 text-xl font-semibold text-white lg:flex xl:gap-16">
+              <Link to="/">Inicio</Link>
               <Link to="/explorer">Explorar</Link>
               <Link to="/artist">Artistas</Link>
               <Link to="/play">Play</Link>
@@ -85,7 +99,7 @@ export const Header = () => {
           <div className="flex items-center gap-6">
             {!user ? (
               <>
-                <div className="hidden gap-6 text-xl font-semibold text-white sm:flex xl:mx-24 xl:gap-12">
+                <div className="hidden gap-6 text-xl font-semibold text-white lg:flex xl:mx-24 xl:gap-12">
                   <button
                     className="cursor-pointer"
                     type="button"
