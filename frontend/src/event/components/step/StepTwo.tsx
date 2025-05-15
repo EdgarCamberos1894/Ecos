@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { FormData } from "@/event/type/FormData";
 import { z, ZodError } from "zod";
 import { UploadCloud } from "@/profile/components/ui/UploadCloud";
+import { toast } from "sonner";
 
 interface StepTwoProps {
   nextStep: () => void;
@@ -63,6 +64,7 @@ export default function StepTwo({ nextStep, prevStep, setFormData }: StepTwoProp
   };
 
   const handleSubmit = () => {
+    toast.success("Imagen cargada correctamente");
     console.log("Imagen guardada:", file);
   };
 
