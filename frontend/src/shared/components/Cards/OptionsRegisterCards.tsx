@@ -35,13 +35,13 @@ const OptionsRegisterCards: React.FC<OptionsRegisterCardsProps> = ({
           <p className="text-white">{description}</p>
         </div>
       </div>
-      <div className="text-start">
+      <div className="min-h-[320px] text-start">
         <img src={imageSrc} alt={title} className="mt-1 h-[188px] w-[520px] object-cover" />
         <h1 className="mx-4 text-lg font-semibold text-white">{title}</h1>
         <p className="mx-4 mt-2 mb-4 text-sm text-white">{parrafo}</p>
         <p className="mx-4 mt-2 mb-4 text-sm text-white">{parrafo2}</p>
       </div>
-      <div className="mx-4 flex justify-end">
+      <div className="mx-4 mb-4 flex justify-end">
         <button type="submit" className="mb-4 w-32 rounded-3xl bg-[#FE963D] px-4 py-2 text-white">
           {buttonText}
         </button>
