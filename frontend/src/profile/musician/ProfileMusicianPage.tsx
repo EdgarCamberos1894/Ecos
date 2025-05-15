@@ -17,17 +17,17 @@ import {
   type FavoriteMusic,
   type ApiEvents,
 } from "./musician-types";
-import { useRequiredUser } from "@/auth/hooks/use-required-user";
 import { useApiMutation } from "@/shared/hooks/use-api-mutation";
 import { toast } from "sonner";
 import { useState } from "react";
 import DonationModal from "../fan/DonationModal";
+import { useAuth } from "@/auth/hooks/use-auth";
 
 export default function ProfileMusicianPage() {
   const [isDonationModalOpen, setIsDonationModalOpen] = useState(false);
 
   const { id } = useParams() as { id: string };
-  const user = useRequiredUser();
+  const { user } = useAuth();
 
   const { data: banner } = useApiQuery<BannerUrl>("banner", `musician-profile/${id}/banner`, id);
   const { data: profile, isSuccess: isProfileSuccess } = useApiQuery<MusicianProfile>(
@@ -50,7 +50,7 @@ export default function ProfileMusicianPage() {
   };
 
   const handleFavoriteMusic = () => {
-    if (user.role === "MUSICIAN") {
+    if (user?.role === "MUSICIAN") {
       toast.info("Solo las cuentas con el rol FAN pueden guardar música");
       return;
     }
