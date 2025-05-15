@@ -61,7 +61,7 @@ export const formMusicianProfileSchema = baseProfileSchema.extend({
   spotifyUrl: z
     .string()
     .optional()
-    .refine((val) => !val || createSocialUrlRegex("spotify.com").test(val), {
+    .refine((val) => !val || createSocialUrlRegex("open.spotify.com").test(val), {
       message: "La URL de Spotify no es válida.",
     }),
   youtubeUrl: z

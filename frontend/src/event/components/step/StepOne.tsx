@@ -1,6 +1,6 @@
 import { useState } from "react";
 import InputField from "../ui/ImputField";
-import EventTypeSelector from "../ui/EventTypeSelector";
+import TypeSelector from "../ui/TypeSelector";
 import InputTime from "../ui/InputTime";
 import { eventSchema } from "../../validation/EventSchema";
 import { ZodError } from "zod";
@@ -13,34 +13,20 @@ interface StepOneProps {
 }
 
 export default function StepOne({ nextStep, formData, setFormData }: StepOneProps) {
-  const [form, setForm] = useState({
-    eventName: formData.eventName || "",
-    category: formData.category || "",
-    eventType: "único",
-    date: formData.date || "",
-    startTime: formData.hour || "",
-    endTime: "",
-    location: formData.location || "",
-    description: formData.description || "",
-  });
-
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
-      const parsedData = eventSchema.parse(form);
-      // Actualizá los datos globales del formulario
+      const parsedData = eventSchema.parse(formData);
       setFormData((prev) => ({
         ...prev,
         ...parsedData,
-        hour: parsedData.startTime,
       }));
       nextStep();
     } catch (err) {
       if (err instanceof ZodError) {
-        console.log("Errores al validar:", err.errors);
         const fieldErrors: Record<string, string> = {};
         err.errors.forEach((error) => {
           if (error.path[0]) {
@@ -54,24 +40,29 @@ export default function StepOne({ nextStep, formData, setFormData }: StepOneProp
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    const updatedForm = { ...form, [name]: value };
-    setForm(updatedForm);
 
-    const newErrors = { ...formErrors };
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
 
     try {
       const fieldSchema = eventSchema.shape[name as keyof typeof eventSchema.shape];
       fieldSchema.parse(value);
 
-      const restErrors = Object.fromEntries(
-        Object.entries(newErrors).filter(([key]) => key !== name),
-      );
+      setFormErrors((prev) => {
+        const newErrors = { ...prev };
+        const { [name]: _, ...restErrors } = newErrors;
+        setFormErrors(restErrors);
 
-      setFormErrors(restErrors);
+        return newErrors;
+      });
     } catch (err) {
       if (err instanceof ZodError) {
-        newErrors[name] = err.errors[0].message || "Error en el campo";
-        setFormErrors(newErrors);
+        setFormErrors((prev) => ({
+          ...prev,
+          [name]: err.errors[0]?.message || "Error en el campo",
+        }));
       }
     }
   };
@@ -82,19 +73,21 @@ export default function StepOne({ nextStep, formData, setFormData }: StepOneProp
         <p className="mb-2 font-[Roboto] text-2xl font-medium">Detalles</p>
         <div className="grid w-full grid-cols-1 items-center justify-start gap-4">
           <InputField
+            type="text"
             label="Nombre del evento "
-            name="eventName"
-            value={form.eventName}
+            name="name"
+            value={formData.name}
             required
             onChange={handleChange}
-            error={formErrors.eventName}
+            error={formErrors.name}
             placeholder="Introduce el nombre de tu evento"
           />
 
           <InputField
+            type="text"
             label="Categoría "
             name="category"
-            value={form.category}
+            value={formData.category}
             required
             onChange={handleChange}
             error={formErrors.category}
@@ -104,18 +97,19 @@ export default function StepOne({ nextStep, formData, setFormData }: StepOneProp
       </div>
 
       {/* Tipo de evento */}
-      <EventTypeSelector value={form.eventType} onChange={handleChange} />
+      <TypeSelector form={formData} setForm={setFormData} error={formErrors.type} />
 
       {/* Fecha y hora */}
-      <InputTime form={form} handleChange={handleChange} errors={formErrors} />
+      <InputTime form={formData} handleChange={handleChange} errors={formErrors} />
 
       {/* Lugar */}
       <div className="flex flex-col">
         <p className="mb-2 font-[Roboto] text-2xl font-medium">Lugar</p>
         <InputField
+          type="text"
           label="¿Dónde se realiza el evento?"
           name="location"
-          value={form.location}
+          value={formData.location}
           required
           onChange={handleChange}
           error={formErrors.location}
@@ -132,7 +126,7 @@ export default function StepOne({ nextStep, formData, setFormData }: StepOneProp
         <div className="w-full pl-4 md:ml-0">
           <textarea
             name="description"
-            value={form.description}
+            value={formData.description}
             onChange={handleChange}
             className={`flex h-28 w-full border p-2 text-sm placeholder:text-gray-400 focus:ring-2 focus:outline-none`}
             placeholder="Describe un poco más tu evento para atraer al público"
@@ -153,6 +147,9 @@ export default function StepOne({ nextStep, formData, setFormData }: StepOneProp
         <button
           type="button"
           className="rounded-[37px] bg-[#19233A] px-6 py-2 text-white hover:bg-gray-400"
+          onClick={() => {
+            /* Opcional: manejar cancelar */
+          }}
         >
           Cancelar
         </button>

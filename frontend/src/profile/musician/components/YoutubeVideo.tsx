@@ -7,8 +7,6 @@ interface PlatformIframeProps extends ComponentProps<"iframe"> {
 export const YouTubeVideo = ({ embedUrl, ...iframeProps }: PlatformIframeProps) => {
   return (
     <iframe
-      width="720"
-      height="405"
       src={embedUrl}
       title="YouTube video player"
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
