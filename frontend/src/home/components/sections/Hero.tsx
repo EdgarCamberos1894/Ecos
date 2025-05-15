@@ -51,7 +51,7 @@ export default function Hero() {
 
   return (
     <>
-      <div className="relative -mt-20 h-auto w-full flex-col justify-start pb-48 sm:pb-64 lg:-mt-0 lg:h-248">
+      <div className="relative h-auto w-full flex-col justify-start pb-48 sm:pb-64 lg:-mt-0 lg:h-248">
         <video
           ref={videoRef}
           className="absolute top-0 left-0 min-h-full w-full object-cover"
@@ -62,7 +62,7 @@ export default function Hero() {
           playsInline
           preload="none"
         />
-        <div className="relative z-10 ms-12 w-auto pt-36 md:ms-24 lg:ms-36 lg:w-120">
+        <div className="relative ms-12 w-auto pt-36 md:ms-24 lg:ms-36 lg:w-120">
           <h1 className="w-80 text-start font-sans text-3xl leading-14 font-bold text-white drop-shadow-lg sm:w-138 sm:text-4xl lg:w-112 lg:text-5xl">
             Bienvenidos a Ecos, tu plataforma musical ideal
           </h1>
