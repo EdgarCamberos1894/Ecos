@@ -43,8 +43,8 @@ public record MusicianProfileRequestDto(
         @Schema(description = "Clave Bancaria Uniforme (CBU) para recibir transferencias")
         String cbu,
 
-        @Schema(description = "URL del perfil de Spotify", example = "https://open.spotify.com/artist/abc123")
-        @Pattern(regexp = "^(https?://)?(www\\.)?spotify\\.com/.*$", message = "Debe ser una URL válida de Spotify")
+        @Schema(description = "URL del perfil de Spotify", example = "https://open.spotify.com/intl-es/artist/abc123")
+        @Pattern(regexp = "^https://open\\.spotify\\.com(/[^/]+)?/artist/[a-zA-Z0-9]{22}([?&].*)?$", message = "El enlace de Spotify debe ser válido y apuntar a una artista (no álbum, canción individual o playlist).")
         String spotifyUrl,
 
         @Schema(description = "URL del canal de YouTube", example = "https://www.youtube.com/channel/xyz456")
