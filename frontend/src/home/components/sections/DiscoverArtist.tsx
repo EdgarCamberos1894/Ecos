@@ -1,11 +1,11 @@
 import MusicSearch from "@/app/components/MusicSearch";
-import FeaturedTopicsList from "../FeaturedTopicsList";
+import FeaturedSongs from "../FeaturedSongs";
 
 const DiscoverArtist = () => {
   return (
     <section id="#explorar">
       <MusicSearch />
-      <FeaturedTopicsList />
+      <FeaturedSongs />
     </section>
   );
 };

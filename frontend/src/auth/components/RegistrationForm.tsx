@@ -10,7 +10,7 @@ import { useAuth } from "../hooks/use-auth";
 import { useState } from "react";
 import { toast } from "sonner";
 
-const nameRegex = /^[a-zA-Z0-9\s]+$/;
+const nameRegex = /^[\p{L}0-9\s]+$/u;
 const noOnlySpaces = /^(?!\s*$).+/;
 const passwordRegex = /^[a-zA-Z0-9!@#$%&*_-]+$/;
 
