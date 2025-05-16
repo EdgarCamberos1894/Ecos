@@ -32,6 +32,7 @@ interface MusicData {
 export const EditProfileMusicianPage = () => {
   const [file, setFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [isBannerUploaded, setIsBannerUploaded] = useState(false);
 
   const [musicData, setMusicData] = useState<MusicData>({
     title: "",
@@ -68,6 +69,7 @@ export const EditProfileMusicianPage = () => {
   const onImageUpload = (file: File | null, imageUrl: string | null) => {
     setFile(file);
     setImagePreview(imageUrl);
+    setIsBannerUploaded(false);
   };
 
   const onSettingMusic = (settings: SettingMusic) => {
@@ -105,6 +107,7 @@ export const EditProfileMusicianPage = () => {
     bannerMutate(formData, {
       onSuccess: () => {
         toast.success("Banner guardado con éxito");
+        setIsBannerUploaded(true);
         refetch();
       },
       onError: () => {
@@ -160,12 +163,14 @@ export const EditProfileMusicianPage = () => {
           alt={`Banner`}
           className="mb-10 hidden h-[clamp(140px,35.4vw,680px)] w-full object-cover xl:block"
         />
-        <BannerUploader
-          onUpload={handleBannerUpload}
-          isUploading={isBannerPending}
-          onImageUpload={onImageUpload}
-          className="flex h-[454px] w-full max-w-[734px] flex-col content-center items-center justify-center justify-items-center gap-7 rounded-[20px] p-4 xl:absolute xl:top-1/2 xl:left-1/2 xl:z-10 xl:flex xl:-translate-x-1/2 xl:-translate-y-1/2 xl:bg-white/50"
-        />
+        {!isBannerUploaded && (
+          <BannerUploader
+            onUpload={handleBannerUpload}
+            isUploading={isBannerPending}
+            onImageUpload={onImageUpload}
+            className={`flex h-[454px] w-full max-w-[734px] flex-col content-center items-center justify-center justify-items-center gap-7 rounded-[20px] p-4 xl:absolute xl:top-1/2 xl:left-1/2 xl:z-10 xl:flex xl:-translate-x-1/2 xl:-translate-y-1/2 xl:bg-white/50`}
+          />
+        )}
       </section>
       <section className="text-ecos-blue mb-24 space-y-2 px-4 sm:px-12 lg:px-[clamp(48px,8vw,160px)]">
         <h2 className="text-4xl">¡Bienvenido!</h2>
