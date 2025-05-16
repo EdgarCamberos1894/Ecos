@@ -22,6 +22,7 @@ import { toast } from "sonner";
 import { useState } from "react";
 import DonationModal from "../fan/DonationModal";
 import { useAuth } from "@/auth/hooks/use-auth";
+import { MediaSkeleton } from "./components/MediaSkeleton";
 
 export default function ProfileMusicianPage() {
   const [isDonationModalOpen, setIsDonationModalOpen] = useState(false);
@@ -36,7 +37,7 @@ export default function ProfileMusicianPage() {
     id,
   );
   const { data: songs, isSuccess } = useApiQuery<ApiSongs>("songs", `songs/musician/${id}`, id);
-  const { data: events } = useApiQuery<ApiEvents>("events", `events/musician/${id}`, id);
+  const { data: events, isFetched } = useApiQuery<ApiEvents>("events", `events/musician/${id}`, id);
 
   const { mutate: favoriteSongMutate } = useApiMutation<FavoriteMusic, undefined>(
     isSuccess && songs.items.length !== 0
@@ -70,13 +71,13 @@ export default function ProfileMusicianPage() {
       <img
         src={banner?.bannerUrl ?? ImageBanner}
         alt={`Banner`}
-        className="mb-6 h-[clamp(140px,35.4vw,680px)] w-full max-w-[1920px] object-cover"
+        className="mb-6 h-[clamp(140px,35.4vw,680px)] w-full object-cover"
       />
       <main className="mb-20 px-[clamp(16px,8vw,160px)]">
         <h1 className="text-ecos-blue mb-3 text-8xl font-medium">{profile?.data.stageName}</h1>
         <h2 className="text-ecos-blue mb-16 text-2xl">{profile?.data.genre}</h2>
         <section className="flex flex-col gap-16">
-          {songs?.items[0]?.audioUrl && (
+          {songs?.items[0]?.audioUrl ? (
             <>
               <AudioPlayer audioUrl={songs.items[0].audioUrl} title={songs.items[0].title} />
               <div className="mt-4 mb-16 flex gap-4 sm:gap-6">
@@ -94,8 +95,7 @@ export default function ProfileMusicianPage() {
                 </DonateButton>
               </div>
             </>
-          )}
-          {songs?.items[0]?.spotifyUrl && (
+          ) : songs?.items[0]?.spotifyUrl ? (
             <div>
               <SpotifyTrack
                 className="max-w-5xl rounded-4xl"
@@ -116,27 +116,61 @@ export default function ProfileMusicianPage() {
                 </DonateButton>
               </div>
             </div>
+          ) : (
+            <div>
+              <MediaSkeleton
+                message="Subí tus canciones"
+                className="bg-ecos-skeleton grid aspect-[1100/510] w-full max-w-[1100px] place-content-center place-items-center rounded-[30px]"
+              />
+              <div className="mt-4 mb-16 flex gap-4 md:gap-6">
+                <HeartButton
+                  onClick={handleFavoriteMusic}
+                  className="bg-ecos-blue flex h-14 w-28 cursor-pointer items-center justify-center gap-2.5 rounded-full px-3.5 py-1.5 text-sm text-white sm:w-44 sm:px-10 sm:py-1.5"
+                >
+                  Guardar
+                </HeartButton>
+                <DonateButton
+                  onClick={handleDonationModal}
+                  className="bg-ecos-blue flex h-14 w-28 cursor-pointer items-center justify-center gap-2.5 rounded-full px-3.5 py-1.5 text-sm text-white sm:w-44 sm:px-10 sm:py-1.5"
+                >
+                  Donar
+                </DonateButton>
+              </div>
+            </div>
           )}
-          {songs?.items[0]?.youtubeUrl && (
+
+          {songs?.items[0]?.youtubeUrl ? (
             <YouTubeVideo
               className="mb-9 aspect-[1126/567] max-h-[567px] min-h-[196px] w-full max-w-[1126px] min-w-[358px] rounded-[20px]"
               embedUrl={songs.items[0].youtubeUrl}
+            />
+          ) : (
+            <MediaSkeleton
+              message="Subí tu video"
+              className="bg-ecos-skeleton grid aspect-[1120/560] w-full max-w-[1120px] place-content-center place-items-center rounded-[30px]"
             />
           )}
           <DonateSection handleDonationModal={handleDonationModal} />
           <h2 className="text-ecos-blue -mb-5 text-2xl font-medium uppercase">Próximos eventos</h2>
           <div className="mb-[261px] grid grid-cols-[repeat(auto-fill,minmax(500px,1fr))] gap-4">
-            {events?.items.map((event) => (
-              <EventCard
-                key={event.id}
-                image={event.image}
-                stageName={isProfileSuccess ? profile.data.stageName : ""}
-                category={event.category}
-                supportingText={event.name}
-                datePublished={event.date}
-                contentPublished={event.description}
+            {events?.items[0] ? (
+              events.items.map((event) => (
+                <EventCard
+                  key={event.id}
+                  image={event.image}
+                  stageName={isProfileSuccess ? profile.data.stageName : ""}
+                  category={event.category}
+                  supportingText={event.name}
+                  datePublished={event.date}
+                  contentPublished={event.description}
+                />
+              ))
+            ) : (
+              <MediaSkeleton
+                message="Subí tu evento"
+                className="bg-ecos-skeleton grid aspect-[516/440] w-full max-w-[516px] place-content-center place-items-center rounded-[30px]"
               />
-            ))}
+            )}
           </div>
         </section>
         <section className="space-y-28">
