@@ -2,7 +2,6 @@ import OptionsRegisterCards from "@/shared/components/Cards/OptionsRegisterCards
 import iconoM from "@/assets/iconoM.svg";
 import iconoF from "@/assets/iconoF.svg";
 import iconoE from "@/assets/iconoE.svg";
-
 import womenDj from "@/assets/womenDj.webp";
 import celuFestival from "@/assets/celuFestival.webp";
 import chicaAtractiva from "@/assets/chicaAtractiva.webp";
@@ -13,7 +12,7 @@ export default function OptionsRegister() {
       id: "musicos",
       icono: iconoM,
       option: "MÚSICOS",
-      description: "**Artistas independientes y emergentes**",
+      description: "Artistas independientes y emergentes",
       imageSrc: womenDj,
       title: "Conquista tu escena musical",
       parrafo2: "Plataforma diseñada para impulsar tu carrera.",
@@ -24,7 +23,7 @@ export default function OptionsRegister() {
       id: "fan",
       icono: iconoF,
       option: "FAN",
-      description: "**Descubre, Escucha y Sigue a tus Músicos Favoritos**",
+      description: "Descubre, Escucha y Sigue a tus Músicos Favoritos",
       imageSrc: chicaAtractiva,
       title: "Busca nuevas Opciones de Música",
       parrafo2: "Conecta con músicos ideales según tus gustos.",
@@ -46,14 +45,12 @@ export default function OptionsRegister() {
   ];
 
   return (
-    <div className="mx-auto mt-24 w-auto text-center lg:mt-72">
-      <div className="mx-12 w-5/6 text-start text-3xl text-[#19233A] md:mx-24 md:w-158 lg:ms-36 lg:mt-32">
-        <h2 className="text-4xl font-normal md:text-[40px]">
-          Conectamos músicos, fans y eventos en una sola plataforma
-        </h2>
-        <h2 className="mt-12 text-[32px] font-bold md:text-[40px]">¡Empieza!</h2>
+    <div className="mt-24 flex flex-col justify-around gap-11 px-2.5 text-center lg:mt-[156px] lg:px-12">
+      <div className="max-w-[634px] space-y-8 text-start text-3xl text-[#19233A] md:text-[40px]">
+        <h2 className="font-normal">Conectamos músicos, fans y eventos en una sola plataforma</h2>
+        <h2 className="font-bold">¡Empieza!</h2>
       </div>
-      <div className="mt-32 flex w-full flex-col gap-6 lg:flex-row lg:px-12">
+      <div className="flex w-full flex-col gap-6 lg:flex-row">
         {cardsData.map((data) => (
           <OptionsRegisterCards key={data.id} {...data} />
         ))}

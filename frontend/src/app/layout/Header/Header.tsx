@@ -16,7 +16,7 @@ export const Header = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ["inicio", "explorer", "artist", "play"];
+      const sections = ["explorar", "artistas", "eventos", "preguntas"];
       const scrollY = window.scrollY;
 
       sections.forEach((id) => {
@@ -90,20 +90,23 @@ export const Header = () => {
             </Link>
             <button
               type="button"
-              title="Menú"
               className="block p-4 focus:outline-none lg:hidden"
               onClick={toggleMenu}
             >
-              <MenuIcon className="h-12 w-12" />
+              {isOpen ? (
+                <span className="h-12 w-12 text-4xl text-[#19233A]">✖</span>
+              ) : (
+                <MenuIcon className="h-12 w-12" />
+              )}
             </button>
             {isOpen && (
-              <nav className="absolute top-22 left-1 z-20 w-48 bg-white px-8 py-10 shadow-md lg:hidden">
+              <nav className="absolute top-22 left-1 z-20 w-56 rounded-2xl bg-white px-8 py-10 shadow-md lg:hidden">
                 <Link to="/" className="block py-2 text-[#19233A]" onClick={closeMenu}>
                   Inicio
                 </Link>
                 {!user && (
                   <button
-                    type="submit"
+                    type="button"
                     title="Iniciar sesion"
                     className="block py-2 text-[#19233A]"
                     onClick={() => {
@@ -117,7 +120,25 @@ export const Header = () => {
                 <a
                   className="block cursor-pointer py-2 text-[#19233A]"
                   onClick={() => {
-                    scrollToSection("eventos");
+                    scrollToSection("#explorar");
+                    closeMenu();
+                  }}
+                >
+                  Explorar
+                </a>
+                <a
+                  className="block cursor-pointer py-2 text-[#19233A]"
+                  onClick={() => {
+                    scrollToSection("#artistas");
+                    closeMenu();
+                  }}
+                >
+                  Artistas Destacados
+                </a>
+                <a
+                  className="block cursor-pointer py-2 text-[#19233A]"
+                  onClick={() => {
+                    scrollToSection("#eventos");
                     closeMenu();
                   }}
                 >
@@ -126,54 +147,50 @@ export const Header = () => {
                 <a
                   className="block cursor-pointer py-2 text-[#19233A]"
                   onClick={() => {
-                    scrollToSection("artistas");
+                    scrollToSection("#preguntas");
                     closeMenu();
                   }}
                 >
-                  Artistas
-                </a>
-                <a
-                  className="block cursor-pointer py-2 text-[#19233A]"
-                  onClick={() => {
-                    scrollToSection("temas");
-                    closeMenu();
-                  }}
-                >
-                  Temas
+                  Preguntas Frecuentes
                 </a>
               </nav>
             )}
             <nav className="hidden gap-6 text-xl font-semibold text-white lg:flex xl:gap-16">
-              <Link to="/" className="hover:text-[#B1B1B1]">
-                Inicio
-              </Link>
+              <a
+                className={`cursor-pointer hover:text-[#B1B1B1] ${activeSection === "explorar" ? "text-[#FE963D]" : ""}`}
+                onClick={() => {
+                  scrollToSection("#explorar");
+                }}
+              >
+                Explorar
+              </a>
+              <a
+                className={`cursor-pointer hover:text-[#B1B1B1] ${activeSection === "artistas" ? "text-[#FE963D]" : ""}`}
+                onClick={() => {
+                  scrollToSection("#artistas");
+                }}
+              >
+                Artistas destacados
+              </a>
               <a
                 className={`cursor-pointer hover:text-[#B1B1B1] ${activeSection === "eventos" ? "text-[#FE963D]" : ""}`}
                 onClick={() => {
-                  scrollToSection("eventos");
+                  scrollToSection("#eventos");
                 }}
               >
                 Eventos
               </a>
               <a
-                className={`cursor-pointer hover:text-[#B1B1B1] ${activeSection === "artistas" ? "text-[#FE963D]" : ""}`}
+                className={`cursor-pointer hover:text-[#B1B1B1] ${activeSection === "preguntas" ? "text-[#FE963D]" : ""}`}
                 onClick={() => {
-                  scrollToSection("artistas");
+                  scrollToSection("#preguntas");
                 }}
               >
-                Artistas
-              </a>
-              <a
-                className={`cursor-pointer hover:text-[#B1B1B1] ${activeSection === "temas" ? "text-[#FE963D]" : ""}`}
-                onClick={() => {
-                  scrollToSection("temas");
-                }}
-              >
-                Temas
+                Preguntas Frecuentes
               </a>
             </nav>
           </div>
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-14">
             {!user ? (
               <>
                 <div className="hidden gap-6 text-xl font-semibold text-white lg:flex xl:mx-24 xl:gap-12">
@@ -200,7 +217,7 @@ export const Header = () => {
               </>
             ) : (
               <>
-                <Bell />
+                <Bell className="size-[70px]" />
                 <UserMenu />
               </>
             )}

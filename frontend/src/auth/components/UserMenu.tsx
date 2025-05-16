@@ -47,7 +47,11 @@ const UserMenu = () => {
       <div className="relative inline-block">
         <button type="button" onClick={toggleMenu}>
           {profileImage ? (
-            <img src={profileImage} alt="Profile" className="h-12 w-12 rounded-full object-cover" />
+            <img
+              src={profileImage}
+              alt="Profile"
+              className="size-[65px] rounded-full object-cover"
+            />
           ) : (
             <Avatar />
           )}

@@ -34,11 +34,11 @@ export default function EventPage() {
   };
 
   return (
-    <section className="mt-24 mb-24 flex w-full flex-col items-center justify-center px-3 lg:max-w-[1881px]">
-      <header className="mb-6 flex w-full max-w-7xl flex-col gap-2 px-6 font-[Roboto] text-[#19233A]">
+    <section className="flex w-full flex-col items-center justify-center px-3 lg:mt-[135px] lg:mb-[232px] lg:max-w-[1881px] lg:gap-y-5 lg:px-[150px]">
+      <header className="flex w-full flex-col font-[Roboto] text-[#19233A]">
         <h2 className="text-start text-[32px] font-medium">Crear nuevo evento</h2>
-        <p className="text-start text-2xl font-medium">Lugar</p>
-        <p className="text-start text-2xl font-medium">Horario</p>
+        {/* <p className="text-start text-2xl font-medium">Lugar</p>
+        <p className="text-start text-2xl font-medium">Horario</p> */}
       </header>
       <ProgressBar currentStep={currentStep} steps={steps} />
 

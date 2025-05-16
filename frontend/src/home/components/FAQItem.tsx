@@ -1,4 +1,5 @@
 import ArrowUpIcon from "./ui/ArrowUpIcon";
+import { useState } from "react";
 
 const FAQItemList = [
   {
@@ -34,18 +35,36 @@ const FAQItemList = [
 ];
 
 const FAQItem = () => {
+  const [openItemId, setOpenItemId] = useState<number | null>(null);
+
+  const toggleItem = (id: number) => {
+    setOpenItemId((prevId) => (prevId === id ? null : id));
+  };
+
   return (
-    <li className="w-96 list-none border-b-1 border-black sm:w-128 lg:w-3/5">
-      {FAQItemList.map(({ id, question, answer }) => (
-        <div key={id} className="border-t-1 border-black">
-          <div className="flex justify-between py-[20px]">
-            <h3 className="text-lg">{question}</h3>
-            <ArrowUpIcon />
-          </div>
-          <p className="pb-[24px] text-sm">{answer}</p>
-        </div>
-      ))}
-    </li>
+    <ul className="list-none lg:w-3/5">
+      {FAQItemList.map(({ id, question, answer }) => {
+        const isOpen = openItemId === id;
+        return (
+          <li key={id} className="border-b border-black">
+            <div
+              className="flex cursor-pointer items-center justify-between py-[20px]"
+              onClick={() => {
+                toggleItem(id);
+              }}
+            >
+              <h3 className="text-lg">{question}</h3>
+              <ArrowUpIcon
+                className={`h-5 w-5 transition-transform duration-300 ${
+                  isOpen ? "rotate-0" : "rotate-180"
+                }`}
+              />
+            </div>
+            {isOpen && <p className="pb-[24px] text-sm">{answer}</p>}
+          </li>
+        );
+      })}
+    </ul>
   );
 };
 
