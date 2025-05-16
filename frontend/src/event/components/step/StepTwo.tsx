@@ -12,20 +12,30 @@ interface StepTwoProps {
 }
 
 const imagenSchema = z.object({
-  image: z
-    .instanceof(File)
-    .refine((file) => file.size > 0, "La imagen no puede estar vacía")
-    .refine((file) => {
-      const img = new Image();
+  image: z.any().refine(
+    async (file) => {
+      if (!file) return true;
+      if (!(file instanceof File)) return false;
       const objectUrl = URL.createObjectURL(file);
-      img.onload = () => {
-        const width = img.width;
-        const height = img.height;
-        URL.revokeObjectURL(objectUrl);
-        return width >= 1170 && height >= 504;
-      };
-      return true;
-    }, "La imagen debe tener al menos 1170 píxeles de ancho y 504 de alto"),
+      return await new Promise<boolean>((resolve) => {
+        const img = new Image();
+        img.onload = () => {
+          const isValid = img.width >= 1170 && img.height >= 504;
+          URL.revokeObjectURL(objectUrl);
+          resolve(isValid);
+        };
+        img.onerror = () => {
+          URL.revokeObjectURL(objectUrl);
+          resolve(false);
+        };
+        img.src = objectUrl;
+      });
+    },
+    {
+      message:
+        "La imagen debe ser un archivo válido y tener al menos 1170 píxeles de ancho y 504 de alto",
+    },
+  ),
 });
 
 export default function StepTwo({ nextStep, prevStep, setFormData }: StepTwoProps) {
@@ -65,7 +75,6 @@ export default function StepTwo({ nextStep, prevStep, setFormData }: StepTwoProp
 
   const handleSubmit = () => {
     toast.success("Imagen cargada correctamente");
-    console.log("Imagen guardada:", file);
   };
 
   const handleDelete = () => {
@@ -77,9 +86,9 @@ export default function StepTwo({ nextStep, prevStep, setFormData }: StepTwoProp
     setFormData((prev) => ({ ...prev, image: null }));
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     try {
-      imagenSchema.parse({ image: file });
+      await imagenSchema.parseAsync({ image: file });
       nextStep();
     } catch (error) {
       if (error instanceof ZodError) {
