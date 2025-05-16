@@ -47,7 +47,7 @@ export const Footer = () => {
         alt="Logo de Ecos"
         className="h-auto w-full max-w-[300px] self-center sm:max-w-[380px]"
       />
-      <span className="self-center sm:pt-36">
+      <span className="mb-3.5 self-center text-balance sm:pt-36">
         Copyright © 2025 ECOS - Todos los derechos reservados.
       </span>
     </footer>

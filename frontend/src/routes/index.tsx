@@ -9,6 +9,7 @@ import ProtectedRoute from "@/auth/components/ProtectedRoute";
 import EventPage from "@/event/EventPage";
 import { EditProfileMusicianPage } from "@/profile/musician/EditProfileMusicianPage";
 import { BackButtonLayout } from "@/app/layout/BackButtonLayout";
+import { EventById } from "@/app/components/EventById";
 
 export const AppRoutes = () => {
   return (
@@ -27,9 +28,12 @@ export const AppRoutes = () => {
         </Route>
       </Route>
 
-      {/* Rutas protegidas con BackButtonLayout */}
-      <Route element={<ProtectedRoute />}>
-        <Route element={<BackButtonLayout />}>
+      {/* BackButtonLayout */}
+      <Route element={<BackButtonLayout />}>
+        <Route path="/event/:id" element={<EventById />} />
+
+        {/* Rutas protegidas */}
+        <Route element={<ProtectedRoute />}>
           <Route path="/profile/musician/edit" element={<EditProfileMusicianPage />} />
           <Route path="/event" element={<EventPage />} />
         </Route>

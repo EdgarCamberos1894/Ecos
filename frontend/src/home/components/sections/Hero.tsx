@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import videoBannerHero from "@/assets/videoBannerHero.webm";
+import HeroVideo from "@/assets/Video_Ecos.mp4";
 import AuthModal, { AuthMode } from "@/auth/components/AuthModal";
 import { useAuth } from "@/auth/hooks/use-auth";
 import WelcomeUserModal from "@/auth/components/WelcomeUserModal";
@@ -55,7 +55,7 @@ export default function Hero() {
         <video
           ref={videoRef}
           className="absolute inset-0 -z-10 h-full w-full object-cover md:h-[469px] lg:h-[986px]"
-          src={videoBannerHero}
+          src={HeroVideo}
           autoPlay
           loop
           muted
