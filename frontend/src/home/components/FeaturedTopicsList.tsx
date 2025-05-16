@@ -18,7 +18,7 @@ const SECTIONS = [
 
 const FeaturedTopicsList = () => {
   return (
-    <div className="mx-auto flex flex-col gap-4 sm:mx-36">
+    <div id="#temas" className="mx-auto flex flex-col gap-4 sm:mx-36">
       <h2 className="mx-2 mb-4 text-start text-3xl font-bold text-[#19233A]">Temas destacados</h2>
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:grid-rows-2">
         {SECTIONS.map(({ id, title }) => (

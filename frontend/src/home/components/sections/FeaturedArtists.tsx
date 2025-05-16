@@ -18,7 +18,7 @@ const FeaturedArtists = () => {
   }
 
   return (
-    <section className="mt-24 w-full">
+    <section id="#artistas" className="mt-24 w-full">
       <h2 className="my-16 text-start text-5xl font-semibold text-[#19233A] lg:ms-10">
         Artistas destacados
       </h2>
