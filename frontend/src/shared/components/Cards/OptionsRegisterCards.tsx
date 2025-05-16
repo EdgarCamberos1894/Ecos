@@ -22,31 +22,42 @@ const OptionsRegisterCards: React.FC<OptionsRegisterCardsProps> = ({
   parrafo,
   buttonText,
 }) => {
-  return (
-    <div className="mx-auto mb-24 flex h-auto w-96 flex-col rounded-xl border bg-[#19233A] text-center sm:w-108">
-      <div className="flex h-20 gap-4">
-        <img
-          src={icono}
-          alt={option}
-          className="ms-2 mt-4 flex h-10 w-10 items-center justify-center"
-        />
-        <div className="mt-2 text-start">
-          <h2 className="text-md text-start font-bold text-white">{option}</h2>
-          <p className="text-white">{description}</p>
-        </div>
-      </div>
-      <div className="min-h-[320px] text-start">
-        <img src={imageSrc} alt={title} className="mt-1 h-[188px] w-[520px] object-cover" />
-        <h1 className="mx-4 text-lg font-semibold text-white">{title}</h1>
-        <p className="mx-4 mt-2 mb-4 text-sm text-white">{parrafo}</p>
-        <p className="mx-4 mt-2 mb-4 text-sm text-white">{parrafo2}</p>
-      </div>
-      <div className="mx-4 mb-4 flex justify-end">
-        <button type="submit" className="mb-4 w-32 rounded-3xl bg-[#FE963D] px-4 py-2 text-white">
-          {buttonText}
-        </button>
+  const HeaderContent = (
+    <div className="flex items-center space-x-4 p-2">
+      <img src={icono} alt={option} className="h-10 w-10" />
+      <div className="text-start">
+        <h2 className="font-bold">{option}</h2>
+        <p>{description}</p>
       </div>
     </div>
+  );
+
+  return (
+    <>
+      <div className="bg-ecos-blue flex h-20 justify-between rounded-xl text-white md:hidden">
+        {HeaderContent}
+        <img src={imageSrc} alt={title} className="h-20 w-[120px] rounded-r-[10px] object-cover" />
+      </div>
+
+      <div className="border-ecos-blue bg-ecos-blue hidden h-auto max-h-[456px] max-w-[520px] flex-col justify-between rounded-xl border py-3 text-white md:flex">
+        {HeaderContent}
+        <div className="space-y-3.5 text-start">
+          <img src={imageSrc} alt={title} className="object-cover" />
+          <h1 className="mx-4 text-lg font-semibold">{title}</h1>
+          <p className="mx-4 text-sm">{parrafo}</p>
+          <p className="mx-4 text-sm">{parrafo2}</p>
+        </div>
+
+        <div className="mx-4 mt-auto flex justify-end">
+          <button
+            type="button"
+            className="bg-ecos-orange-light w-32 rounded-3xl px-4 py-2 text-white"
+          >
+            {buttonText}
+          </button>
+        </div>
+      </div>
+    </>
   );
 };
 
