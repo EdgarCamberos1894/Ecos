@@ -16,4 +16,5 @@ public class EventSimpleResponseDto {
     private LocalDate date;
     private String description;
     private String image;
+    private MusicianInfoResponseDto musician;
 }
