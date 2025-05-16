@@ -18,8 +18,8 @@ const FeaturedArtists = () => {
   }
 
   return (
-    <section id="#artistas" className="mt-24 w-full">
-      <h2 className="my-16 text-start text-5xl font-semibold text-[#19233A] lg:ms-10">
+    <section className="mt-24 px-2.5 lg:px-12">
+      <h2 className="my-16 text-start text-5xl font-semibold text-[#19233A]">
         Artistas destacados
       </h2>
       {data && <ArtistGrid musicians={data.items} />}

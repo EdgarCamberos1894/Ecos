@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import videoBannerHero from "@/assets/videoBannerHero.webm"; // Importación del video
+import videoBannerHero from "@/assets/videoBannerHero.webm";
 import AuthModal, { AuthMode } from "@/auth/components/AuthModal";
 import { useAuth } from "@/auth/hooks/use-auth";
 import WelcomeUserModal from "@/auth/components/WelcomeUserModal";
@@ -51,10 +51,10 @@ export default function Hero() {
 
   return (
     <>
-      <div className="relative h-auto w-full flex-col justify-start pb-48 sm:pb-64 lg:-mt-0 lg:h-248">
+      <div className="relative w-full overflow-hidden md:h-[469px] lg:h-[986px]">
         <video
           ref={videoRef}
-          className="absolute top-0 left-0 min-h-full w-full object-cover"
+          className="absolute inset-0 -z-10 h-full w-full object-cover md:h-[469px] lg:h-[986px]"
           src={videoBannerHero}
           autoPlay
           loop
@@ -62,33 +62,37 @@ export default function Hero() {
           playsInline
           preload="none"
         />
-        <div className="relative ms-12 w-auto pt-36 md:ms-24 lg:ms-36 lg:w-120">
-          <h1 className="w-80 text-start font-sans text-3xl leading-14 font-bold text-white drop-shadow-lg sm:w-138 sm:text-4xl lg:w-112 lg:text-5xl">
-            Bienvenidos a Ecos, tu plataforma musical ideal
-          </h1>
-          <p className="mt-4 w-80 text-start text-sm text-white sm:w-128 lg:w-112 lg:text-lg">
-            Descubre un mundo lleno de música y creatividad. Únete a nosotros para compartir tu arte
-            y conectar con otros amantes de la música.
-          </p>
-          <div className="mt-6 flex gap-12">
-            <button
-              type="submit"
-              className="h-12 w-32 cursor-pointer rounded-3xl bg-[#19233A] text-sm text-white hover:bg-[#B1B1B1]"
-              onClick={() => {
-                handleOpenModal("register");
-              }}
-            >
-              Regístrate
-            </button>
-            <button
-              type="submit"
-              className="h-12 w-32 cursor-pointer rounded-3xl bg-[#FE963D] text-sm text-white hover:bg-[#B1B1B1]"
-            >
-              Explora
-            </button>
+
+        <div className="flex h-full w-full flex-col justify-center px-6 py-8 text-white sm:px-12 md:px-24">
+          <div className="max-w-3xl">
+            <h1 className="max-w-[428px] text-2xl font-bold drop-shadow-lg md:text-5xl">
+              Bienvenidos a Ecos, tu plataforma musical ideal
+            </h1>
+            <p className="mt-4 max-w-[390px] text-xs sm:max-w-[257px] md:text-sm">
+              Descubre un mundo lleno de música y creatividad. Únete a nosotros para compartir tu
+              arte y conectar con otros amantes de la música.
+            </p>
+            <div className="mt-6 flex gap-6">
+              <button
+                type="submit"
+                className="bg-ecos-blue h-12 w-32 rounded-3xl text-sm text-white hover:bg-[#B1B1B1]"
+                onClick={() => {
+                  handleOpenModal("register");
+                }}
+              >
+                Regístrate
+              </button>
+              <button
+                type="submit"
+                className="bg-ecos-orange-light h-12 w-32 rounded-3xl text-sm text-white hover:bg-[#B1B1B1]"
+              >
+                Explora
+              </button>
+            </div>
           </div>
         </div>
       </div>
+
       {openModal && <AuthModal mode={openModal} onClose={handleCloseModal} />}
       {showWelcomeUser && (
         <WelcomeUserModal

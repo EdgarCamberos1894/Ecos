@@ -9,11 +9,13 @@ export const HomePage = () => {
   return (
     <main className="content-center">
       <Hero />
-      <OptionsRegister />
-      <DiscoverArtist />
-      <FeaturedArtists />
-      <UpcomingEvents />
-      <FAQList />
+      <div className="space-y-24">
+        <OptionsRegister />
+        <DiscoverArtist />
+        <FeaturedArtists />
+        <UpcomingEvents />
+        <FAQList />
+      </div>
     </main>
   );
 };

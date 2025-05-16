@@ -16,11 +16,11 @@ const CardArtist = ({ musician }: CardArtistProps) => {
   };
 
   return (
-    <div key={id} className="flex flex-col gap-6 px-4 py-4 sm:px-6 sm:py-6 lg:flex-row">
+    <div key={id} className="flex flex-row gap-6 py-4 sm:py-6">
       <img
         src={photoUrl ?? defaultImage}
         alt={`Foto de ${stageName}`}
-        className="aspect-square w-full max-w-[229px] rounded-2xl object-cover"
+        className="aspect-square w-[132px] rounded-2xl object-cover md:w-[229px]"
       />
 
       <div className="text-ecos-blue flex w-full flex-col gap-4 text-start">

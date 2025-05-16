@@ -2,7 +2,12 @@ import fanImage from "@/assets/fan.webp";
 import musicianImage from "@/assets/musician.webp";
 import Button from "@/app/ui/Button";
 
-const ROLES = ["MUSICIAN", "FAN"];
+const ROLES = ["MUSICIAN", "FAN"] as const;
+
+const DESCRIPTIONS: Record<(typeof ROLES)[number], string> = {
+  MUSICIAN: "Promociona tu música, encuentra oportunidades y conecta con tu audiencia.",
+  FAN: "Descubre artistas emergentes, asiste a eventos exclusivos y apoya directamente a tus favoritos.",
+};
 
 interface RoleSelectorProps {
   onSelectRole: (role: string) => void;
@@ -10,7 +15,7 @@ interface RoleSelectorProps {
 
 const RoleSelector = ({ onSelectRole }: RoleSelectorProps) => {
   return (
-    <div className="flex h-full w-full flex-col items-center justify-around gap-4 p-5 text-center md:gap-8">
+    <div className="m-auto flex h-full max-h-[500px] w-full flex-col items-center justify-center gap-4 p-5 text-center md:gap-8">
       {ROLES.map((role) => (
         <div
           key={role}
@@ -24,17 +29,14 @@ const RoleSelector = ({ onSelectRole }: RoleSelectorProps) => {
           <div className="flex w-full flex-col items-start justify-between gap-4">
             <Button
               type="button"
-              className="bg-transparent font-bold"
+              className="w-full bg-transparent font-bold"
               onClick={() => {
                 onSelectRole(role);
               }}
             >
               Registrate como {role === "MUSICIAN" ? "Músico" : "Fan"}
             </Button>
-            <p className="text-justify break-words text-[#49454F]">
-              Description duis aute irure dolor in reprehenderit in voluptate velit. <br />
-              Description duis aute irure dolor in reprehenderit in voluptate velit.
-            </p>
+            <p className="text-justify break-words text-[#49454F]">{DESCRIPTIONS[role]}</p>
           </div>
         </div>
       ))}
