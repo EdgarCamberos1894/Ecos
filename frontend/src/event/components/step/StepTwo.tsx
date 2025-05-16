@@ -91,7 +91,7 @@ export default function StepTwo({ nextStep, prevStep, setFormData }: StepTwoProp
   };
 
   return (
-    <div className="mb-40 w-full flex-1 space-y-8 md:mx-auto md:max-w-7xl md:p-6">
+    <div className="mb-20 h-full w-full flex-1 md:mx-auto md:max-w-7xl md:p-6 lg:space-y-25">
       <section className="border[#19233A] flex h-[604px] w-[364px] flex-col items-center justify-center gap-y-9 rounded-3xl border md:w-[801px]">
         <label
           htmlFor="fileInput"

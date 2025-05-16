@@ -15,8 +15,11 @@ export default function InputField({
   required = true,
   error,
   labelClassName = "",
+  type = "text",
   ...props
 }: InputFieldProps) {
+  const isFileInput = type === "file";
+
   return (
     <div className="flex w-full items-center gap-4">
       <label
@@ -30,7 +33,9 @@ export default function InputField({
         <input
           id={name}
           name={name}
+          type={type}
           className={`w-full border p-2 text-sm placeholder:text-gray-400 focus:ring-2 focus:outline-none`}
+          {...(!isFileInput && { value: props.value })} // solo se pasa value si no es file
           {...props}
         />
         {error && <p className="mt-1 text-sm text-red-600">{error}</p>}
