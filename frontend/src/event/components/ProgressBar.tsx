@@ -4,10 +4,17 @@ interface ProgressBarProps {
 }
 
 export function ProgressBar({ currentStep, steps }: ProgressBarProps) {
-  const percentage = currentStep === 0 ? 23 : (currentStep / (steps.length - 1)) * 100;
+  const percentage =
+    currentStep === 0
+      ? 24.5
+      : currentStep === 1
+        ? 49.5
+        : currentStep === 2
+          ? 75
+          : (currentStep / (steps.length - 1)) * 100;
 
   return (
-    <div className="relative mb-6 w-full max-w-7xl px-6">
+    <div className="relative mb-6 h-[67px] w-full">
       <div className="absolute top-3 right-0 left-0 z-0 h-1 bg-gray-300" />
 
       <div
