@@ -6,7 +6,7 @@ const UpcomingEvents = () => {
   const { data: events } = useApiQuery<ApiEvents>("events", `events/search`);
 
   return (
-    <section className="w-full px-4 md:px-28 lg:px-40">
+    <section id="#eventos" className="w-full px-4 md:px-28 lg:px-40">
       <h2 className="my-8 text-start text-5xl text-[#19233A] lg:mb-24">Próximos Eventos</h2>
 
       <div className="mb-[261px] grid grid-cols-[repeat(auto-fit,minmax(400px,1fr))] gap-14">
