@@ -63,7 +63,6 @@ export default function StepFour({ prevStep, formData }: StepFourProps) {
     if (formData.image) {
       data.append("image", formData.image);
     }
-    console.log("formData antes de enviar:", formData);
     mutate(data, {
       onSuccess: () => {
         setError(null);
