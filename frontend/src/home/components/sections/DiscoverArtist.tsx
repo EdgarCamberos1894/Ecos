@@ -3,7 +3,7 @@ import FeaturedTopicsList from "../FeaturedTopicsList";
 
 const DiscoverArtist = () => {
   return (
-    <section>
+    <section id="#explorar">
       <MusicSearch />
       <FeaturedTopicsList />
     </section>
