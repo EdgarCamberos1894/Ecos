@@ -37,7 +37,7 @@ export default function ProfileMusicianPage() {
     id,
   );
   const { data: songs, isSuccess } = useApiQuery<ApiSongs>("songs", `songs/musician/${id}`, id);
-  const { data: events, isFetched } = useApiQuery<ApiEvents>("events", `events/musician/${id}`, id);
+  const { data: events } = useApiQuery<ApiEvents>("events", `events/musician/${id}`, id);
 
   const { mutate: favoriteSongMutate } = useApiMutation<FavoriteMusic, undefined>(
     isSuccess && songs.items.length !== 0
