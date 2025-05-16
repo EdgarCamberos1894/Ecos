@@ -1,15 +1,12 @@
 import { BackArrow } from "@/app/ui/BackArrow";
-import { useRequiredUser } from "@/auth/hooks/use-required-user";
-import { Link } from "react-router";
+import { useNavigate } from "react-router";
 
 export const BackButtonHeader = () => {
-  const user = useRequiredUser();
+  const navigate = useNavigate();
 
   return (
     <header className="bg-ecos-blue flex h-full min-h-36 items-center">
-      <Link to={`/profile/musician/${user.id}`} className="ml-16">
-        <BackArrow className="cursor-pointer text-white" />
-      </Link>
+      <BackArrow onClick={() => navigate(-1)} className="ml-16 cursor-pointer text-white" />
     </header>
   );
 };

@@ -63,8 +63,7 @@ export const AudioPlayer = ({ audioUrl, title }: AudioPlayerProps) => {
   }, []);
 
   return (
-    <div className="text-ecos-blue flex items-center gap-4">
-      {/* Play / Pause */}
+    <div className="text-ecos-blue flex w-full max-w-screen-md items-center gap-4">
       <button
         type="button"
         onClick={togglePlay}
@@ -73,7 +72,6 @@ export const AudioPlayer = ({ audioUrl, title }: AudioPlayerProps) => {
         {isPlaying ? "⏸" : "▶"}
       </button>
 
-      {/* Info & progress */}
       <div className="flex w-full max-w-md flex-col gap-1">
         <div className="flex items-center gap-8">
           <span className="text-sm font-medium">{title}</span>
@@ -93,7 +91,6 @@ export const AudioPlayer = ({ audioUrl, title }: AudioPlayerProps) => {
         </div>
       </div>
 
-      {/* Hidden audio element */}
       <audio
         ref={audioRef}
         src={audioUrl}

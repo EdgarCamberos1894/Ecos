@@ -32,8 +32,8 @@ export default function BannerUploader({
   const handleFile = async (file: File) => {
     setError(null);
 
-    if (!["image/jpeg", "image/png", "image/gif"].includes(file.type)) {
-      setError("Formato inválido. Solo se aceptan JPG, PNG o GIF.");
+    if (!["image/jpeg", "image/png"].includes(file.type)) {
+      setError("Formato inválido. Solo se aceptan JPG o PNG.");
       return;
     }
 
@@ -96,11 +96,11 @@ export default function BannerUploader({
             <p className="mt-2 text-sm text-balance text-gray-600">
               La imagen debe tener al menos 1170 píxeles de ancho y 504 de alto
               <br />
-              Formatos válidos: JPG, GIF, PNG.
+              Formatos válidos: JPG o PNG.
             </p>
             <span className="my-2 font-bold text-gray-500">o</span>
-            <div className="bg-ecos-blue rounded-full px-20 py-2.5 text-sm font-medium text-white">
-              BUSCAR ARCHIVO
+            <div className="bg-ecos-blue rounded-full px-20 py-2.5 text-sm font-medium text-white uppercase">
+              Buscar archivo
             </div>
           </>
         )}
