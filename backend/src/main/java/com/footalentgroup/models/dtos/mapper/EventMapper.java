@@ -4,8 +4,10 @@ import com.footalentgroup.models.dtos.request.EventRequestDto;
 import com.footalentgroup.models.dtos.request.TicketRequestDto;
 import com.footalentgroup.models.dtos.response.EventResponseDto;
 import com.footalentgroup.models.dtos.response.EventSimpleResponseDto;
+import com.footalentgroup.models.dtos.response.MusicianInfoResponseDto;
 import com.footalentgroup.models.dtos.response.PageResponseDto;
 import com.footalentgroup.models.entities.EventEntity;
+import com.footalentgroup.models.entities.MusicianProfileEntity;
 import com.footalentgroup.models.entities.TicketEntity;
 import org.mapstruct.*;
 import org.springframework.data.domain.Page;
@@ -26,9 +28,23 @@ public interface EventMapper {
     @Mapping(target = "image", ignore = true)
     void updateEntity(EventRequestDto dto, @MappingTarget EventEntity entity);
 
+    @Mapping(target = "musician", expression = "java(toMusicianInfoDto(entity.getMusician()))")
     EventSimpleResponseDto toSimpleDto(EventEntity entity);
 
     List<EventSimpleResponseDto> toSimpleDtoList(List<EventEntity> entities);
+
+    default MusicianInfoResponseDto toMusicianInfoDto(MusicianProfileEntity musician) {
+        if (musician == null) return null;
+
+        return new MusicianInfoResponseDto(
+                musician.getId(),
+                musician.getStageName(),
+                musician.getPhotoUrl(),
+                musician.getUser().getName(),
+                musician.getSpotifyUrl(),
+                musician.getYoutubeUrl()
+        );
+    }
 
     default PageResponseDto<EventSimpleResponseDto> toPagedDto(Page<EventEntity> page) {
         List<EventSimpleResponseDto> events = toSimpleDtoList(page.getContent());
