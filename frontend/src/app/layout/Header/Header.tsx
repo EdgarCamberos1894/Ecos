@@ -173,7 +173,7 @@ export const Header = () => {
               </a>
             </nav>
           </div>
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-14">
             {!user ? (
               <>
                 <div className="hidden gap-6 text-xl font-semibold text-white lg:flex xl:mx-24 xl:gap-12">
@@ -200,7 +200,7 @@ export const Header = () => {
               </>
             ) : (
               <>
-                <Bell />
+                <Bell className="size-[70px]" />
                 <UserMenu />
               </>
             )}
