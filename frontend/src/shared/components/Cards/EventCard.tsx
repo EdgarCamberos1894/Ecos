@@ -1,6 +1,8 @@
 import img from "@/assets/image.webp";
+import { Link, useNavigate } from "react-router";
 
 interface EventCardProps {
+  id: number;
   image?: string;
   category: string;
   stageName: string;
@@ -10,6 +12,7 @@ interface EventCardProps {
 }
 
 const EventCard = ({
+  id,
   image,
   category,
   stageName,
@@ -17,6 +20,8 @@ const EventCard = ({
   datePublished,
   contentPublished,
 }: EventCardProps) => {
+  const navigate = useNavigate();
+
   const date = new Date(datePublished);
   const formatted = new Intl.DateTimeFormat("es-LA", {
     day: "numeric",
@@ -37,6 +42,7 @@ const EventCard = ({
           </div>
           <button
             type="button"
+            onClick={() => navigate(`/event/${id.toString()}`)}
             className="bg-ecos-orange-light text-ecos-blue h-10 cursor-pointer rounded-[20px] px-6 py-2.5 text-sm font-medium"
           >
             Ver más

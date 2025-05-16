@@ -158,6 +158,7 @@ export default function ProfileMusicianPage() {
               events.items.map((event) => (
                 <EventCard
                   key={event.id}
+                  id={event.id}
                   image={event.image}
                   stageName={event.musician.stageName ?? ""}
                   category={event.category}
