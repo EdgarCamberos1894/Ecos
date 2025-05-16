@@ -1,14 +1,7 @@
 import { SVGProps } from "react";
 
 export const Bell = (props: SVGProps<SVGSVGElement>) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="65"
-    height="65"
-    viewBox="0 0 70 70"
-    fill="none"
-    {...props}
-  >
+  <svg width="65" height="65" viewBox="0 0 70 70" fill="none" {...props}>
     <path
       d="M13.1471 51.4062H56.8554C58.0699 51.4062 58.7584 49.4695 58.0434 48.3599C56.3875 45.7904 54.779 42.0029 54.779 37.4355L54.8502 31.1881C54.8502 18.7959 45.9629 8.75 34.9998 8.75C24.1959 8.75 15.4376 18.6501 15.4376 30.8624L15.3664 37.4355C15.3664 41.9717 13.7005 45.7387 11.9744 48.3071C11.2306 49.414 11.9174 51.4062 13.1471 51.4062Z"
       fill="black"

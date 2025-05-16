@@ -4,6 +4,10 @@ import { useApiMutation } from "@/shared/hooks/use-api-mutation";
 import { toast } from "sonner";
 import { useRequiredUser } from "@/auth/hooks/use-required-user";
 import { useNavigate } from "react-router";
+import CalendarIcon from "../ui/CalendarIcon";
+import ClockIcon from "../ui/ClockIcon";
+import LocationIcon from "../ui/LocationIcon";
+import TicketIcon from "../ui/TicketIcon";
 
 interface StepFourProps {
   prevStep: () => void;
@@ -73,62 +77,74 @@ export default function StepFour({ prevStep, formData }: StepFourProps) {
   };
 
   return (
-    <form>
+    <form className="w-full">
       <p className="mb-4 text-sm font-normal">
         ¡Casi terminamos! Revisa que los datos sean correctos.
       </p>
-      <div className="mx-auto flex flex-col gap-y-10 rounded-[50px] border-3 border-[#19233A] p-3 md:w-[807px] md:p-10 lg:w-7xl">
-        {formData.image && (
-          <header className="mt-2 h-[297px] w-full md:h-[400px] lg:h-[594px]">
-            <img
-              src={URL.createObjectURL(formData.image)}
-              alt="Imagen del evento"
-              className="h-full w-full rounded-[50px] object-cover"
-            />
-          </header>
-        )}
-        <main className="flex flex-col gap-y-8">
-          <h2 className="text-center text-3xl font-extrabold md:text-start md:text-5xl">
-            {formData.name}
-          </h2>
-          <h3 className="text-center text-3xl font-extrabold md:text-start md:text-5xl">
-            {formData.category}
-          </h3>
-          <div className="flex flex-col gap-y-4">
-            <h3 className="text-2xl font-bold">Fecha y Hora</h3>
-            <p className="text-2xl font-semibold">{formData.dateString}</p>
-            <p className="text-2xl font-semibold">{formData.startTime}</p>
-            <p className="text-2xl font-semibold">{formData.endTime}</p>
-            <button
-              className="text-center text-2xl font-semibold text-[#2C53AE] md:text-start"
-              type="button"
-            >
-              + Agregar a Calendario
-            </button>
-          </div>
-          <div className="flex flex-col gap-y-4">
-            <h3 className="text-2xl font-bold">Lugar</h3>
-            <p className="text-2xl font-semibold">Dirección</p>
-            <span>{formData.location}</span>
-          </div>
-          <div className="flex flex-col gap-y-4">
-            <h3 className="text-3xl font-bold">Información de las entradas</h3>
-            <p className="text-2xl font-bold">Tipo de entrada: Precio / entrada</p>
+      <section className="flex p-3 lg:pr-[77px] lg:pl-[23px]">
+        <div className="flex flex-col gap-y-10 rounded-[50px] border-3 border-[#19233A] p-3 md:w-[807px] md:p-10 lg:w-full lg:px-[50px] lg:py-[38px]">
+          {formData.image && (
+            <header className="h-[297px] w-full md:h-[400px] lg:h-[594px]">
+              <img
+                src={URL.createObjectURL(formData.image)}
+                alt="Imagen del evento"
+                className="h-full w-full rounded-[50px] object-cover"
+              />
+            </header>
+          )}
+          <main className="flex flex-col gap-y-8 lg:gap-y-[80px] lg:pr-[271px]">
+            <h2 className="text-center text-4xl font-extrabold md:text-start md:text-5xl">
+              {formData.name}
+            </h2>
             <div className="flex flex-col gap-y-4">
-              <p>Puerta:</p>
-              <span>{formData.tickets[0]?.price}</span>
+              <h3 className="text-2xl font-bold md:text-[32px] lg:mb-7">Fecha y Hora</h3>
+              <div className="flex items-center gap-x-5">
+                <CalendarIcon />
+                <p className="text-2xl font-semibold">{formData.dateString}</p>
+              </div>
+              <div className="flex items-center gap-x-5">
+                <ClockIcon />
+                <p className="text-2xl font-semibold">{formData.startTime}</p>
+              </div>
+              <button
+                className="text-center text-xl font-semibold text-[#2C53AE] md:text-start lg:mt-5"
+                type="button"
+              >
+                + Agregar a Calendario
+              </button>
             </div>
             <div className="flex flex-col gap-y-4">
-              <p>Locuras de Morón</p>
-              <span>{formData.tickets[1]?.price}</span>
+              <h3 className="text-2xl font-bold md:text-[32px]">Lugar</h3>
+              <div className="flex items-end gap-x-1">
+                <LocationIcon className="h-[30px] w-[30px]" />
+                <p className="text-2xl font-semibold">Dirección: </p>
+                <span>{formData.location}</span>
+              </div>
             </div>
-          </div>
-          <div className="flex flex-col gap-y-4">
-            <h3 className="text-3xl font-bold">Descripción del Evento</h3>
-            <p className="text-lg font-normal">{formData.description}</p>
-          </div>
-        </main>
-      </div>
+            <div className="flex flex-col gap-y-4">
+              <h3 className="text-2xl font-bold md:text-[32px]">Información de las entradas</h3>
+              <div className="flex items-center gap-x-1">
+                <TicketIcon className="h-[30px] w-[30px]" />
+                <div>
+                  <p className="text-2xl font-semibold">Puntos de venta:</p>
+                  <div className="flex gap-x-4">
+                    <p>Puerta:</p>
+                    <span>$ {formData.tickets[0]?.price}</span>
+                  </div>
+                  <div className="flex gap-x-4">
+                    <p>Locuras</p>
+                    <span>$ {formData.tickets[1]?.price}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-col gap-y-4">
+              <h3 className="text-3xl font-bold">Descripción del Evento</h3>
+              <p className="text-lg font-normal">{formData.description}</p>
+            </div>
+          </main>
+        </div>
+      </section>
       <div className="mt-6 flex justify-center space-x-4">
         <button
           type="button"
