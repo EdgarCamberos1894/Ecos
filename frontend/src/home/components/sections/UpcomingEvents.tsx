@@ -4,7 +4,7 @@ import { CheckIcon } from "@/home/components/ui/CheckIcon";
 
 const UpcomingEvents = () => {
   return (
-    <section className="w-full max-w-screen-xl px-4 sm:px-6 lg:px-8">
+    <section id="#eventos" className="w-full max-w-screen-xl px-4 sm:px-6 lg:px-8">
       <h2 className="my-8 text-start text-5xl text-[#19233A] lg:mb-24">Próximos Eventos</h2>
 
       <CardUpcomingEvents />

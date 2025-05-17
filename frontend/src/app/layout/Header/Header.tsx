@@ -43,6 +43,7 @@ export const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const { user } = useAuth();
+  const isMusician = user?.role === "MUSICIAN";
 
   const handleOpenModal = (mode: AuthMode) => {
     setOpenModal(mode);
@@ -94,7 +95,7 @@ export const Header = () => {
               onClick={toggleMenu}
             >
               {isOpen ? (
-                <span className="h-12 w-12 text-4xl text-[#19233A]">✖</span>
+                <span className="h-12 w-12 text-4xl text-white">✖</span>
               ) : (
                 <MenuIcon className="h-12 w-12" />
               )}
@@ -107,7 +108,7 @@ export const Header = () => {
                 {!user && (
                   <button
                     type="button"
-                    title="Iniciar sesion"
+                    title="Iniciar sesión"
                     className="block py-2 text-[#19233A]"
                     onClick={() => {
                       handleOpenModal("login");
@@ -117,77 +118,143 @@ export const Header = () => {
                     Iniciar Sesión
                   </button>
                 )}
-                <a
-                  className="block cursor-pointer py-2 text-[#19233A]"
-                  onClick={() => {
-                    scrollToSection("#explorar");
-                    closeMenu();
-                  }}
-                >
-                  Explorar
-                </a>
-                <a
-                  className="block cursor-pointer py-2 text-[#19233A]"
-                  onClick={() => {
-                    scrollToSection("#artistas");
-                    closeMenu();
-                  }}
-                >
-                  Artistas Destacados
-                </a>
-                <a
-                  className="block cursor-pointer py-2 text-[#19233A]"
-                  onClick={() => {
-                    scrollToSection("#eventos");
-                    closeMenu();
-                  }}
-                >
-                  Eventos
-                </a>
-                <a
-                  className="block cursor-pointer py-2 text-[#19233A]"
-                  onClick={() => {
-                    scrollToSection("#preguntas");
-                    closeMenu();
-                  }}
-                >
-                  Preguntas Frecuentes
-                </a>
+
+                {isMusician ? (
+                  <>
+                    <a
+                      className="block cursor-pointer py-2 text-[#19233A]"
+                      onClick={() => {
+                        scrollToSection("#misfavoritos");
+                        closeMenu();
+                      }}
+                    >
+                      Mis Favoritos
+                    </a>
+                    <a
+                      className="block cursor-pointer py-2 text-[#19233A]"
+                      onClick={() => {
+                        scrollToSection("#artistas");
+                        closeMenu();
+                      }}
+                    >
+                      Artistas Destacados
+                    </a>
+                    <a
+                      className="block cursor-pointer py-2 text-[#19233A]"
+                      onClick={() => {
+                        scrollToSection("#eventos");
+                        closeMenu();
+                      }}
+                    >
+                      Eventos
+                    </a>
+                  </>
+                ) : (
+                  <>
+                    <a
+                      className="block cursor-pointer py-2 text-[#19233A]"
+                      onClick={() => {
+                        scrollToSection("#explorar");
+                        closeMenu();
+                      }}
+                    >
+                      Explorar
+                    </a>
+                    <a
+                      className="block cursor-pointer py-2 text-[#19233A]"
+                      onClick={() => {
+                        scrollToSection("#artistas");
+                        closeMenu();
+                      }}
+                    >
+                      Artistas Destacados
+                    </a>
+                    <a
+                      className="block cursor-pointer py-2 text-[#19233A]"
+                      onClick={() => {
+                        scrollToSection("#eventos");
+                        closeMenu();
+                      }}
+                    >
+                      Eventos
+                    </a>
+                    <a
+                      className="block cursor-pointer py-2 text-[#19233A]"
+                      onClick={() => {
+                        scrollToSection("#preguntas");
+                        closeMenu();
+                      }}
+                    >
+                      Preguntas Frecuentes
+                    </a>
+                  </>
+                )}
               </nav>
             )}
             <nav className="hidden gap-6 text-xl font-semibold text-white lg:flex xl:gap-16">
-              <a
-                className={`cursor-pointer hover:text-[#B1B1B1] ${activeSection === "explorar" ? "text-[#FE963D]" : ""}`}
-                onClick={() => {
-                  scrollToSection("#explorar");
-                }}
-              >
-                Explorar
-              </a>
-              <a
-                className={`cursor-pointer hover:text-[#B1B1B1] ${activeSection === "artistas" ? "text-[#FE963D]" : ""}`}
-                onClick={() => {
-                  scrollToSection("#artistas");
-                }}
-              >
-                Artistas destacados
-              </a>
-              <a
-                className={`cursor-pointer hover:text-[#B1B1B1] ${activeSection === "eventos" ? "text-[#FE963D]" : ""}`}
-                onClick={() => {
-                  scrollToSection("#eventos");
-                }}
-              >
-                Eventos
-              </a>
-              <a
-                className={`cursor-pointer hover:text-[#B1B1B1] ${activeSection === "preguntas" ? "text-[#FE963D]" : ""}`}
-                onClick={() => {
-                  scrollToSection("#preguntas");
-                }}
-              >
-                Preguntas Frecuentes
-              </a>
+              {isMusician ? (
+                <>
+                  <a
+                    className={`cursor-pointer hover:text-[#B1B1B1] ${activeSection === "misfavoritos" ? "text-[#FE963D]" : ""}`}
+                    onClick={() => {
+                      scrollToSection("#misfavoritos");
+                    }}
+                  >
+                    Mis Favoritos
+                  </a>
+                  <a
+                    className={`cursor-pointer hover:text-[#B1B1B1] ${activeSection === "artistas" ? "text-[#FE963D]" : ""}`}
+                    onClick={() => {
+                      scrollToSection("#artistas");
+                    }}
+                  >
+                    Artistas Destacados
+                  </a>
+                  <a
+                    className={`cursor-pointer hover:text-[#B1B1B1] ${activeSection === "eventos" ? "text-[#FE963D]" : ""}`}
+                    onClick={() => {
+                      scrollToSection("#eventos");
+                    }}
+                  >
+                    Eventos
+                  </a>
+                </>
+              ) : (
+                <>
+                  <a
+                    className={`cursor-pointer hover:text-[#B1B1B1] ${activeSection === "explorar" ? "text-[#FE963D]" : ""}`}
+                    onClick={() => {
+                      scrollToSection("#explorar");
+                    }}
+                  >
+                    Explorar
+                  </a>
+                  <a
+                    className={`cursor-pointer hover:text-[#B1B1B1] ${activeSection === "artistas" ? "text-[#FE963D]" : ""}`}
+                    onClick={() => {
+                      scrollToSection("#artistas");
+                    }}
+                  >
+                    Artistas Destacados
+                  </a>
+                  <a
+                    className={`cursor-pointer hover:text-[#B1B1B1] ${activeSection === "eventos" ? "text-[#FE963D]" : ""}`}
+                    onClick={() => {
+                      scrollToSection("#eventos");
+                    }}
+                  >
+                    Eventos
+                  </a>
+                  <a
+                    className={`cursor-pointer hover:text-[#B1B1B1] ${activeSection === "preguntas" ? "text-[#FE963D]" : ""}`}
+                    onClick={() => {
+                      scrollToSection("#preguntas");
+                    }}
+                  >
+                    Preguntas Frecuentes
+                  </a>
+                </>
+              )}
             </nav>
           </div>
           <div className="flex items-center gap-14">
