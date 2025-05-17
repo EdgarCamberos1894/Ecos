@@ -43,6 +43,7 @@ export const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const { user } = useAuth();
+  const isMusician = user?.role === "MUSICIAN";
 
   const handleOpenModal = (mode: AuthMode) => {
     setOpenModal(mode);
@@ -156,38 +157,69 @@ export const Header = () => {
               </nav>
             )}
             <nav className="hidden gap-6 text-xl font-semibold text-white lg:flex xl:gap-16">
-              <a
-                className={`cursor-pointer hover:text-[#B1B1B1] ${activeSection === "explorar" ? "text-[#FE963D]" : ""}`}
-                onClick={() => {
-                  scrollToSection("#explorar");
-                }}
-              >
-                Explorar
-              </a>
-              <a
-                className={`cursor-pointer hover:text-[#B1B1B1] ${activeSection === "artistas" ? "text-[#FE963D]" : ""}`}
-                onClick={() => {
-                  scrollToSection("#artistas");
-                }}
-              >
-                Artistas destacados
-              </a>
-              <a
-                className={`cursor-pointer hover:text-[#B1B1B1] ${activeSection === "eventos" ? "text-[#FE963D]" : ""}`}
-                onClick={() => {
-                  scrollToSection("#eventos");
-                }}
-              >
-                Eventos
-              </a>
-              <a
-                className={`cursor-pointer hover:text-[#B1B1B1] ${activeSection === "preguntas" ? "text-[#FE963D]" : ""}`}
-                onClick={() => {
-                  scrollToSection("#preguntas");
-                }}
-              >
-                Preguntas Frecuentes
-              </a>
+              {isMusician ? (
+                <>
+                  <a
+                    className={`cursor-pointer hover:text-[#B1B1B1] ${activeSection === "misfavoritos" ? "text-[#FE963D]" : ""}`}
+                    onClick={() => {
+                      scrollToSection("#misfavoritos");
+                    }}
+                  >
+                    Mis Favoritos
+                  </a>
+                  <a
+                    className={`cursor-pointer hover:text-[#B1B1B1] ${activeSection === "artistas" ? "text-[#FE963D]" : ""}`}
+                    onClick={() => {
+                      scrollToSection("#artistas");
+                    }}
+                  >
+                    Artistas Destacados
+                  </a>
+                  <a
+                    className={`cursor-pointer hover:text-[#B1B1B1] ${activeSection === "eventos" ? "text-[#FE963D]" : ""}`}
+                    onClick={() => {
+                      scrollToSection("#eventos");
+                    }}
+                  >
+                    Eventos
+                  </a>
+                </>
+              ) : (
+                <>
+                  <a
+                    className={`cursor-pointer hover:text-[#B1B1B1] ${activeSection === "explorar" ? "text-[#FE963D]" : ""}`}
+                    onClick={() => {
+                      scrollToSection("#explorar");
+                    }}
+                  >
+                    Explorar
+                  </a>
+                  <a
+                    className={`cursor-pointer hover:text-[#B1B1B1] ${activeSection === "artistas" ? "text-[#FE963D]" : ""}`}
+                    onClick={() => {
+                      scrollToSection("#artistas");
+                    }}
+                  >
+                    Artistas Destacados
+                  </a>
+                  <a
+                    className={`cursor-pointer hover:text-[#B1B1B1] ${activeSection === "eventos" ? "text-[#FE963D]" : ""}`}
+                    onClick={() => {
+                      scrollToSection("#eventos");
+                    }}
+                  >
+                    Eventos
+                  </a>
+                  <a
+                    className={`cursor-pointer hover:text-[#B1B1B1] ${activeSection === "preguntas" ? "text-[#FE963D]" : ""}`}
+                    onClick={() => {
+                      scrollToSection("#preguntas");
+                    }}
+                  >
+                    Preguntas Frecuentes
+                  </a>
+                </>
+              )}
             </nav>
           </div>
           <div className="flex items-center gap-14">
