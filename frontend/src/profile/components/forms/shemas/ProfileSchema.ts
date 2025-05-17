@@ -32,7 +32,7 @@ export const formMusicianProfileSchema = baseProfileSchema.extend({
   description: z
     .string()
     .min(5, "La descripción debe tener al menos 5 caracteres.")
-    .max(100, "La descripción no puede superar los 100 caracteres."),
+    .max(255, "La descripción no puede superar los 255 caracteres."),
   paymentLink: z.string().url({ message: "Debe ser un enlace válido" }).or(z.literal("")),
   paymentAlias: z
     .string()

@@ -5,7 +5,7 @@ import { api } from "../utils/axios-instance";
 export const useApiQuery = <T>(
   key: string,
   url: string,
-  id: string,
+  id?: string,
 ): UseQueryResult<T, AxiosError> => {
   return useQuery<T, AxiosError>({
     queryKey: [key, id],

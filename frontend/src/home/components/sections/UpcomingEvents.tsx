@@ -1,21 +1,27 @@
-import Button from "@/app/ui/Button";
-import CardUpcomingEvents from "../CardUpcomingEvents";
-import { CheckIcon } from "@/home/components/ui/CheckIcon";
+import { useApiQuery } from "@/shared/hooks/use-api-query";
+import { ApiEvents } from "@/profile/musician/musician-types";
+import EventCard from "@/shared/components/Cards/EventCard";
 
 const UpcomingEvents = () => {
+  const { data: events } = useApiQuery<ApiEvents>("events", `events/search`);
+
   return (
-    <section className="w-full max-w-screen-xl px-4 sm:px-6 lg:px-8">
+    <section id="#eventos" className="w-full px-4 md:px-28 lg:px-40">
       <h2 className="my-8 text-start text-5xl text-[#19233A] lg:mb-24">Próximos Eventos</h2>
 
-      <CardUpcomingEvents />
-
-      <div className="mx-auto mt-8 w-52 sm:w-64 md:w-72 lg:w-96">
-        <Button type="submit" className="w-full rounded bg-[#19233A] text-white">
-          <span className="flex items-center justify-center">
-            <CheckIcon className="mr-2 text-white" />
-            Ver más
-          </span>
-        </Button>
+      <div className="mb-[261px] grid grid-cols-[repeat(auto-fit,minmax(400px,1fr))] gap-14">
+        {events?.items.map((event) => (
+          <EventCard
+            key={event.id}
+            id={event.id}
+            image={event.image}
+            stageName={event.musician.stageName ?? ""}
+            category={event.category}
+            supportingText={event.name}
+            datePublished={event.date}
+            contentPublished={event.description}
+          />
+        ))}
       </div>
     </section>
   );

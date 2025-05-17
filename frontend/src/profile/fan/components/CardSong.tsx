@@ -2,7 +2,7 @@ import Button from "@/app/ui/Button";
 import defaultImage from "@/assets/imagePlay.svg";
 import { CloseIcon } from "../ui/CloseIcon";
 import { NextIcon } from "../ui/NextIcon";
-import { PlayIcon } from "../ui/PlayIcon";
+import { PlayIcon } from "../../../app/ui/PlayIcon";
 import { PrevIcon } from "../ui/PrevIcon";
 import { RepeatLeftIcon } from "../ui/RepeatLeftIcon";
 import { RepeatRightIcon } from "../ui/RepeatRightIcon";
@@ -11,7 +11,7 @@ import { useState, useRef } from "react";
 import DonationModal from "../DonationModal";
 import { useApiMutation } from "@/shared/hooks/use-api-mutation";
 import { toast } from "sonner";
-import { PauseIcon } from "../ui/PauseIcon";
+import { PauseIcon } from "../../../app/ui/PauseIcon";
 
 interface CardSongProps {
   id: number;
@@ -22,7 +22,14 @@ interface CardSongProps {
   audioUrl: string;
 }
 
-const CardSong = ({ id, title, artistId, stageName, photoUrl, audioUrl }: CardSongProps) => {
+const CardSongFavorite = ({
+  id,
+  title,
+  artistId,
+  stageName,
+  photoUrl,
+  audioUrl,
+}: CardSongProps) => {
   const [isDonationModalOpen, setIsDonationModalOpen] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
@@ -152,4 +159,4 @@ const CardSong = ({ id, title, artistId, stageName, photoUrl, audioUrl }: CardSo
   );
 };
 
-export default CardSong;
+export default CardSongFavorite;

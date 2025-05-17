@@ -1,7 +1,7 @@
 import ImageBanner from "@/assets/bannerProfileFan.webp";
 import FavoriteSongList from "./components/FavoriteSongList";
 import FeaturedArtists from "@/home/components/sections/FeaturedArtists";
-import FeaturedTopicsList from "@/home/components/FeaturedTopicsList";
+import FeaturedTopicsList from "@/home/components/FeaturedSongs";
 import UpcomingEvents from "@/home/components/sections/UpcomingEvents";
 import { useRequiredUser } from "@/auth/hooks/use-required-user";
 import Button from "@/app/ui/Button";

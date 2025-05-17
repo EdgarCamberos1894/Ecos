@@ -58,6 +58,15 @@ export interface FavoriteMusic {
   data: null;
 }
 
+interface Musician {
+  artistId: number;
+  stageName: string | null;
+  photoUrl: string | null;
+  artistName: string | null;
+  spotifyUrl: string | null;
+  youtubeUrl: string | null;
+}
+
 interface Event {
   id: number;
   name: string;
@@ -65,6 +74,7 @@ interface Event {
   date: string;
   description: string;
   image: string;
+  musician: Musician;
 }
 
 export interface ApiEvents {
