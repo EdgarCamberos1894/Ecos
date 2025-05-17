@@ -1,5 +1,5 @@
 import img from "@/assets/image.webp";
-import { Link, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 
 interface EventCardProps {
   id: number;
