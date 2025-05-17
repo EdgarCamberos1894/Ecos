@@ -1,4 +1,3 @@
-import { toast } from "sonner";
 import ArtistGrid from "@/app/components/ArtistsGrid";
 import { useApiQuery } from "@/shared/hooks/use-api-query";
 import { FeaturedMusician } from "../types/FeaturedMusician";
@@ -8,14 +7,7 @@ interface ApiResponse {
 }
 
 const FeaturedArtists = () => {
-  const { data, isError } = useApiQuery<ApiResponse>(
-    "musicians",
-    "/musician-profile/search",
-    "featured",
-  );
-  if (isError || !data) {
-    toast.error("Error al cargar los artistas");
-  }
+  const { data } = useApiQuery<ApiResponse>("musicians", "/musician-profile/search", "featured");
 
   return (
     <section id="#artistas" className="mt-24 px-2.5 lg:px-12">

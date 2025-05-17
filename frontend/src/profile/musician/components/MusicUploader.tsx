@@ -33,7 +33,7 @@ export function MusicUploader({ onSettingMusic }: MusicUploaderProps) {
 
   return (
     <section className="border-ecos-dark-grey-light max-w-md space-y-4 rounded-lg">
-      <div className="space-y-2">
+      <div className="space-y-2 rounded-[20px]">
         <label className="text-ecos-blue block text-2xl font-semibold">Cargar audio</label>
 
         <div className="border-ecos-dark-grey-light relative border px-6 py-3.5">

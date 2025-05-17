@@ -83,7 +83,7 @@ export const Header = () => {
 
   return (
     <>
-      <header className="w-full bg-[#19233A] shadow">
+      <header className="bg-ecos-blue w-full shadow">
         <div className="mx-auto flex items-center justify-between px-12 py-6">
           <div className="flex items-center gap-16">
             <Link to="/" className="hidden px-6 py-5 lg:flex">
@@ -95,21 +95,21 @@ export const Header = () => {
               onClick={toggleMenu}
             >
               {isOpen ? (
-                <span className="h-12 w-12 text-4xl text-white">✖</span>
+                <span className="text-5xl text-white">✖</span>
               ) : (
                 <MenuIcon className="h-12 w-12" />
               )}
             </button>
             {isOpen && (
               <nav className="absolute top-22 left-1 z-20 w-56 rounded-2xl bg-white px-8 py-10 shadow-md lg:hidden">
-                <Link to="/" className="block py-2 text-[#19233A]" onClick={closeMenu}>
+                <Link to="/" className="text-ecos-blue block py-2" onClick={closeMenu}>
                   Inicio
                 </Link>
                 {!user && (
                   <button
                     type="button"
-                    title="Iniciar sesión"
-                    className="block py-2 text-[#19233A]"
+                    title="Iniciar sesion"
+                    className="text-ecos-blue block py-2"
                     onClick={() => {
                       handleOpenModal("login");
                       closeMenu();
@@ -118,77 +118,42 @@ export const Header = () => {
                     Iniciar Sesión
                   </button>
                 )}
-
-                {isMusician ? (
-                  <>
-                    <a
-                      className="block cursor-pointer py-2 text-[#19233A]"
-                      onClick={() => {
-                        scrollToSection("#misfavoritos");
-                        closeMenu();
-                      }}
-                    >
-                      Mis Favoritos
-                    </a>
-                    <a
-                      className="block cursor-pointer py-2 text-[#19233A]"
-                      onClick={() => {
-                        scrollToSection("#artistas");
-                        closeMenu();
-                      }}
-                    >
-                      Artistas Destacados
-                    </a>
-                    <a
-                      className="block cursor-pointer py-2 text-[#19233A]"
-                      onClick={() => {
-                        scrollToSection("#eventos");
-                        closeMenu();
-                      }}
-                    >
-                      Eventos
-                    </a>
-                  </>
-                ) : (
-                  <>
-                    <a
-                      className="block cursor-pointer py-2 text-[#19233A]"
-                      onClick={() => {
-                        scrollToSection("#explorar");
-                        closeMenu();
-                      }}
-                    >
-                      Explorar
-                    </a>
-                    <a
-                      className="block cursor-pointer py-2 text-[#19233A]"
-                      onClick={() => {
-                        scrollToSection("#artistas");
-                        closeMenu();
-                      }}
-                    >
-                      Artistas Destacados
-                    </a>
-                    <a
-                      className="block cursor-pointer py-2 text-[#19233A]"
-                      onClick={() => {
-                        scrollToSection("#eventos");
-                        closeMenu();
-                      }}
-                    >
-                      Eventos
-                    </a>
-                    <a
-                      className="block cursor-pointer py-2 text-[#19233A]"
-                      onClick={() => {
-                        scrollToSection("#preguntas");
-                        closeMenu();
-                      }}
-                    >
-                      Preguntas Frecuentes
-                    </a>
-                  </>
-                )}
+                <a
+                  className="text-ecos-blue block cursor-pointer py-2"
+                  onClick={() => {
+                    scrollToSection("#explorar");
+                    closeMenu();
+                  }}
+                >
+                  Explorar
+                </a>
+                <a
+                  className="text-ecos-blue block cursor-pointer py-2"
+                  onClick={() => {
+                    scrollToSection("#artistas");
+                    closeMenu();
+                  }}
+                >
+                  Artistas Destacados
+                </a>
+                <a
+                  className="text-ecos-blue block cursor-pointer py-2"
+                  onClick={() => {
+                    scrollToSection("#eventos");
+                    closeMenu();
+                  }}
+                >
+                  Eventos
+                </a>
+                <a
+                  className="text-ecos-blue block cursor-pointer py-2"
+                  onClick={() => {
+                    scrollToSection("#preguntas");
+                    closeMenu();
+                  }}
+                >
+                  Preguntas Frecuentes
+                </a>
               </nav>
             )}
             <nav className="hidden gap-6 text-xl font-semibold text-white lg:flex xl:gap-16">

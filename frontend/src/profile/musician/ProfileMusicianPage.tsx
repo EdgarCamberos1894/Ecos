@@ -31,11 +31,7 @@ export default function ProfileMusicianPage() {
   const { user } = useAuth();
 
   const { data: banner } = useApiQuery<BannerUrl>("banner", `musician-profile/${id}/banner`, id);
-  const { data: profile, isSuccess: isProfileSuccess } = useApiQuery<MusicianProfile>(
-    "profile",
-    `musician-profile/${id}`,
-    id,
-  );
+  const { data: profile } = useApiQuery<MusicianProfile>("profile", `musician-profile/${id}`, id);
   const { data: songs, isSuccess } = useApiQuery<ApiSongs>("songs", `songs/musician/${id}`, id);
   const { data: events } = useApiQuery<ApiEvents>("events", `events/musician/${id}`, id);
 
@@ -73,23 +69,26 @@ export default function ProfileMusicianPage() {
         alt={`Banner`}
         className="mb-6 h-[clamp(140px,35.4vw,680px)] w-full object-cover"
       />
-      <main className="mb-20 px-[clamp(16px,8vw,160px)]">
-        <h1 className="text-ecos-blue mb-3 text-8xl font-medium">{profile?.data.stageName}</h1>
-        <h2 className="text-ecos-blue mb-16 text-2xl">{profile?.data.genre}</h2>
+      <main className="mb-20 px-4 sm:px-8 md:px-[clamp(16px,8vw,160px)]">
+        <h1 className="text-ecos-blue mb-3 text-4xl font-medium break-words sm:text-5xl md:text-8xl">
+          {profile?.data.stageName}
+        </h1>
+        <h2 className="text-ecos-blue mb-10 text-xl sm:mb-16 sm:text-2xl">{profile?.data.genre}</h2>
+
         <section className="flex flex-col gap-16">
           {songs?.items[0]?.audioUrl ? (
             <>
               <AudioPlayer audioUrl={songs.items[0].audioUrl} title={songs.items[0].title} />
-              <div className="mt-4 mb-16 flex gap-4 sm:gap-6">
+              <div className="mt-4 mb-16 flex flex-wrap justify-start gap-4 sm:gap-6">
                 <HeartButton
                   onClick={handleFavoriteMusic}
-                  className="bg-ecos-blue flex h-14 w-28 cursor-pointer items-center justify-center gap-2.5 rounded-full px-3.5 py-1.5 text-sm text-white sm:w-44 sm:px-10 sm:py-1.5"
+                  className="bg-ecos-blue flex h-14 min-w-[112px] items-center justify-center gap-2.5 rounded-full px-4 py-2 text-sm text-white sm:min-w-[176px]"
                 >
                   Guardar
                 </HeartButton>
                 <DonateButton
                   onClick={handleDonationModal}
-                  className="bg-ecos-blue flex h-14 w-28 cursor-pointer items-center justify-center gap-2.5 rounded-full px-3.5 py-1.5 text-sm text-white sm:w-44 sm:px-10 sm:py-1.5"
+                  className="bg-ecos-blue flex h-14 min-w-[112px] items-center justify-center gap-2.5 rounded-full px-4 py-2 text-sm text-white sm:min-w-[176px]"
                 >
                   Donar
                 </DonateButton>
@@ -98,19 +97,19 @@ export default function ProfileMusicianPage() {
           ) : songs?.items[0]?.spotifyUrl ? (
             <div>
               <SpotifyTrack
-                className="max-w-5xl rounded-4xl"
+                className="w-full max-w-screen-md rounded-2xl"
                 embedUrl={songs.items[0].spotifyUrl}
               />
-              <div className="mt-4 mb-16 flex gap-4 md:gap-6">
+              <div className="mt-4 mb-16 flex flex-wrap justify-start gap-4 sm:gap-6">
                 <HeartButton
                   onClick={handleFavoriteMusic}
-                  className="bg-ecos-blue flex h-14 w-28 cursor-pointer items-center justify-center gap-2.5 rounded-full px-3.5 py-1.5 text-sm text-white sm:w-44 sm:px-10 sm:py-1.5"
+                  className="bg-ecos-blue flex h-14 min-w-[112px] items-center justify-center gap-2.5 rounded-full px-4 py-2 text-sm text-white sm:min-w-[176px]"
                 >
                   Guardar
                 </HeartButton>
                 <DonateButton
                   onClick={handleDonationModal}
-                  className="bg-ecos-blue flex h-14 w-28 cursor-pointer items-center justify-center gap-2.5 rounded-full px-3.5 py-1.5 text-sm text-white sm:w-44 sm:px-10 sm:py-1.5"
+                  className="bg-ecos-blue flex h-14 min-w-[112px] items-center justify-center gap-2.5 rounded-full px-4 py-2 text-sm text-white sm:min-w-[176px]"
                 >
                   Donar
                 </DonateButton>
@@ -122,16 +121,16 @@ export default function ProfileMusicianPage() {
                 message="Subí tus canciones"
                 className="bg-ecos-skeleton grid aspect-[1100/510] w-full max-w-[1100px] place-content-center place-items-center rounded-[30px]"
               />
-              <div className="mt-4 mb-16 flex gap-4 md:gap-6">
+              <div className="mt-4 mb-16 flex flex-wrap justify-start gap-4 sm:gap-6">
                 <HeartButton
                   onClick={handleFavoriteMusic}
-                  className="bg-ecos-blue flex h-14 w-28 cursor-pointer items-center justify-center gap-2.5 rounded-full px-3.5 py-1.5 text-sm text-white sm:w-44 sm:px-10 sm:py-1.5"
+                  className="bg-ecos-blue flex h-14 min-w-[112px] items-center justify-center gap-2.5 rounded-full px-4 py-2 text-sm text-white sm:min-w-[176px]"
                 >
                   Guardar
                 </HeartButton>
                 <DonateButton
                   onClick={handleDonationModal}
-                  className="bg-ecos-blue flex h-14 w-28 cursor-pointer items-center justify-center gap-2.5 rounded-full px-3.5 py-1.5 text-sm text-white sm:w-44 sm:px-10 sm:py-1.5"
+                  className="bg-ecos-blue flex h-14 min-w-[112px] items-center justify-center gap-2.5 rounded-full px-4 py-2 text-sm text-white sm:min-w-[176px]"
                 >
                   Donar
                 </DonateButton>
@@ -150,15 +149,18 @@ export default function ProfileMusicianPage() {
               className="bg-ecos-skeleton grid aspect-[1120/560] w-full max-w-[1120px] place-content-center place-items-center rounded-[30px]"
             />
           )}
+
           <DonateSection handleDonationModal={handleDonationModal} />
-          <h2 className="text-ecos-blue -mb-5 text-2xl font-medium uppercase">Próximos eventos</h2>
-          <div className="mb-[261px] grid grid-cols-[repeat(auto-fill,minmax(500px,1fr))] gap-4">
+
+          <h2 className="text-ecos-blue text-2xl font-medium uppercase">Próximos eventos</h2>
+          <div className="mb-[261px] grid grid-cols-[repeat(auto-fit,minmax(354px,1fr))] gap-4">
             {events?.items[0] ? (
               events.items.map((event) => (
                 <EventCard
                   key={event.id}
+                  id={event.id}
                   image={event.image}
-                  stageName={isProfileSuccess ? profile.data.stageName : ""}
+                  stageName={event.musician.stageName ?? ""}
                   category={event.category}
                   supportingText={event.name}
                   datePublished={event.date}
@@ -173,6 +175,7 @@ export default function ProfileMusicianPage() {
             )}
           </div>
         </section>
+
         <section className="space-y-28">
           <h2 className="text-ecos-blue text-[40px] leading-5 font-medium uppercase">Contacto</h2>
           <ContactForm musicianId={Number(id)} />
