@@ -8,8 +8,8 @@ type MediaSkeletonProps = ComponentProps<"div"> & {
 export const MediaSkeleton = ({ message, ...props }: MediaSkeletonProps) => {
   return (
     <div {...props}>
-      <UploadCloud />
-      <p>{message}</p>
+      <UploadCloud className="size-20 transition-transform group-hover:scale-110 sm:size-36" />
+      <p className="transition-transform group-hover:scale-110">{message}</p>
     </div>
   );
 };
