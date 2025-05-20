@@ -10,10 +10,7 @@ const FollowArtist = () => {
   const { data: profile } = useApiQuery<MusicianProfile>("profile", `musician-profile/${id}`, id);
 
   const hasSocialLinks =
-    !!profile?.data.spotifyUrl ||
-    !!profile?.data.youtubeUrl ||
-    !!profile?.data.instagramUrl ||
-    !!profile?.data.tiktokUrl;
+    !!profile?.data.spotifyUrl || !!profile?.data.youtubeUrl || !!profile?.data.instagramUrl;
 
   return hasSocialLinks ? (
     <div className="-mt-[62px] space-y-6">
