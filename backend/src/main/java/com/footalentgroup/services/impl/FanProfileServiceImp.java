@@ -13,12 +13,10 @@ import com.footalentgroup.services.FanProfileService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
-@AllArgsConstructor
 @Service
+@AllArgsConstructor
 public class FanProfileServiceImp implements FanProfileService {
     private final FanProfileRepository fanProfileRepository;
     private final FanProfileMapper fanMapper;
@@ -81,6 +79,5 @@ public class FanProfileServiceImp implements FanProfileService {
             fan.setPhotoPublicId(uploadResult.get("public_id").toString());
         }
     }
-
 
 }
