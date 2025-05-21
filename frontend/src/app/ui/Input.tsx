@@ -9,7 +9,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 const Input = ({ className = "", startIcon, endIcon, ...props }: InputProps) => {
   return (
     <div
-      className={`rounded-[27px] border border-[#19233A] px-4 py-2 text-[#291117] placeholder-[#19233A] ${className}`}
+      className={`border-ecos-blue text-ecos-blue placeholder-ecos-blue flex w-[361px] rounded-[1.75rem] border px-[1.875rem] py-2 md:w-[704px] xl:w-[1161px] ${className}`}
     >
       {startIcon}
       <input {...props} className={`w-full focus:outline-none ${className}`} />
