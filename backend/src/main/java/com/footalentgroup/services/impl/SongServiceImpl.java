@@ -7,7 +7,6 @@ import com.footalentgroup.models.dtos.response.PageResponseDto;
 import com.footalentgroup.models.dtos.response.SongResponseDto;
 import com.footalentgroup.models.entities.MusicianProfileEntity;
 import com.footalentgroup.models.entities.SongEntity;
-import com.footalentgroup.models.enums.SongSourceType;
 import com.footalentgroup.repositories.MusicianProfileRepository;
 import com.footalentgroup.repositories.SongRepository;
 import com.footalentgroup.services.AuthenticatedUserService;
@@ -120,11 +119,6 @@ public class SongServiceImpl implements SongService {
                         : songRepository.findByTitleContainingIgnoreCaseOrGenreContainingIgnoreCase(search, search, pageable);
 
         return mapper.toPageResponse(songPage);
-    }
-
-    @Override
-    public void deleteSong(Long id) {
-        //delete logico o no?
     }
 
     private void validateSongRequest(SongUploadRequestDto dto) {
