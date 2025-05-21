@@ -1,22 +1,6 @@
 import CardSong from "./CardSong";
 import { useApiQuery } from "@/shared/hooks/use-api-query";
-
-export interface Musician {
-  artistId: number;
-  stageName: string;
-  photoUrl: string | null;
-}
-
-interface Song {
-  id: number;
-  title: string;
-  audioUrl: string;
-  musicianInfo: Musician;
-}
-
-interface ResponseListOfFavoriteSongs {
-  items: Song[];
-}
+import { ResponseListOfFavoriteSongs } from "@/profile/types/favorite-songs";
 
 const FavoriteSongList = () => {
   const { data } = useApiQuery<ResponseListOfFavoriteSongs>("songs", "/saved-songs", "all");

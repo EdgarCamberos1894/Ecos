@@ -19,13 +19,15 @@ import {
 } from "./musician-types";
 import { useApiMutation } from "@/shared/hooks/use-api-mutation";
 import { toast } from "sonner";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DonationModal from "../fan/DonationModal";
 import { useAuth } from "@/auth/hooks/use-auth";
 import { MediaSkeleton } from "./components/MediaSkeleton";
+import { ResponseListOfFavoriteSongs } from "../types/favorite-songs";
 
 export default function ProfileMusicianPage() {
   const [isDonationModalOpen, setIsDonationModalOpen] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
 
   const { id } = useParams() as { id: string };
   const navigate = useNavigate();
@@ -36,6 +38,22 @@ export default function ProfileMusicianPage() {
   const { data: profile } = useApiQuery<MusicianProfile>("profile", `musician-profile/${id}`, id);
   const { data: songs, isSuccess } = useApiQuery<ApiSongs>("songs", `songs/musician/${id}`, id);
   const { data: events } = useApiQuery<ApiEvents>("events", `events/musician/${id}`, id);
+  const { data: savedSongs } = useApiQuery<ResponseListOfFavoriteSongs>(
+    "songs",
+    "/saved-songs",
+    "all",
+    !!user && user.role === "FAN",
+  );
+
+  useEffect(() => {
+    setIsSaved(
+      !!(
+        user &&
+        user.role === "FAN" &&
+        savedSongs?.items.some((savedSong) => savedSong.id === songs?.items[0]?.id)
+      ),
+    );
+  }, [user, savedSongs, songs]);
 
   const { mutate: favoriteSongMutate } = useApiMutation<FavoriteMusic, undefined>(
     isSuccess && songs.items.length !== 0
@@ -44,19 +62,32 @@ export default function ProfileMusicianPage() {
     "POST",
   );
 
+  const validateFanAction = (roles: string[], message: string): boolean => {
+    if (!user || !roles.includes(user.role)) {
+      toast.info(message);
+      return false;
+    }
+
+    return true;
+  };
+
   const handleDonationModal = () => {
+    if (!validateFanAction(["FAN", "MUSICIAN"], "Para donar, primero inicia sesión.")) return;
     setIsDonationModalOpen(!isDonationModalOpen);
   };
 
   const handleFavoriteMusic = () => {
-    if (user?.role === "MUSICIAN") {
-      toast.info("Solo las cuentas con el rol FAN pueden guardar música");
+    if (!validateFanAction(["FAN"], "Solo los fans pueden guardar música.")) return;
+
+    if (isSaved) {
+      toast.info("Esta canción ya está guardada en tu lista de favoritos.");
       return;
     }
 
     favoriteSongMutate(undefined, {
       onSuccess: (response) => {
         toast.success(response.message);
+        setIsSaved(!isSaved);
       },
       onError: () => {
         toast.error("Error al guardar música");
@@ -95,6 +126,7 @@ export default function ProfileMusicianPage() {
             )}
             <div className="mb-16 flex flex-wrap justify-start gap-4 sm:gap-6">
               <HeartButton
+                isSaved={isSaved}
                 onClick={handleFavoriteMusic}
                 className="bg-ecos-blue flex h-14 min-w-[113px] cursor-pointer items-center justify-center gap-2.5 rounded-[37px] px-4 py-2 text-sm text-white shadow-[0_4px_4px_0_rgba(0,0,0,0.25)] sm:min-w-[178px]"
               >
