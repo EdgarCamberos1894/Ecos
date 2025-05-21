@@ -29,7 +29,7 @@ const EventCard = ({
   }).format(date);
 
   return (
-    <div className="bg-ecos-blue flex h-auto max-h-[423px] min-h-[379px] w-full max-w-[496px] min-w-[354px] flex-col items-start rounded-[20px] px-4 py-[18px]">
+    <div className="bg-ecos-blue flex h-auto max-h-[423px] min-h-[379px] w-full max-w-[496px] flex-col items-start rounded-[20px] px-4 py-[18px]">
       <div className="flex w-full items-start gap-6 py-4">
         <div className="flex w-full max-w-[255px] min-w-[120px] flex-shrink">
           <img src={image ?? img} alt="imagen" className="aspect-square w-full rounded-[50px]" />

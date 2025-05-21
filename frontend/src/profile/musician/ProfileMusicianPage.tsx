@@ -1,4 +1,4 @@
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import ImageBanner from "@/assets/imageBanner.webp";
 import { SpotifyTrack } from "./components/SpotifyTrack";
 import { YouTubeVideo } from "./components/YoutubeVideo";
@@ -28,6 +28,8 @@ export default function ProfileMusicianPage() {
   const [isDonationModalOpen, setIsDonationModalOpen] = useState(false);
 
   const { id } = useParams() as { id: string };
+  const navigate = useNavigate();
+
   const { user } = useAuth();
 
   const { data: banner } = useApiQuery<BannerUrl>("banner", `musician-profile/${id}/banner`, id);
@@ -67,93 +69,63 @@ export default function ProfileMusicianPage() {
       <img
         src={banner?.bannerUrl ?? ImageBanner}
         alt={`Banner`}
-        className="mb-6 h-[clamp(140px,35.4vw,680px)] w-full object-cover"
+        className="mb-6 aspect-[1920/680] max-h-[680px] w-full object-cover"
       />
-      <main className="mb-20 px-4 sm:px-8 md:px-[clamp(16px,8vw,160px)]">
-        <h1 className="text-ecos-blue mb-3 text-4xl font-medium break-words sm:text-5xl md:text-8xl">
+      <main className="mb-20 px-4 sm:px-8 lg:px-[160px]">
+        <h1 className="text-ecos-blue mb-3 text-[40px] font-medium break-words sm:text-8xl">
           {profile?.data.stageName}
         </h1>
         <h2 className="text-ecos-blue mb-10 text-xl sm:mb-16 sm:text-2xl">{profile?.data.genre}</h2>
 
         <section className="flex flex-col gap-16">
-          {songs?.items[0]?.audioUrl ? (
-            <>
+          <div className={`flex flex-col ${songs?.items[0]?.audioUrl ? "gap-20" : "gap-6"}`}>
+            {songs?.items[0]?.audioUrl ? (
               <AudioPlayer audioUrl={songs.items[0].audioUrl} title={songs.items[0].title} />
-              <div className="mt-4 mb-16 flex flex-wrap justify-start gap-4 sm:gap-6">
-                <HeartButton
-                  onClick={handleFavoriteMusic}
-                  className="bg-ecos-blue flex h-14 min-w-[112px] items-center justify-center gap-2.5 rounded-full px-4 py-2 text-sm text-white sm:min-w-[176px]"
-                >
-                  Guardar
-                </HeartButton>
-                <DonateButton
-                  onClick={handleDonationModal}
-                  className="bg-ecos-blue flex h-14 min-w-[112px] items-center justify-center gap-2.5 rounded-full px-4 py-2 text-sm text-white sm:min-w-[176px]"
-                >
-                  Donar
-                </DonateButton>
-              </div>
-            </>
-          ) : songs?.items[0]?.spotifyUrl ? (
-            <div>
+            ) : songs?.items[0]?.spotifyUrl ? (
               <SpotifyTrack
                 className="w-full max-w-screen-md rounded-2xl"
                 embedUrl={songs.items[0].spotifyUrl}
               />
-              <div className="mt-4 mb-16 flex flex-wrap justify-start gap-4 sm:gap-6">
-                <HeartButton
-                  onClick={handleFavoriteMusic}
-                  className="bg-ecos-blue flex h-14 min-w-[112px] items-center justify-center gap-2.5 rounded-full px-4 py-2 text-sm text-white sm:min-w-[176px]"
-                >
-                  Guardar
-                </HeartButton>
-                <DonateButton
-                  onClick={handleDonationModal}
-                  className="bg-ecos-blue flex h-14 min-w-[112px] items-center justify-center gap-2.5 rounded-full px-4 py-2 text-sm text-white sm:min-w-[176px]"
-                >
-                  Donar
-                </DonateButton>
-              </div>
-            </div>
-          ) : (
-            <div>
+            ) : (
               <MediaSkeleton
+                onClick={() => navigate("/profile/musician/edit")}
                 message="Subí tus canciones"
-                className="bg-ecos-skeleton grid aspect-[1100/510] w-full max-w-[1100px] place-content-center place-items-center rounded-[30px]"
+                className="bg-ecos-skeleton group grid aspect-[1100/510] w-full max-w-[1100px] cursor-pointer place-content-center place-items-center rounded-[30px]"
               />
-              <div className="mt-4 mb-16 flex flex-wrap justify-start gap-4 sm:gap-6">
-                <HeartButton
-                  onClick={handleFavoriteMusic}
-                  className="bg-ecos-blue flex h-14 min-w-[112px] items-center justify-center gap-2.5 rounded-full px-4 py-2 text-sm text-white sm:min-w-[176px]"
-                >
-                  Guardar
-                </HeartButton>
-                <DonateButton
-                  onClick={handleDonationModal}
-                  className="bg-ecos-blue flex h-14 min-w-[112px] items-center justify-center gap-2.5 rounded-full px-4 py-2 text-sm text-white sm:min-w-[176px]"
-                >
-                  Donar
-                </DonateButton>
-              </div>
+            )}
+            <div className="mb-16 flex flex-wrap justify-start gap-4 sm:gap-6">
+              <HeartButton
+                onClick={handleFavoriteMusic}
+                className="bg-ecos-blue flex h-14 min-w-[113px] cursor-pointer items-center justify-center gap-2.5 rounded-[37px] px-4 py-2 text-sm text-white shadow-[0_4px_4px_0_rgba(0,0,0,0.25)] sm:min-w-[178px]"
+              >
+                Guardar
+              </HeartButton>
+              <DonateButton
+                onClick={handleDonationModal}
+                className="bg-ecos-blue flex h-14 min-w-[109px] cursor-pointer items-center justify-center gap-2.5 rounded-[37px] px-4 py-2 text-sm text-white shadow-[0_4px_4px_0_rgba(0,0,0,0.25)] sm:min-w-[171px]"
+              >
+                Donar
+              </DonateButton>
             </div>
-          )}
+          </div>
 
           {songs?.items[0]?.youtubeUrl ? (
             <YouTubeVideo
-              className="mb-9 aspect-[1126/567] max-h-[567px] min-h-[196px] w-full max-w-[1126px] min-w-[358px] rounded-[20px]"
+              className="mb-9 aspect-[1126/567] max-h-[567px] min-h-[196px] max-w-[1126px] rounded-[20px]"
               embedUrl={songs.items[0].youtubeUrl}
             />
           ) : (
             <MediaSkeleton
+              onClick={() => navigate("/profile/musician/edit")}
               message="Subí tu video"
-              className="bg-ecos-skeleton grid aspect-[1120/560] w-full max-w-[1120px] place-content-center place-items-center rounded-[30px]"
+              className="bg-ecos-skeleton group grid aspect-[1120/560] w-full max-w-[1120px] cursor-pointer place-content-center place-items-center rounded-[30px]"
             />
           )}
 
           <DonateSection handleDonationModal={handleDonationModal} />
 
           <h2 className="text-ecos-blue text-2xl font-medium uppercase">Próximos eventos</h2>
-          <div className="mb-[261px] grid grid-cols-[repeat(auto-fit,minmax(354px,1fr))] gap-4">
+          <div className="mb-[95px] grid grid-cols-[repeat(auto-fit,minmax(354px,1fr))] gap-4 md:mb-[153px] lg:mb-[256px]">
             {events?.items[0] ? (
               events.items.map((event) => (
                 <EventCard
@@ -169,8 +141,9 @@ export default function ProfileMusicianPage() {
               ))
             ) : (
               <MediaSkeleton
+                onClick={() => navigate("/event")}
                 message="Subí tu evento"
-                className="bg-ecos-skeleton grid aspect-[516/440] w-full max-w-[516px] place-content-center place-items-center rounded-[30px]"
+                className="bg-ecos-skeleton group grid aspect-[516/440] w-full max-w-[516px] cursor-pointer place-content-center place-items-center rounded-[30px]"
               />
             )}
           </div>

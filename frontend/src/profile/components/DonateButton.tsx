@@ -8,7 +8,7 @@ type HeartButtonProps = ComponentProps<"button"> & {
 export const DonateButton = ({ children, ...buttonProps }: HeartButtonProps) => {
   return (
     <button type="button" {...buttonProps}>
-      <Donate />
+      <Donate className="size-5 sm:size-8" />
       {children}
     </button>
   );
