@@ -1,9 +1,9 @@
-import { SpotifyIcon } from "@/app/ui/SpotifyIcon";
-import { YoutubeIcon } from "@/app/ui/YoutubeIcon";
-import { InstagramIcon } from "@/app/ui/InstagramIcon";
 import { Link, useParams } from "react-router";
-import { MusicianProfile } from "../musician-types";
 import { useApiQuery } from "@/shared/hooks/use-api-query";
+import InstagramIcon from "@/assets/RRSS/instagram.svg?react";
+import SpotifyIcon from "@/assets/RRSS/spotify.svg?react";
+import YoutubeIcon from "@/assets/RRSS/youtube.svg?react";
+import { type MusicianProfile } from "../musician-types";
 
 const FollowArtist = () => {
   const { id } = useParams() as { id: string };

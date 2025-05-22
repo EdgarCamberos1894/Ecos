@@ -1,6 +1,6 @@
 import { Link } from "react-router";
-import { InstagramIcon } from "@/app/ui/InstagramIcon";
-import { LinkedInIcon } from "@/app/ui/LinkedInIcon";
+import LinkedInIcon from "@/assets/RRSS/linkedin.svg?react";
+import InstagramIcon from "@/assets/RRSS/instagram.svg?react";
 import Logo from "@/assets/EcosLogoFooter.webp";
 
 export const Footer = () => {
@@ -37,8 +37,26 @@ export const Footer = () => {
         <div className="text-ecos-blue flex flex-col items-start gap-8">
           <h3 className="text-3xl font-medium uppercase">Seguinos</h3>
           <div className="flex gap-5">
-            <LinkedInIcon className="size-10" />
-            <InstagramIcon className="size-10" />
+            <Link
+              title="LinkedIn de ECOS"
+              to="https://www.linkedin.com/company/equipo-22-ftg/posts/?feedView=all"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Visitar perfil de LinkedIn de ECOS"
+              className="transition-transform hover:scale-105 focus-visible:scale-105"
+            >
+              <LinkedInIcon className="size-10" />
+            </Link>
+            <Link
+              title="Instagram de ECOS"
+              to="https://www.instagram.com/ecos.web/?g=5"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Visitar perfil de Instagram de ECOS"
+              className="transition-transform hover:scale-105 focus-visible:scale-105"
+            >
+              <InstagramIcon className="size-10" />
+            </Link>
           </div>
         </div>
       </div>
