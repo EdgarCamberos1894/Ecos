@@ -1,4 +1,4 @@
-import { FormMusicianProfileSchema } from "../../components/forms/shemas/ProfileSchema";
+import { FormMusicianProfileSchema } from "../../components/forms/schemas/ProfileSchema";
 
 interface HandleMusicianProfileSubmitParams {
   data: FormMusicianProfileSchema;

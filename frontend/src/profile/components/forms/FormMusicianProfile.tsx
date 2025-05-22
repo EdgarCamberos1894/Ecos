@@ -3,7 +3,7 @@ import { useState } from "react";
 import useCountryList from "react-select-country-list";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FormMusicianProfileSchema, formMusicianProfileSchema } from "./shemas/ProfileSchema";
+import { FormMusicianProfileSchema, formMusicianProfileSchema } from "./schemas/ProfileSchema";
 import { useAuth } from "@/auth/hooks/use-auth";
 import { useProfileForm } from "@/profile/hooks/use-profile-form";
 import { useLoadMusicianForm } from "@/profile/hooks/use-load-musician-form";
