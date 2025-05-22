@@ -5,7 +5,7 @@ import ClockIcon from "@/event/components/ui/ClockIcon";
 import LocationIcon from "@/event/components/ui/LocationIcon";
 import TicketIcon from "@/event/components/ui/TicketIcon";
 import ImageBanner from "@/assets/imageBanner.webp";
-import { type EventById as EventByIdType } from "../types/eventById-types";
+import { type EventById as EventByIdType } from "../types/event-by-id-types";
 
 export const EventById = () => {
   const { id } = useParams() as { id: string };
