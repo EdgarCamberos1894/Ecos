@@ -5,7 +5,7 @@ import Logo from "@/assets/EcosLogoFooter.webp";
 
 export const Footer = () => {
   return (
-    <footer className="flex w-full flex-col items-start gap-16 self-center px-16 pt-40 lg:items-center">
+    <footer className="flex w-full flex-col items-start gap-16 self-center px-4 pt-40 md:px-16 lg:items-center">
       <div className="flex flex-col gap-32 lg:flex-row lg:gap-64 xl:gap-[356px]">
         <div className="text-ecos-blue flex flex-col gap-8">
           <h3 className="text-3xl font-medium uppercase">Nosotros</h3>
@@ -63,11 +63,12 @@ export const Footer = () => {
       <img
         src={Logo}
         alt="Logo de Ecos"
-        className="h-auto w-full max-w-[300px] self-center sm:max-w-[380px]"
+        className="hidden h-auto w-full max-w-[300px] self-center sm:max-w-[380px] lg:block"
       />
-      <span className="mb-3.5 self-center text-balance sm:pt-36">
-        Copyright © 2025 ECOS - Todos los derechos reservados.
-      </span>
+      <p className="mb-3.5 self-center text-xs font-light text-balance sm:pt-36 sm:text-2xl">
+        Copyright © {new Date().getFullYear()} <span className="font-medium">ECOS</span> - Todos
+        los derechos reservados.
+      </p>
     </footer>
   );
 };
