@@ -84,8 +84,11 @@ export default function StepThree({ nextStep, prevStep, formData, setFormData }:
       <form onSubmit={handleSubmit} className="h-full w-full">
         <ul className="w-full max-w-[864px] space-y-4">
           {entryPoints.map((ticket, index) => (
-            <li key={ticket.id} className="flex w-full items-center gap-4">
-              <div className="relative w-1/3">
+            <li
+              key={ticket.id}
+              className="flex w-full flex-col gap-2 md:flex-row md:items-center md:gap-4"
+            >
+              <div className="relative w-full">
                 <input
                   type="text"
                   placeholder="Lugar de venta"
@@ -101,50 +104,56 @@ export default function StepThree({ nextStep, prevStep, formData, setFormData }:
                   </p>
                 )}
               </div>
-              <div className="relative w-1/3">
-                <div className="absolute top-1/2 -translate-y-1/2">
-                  <DollarIcon />
-                </div>
-                <input
-                  type="number"
-                  className="border-[rgba(130, 130, 130, 0.70)] rounded-[20px] border pl-8"
-                  name={`tickets-${index.toString()}-price`}
-                  required={false}
-                  step="0.01"
-                  value={ticket.price === 0 ? "" : ticket.price}
-                  onChange={(e) => {
-                    handleChange(index, "price", e.target.value);
-                  }}
-                  placeholder="Ingrese precio"
-                />
-                {formErrors[`${index.toString()}-price`] && (
-                  <p className="mt-1 text-sm text-red-500">
-                    {formErrors[`${index.toString()}-price`]}
-                  </p>
-                )}
-              </div>
-              <div className="relative flex -translate-x-[-40px] items-center gap-2">
-                {index > 0 && (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      removeTicket(index);
+              <div className="flex w-full gap-2">
+                {/* Input con icono de dólar */}
+                <div className="relative flex-grow">
+                  <div className="pointer-events-none absolute top-1/2 left-2 -translate-y-1/2">
+                    <DollarIcon />
+                  </div>
+                  <input
+                    type="number"
+                    className="w-full rounded-[20px] border border-[rgba(130,130,130,0.7)] py-1 pl-8"
+                    name={`tickets-${index.toString()}-price`}
+                    required={false}
+                    step="0.01"
+                    value={ticket.price === 0 ? "" : ticket.price}
+                    onChange={(e) => {
+                      handleChange(index, "price", e.target.value);
                     }}
-                    aria-label="Eliminar ticket"
-                  >
-                    <MinusCircleIcon />
-                  </button>
-                )}
-                {index === entryPoints.length - 1 && (
-                  <button
-                    type="button"
-                    className="relative flex -translate-x-[-5px]"
-                    onClick={addNewTicket}
-                    aria-label="Agregar ticket"
-                  >
-                    <PlusCircleIcon />
-                  </button>
-                )}
+                    placeholder="Ingrese precio"
+                  />
+                  {formErrors[`${index.toString()}-price`] && (
+                    <p className="mt-1 text-sm text-red-500">
+                      {formErrors[`${index.toString()}-price`]}
+                    </p>
+                  )}
+                </div>
+
+                {/* Botones fuera del flujo del input */}
+                <div className="flex items-center gap-2">
+                  {index > 0 && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        removeTicket(index);
+                      }}
+                      aria-label="Eliminar ticket"
+                      className="flex-shrink-0 text-[#19233A]"
+                    >
+                      <MinusCircleIcon />
+                    </button>
+                  )}
+                  {(index > 0 || entryPoints.length === 1) && index === entryPoints.length - 1 && (
+                    <button
+                      type="button"
+                      onClick={addNewTicket}
+                      aria-label="Agregar ticket"
+                      className="flex-shrink-0 text-[#19233A]"
+                    >
+                      <PlusCircleIcon />
+                    </button>
+                  )}
+                </div>
               </div>
             </li>
           ))}

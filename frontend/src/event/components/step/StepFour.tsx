@@ -4,8 +4,7 @@ import { useApiMutation } from "@/shared/hooks/use-api-mutation";
 import { toast } from "sonner";
 import { useRequiredUser } from "@/auth/hooks/use-required-user";
 import { useNavigate } from "react-router";
-import CalendarIcon from "../ui/CalendarIcon";
-import ClockIcon from "../ui/ClockIcon";
+import { CalendarIcon, ClockIcon } from "../ui/Icons";
 import LocationIcon from "../ui/LocationIcon";
 import TicketIcon from "../ui/TicketIcon";
 import { CalendarButton } from "../ui/CalendarButton";
@@ -21,16 +20,13 @@ export default function StepFour({ prevStep, formData }: StepFourProps) {
 
   const navigate = useNavigate();
 
-  function formatDateToDDMMYYYY(dateString: string): string {
-    const [year, month, day] = dateString.split("-");
-    return `${day}/${month}/${year}`;
-  }
-
   const [error, setError] = useState<string | null>(null);
 
   const { mutate } = useApiMutation<string, FormData>("/events", "POST");
 
   const handleSubmit = () => {
+    console.log("handleSubmit se ejecutó");
+
     if (!userId) {
       toast.error("No se pudo obtener el perfil del músico.");
       return;
@@ -41,12 +37,10 @@ export default function StepFour({ prevStep, formData }: StepFourProps) {
       return;
     }
 
-    const formattedDate = formatDateToDDMMYYYY(formData.dateString);
-
     const data = new FormData();
     data.append("name", formData.name);
     data.append("category", formData.category);
-    data.append("dateString", formattedDate);
+    data.append("dateString", formData.dateString);
     data.append("startTime", formData.startTime);
     data.append("endTime", formData.endTime);
     data.append("type", formData.type);
@@ -64,14 +58,16 @@ export default function StepFour({ prevStep, formData }: StepFourProps) {
     if (formData.image) {
       data.append("image", formData.image);
     }
+
     mutate(data, {
       onSuccess: () => {
         setError(null);
         toast.success(`Tu evento fué públicado con éxito`);
         navigate(`/profile/musician/${user.id}`);
       },
-      onError: () => {
+      onError: (error) => {
         toast.error("Error al publicar evento");
+        setError("Error al publicar evento: " + error.message);
       },
     });
   };
@@ -119,7 +115,7 @@ export default function StepFour({ prevStep, formData }: StepFourProps) {
               <div className="flex items-end gap-x-1">
                 <LocationIcon className="h-[30px] w-[30px]" />
                 <p className="text-2xl font-semibold">Dirección: </p>
-                <span>{formData.location}</span>
+                <span className="hidden lg:flex">{formData.location}</span>
               </div>
             </div>
             <div className="flex flex-col gap-y-4">

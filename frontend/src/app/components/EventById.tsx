@@ -1,7 +1,6 @@
 import { useNavigate, useParams } from "react-router";
 import { useApiQuery } from "@/shared/hooks/use-api-query";
-import CalendarIcon from "@/event/components/ui/CalendarIcon";
-import ClockIcon from "@/event/components/ui/ClockIcon";
+import { CalendarIcon, ClockIcon } from "../../event/components/ui/Icons";
 import LocationIcon from "@/event/components/ui/LocationIcon";
 import TicketIcon from "@/event/components/ui/TicketIcon";
 import ImageBanner from "@/assets/imageBanner.webp";
