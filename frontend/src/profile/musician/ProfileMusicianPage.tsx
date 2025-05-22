@@ -1,15 +1,22 @@
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
+import { toast } from "sonner";
+import { useAuth } from "@/auth/hooks/use-auth";
+import { useApiQuery } from "@/shared/hooks/use-api-query";
+import { useApiMutation } from "@/shared/hooks/use-api-mutation";
+import EventCard from "@/shared/components/Cards/EventCard";
 import ImageBanner from "@/assets/imageBanner.webp";
+import { AudioPlayer } from "./components/AudioPlayer";
 import { SpotifyTrack } from "./components/SpotifyTrack";
 import { YouTubeVideo } from "./components/YoutubeVideo";
-import EventCard from "@/shared/components/Cards/EventCard";
+import { DonateSection } from "./components/DonateSection";
 import ContactForm from "./components/ContactForm";
 import FollowArtist from "./components/FollowArtist";
-import { useApiQuery } from "@/shared/hooks/use-api-query";
-import { AudioPlayer } from "./components/AudioPlayer";
+import { MediaSkeleton } from "./components/MediaSkeleton";
+import DonationModal from "../fan/DonationModal";
 import { HeartButton } from "../components/HeartButton";
 import { DonateButton } from "../components/DonateButton";
-import { DonateSection } from "./components/DonateSection";
+import { type ResponseListOfFavoriteSongs } from "../types/favorite-songs";
 import {
   type BannerUrl,
   type ApiSongs,
@@ -17,13 +24,6 @@ import {
   type FavoriteMusic,
   type ApiEvents,
 } from "./musician-types";
-import { useApiMutation } from "@/shared/hooks/use-api-mutation";
-import { toast } from "sonner";
-import { useEffect, useState } from "react";
-import DonationModal from "../fan/DonationModal";
-import { useAuth } from "@/auth/hooks/use-auth";
-import { MediaSkeleton } from "./components/MediaSkeleton";
-import { ResponseListOfFavoriteSongs } from "../types/favorite-songs";
 
 export default function ProfileMusicianPage() {
   const [isDonationModalOpen, setIsDonationModalOpen] = useState(false);
@@ -33,6 +33,8 @@ export default function ProfileMusicianPage() {
   const navigate = useNavigate();
 
   const { user } = useAuth();
+
+  const isProfileFromUser = id == user?.id;
 
   const { data: banner } = useApiQuery<BannerUrl>("banner", `musician-profile/${id}/banner`, id);
   const { data: profile } = useApiQuery<MusicianProfile>("profile", `musician-profile/${id}`, id);
@@ -119,12 +121,16 @@ export default function ProfileMusicianPage() {
               />
             ) : (
               <MediaSkeleton
-                onClick={() => navigate("/profile/musician/edit")}
-                message="Subí tus canciones"
+                onClick={isProfileFromUser ? () => navigate("/profile/musician/edit") : undefined}
+                message={
+                  isProfileFromUser ? "Subí tus canciones aquí" : "El usuario no tiene canciones"
+                }
                 className="bg-ecos-skeleton group grid aspect-[1100/510] w-full max-w-[1100px] cursor-pointer place-content-center place-items-center rounded-[30px]"
               />
             )}
-            <div className="mb-16 flex flex-wrap justify-start gap-4 sm:gap-6">
+            <div
+              className={`${isProfileFromUser ? "hidden" : "flex"} mb-16 flex-wrap justify-start gap-4 sm:gap-6`}
+            >
               <HeartButton
                 isSaved={isSaved}
                 onClick={handleFavoriteMusic}
@@ -148,13 +154,16 @@ export default function ProfileMusicianPage() {
             />
           ) : (
             <MediaSkeleton
-              onClick={() => navigate("/profile/musician/edit")}
-              message="Subí tu video"
+              onClick={isProfileFromUser ? () => navigate("/profile/musician/edit") : undefined}
+              message={isProfileFromUser ? "Subí tu video aquí" : "El usuario no tiene video"}
               className="bg-ecos-skeleton group grid aspect-[1120/560] w-full max-w-[1120px] cursor-pointer place-content-center place-items-center rounded-[30px]"
             />
           )}
 
-          <DonateSection handleDonationModal={handleDonationModal} />
+          <DonateSection
+            isProfileFromUser={isProfileFromUser}
+            handleDonationModal={handleDonationModal}
+          />
 
           <h2 className="text-ecos-blue text-2xl font-medium uppercase">Próximos eventos</h2>
           <div className="mb-[95px] grid grid-cols-[repeat(auto-fit,minmax(354px,1fr))] gap-4 md:mb-[153px] lg:mb-[256px]">
@@ -173,8 +182,8 @@ export default function ProfileMusicianPage() {
               ))
             ) : (
               <MediaSkeleton
-                onClick={() => navigate("/event")}
-                message="Subí tu evento"
+                onClick={isProfileFromUser ? () => navigate("/event") : undefined}
+                message={isProfileFromUser ? "Subí tu evento" : "El usuario no tiene eventos"}
                 className="bg-ecos-skeleton group grid aspect-[516/440] w-full max-w-[516px] cursor-pointer place-content-center place-items-center rounded-[30px]"
               />
             )}

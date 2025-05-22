@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { UseFormSetValue } from "react-hook-form";
-import { FormMusicianProfileSchema } from "../components/forms/shemas/ProfileSchema";
+import { FormMusicianProfileSchema } from "../components/forms/schemas/ProfileSchema";
 import { User } from "@/auth/types";
 import { musicalGenreOptions } from "@/profile/utils/musicalGenreOptions";
 

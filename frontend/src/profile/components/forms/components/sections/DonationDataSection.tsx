@@ -1,6 +1,6 @@
 import LabeledInput from "../labeledFields/LabeledInput";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
-import { FormMusicianProfileSchema } from "../../shemas/ProfileSchema";
+import { FormMusicianProfileSchema } from "../../schemas/ProfileSchema";
 
 interface DonationDataProps {
   errors: FieldErrors<FormMusicianProfileSchema>;

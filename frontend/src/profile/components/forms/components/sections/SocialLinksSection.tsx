@@ -1,5 +1,5 @@
 import LabeledInput from "../labeledFields/LabeledInput";
-import { FormMusicianProfileSchema } from "../../shemas/ProfileSchema";
+import { FormMusicianProfileSchema } from "../../schemas/ProfileSchema";
 import { UseFormRegister, FieldErrors } from "react-hook-form";
 
 interface SocialLinksProps {
