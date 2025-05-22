@@ -2,11 +2,12 @@ import { Donate } from "@/profile/components/ui/Donate";
 
 interface DonateSectionProps {
   handleDonationModal: () => void;
+  isProfileFromUser: boolean;
 }
 
-export const DonateSection = ({ handleDonationModal }: DonateSectionProps) => {
+export const DonateSection = ({ handleDonationModal, isProfileFromUser }: DonateSectionProps) => {
   return (
-    <div className="mb-9 flex flex-col gap-4">
+    <div className={`${isProfileFromUser ? "hidden" : "flex"} mb-9 flex-col gap-4`}>
       <div className="flex flex-col gap-1">
         <Donate />
         <h3 className="text-2xl">Dona</h3>
