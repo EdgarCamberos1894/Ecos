@@ -1,15 +1,22 @@
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
+import { toast } from "sonner";
+import { useAuth } from "@/auth/hooks/use-auth";
+import { useApiQuery } from "@/shared/hooks/use-api-query";
+import { useApiMutation } from "@/shared/hooks/use-api-mutation";
+import EventCard from "@/shared/components/Cards/EventCard";
 import ImageBanner from "@/assets/imageBanner.webp";
+import { AudioPlayer } from "./components/AudioPlayer";
 import { SpotifyTrack } from "./components/SpotifyTrack";
 import { YouTubeVideo } from "./components/YoutubeVideo";
-import EventCard from "@/shared/components/Cards/EventCard";
+import { DonateSection } from "./components/DonateSection";
 import ContactForm from "./components/ContactForm";
 import FollowArtist from "./components/FollowArtist";
-import { useApiQuery } from "@/shared/hooks/use-api-query";
-import { AudioPlayer } from "./components/AudioPlayer";
+import { MediaSkeleton } from "./components/MediaSkeleton";
+import DonationModal from "../fan/DonationModal";
 import { HeartButton } from "../components/HeartButton";
 import { DonateButton } from "../components/DonateButton";
-import { DonateSection } from "./components/DonateSection";
+import { type ResponseListOfFavoriteSongs } from "../types/favorite-songs";
 import {
   type BannerUrl,
   type ApiSongs,
@@ -17,13 +24,6 @@ import {
   type FavoriteMusic,
   type ApiEvents,
 } from "./musician-types";
-import { useApiMutation } from "@/shared/hooks/use-api-mutation";
-import { toast } from "sonner";
-import { useEffect, useState } from "react";
-import DonationModal from "../fan/DonationModal";
-import { useAuth } from "@/auth/hooks/use-auth";
-import { MediaSkeleton } from "./components/MediaSkeleton";
-import { ResponseListOfFavoriteSongs } from "../types/favorite-songs";
 
 export default function ProfileMusicianPage() {
   const [isDonationModalOpen, setIsDonationModalOpen] = useState(false);
