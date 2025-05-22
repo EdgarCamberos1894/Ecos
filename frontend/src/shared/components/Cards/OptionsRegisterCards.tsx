@@ -1,4 +1,9 @@
 import React from "react";
+import { Link } from "react-router";
+import AuthModal, { AuthMode } from "@/auth/components/AuthModal";
+import WelcomeUserModal from "@/auth/components/WelcomeUserModal";
+import { useAuth } from "@/auth/hooks/use-auth";
+import { useEffect, useState } from "react";
 
 interface OptionsRegisterCardsProps {
   id: string;
@@ -22,6 +27,28 @@ const OptionsRegisterCards: React.FC<OptionsRegisterCardsProps> = ({
   parrafo,
   buttonText,
 }) => {
+  const [openModal, setOpenModal] = useState<AuthMode | null>(null);
+  const [showWelcomeUser, setShowWelcomeUser] = useState(false);
+  const { user } = useAuth();
+
+  const handleOpenModal = (mode: AuthMode) => {
+    setOpenModal(mode);
+  };
+  const handleCloseModal = () => {
+    setOpenModal(null);
+  };
+  useEffect(() => {
+    if (user) setOpenModal(null);
+  }, [user]);
+  useEffect(() => {
+    const shouldShow = localStorage.getItem("showWelcomeUser");
+    if (shouldShow) {
+      setShowWelcomeUser(true);
+      setOpenModal(null);
+      localStorage.removeItem("showWelcomeUser");
+    }
+  }, [user]);
+
   const HeaderContent = (
     <div className="flex items-center space-x-4 p-2">
       <img src={icono} alt={option} className="h-10 w-10" />
@@ -49,14 +76,34 @@ const OptionsRegisterCards: React.FC<OptionsRegisterCardsProps> = ({
         </div>
 
         <div className="mx-4 mt-auto flex justify-end">
-          <button
-            type="button"
-            className="bg-ecos-orange-light w-32 rounded-3xl px-4 py-2 text-white"
-          >
-            {buttonText}
-          </button>
+          {buttonText === "Explorar" ? (
+            <Link
+              to="/explorer"
+              className="bg-ecos-orange-light hover:bg-ecos-dark-grey-light flex w-32 cursor-pointer items-center justify-center rounded-3xl px-4 py-2 text-center text-white"
+            >
+              {buttonText}
+            </Link>
+          ) : (
+            <button
+              type="button"
+              className="bg-ecos-orange-light hover:bg-ecos-dark-grey-light w-32 cursor-pointer rounded-3xl px-4 py-2 text-white"
+              onClick={() => {
+                handleOpenModal("register");
+              }}
+            >
+              {buttonText}
+            </button>
+          )}
         </div>
       </div>
+      {openModal && <AuthModal mode={openModal} onClose={handleCloseModal} />}
+      {showWelcomeUser && (
+        <WelcomeUserModal
+          onClose={() => {
+            setShowWelcomeUser(false);
+          }}
+        />
+      )}
     </>
   );
 };

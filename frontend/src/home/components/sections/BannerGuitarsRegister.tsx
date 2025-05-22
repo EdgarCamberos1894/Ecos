@@ -36,7 +36,7 @@ export default function BannerGuitarsRegister() {
         />
         <button
           type="button"
-          className="bg-ecos-orange-light absolute bottom-6 left-20 z-10 h-[36px] w-[194px] rounded-4xl text-xl text-white md:bottom-12 md:left-36 md:h-[63px] md:w-[339px] md:text-2xl lg:bottom-16 lg:left-44"
+          className="bg-ecos-orange-light hover:bg-ecos-dark-grey-light absolute bottom-6 left-20 z-10 h-[36px] w-[194px] cursor-pointer rounded-4xl text-xl text-white md:bottom-12 md:left-36 md:h-[63px] md:w-[339px] md:text-2xl lg:bottom-16 lg:left-44"
           onClick={() => {
             handleOpenModal("register");
           }}
