@@ -1,4 +1,4 @@
-import { FormFanProfileSchema } from "@/profile/components/forms/shemas/ProfileSchema";
+import { FormFanProfileSchema } from "@/profile/components/forms/schemas/ProfileSchema";
 
 interface HandleFanProfileSubmitParams {
   data: FormFanProfileSchema;

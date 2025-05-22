@@ -4,7 +4,7 @@ import LabeledChecklist from "../labeledFields/LabelCheckList";
 import useCountryList from "react-select-country-list";
 import { musicalGenreOptions } from "@/profile/utils/musicalGenreOptions";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
-import { FormFanProfileSchema } from "../../shemas/ProfileSchema";
+import { FormFanProfileSchema } from "../../schemas/ProfileSchema";
 
 interface PersonalDataFanProps {
   country: string;

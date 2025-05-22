@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { UseFormSetValue } from "react-hook-form";
-import { FormFanProfileSchema } from "../components/forms/shemas/ProfileSchema";
+import { FormFanProfileSchema } from "../components/forms/schemas/ProfileSchema";
 import { User } from "@/auth/types";
 
 interface UseLoadFanFormProps {
