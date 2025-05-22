@@ -18,23 +18,14 @@ const Button = ({
   className = "",
   bgType = "",
 }: ButtonProps) => {
-  let bgColor = "";
-
-  switch (bgType) {
-    case "primary":
-      bgColor = "var(--color-ecos-orange-light)";
-      break;
-    case "secondary":
-      bgColor = "var(--color-ecos-blue)";
-      break;
-  }
+  const bgClass =
+    bgType === "primary" ? "button-primary" : bgType === "secondary" ? "button-secondary" : "";
 
   return (
     <button
-      onClick={onClick}
       type={type}
-      style={{ backgroundColor: bgColor }}
-      className={`flex h-[50px] items-center justify-center gap-2.5 rounded-[27px] border border-solid px-4 py-2 font-medium text-[#291117] ${bgColor} ${className}`}
+      onClick={onClick}
+      className={`flex h-[50px] items-center justify-center gap-2.5 rounded-[27px] px-4 py-2 font-medium hover:cursor-pointer ${bgClass} ${className}`}
     >
       {startIcon}
       {children}
