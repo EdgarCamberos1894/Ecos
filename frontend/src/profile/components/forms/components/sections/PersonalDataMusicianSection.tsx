@@ -3,7 +3,7 @@ import LabeledSelect from "../labeledFields/LabeledSelect";
 import useCountryList from "react-select-country-list";
 import { musicalGenreOptions } from "@/profile/utils/musicalGenreOptions";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
-import { FormMusicianProfileSchema } from "../../shemas/ProfileSchema";
+import { FormMusicianProfileSchema } from "../../schemas/ProfileSchema";
 
 interface PersonalDataMusicianProps {
   genre: string;

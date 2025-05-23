@@ -17,6 +17,11 @@ export default function Hero() {
     setOpenModal(null);
   };
 
+  const handleScrollToExploreSection = () => {
+    const $section = document.getElementById("explorar");
+    if ($section) $section.scrollIntoView({ behavior: "smooth" });
+  };
+
   useEffect(() => {
     if (user) setOpenModal(null);
   }, [user]);
@@ -84,6 +89,7 @@ export default function Hero() {
               </button>
               <button
                 type="submit"
+                onClick={handleScrollToExploreSection}
                 className="bg-ecos-orange-light cursor-pointer rounded-3xl px-6 py-2.5 text-xs font-medium hover:bg-[#B1B1B1] md:text-sm"
               >
                 Explora

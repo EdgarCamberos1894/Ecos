@@ -1,49 +1,73 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router";
+import { Link, type Location, type NavigateFunction, useLocation, useNavigate } from "react-router";
 import { Avatar } from "@/auth/components/ui/Avatar";
 import Input from "@/app/ui/Input";
 import AuthModal, { AuthMode } from "@/auth/components/AuthModal";
-import Layer from "@/app/ui/EcosIcon";
+import EcosLogo from "@/app/ui/EcosIcon";
 import MenuIcon from "@/app/ui/HamburguerMenuIcon";
 import Lens from "@/app/ui/LensIcon";
 import { useAuth } from "@/auth/hooks/use-auth";
 import UserMenu from "@/auth/components/UserMenu";
-import { Bell } from "./Bell";
 import WelcomeUserModal from "@/auth/components/WelcomeUserModal";
+// import { Bell } from "./Bell";
+
+const NAV_SECTIONS = [
+  "Inicio",
+  "Explorar",
+  "Artistas Destacados",
+  "Eventos",
+  "Preguntas Frecuentes",
+];
+
+const FAN_SECTIONS = ["Inicio", "Mis Favoritos", "Artistas Destacados", "Eventos"];
+
+const handleNavClick = (section: string, navigate: NavigateFunction, location: Location) => {
+  const hash = `#${section.toLowerCase().replace(" ", "-")}`;
+
+  if (location.pathname !== "/") {
+    navigate(hash.includes("inicio") ? "/" : `/${hash}`);
+  } else {
+    const $section = document.getElementById(hash.slice(1));
+    if ($section) $section.scrollIntoView({ behavior: "smooth" });
+  }
+};
 
 export const Header = () => {
-  const [activeSection, setActiveSection] = useState("");
+  // const [activeSection, setActiveSection] = useState("");
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const sections = ["explorar", "artistas", "eventos", "preguntas"];
-      const scrollY = window.scrollY;
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     const sections = ["explorar", "artistas", "eventos", "preguntas"];
+  //     const scrollY = window.scrollY;
 
-      sections.forEach((id) => {
-        const section = document.getElementById(id);
-        if (section) {
-          const offsetTop = section.offsetTop;
-          const height = section.offsetHeight;
+  //     sections.forEach((id) => {
+  //       const section = document.getElementById(id);
+  //       if (section) {
+  //         const offsetTop = section.offsetTop;
+  //         const height = section.offsetHeight;
 
-          if (scrollY >= offsetTop && scrollY < offsetTop + height) {
-            setActiveSection(id);
-          }
-        }
-      });
-    };
+  //         if (scrollY >= offsetTop && scrollY < offsetTop + height) {
+  //           setActiveSection(id);
+  //         }
+  //       }
+  //     });
+  //   };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+  //   window.addEventListener("scroll", handleScroll);
+  //   return () => {
+  //     window.removeEventListener("scroll", handleScroll);
+  //   };
+  // }, []);
 
   const [openModal, setOpenModal] = useState<AuthMode | null>(null);
   const [showWelcomeUser, setShowWelcomeUser] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const { user } = useAuth();
-  const isMusician = user?.role === "MUSICIAN";
+  const isFan = user?.role === "FAN";
 
   const handleOpenModal = (mode: AuthMode) => {
     setOpenModal(mode);
@@ -53,11 +77,11 @@ export const Header = () => {
     setOpenModal(null);
   };
 
-  const toggleMenu = () => {
+  const toggleMobileMenu = () => {
     setIsOpen(!isOpen);
   };
 
-  const closeMenu = () => {
+  const closeMobileMenu = () => {
     setIsOpen(false);
   };
 
@@ -74,158 +98,93 @@ export const Header = () => {
     }
   }, [user]);
 
-  const scrollToSection = (id: string) => {
-    const section = document.getElementById(id);
-    if (section) {
-      section.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
   return (
     <>
-      <header className="bg-ecos-blue w-full shadow">
-        <div className="mx-auto flex items-center justify-between px-12 py-6">
-          <div className="flex items-center gap-16">
-            <Link to="/" className="hidden px-6 py-5 lg:flex">
-              <Layer />
+      <header className="bg-ecos-blue shadow">
+        <div className="mx-auto flex items-center justify-between py-6 pr-2.5 pl-6 xl:pr-[22px] xl:pl-[45px]">
+          <div className="flex flex-auto items-center gap-9 2xl:gap-[74px]">
+            <Link to="/" className="hidden lg:flex">
+              <EcosLogo className="h-auto w-20 py-5 xl:w-[121px] xl:py-0" />
             </Link>
+
             <button
               type="button"
-              className="block p-4 focus:outline-none lg:hidden"
-              onClick={toggleMenu}
+              className="block focus:outline-none lg:hidden"
+              onClick={toggleMobileMenu}
             >
               {isOpen ? (
                 <span className="text-5xl text-white">✖</span>
               ) : (
-                <MenuIcon className="h-12 w-12" />
+                <MenuIcon className="h-12 w-12 md:ml-9" />
               )}
             </button>
+
             {isOpen && (
-              <nav className="absolute top-22 left-1 z-20 w-56 rounded-2xl bg-white px-8 py-10 shadow-md lg:hidden">
-                <Link to="/" className="text-ecos-blue block py-2" onClick={closeMenu}>
-                  Inicio
-                </Link>
-                {!user && (
-                  <button
-                    type="button"
-                    title="Iniciar sesion"
-                    className="text-ecos-blue block py-2"
-                    onClick={() => {
-                      handleOpenModal("login");
-                      closeMenu();
-                    }}
-                  >
-                    Iniciar Sesión
-                  </button>
-                )}
-                <a
-                  className="text-ecos-blue block cursor-pointer py-2"
-                  onClick={() => {
-                    scrollToSection("#explorar");
-                    closeMenu();
+              <div className="fixed inset-0 z-10" onClick={closeMobileMenu}>
+                <nav
+                  className="absolute top-22 left-1 z-10 flex w-[286px] flex-col items-start gap-2.5 rounded-[20px] bg-white px-[26px] py-[53px] shadow-md lg:hidden"
+                  onClick={(event) => {
+                    event.stopPropagation();
                   }}
                 >
-                  Explorar
-                </a>
-                <a
-                  className="text-ecos-blue block cursor-pointer py-2"
-                  onClick={() => {
-                    scrollToSection("#artistas");
-                    closeMenu();
-                  }}
-                >
-                  Artistas Destacados
-                </a>
-                <a
-                  className="text-ecos-blue block cursor-pointer py-2"
-                  onClick={() => {
-                    scrollToSection("#eventos");
-                    closeMenu();
-                  }}
-                >
-                  Eventos
-                </a>
-                <a
-                  className="text-ecos-blue block cursor-pointer py-2"
-                  onClick={() => {
-                    scrollToSection("#preguntas");
-                    closeMenu();
-                  }}
-                >
-                  Preguntas Frecuentes
-                </a>
-              </nav>
+                  {isFan
+                    ? FAN_SECTIONS.map((section) => (
+                        <a
+                          key={section}
+                          title={section}
+                          onClick={() => {
+                            handleNavClick(section, navigate, location);
+                            closeMobileMenu();
+                          }}
+                          className="text-ecos-blue text-2xl font-normal"
+                        >
+                          {section}
+                        </a>
+                      ))
+                    : NAV_SECTIONS.map((section) => (
+                        <a
+                          key={section}
+                          title={section}
+                          onClick={() => {
+                            handleNavClick(section, navigate, location);
+                            closeMobileMenu();
+                          }}
+                          className="text-ecos-blue text-2xl font-normal"
+                        >
+                          {section}
+                        </a>
+                      ))}
+                </nav>
+              </div>
             )}
-            <nav className="hidden gap-6 text-xl font-semibold text-white lg:flex xl:gap-16">
-              {isMusician ? (
-                <>
-                  <a
-                    className={`cursor-pointer hover:text-[#B1B1B1] ${activeSection === "misfavoritos" ? "text-[#FE963D]" : ""}`}
-                    onClick={() => {
-                      scrollToSection("#misfavoritos");
-                    }}
-                  >
-                    Mis Favoritos
-                  </a>
-                  <a
-                    className={`cursor-pointer hover:text-[#B1B1B1] ${activeSection === "artistas" ? "text-[#FE963D]" : ""}`}
-                    onClick={() => {
-                      scrollToSection("#artistas");
-                    }}
-                  >
-                    Artistas Destacados
-                  </a>
-                  <a
-                    className={`cursor-pointer hover:text-[#B1B1B1] ${activeSection === "eventos" ? "text-[#FE963D]" : ""}`}
-                    onClick={() => {
-                      scrollToSection("#eventos");
-                    }}
-                  >
-                    Eventos
-                  </a>
-                </>
-              ) : (
-                <>
-                  <a
-                    className={`cursor-pointer hover:text-[#B1B1B1] ${activeSection === "explorar" ? "text-[#FE963D]" : ""}`}
-                    onClick={() => {
-                      scrollToSection("#explorar");
-                    }}
-                  >
-                    Explorar
-                  </a>
-                  <a
-                    className={`cursor-pointer hover:text-[#B1B1B1] ${activeSection === "artistas" ? "text-[#FE963D]" : ""}`}
-                    onClick={() => {
-                      scrollToSection("#artistas");
-                    }}
-                  >
-                    Artistas Destacados
-                  </a>
-                  <a
-                    className={`cursor-pointer hover:text-[#B1B1B1] ${activeSection === "eventos" ? "text-[#FE963D]" : ""}`}
-                    onClick={() => {
-                      scrollToSection("#eventos");
-                    }}
-                  >
-                    Eventos
-                  </a>
-                  <a
-                    className={`cursor-pointer hover:text-[#B1B1B1] ${activeSection === "preguntas" ? "text-[#FE963D]" : ""}`}
-                    onClick={() => {
-                      scrollToSection("#preguntas");
-                    }}
-                  >
-                    Preguntas Frecuentes
-                  </a>
-                </>
-              )}
+
+            <nav className="text-ecos-base hidden gap-10 text-xl font-normal lg:flex 2xl:gap-20 2xl:text-2xl">
+              {isFan
+                ? FAN_SECTIONS.map((section) => (
+                    <a key={section} className={`cursor-pointer hover:text-[#B1B1B1]`}>
+                      {section}
+                    </a>
+                  ))
+                : NAV_SECTIONS.slice(1).map((section) => (
+                    <a
+                      key={section}
+                      onClick={() => {
+                        handleNavClick(section, navigate, location);
+                        closeMobileMenu();
+                      }}
+                      title={section}
+                      className={`cursor-pointer hover:text-[#B1B1B1]`}
+                    >
+                      {section}
+                    </a>
+                  ))}
             </nav>
           </div>
-          <div className="flex items-center gap-14">
+
+          <div className="flex items-center justify-end xl:gap-3 2xl:gap-[74px]">
             {!user ? (
               <>
-                <div className="hidden gap-6 text-xl font-semibold text-white lg:flex xl:mx-24 xl:gap-12">
+                <div className="text-ecos-base hidden gap-6 px-[39px] text-base font-normal md:flex">
                   <button
                     className="cursor-pointer"
                     type="button"
@@ -245,11 +204,11 @@ export const Header = () => {
                     Crear cuenta
                   </button>
                 </div>
-                <Avatar />
+                <Avatar className="m-5 md:m-0" />
               </>
             ) : (
               <>
-                <Bell className="size-[70px]" />
+                {/* <Bell className="size-[70px]" /> */}
                 <UserMenu />
               </>
             )}
@@ -258,7 +217,7 @@ export const Header = () => {
         <div className="mx-auto mb-6 w-88 md:w-192 lg:-mt-12 lg:mb-12 lg:w-4/5">
           <Input
             placeholder="Busca Artista, Album, Canción"
-            className="mx-auto flex w-full bg-[#ECE6F0] text-[#19233A] sm:w-4/5 lg:py-2 lg:text-xl lg:font-semibold"
+            className="text-ecos-blue mx-auto flex w-full bg-[#ECE6F0] sm:w-4/5 lg:py-2 lg:text-xl lg:font-semibold"
             startIcon={<MenuIcon className="my-auto" />}
             endIcon={<Lens className="my-auto" />}
           />

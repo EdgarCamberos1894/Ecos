@@ -31,7 +31,7 @@ const LabeledFieldReadOnly = ({
 
   return (
     <div className={`text-ecos-blue flex w-full flex-col${className}`}>
-      <span>{label}</span>
+      <span className="mb-2">{label}</span>
 
       <div className="relative w-full">
         <div className="border-ecos-dark-grey w-full rounded-[20px] border px-3.5 py-2 text-sm break-words">
@@ -45,7 +45,7 @@ const LabeledFieldReadOnly = ({
             className="text-ecos-blue hover:text-ecos-blue-dark absolute top-1/2 right-2 -translate-y-1/2"
             aria-label="Copiar al portapapeles"
           >
-            <ClipboardCopyIcon className="h-4 w-4" />
+            <ClipboardCopyIcon className="h-4 w-4 hover:cursor-pointer" />
           </button>
         )}
 

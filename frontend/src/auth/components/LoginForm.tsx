@@ -10,6 +10,7 @@ import { useApiMutation } from "@/shared/hooks/use-api-mutation";
 import { useAuth } from "../hooks/use-auth";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
+import { User } from "../types";
 
 const LoginSchema = z.object({
   email: z.string().email({ message: "El email ingresado no es válido" }),
@@ -45,7 +46,7 @@ const LoginForm = () => {
       onSuccess: (response) => {
         const user = handleLogin(response.token);
         toast.success(`Bienvenido ${user.name}`);
-        navigate("/");
+        handleNavigate(user);
       },
       onError: (error) => {
         setError("root", {
@@ -53,6 +54,11 @@ const LoginForm = () => {
         });
       },
     });
+  };
+
+  const handleNavigate = ({ role, id }: Pick<User, "role" | "id">) => {
+    const route = role === "MUSICIAN" ? `/profile/musician/${id}` : "/";
+    navigate(route);
   };
 
   return (

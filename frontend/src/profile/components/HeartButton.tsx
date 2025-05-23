@@ -3,12 +3,17 @@ import { Heart } from "./ui/Heart";
 
 type HeartButtonProps = ComponentProps<"button"> & {
   children: React.ReactNode;
+  isSaved: boolean;
 };
 
-export const HeartButton = ({ children, ...buttonProps }: HeartButtonProps) => {
+export const HeartButton = ({ children, isSaved, ...buttonProps }: HeartButtonProps) => {
   return (
     <button type="button" {...buttonProps}>
-      <Heart />
+      <Heart
+        className={`transition-transform duration-300 ${
+          isSaved ? "animate-pop fill-red-500" : "fill-none"
+        }`}
+      />
       {children}
     </button>
   );
