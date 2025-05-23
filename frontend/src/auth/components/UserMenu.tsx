@@ -21,16 +21,13 @@ const UserMenu = () => {
   const profileType = user?.role === "MUSICIAN" ? "musician" : "fan";
   const endpoint = user?.role === "MUSICIAN" ? `musician-profile/${id}` : `fan-profile/${id}`;
 
-  const { data: profile, refetch } = useProfileData<Musician | Fan>(profileType, id, endpoint);
+  const { data: profile } = useProfileData<Musician | Fan>(profileType, id, endpoint);
 
   const [profileImage, setProfileImage] = useState<string | undefined>(profile?.photoUrl);
 
   useEffect(() => {
-    if (profile?.photoUrl) {
-      setProfileImage(profile.photoUrl);
-    }
-    refetch();
-  }, [profile, refetch]);
+    setProfileImage(profile?.photoUrl);
+  }, [profile]);
 
   const handleLogOut = () => {
     handleLogout();
