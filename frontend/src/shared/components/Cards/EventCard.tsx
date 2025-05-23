@@ -37,15 +37,15 @@ const EventCard = ({
           className="aspect-square h-[10.688rem] w-[10.563rem] flex-shrink rounded-[1.75rem]"
         />
 
-        <div className="flex h-[7.75rem] w-[8.563rem] flex-col items-start gap-6 text-white">
-          <div className="flex flex-col items-start gap-1">
+        <div className="flex h-[7.75rem] flex-col justify-between text-white">
+          <div className="flex h-[3.75rem] flex-col items-start gap-1">
             <h2 className="text-2xl font-normal">{stageName}</h2>
             <h4 className="text-base font-medium">{supportingText}</h4>
           </div>
           <button
             type="button"
             onClick={() => navigate(`/event/${id.toString()}`)}
-            className="bg-ecos-orange-light cursor-pointer rounded-[20px] px-6 py-2.5 text-sm font-medium"
+            className="bg-ecos-orange-light cursor-pointer rounded-[1.25rem] px-6 py-2.5 text-sm font-medium"
           >
             Ver más
           </button>

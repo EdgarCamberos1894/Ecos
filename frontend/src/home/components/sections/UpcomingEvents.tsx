@@ -7,9 +7,9 @@ const UpcomingEvents = () => {
 
   return (
     <section id="#eventos" className="w-full">
-      <h2 className="subtitles my-8 text-start lg:mb-24">Próximos Eventos</h2>
+      <h2 className="subtitles text-start">Próximos Eventos</h2>
 
-      <div className="grid grid-cols-1 gap-4 md:space-y-[3.563rem] lg:grid-cols-3 lg:gap-[3.563rem]">
+      <div className="grid grid-cols-[repeat(auto-fit,_22.688rem)] justify-center gap-[3.563rem]">
         {events?.items.map((event) => (
           <EventCard
             key={event.id}
