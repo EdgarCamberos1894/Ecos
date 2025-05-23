@@ -46,9 +46,9 @@ export default function OptionsRegister() {
 
   return (
     <div className="flex flex-col justify-around gap-11 text-center">
-      <div className="text-ecos-blue max-w-[39.625rem] space-y-8 text-start text-3xl md:text-[2.5rem]">
-        <h2 className="font-normal">Conectamos músicos, fans y eventos en una sola plataforma</h2>
-        <h2 className="font-bold">¡Empieza!</h2>
+      <div className="text-ecos-blue max-w-[39.625rem] space-y-8 text-start text-[2rem] md:text-[2.5rem]">
+        <h2>Conectamos músicos, fans y eventos en una sola plataforma</h2>
+        <h2 className="font-medium">¡Empieza!</h2>
       </div>
       <div className="flex w-full flex-col gap-6 lg:flex-row">
         {cardsData.map((data) => (
