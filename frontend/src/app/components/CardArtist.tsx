@@ -16,17 +16,17 @@ const CardArtist = ({ musician }: CardArtistProps) => {
   };
 
   return (
-    <div key={id} className="flex flex-row gap-6 py-4 sm:py-6">
+    <div key={id} className="flex h-[16.25rem] flex-row gap-6 px-6 md:w-[550px]">
       <img
         src={photoUrl ?? defaultImage}
         alt={`Foto de ${stageName}`}
-        className="aspect-square w-[132px] rounded-2xl object-cover md:w-[229px]"
+        className="aspect-square h-[8.25rem] w-[8.25rem] rounded-[1.75rem] object-cover md:h-[14.313rem] md:w-[14.313rem] lg:h-[13.5rem] lg:w-[13.5rem]"
       />
 
-      <div className="text-ecos-blue flex w-full flex-col gap-4 text-start">
-        <div className="flex flex-col gap-2">
-          <h3 className="text-xl font-semibold sm:text-2xl">{stageName}</h3>
-          <p className="text-sm font-medium sm:text-xs">{genre}</p>
+      <div className="text-ecos-blue flex h-[16.25rem] flex-col justify-between text-start md:h-[220px] lg:h-[200px]">
+        <div className="flex flex-col gap-1">
+          <h3 className="text-2xl font-semibold uppercase">{stageName}</h3>
+          <p className="text-[0.688rem] font-medium">{genre}</p>
           <p className="line-clamp-7 text-sm break-words whitespace-pre-line">{description}</p>
         </div>
 
@@ -36,7 +36,7 @@ const CardArtist = ({ musician }: CardArtistProps) => {
             bgType="primary"
             type="button"
             onClick={goToMusicianProfile}
-            className="w-full max-w-[120px] px-4 py-2.5 text-white"
+            className="w-full max-w-[120px] px-6 py-2.5 text-white"
           />
         </div>
       </div>
