@@ -1,8 +1,6 @@
 import { useNavigate, useParams } from "react-router";
 import { useApiQuery } from "@/shared/hooks/use-api-query";
-import { CalendarIcon, ClockIcon } from "../../event/components/ui/Icons";
-import LocationIcon from "@/event/components/ui/LocationIcon";
-import TicketIcon from "@/event/components/ui/TicketIcon";
+import { CalendarIcon, ClockIcon, LocationIcon, TicketIcon } from "../../event/components/ui/Icons";
 import ImageBanner from "@/assets/imageBanner.webp";
 import { type EventById as EventByIdType } from "../types/event-by-id-types";
 
@@ -49,7 +47,7 @@ export const EventById = () => {
             <div className="flex flex-col gap-y-4">
               <h3 className="text-2xl font-bold md:text-[32px]">Lugar</h3>
               <div className="flex items-end gap-x-1">
-                <LocationIcon className="h-[30px] w-[30px]" />
+                <LocationIcon />
                 <p className="text-2xl font-semibold">Dirección: </p>
                 <span>{event?.location}</span>
               </div>
@@ -57,7 +55,7 @@ export const EventById = () => {
             <div className="flex flex-col gap-y-4">
               <h3 className="text-2xl font-bold md:text-[32px]">Información de las entradas</h3>
               <div className="flex items-center gap-x-1">
-                <TicketIcon className="h-[30px] w-[30px]" />
+                <TicketIcon />
                 <div>
                   <p className="text-2xl font-semibold">Puntos de venta:</p>
                   {event?.tickets.map((ticket) => (

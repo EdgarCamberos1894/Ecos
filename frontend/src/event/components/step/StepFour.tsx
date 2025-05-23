@@ -4,9 +4,7 @@ import { useApiMutation } from "@/shared/hooks/use-api-mutation";
 import { toast } from "sonner";
 import { useRequiredUser } from "@/auth/hooks/use-required-user";
 import { useNavigate } from "react-router";
-import { CalendarIcon, ClockIcon } from "../ui/Icons";
-import LocationIcon from "../ui/LocationIcon";
-import TicketIcon from "../ui/TicketIcon";
+import { CalendarIcon, ClockIcon, TicketIcon, LocationIcon } from "../ui/Icons";
 import { CalendarButton } from "../ui/CalendarButton";
 
 interface StepFourProps {
@@ -113,7 +111,7 @@ export default function StepFour({ prevStep, formData }: StepFourProps) {
             <div className="flex flex-col gap-y-4">
               <h3 className="text-2xl font-bold md:text-[32px]">Lugar</h3>
               <div className="flex items-end gap-x-1">
-                <LocationIcon className="h-[30px] w-[30px]" />
+                <LocationIcon />
                 <p className="text-2xl font-semibold">Dirección: </p>
                 <span className="hidden lg:flex">{formData.location}</span>
               </div>
@@ -121,9 +119,9 @@ export default function StepFour({ prevStep, formData }: StepFourProps) {
             <div className="flex flex-col gap-y-4">
               <h3 className="text-2xl font-bold md:text-[32px]">Información de las entradas</h3>
               <div className="gap-x-1">
-                <p className="pl-7 font-semibold">Puntos de venta:</p>
-                <div className="flex items-center">
-                  <TicketIcon className="h-[30px] w-[30px]" />
+                <p className="pl-9 font-semibold">Puntos de venta:</p>
+                <div className="flex items-center gap-2">
+                  <TicketIcon />
                   <div>
                     {formData.tickets.map((ticket) => (
                       <div key={ticket.location} className="flex gap-x-4">

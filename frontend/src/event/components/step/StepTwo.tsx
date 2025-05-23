@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { FormData } from "@/event/type/FormData";
 import { z, ZodError } from "zod";
-import { UploadCloud } from "@/profile/components/ui/UploadCloud";
+import { UploadCloud } from "@/profile/components/ui/Icons";
 import { toast } from "sonner";
 
 interface StepTwoProps {

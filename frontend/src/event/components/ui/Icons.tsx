@@ -5,17 +5,14 @@ interface IconProps {
 
 export function DollarIcon() {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      className="rounded-l-[20px] bg-[#19233A] pl-2 text-white"
-    >
-      <text x="4" y="20" fontSize="20" fontFamily="sans-serif">
-        $
-      </text>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
+      <path
+        d="M16.7709 8.05556C16.5498 7.42804 16.1459 6.88107 15.6112 6.48504C15.0766 6.08901 14.4357 5.86203 13.7709 5.83333H9.3265C8.44244 5.83333 7.5946 6.18452 6.96947 6.80964C6.34435 7.43477 5.99316 8.28261 5.99316 9.16667C5.99316 10.0507 6.34435 10.8986 6.96947 11.5237C7.5946 12.1488 8.44244 12.5 9.3265 12.5H13.7709C14.655 12.5 15.5028 12.8512 16.128 13.4763C16.7531 14.1014 17.1043 14.9493 17.1043 15.8333C17.1043 16.7174 16.7531 17.5652 16.128 18.1904C15.5028 18.8155 14.655 19.1667 13.7709 19.1667H9.3265C8.66177 19.138 8.02084 18.911 7.4862 18.515C6.95155 18.1189 6.54766 17.572 6.3265 16.9444M11.5487 2.5V5.83333M11.5487 19.1667V22.5"
+        stroke="white"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
     </svg>
   );
 }
@@ -38,10 +35,11 @@ export const CalendarIcon = () => {
   );
 };
 
-export const HollowCircleIcon = (props: IconProps) => {
+export const HollowCircle = () => {
   return (
-    <svg {...props} viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="36" cy="36" r="28" stroke="#6F6F6F66" strokeWidth="9" fill="none" />
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+      <circle cx="10" cy="10" r="9" stroke="#19233A" stroke-width="2" />
+      <circle cx="10" cy="10" r="6.25" fill="#19233A" />
     </svg>
   );
 };

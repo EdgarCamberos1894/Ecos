@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, type Location, type NavigateFunction, useLocation, useNavigate } from "react-router";
-import { Avatar } from "@/auth/components/ui/Avatar";
+import { Avatar } from "@/auth/components/ui/icons";
 import Input from "@/app/ui/Input";
 import AuthModal, { AuthMode } from "@/auth/components/AuthModal";
 import EcosLogo from "@/assets/header/logo.svg?react";
@@ -9,7 +9,6 @@ import Lens from "@/assets/lens.svg?react";
 import { useAuth } from "@/auth/hooks/use-auth";
 import UserMenu from "@/auth/components/UserMenu";
 import WelcomeUserModal from "@/auth/components/WelcomeUserModal";
-// import { Bell } from "./Bell";
 
 const NAV_SECTIONS = [
   "Inicio",
@@ -208,7 +207,6 @@ export const Header = () => {
               </>
             ) : (
               <>
-                {/* <Bell className="size-[70px]" /> */}
                 <UserMenu />
               </>
             )}

@@ -1,4 +1,4 @@
-import { BackArrow } from "@/app/ui/BackArrow";
+import { BackArrow } from "@/app/ui/Icons";
 import { useNavigate } from "react-router";
 
 export const BackButtonHeader = () => {
