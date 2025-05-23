@@ -23,11 +23,11 @@ export default function OptionsRegister() {
       id: "fan",
       icono: iconoF,
       option: "FAN",
-      description: "Descubre, Escucha y Sigue a tus Músicos Favoritos",
+      description: "Más que seguidor, cómplice",
       imageSrc: chicaAtractiva,
-      title: "Busca nuevas Opciones de Música",
-      parrafo2: "Conecta con músicos ideales según tus gustos.",
-      parrafo: "Encuentra talentos y llena tus espacios con la mejor música.",
+      title: "Lealtad en cada nota",
+      parrafo: "Cada like, cada repetición, cada grito... es un latido compartido.",
+      parrafo2: "Tu voz, nuestra bandera.",
       buttonText: "Regístrate",
     },
     {
@@ -36,17 +36,17 @@ export default function OptionsRegister() {
       option: "PRÓXIMOS EVENTOS",
       description: "No te pierdas lo que viene",
       imageSrc: celuFestival,
-      title: "La fiesta comienza !!",
-      parrafo2:
-        "Conciertos Únicos: Artistas independientes y emergentes creando magia musical      en vivo.",
-      parrafo: "La música no espera, ¡Únete ya!.",
-      buttonText: "Explorar",
+      title: "La fiesta comienza",
+      parrafo:
+        "Conciertos únicos: artistas independientes y emergentes creando magia musical en vivo.",
+      parrafo2: "La música no espera, ¡únete al ritmo!",
+      buttonText: "Explora",
     },
   ];
 
   return (
-    <div className="mt-24 flex flex-col justify-around gap-11 px-2.5 text-center lg:mt-[156px] lg:px-12">
-      <div className="max-w-[634px] space-y-8 text-start text-3xl text-[#19233A] md:text-[40px]">
+    <div className="flex flex-col justify-around gap-11 text-center">
+      <div className="text-ecos-blue max-w-[39.625rem] space-y-8 text-start text-3xl md:text-[2.5rem]">
         <h2 className="font-normal">Conectamos músicos, fans y eventos en una sola plataforma</h2>
         <h2 className="font-bold">¡Empieza!</h2>
       </div>
