@@ -29,7 +29,7 @@ const RoleSelector = ({ onSelectRole }: RoleSelectorProps) => {
           <div className="flex w-full flex-col items-start justify-between gap-4">
             <Button
               type="button"
-              className="w-full bg-transparent font-bold"
+              className="w-full border bg-transparent font-bold"
               onClick={() => {
                 onSelectRole(role);
               }}
