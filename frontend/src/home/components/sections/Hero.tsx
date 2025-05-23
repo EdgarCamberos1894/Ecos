@@ -17,6 +17,11 @@ export default function Hero() {
     setOpenModal(null);
   };
 
+  const handleScrollToExploreSection = () => {
+    const $section = document.getElementById("explorar");
+    if ($section) $section.scrollIntoView({ behavior: "smooth" });
+  };
+
   useEffect(() => {
     if (user) setOpenModal(null);
   }, [user]);
@@ -75,7 +80,7 @@ export default function Hero() {
             <div className="mt-6 flex gap-6">
               <button
                 type="submit"
-                className="bg-ecos-blue h-12 w-32 rounded-3xl text-sm text-white hover:bg-[#B1B1B1]"
+                className="bg-ecos-blue h-12 w-32 cursor-pointer rounded-3xl text-sm text-white hover:bg-[#B1B1B1]"
                 onClick={() => {
                   handleOpenModal("register");
                 }}
@@ -84,7 +89,8 @@ export default function Hero() {
               </button>
               <button
                 type="submit"
-                className="bg-ecos-orange-light h-12 w-32 rounded-3xl text-sm text-white hover:bg-[#B1B1B1]"
+                onClick={handleScrollToExploreSection}
+                className="bg-ecos-orange-light h-12 w-32 cursor-pointer rounded-3xl text-sm text-white hover:bg-[#B1B1B1]"
               >
                 Explora
               </button>
