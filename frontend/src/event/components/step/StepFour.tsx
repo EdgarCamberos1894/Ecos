@@ -23,8 +23,6 @@ export default function StepFour({ prevStep, formData }: StepFourProps) {
   const { mutate } = useApiMutation<string, FormData>("/events", "POST");
 
   const handleSubmit = () => {
-    console.log("handleSubmit se ejecutó");
-
     if (!userId) {
       toast.error("No se pudo obtener el perfil del músico.");
       return;

@@ -35,7 +35,7 @@ export default function InputField({
           name={name}
           type={type}
           className={`input-field-event`}
-          {...(!isFileInput && { value: props.value })} // solo se pasa value si no es file
+          {...(!isFileInput && { value: props.value })}
           {...props}
         />
         {error && <p className="mt-1 text-sm text-red-600">{error}</p>}

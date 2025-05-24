@@ -5,6 +5,7 @@ import InputTime from "../ui/InputTime";
 import { eventSchema } from "../../validation/EventSchema";
 import { ZodError } from "zod";
 import { FormData } from "../../type/FormData";
+import { useNavigate } from "react-router";
 
 interface StepOneProps {
   formData: FormData;
@@ -13,6 +14,7 @@ interface StepOneProps {
 }
 
 export default function StepOne({ nextStep, formData, setFormData }: StepOneProps) {
+  const navigate = useNavigate();
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -143,9 +145,7 @@ export default function StepOne({ nextStep, formData, setFormData }: StepOneProp
         <button
           type="button"
           className="rounded-[37px] bg-[#19233A] px-2 py-2 text-white hover:bg-gray-400 md:px-6"
-          onClick={() => {
-            /* Opcional: manejar cancelar */
-          }}
+          onClick={() => navigate(-1)}
         >
           Cancelar
         </button>
