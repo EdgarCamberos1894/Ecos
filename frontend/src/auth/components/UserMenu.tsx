@@ -1,14 +1,10 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "@/auth/hooks/use-auth";
 import { useNavigate } from "react-router";
-import { Avatar } from "@/auth/components/ui/Avatar";
-import { EditContainer } from "./ui/EditContainer";
-import { Logout } from "./ui/Logout";
-import { Settings } from "./ui/Settings";
+import { Settings, Avatar, Logout, UserProfileIcon, EditContainer } from "./ui/icons";
 import ProfileUserModal from "@/profile/components/ProfileUserModal";
 import { useProfileData } from "../hooks/useProfileData";
 import { Musician, Fan } from "../types";
-import { UserProfileIcon } from "./ui/UserProfileIcon";
 
 const UserMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
