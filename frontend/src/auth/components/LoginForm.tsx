@@ -10,6 +10,7 @@ import { useAuth } from "../hooks/use-auth";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
 import { User } from "../types";
+import { Spinner } from "@/app/ui/Spinner";
 
 const LoginSchema = z.object({
   email: z.string().email({ message: "El email ingresado no es válido" }),
@@ -100,7 +101,13 @@ const LoginForm = () => {
       </div>
 
       <Button type="submit" bgType="secondary" disabled={isPending} className="w-full text-white">
-        {isPending ? "Iniciando sesión..." : "Iniciar sesión"}
+        {isPending ? (
+          <>
+            Iniciando sesión... <Spinner className="size-8 rounded-full bg-white/20" />
+          </>
+        ) : (
+          "Iniciar sesión"
+        )}
       </Button>
 
       {errors.root && <p className="text-red-500">{errors.root.message}</p>}

@@ -8,6 +8,7 @@ import { useApiMutation } from "@/shared/hooks/use-api-mutation";
 import { useAuth } from "../hooks/use-auth";
 import { useState } from "react";
 import { toast } from "sonner";
+import { Spinner } from "@/app/ui/Spinner";
 
 const nameRegex = /^[\p{L}0-9\s]+$/u;
 const noOnlySpaces = /^(?!\s*$).+/;
@@ -131,7 +132,13 @@ const RegistrationForm = ({ role }: RegistrationFormProps) => {
           type="submit"
           disabled={isPending}
         >
-          {isPending ? "Registrándose..." : "Registrate"}
+          {isPending ? (
+            <>
+              Registrándose... <Spinner className="size-8 rounded-full bg-white/20" />
+            </>
+          ) : (
+            "Registrate"
+          )}
         </Button>
 
         {errors.root && <p className="text-red-500">{errors.root.message}</p>}
