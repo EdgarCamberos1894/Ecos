@@ -37,7 +37,7 @@ const EventCard = ({
           className="aspect-square h-[10.688rem] w-[10.563rem] flex-shrink rounded-[1.75rem]"
         />
 
-        <div className="flex h-[7.75rem] flex-col justify-between text-white">
+        <div className="flex h-[11rem] flex-col justify-between text-white">
           <div className="flex h-[3.75rem] flex-col items-start gap-1">
             <h2 className="text-2xl font-normal">{stageName}</h2>
             <h4 className="text-base font-medium">{supportingText}</h4>
@@ -53,8 +53,8 @@ const EventCard = ({
       </div>
 
       <div className="flex h-[7.813rem] flex-col items-start gap-2 px-4 py-2 text-white">
-        <h5 className="text-[11px] font-medium">{`${category} - ${formatted}`}</h5>
-        <p className="line-clamp-3 text-sm leading-5 font-normal tracking-[0.25px] text-balance">
+        <h5 className="text-[0.688rem] font-medium">{`${category} - ${formatted}`}</h5>
+        <p className="line-clamp-3 text-sm leading-5 font-normal tracking-[0.016rem] text-balance">
           {contentPublished}
         </p>
       </div>

@@ -45,12 +45,12 @@ export default function OptionsRegister() {
   ];
 
   return (
-    <div className="flex flex-col justify-around gap-11 text-center">
-      <div className="text-ecos-blue max-w-[39.625rem] space-y-8 text-start text-[2rem] md:text-[2.5rem]">
+    <div className="mt-20 flex flex-col justify-around space-y-8 pr-[0.813rem] md:pr-[4.625rem] lg:pr-8">
+      <div className="text-ecos-blue max-w-[39.625rem] text-start text-[2rem] md:text-[2.5rem]">
         <h2>Conectamos músicos, fans y eventos en una sola plataforma</h2>
         <h2 className="font-medium">¡Empieza!</h2>
       </div>
-      <div className="flex w-full flex-col gap-6 lg:flex-row">
+      <div className="flex w-full flex-col items-center justify-around gap-[1.875rem] lg:flex-row">
         {cardsData.map((data) => (
           <OptionsRegisterCards key={data.id} {...data} />
         ))}

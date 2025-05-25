@@ -61,7 +61,7 @@ const OptionsRegisterCards: React.FC<OptionsRegisterCardsProps> = ({
 
   return (
     <>
-      <div className="bg-ecos-blue flex h-20 justify-between rounded-xl text-white md:hidden">
+      <div className="bg-ecos-blue flex h-20 w-[22.813rem] justify-between rounded-xl text-white md:hidden">
         {HeaderContent}
         <img
           src={imageSrc}

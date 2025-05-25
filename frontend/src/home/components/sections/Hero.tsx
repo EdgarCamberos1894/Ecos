@@ -69,8 +69,8 @@ export default function Hero() {
         />
 
         <div className="flex h-full w-full flex-col justify-center text-white">
-          <div className="max-w-[26.375rem] space-y-1.5 md:space-y-16 lg:space-y-[1.938rem]">
-            <h1 className="text-2xl font-medium drop-shadow-lg md:text-5xl lg:mb-[1.063rem]">
+          <div className="space-y-1.5 pl-[0.813rem] md:space-y-16 md:pl-[4.625rem] lg:space-y-[1.938rem] lg:pl-8">
+            <h1 className="text-2xl font-medium drop-shadow-lg md:text-5xl">
               Bienvenido a Ecos <br /> tu plataforma <br /> musical ideal
             </h1>
             <p className="w-[16.063rem] text-justify text-xs md:w-[24.375rem] md:text-sm">

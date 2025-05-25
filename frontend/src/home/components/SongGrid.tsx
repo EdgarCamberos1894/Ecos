@@ -48,9 +48,9 @@ const SongsGrid = ({ songs }: SongsGridProps) => {
   }, []);
 
   return (
-    <div className="relative w-full overflow-visible">
+    <div className="relative overflow-visible">
       <div ref={containerRef} className="noScrollbar w-full lg:overflow-x-auto">
-        <div className="grid w-max grid-cols-1 justify-items-center gap-y-2.5 pr-[8.125rem] lg:auto-cols-[40.125rem] lg:grid-flow-col lg:grid-rows-3 lg:gap-x-[8.125rem] lg:gap-y-[1.188rem]">
+        <div className="grid w-max grid-cols-1 justify-items-end gap-y-2.5 lg:auto-cols-[40.125rem] lg:grid-flow-col lg:grid-rows-3 lg:gap-x-[8.125rem] lg:gap-y-[1.188rem]">
           {songs.map((song) => (
             <CardSong
               key={song.id}
@@ -83,9 +83,9 @@ const SongsGrid = ({ songs }: SongsGridProps) => {
           scroll("right");
         }}
         disabled={!canScrollRight}
-        className={`btnScroll right-36 ${!canScrollRight ? "btnScrollDisabled" : "bg-ecos-orange"}`}
+        className={`btnScroll right-2 ${!canScrollRight ? "btnScrollDisabled" : "bg-ecos-orange"}`}
       >
-        <ArrowScroll />
+        <ArrowScroll className="h-6 w-6" />
       </button>
     </div>
   );
