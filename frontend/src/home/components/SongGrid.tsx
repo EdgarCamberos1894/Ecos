@@ -50,7 +50,7 @@ const SongsGrid = ({ songs }: SongsGridProps) => {
   return (
     <div className="relative overflow-visible">
       <div ref={containerRef} className="noScrollbar w-full lg:overflow-x-auto">
-        <div className="grid w-max grid-cols-1 justify-items-end gap-y-2.5 lg:auto-cols-[40.125rem] lg:grid-flow-col lg:grid-rows-3 lg:gap-x-[8.125rem] lg:gap-y-[1.188rem]">
+        <div className="grid w-max grid-cols-1 justify-items-end gap-y-2.5 lg:auto-cols-[40.125rem] lg:grid-flow-col lg:grid-cols-3 lg:grid-rows-3 lg:gap-x-[8.125rem] lg:gap-y-[1.188rem]">
           {songs.map((song) => (
             <CardSong
               key={song.id}
