@@ -3,7 +3,7 @@ import { useState } from "react";
 import useCountryList from "react-select-country-list";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FormMusicianProfileSchema, formMusicianProfileSchema } from "./shemas/ProfileSchema";
+import { FormMusicianProfileSchema, formMusicianProfileSchema } from "./schemas/ProfileSchema";
 import { useAuth } from "@/auth/hooks/use-auth";
 import { useProfileForm } from "@/profile/hooks/use-profile-form";
 import { useLoadMusicianForm } from "@/profile/hooks/use-load-musician-form";
@@ -40,7 +40,7 @@ const FormMusicianProfile = ({ onClose }: FormMusicianProfileProps) => {
     resolver: zodResolver(formMusicianProfileSchema),
   });
 
-  const { data } = useProfileForm<FormMusicianProfileSchema>(
+  const { data, refetch } = useProfileForm<FormMusicianProfileSchema>(
     "musician",
     id,
     "`musician-profile/${id}`",
@@ -74,12 +74,12 @@ const FormMusicianProfile = ({ onClose }: FormMusicianProfileProps) => {
       mutate: (formData) => {
         mutate(formData, {
           onSuccess: () => {
+            refetch();
             toast.success("¡Perfil actualizado con éxito!");
-            navigate("/profile/musician/edit");
+            navigate(`/profile/musician/${id}`);
             onClose();
           },
-          onError: (error) => {
-            console.error("Error al actualizar perfil:", error);
+          onError: () => {
             toast.error("Ocurrió un error al guardar. Intentá nuevamente.");
             setError("root", {
               message: "Ocurrió un error al guardar. Intentá nuevamente.",

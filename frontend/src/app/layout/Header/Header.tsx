@@ -1,49 +1,39 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router";
-import { Avatar } from "@/auth/components/ui/Avatar";
+import { Link, useLocation } from "react-router";
+//import { Avatar } from "@/auth/components/ui/icons";
 import Input from "@/app/ui/Input";
 import AuthModal, { AuthMode } from "@/auth/components/AuthModal";
-import Layer from "@/assets/Layer.svg?react";
-import MenuIcon from "@/assets/hamburgerMenu-2.svg?react";
-import Lens from "@/assets/lens.svg?react";
+import EcosLogo from "@/app/ui/EcosIcon";
+import MenuIcon from "@/app/ui/MenuIcon";
+import Lens from "@/app/ui/LensIcon";
 import { useAuth } from "@/auth/hooks/use-auth";
 import UserMenu from "@/auth/components/UserMenu";
-import { Bell } from "./Bell";
 import WelcomeUserModal from "@/auth/components/WelcomeUserModal";
 
+const HOME_SECTIONS = [
+  { name: "Inicio", hash: "" },
+  { name: "Explorar", hash: "#explorar" },
+  { name: "Artistas Destacados", hash: "#artistas-destacados" },
+  { name: "Eventos", hash: "#eventos" },
+  /*{ name: "Preguntas Frecuentes", hash: "#preguntas-frecuentes" },*/
+];
+
+const USER_SECTIONS = [
+  { name: "Inicio", hash: "" },
+  { name: "Mis Favoritos", hash: "#favoritos" },
+  { name: "Artistas Destacados", hash: "#artistas-destacados" },
+  { name: "Eventos", hash: "#eventos" },
+];
+
 export const Header = () => {
-  const [activeSection, setActiveSection] = useState("");
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const sections = ["explorar", "artistas", "eventos", "preguntas"];
-      const scrollY = window.scrollY;
-
-      sections.forEach((id) => {
-        const section = document.getElementById(id);
-        if (section) {
-          const offsetTop = section.offsetTop;
-          const height = section.offsetHeight;
-
-          if (scrollY >= offsetTop && scrollY < offsetTop + height) {
-            setActiveSection(id);
-          }
-        }
-      });
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
   const [openModal, setOpenModal] = useState<AuthMode | null>(null);
   const [showWelcomeUser, setShowWelcomeUser] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
+  const location = useLocation();
+
   const { user } = useAuth();
-  const isMusician = user?.role === "MUSICIAN";
+  const isFan = user?.role === "FAN";
 
   const handleOpenModal = (mode: AuthMode) => {
     setOpenModal(mode);
@@ -53,11 +43,11 @@ export const Header = () => {
     setOpenModal(null);
   };
 
-  const toggleMenu = () => {
+  const toggleMobileMenu = () => {
     setIsOpen(!isOpen);
   };
 
-  const closeMenu = () => {
+  const closeMobileMenu = () => {
     setIsOpen(false);
   };
 
@@ -74,158 +64,93 @@ export const Header = () => {
     }
   }, [user]);
 
-  const scrollToSection = (id: string) => {
-    const section = document.getElementById(id);
-    if (section) {
-      section.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
   return (
     <>
-      <header className="bg-ecos-blue w-full shadow">
-        <div className="mx-auto flex items-center justify-between px-12 py-6">
-          <div className="flex items-center gap-16">
-            <Link to="/" className="hidden px-6 py-5 lg:flex">
-              <Layer />
+      <header className="bg-ecos-blue w-full pb-8 shadow lg:h-[17.25rem]">
+        <div className="mx-auto flex items-center justify-between py-6 pr-2.5 pl-6">
+          <div className="flex flex-auto items-center gap-9">
+            <Link to="/" className="hidden lg:block">
+              <EcosLogo className="h-auto w-[7.563rem]" />
             </Link>
+
             <button
               type="button"
-              className="block p-4 focus:outline-none lg:hidden"
-              onClick={toggleMenu}
+              className="block focus:outline-none lg:hidden"
+              onClick={toggleMobileMenu}
             >
               {isOpen ? (
-                <span className="text-5xl text-white">✖</span>
+                <span className="text-4xl text-white md:ml-9">✖</span>
               ) : (
-                <MenuIcon className="h-12 w-12" />
+                <MenuIcon className="h-12 w-12 text-white md:ml-9" />
               )}
             </button>
+
+            {/* MOBILE NAV */}
             {isOpen && (
-              <nav className="absolute top-22 left-1 z-20 w-56 rounded-2xl bg-white px-8 py-10 shadow-md lg:hidden">
-                <Link to="/" className="text-ecos-blue block py-2" onClick={closeMenu}>
-                  Inicio
-                </Link>
-                {!user && (
-                  <button
-                    type="button"
-                    title="Iniciar sesion"
-                    className="text-ecos-blue block py-2"
-                    onClick={() => {
-                      handleOpenModal("login");
-                      closeMenu();
-                    }}
-                  >
-                    Iniciar Sesión
-                  </button>
-                )}
-                <a
-                  className="text-ecos-blue block cursor-pointer py-2"
-                  onClick={() => {
-                    scrollToSection("#explorar");
-                    closeMenu();
+              <div className="fixed inset-0 z-10" onClick={closeMobileMenu}>
+                <nav
+                  className="absolute top-22 left-1 z-10 flex w-[17.875rem] flex-col items-start gap-2.5 rounded-[1.25rem] bg-white px-[1.625rem] py-[3.313rem] shadow-md lg:hidden"
+                  onClick={(event) => {
+                    event.stopPropagation();
                   }}
                 >
-                  Explorar
-                </a>
-                <a
-                  className="text-ecos-blue block cursor-pointer py-2"
-                  onClick={() => {
-                    scrollToSection("#artistas");
-                    closeMenu();
-                  }}
-                >
-                  Artistas Destacados
-                </a>
-                <a
-                  className="text-ecos-blue block cursor-pointer py-2"
-                  onClick={() => {
-                    scrollToSection("#eventos");
-                    closeMenu();
-                  }}
-                >
-                  Eventos
-                </a>
-                <a
-                  className="text-ecos-blue block cursor-pointer py-2"
-                  onClick={() => {
-                    scrollToSection("#preguntas");
-                    closeMenu();
-                  }}
-                >
-                  Preguntas Frecuentes
-                </a>
-              </nav>
+                  {isFan && location.pathname !== "/"
+                    ? USER_SECTIONS.map(({ name, hash }) => (
+                        <Link
+                          key={name}
+                          title={name}
+                          onClick={closeMobileMenu}
+                          className="cursor-pointer hover:text-[#B1B1B1]"
+                          to={{ pathname: name === "Inicio" ? "/" : location.pathname, hash }}
+                        >
+                          {name}
+                        </Link>
+                      ))
+                    : HOME_SECTIONS.map(({ name, hash }) => (
+                        <Link
+                          key={name}
+                          title={name}
+                          onClick={closeMobileMenu}
+                          className="cursor-pointer hover:text-[#B1B1B1]"
+                          to={{ pathname: "/", hash }}
+                        >
+                          {name}
+                        </Link>
+                      ))}
+                </nav>
+              </div>
             )}
-            <nav className="hidden gap-6 text-xl font-semibold text-white lg:flex xl:gap-16">
-              {isMusician ? (
-                <>
-                  <a
-                    className={`cursor-pointer hover:text-[#B1B1B1] ${activeSection === "misfavoritos" ? "text-[#FE963D]" : ""}`}
-                    onClick={() => {
-                      scrollToSection("#misfavoritos");
-                    }}
-                  >
-                    Mis Favoritos
-                  </a>
-                  <a
-                    className={`cursor-pointer hover:text-[#B1B1B1] ${activeSection === "artistas" ? "text-[#FE963D]" : ""}`}
-                    onClick={() => {
-                      scrollToSection("#artistas");
-                    }}
-                  >
-                    Artistas Destacados
-                  </a>
-                  <a
-                    className={`cursor-pointer hover:text-[#B1B1B1] ${activeSection === "eventos" ? "text-[#FE963D]" : ""}`}
-                    onClick={() => {
-                      scrollToSection("#eventos");
-                    }}
-                  >
-                    Eventos
-                  </a>
-                </>
-              ) : (
-                <>
-                  <a
-                    className={`cursor-pointer hover:text-[#B1B1B1] ${activeSection === "explorar" ? "text-[#FE963D]" : ""}`}
-                    onClick={() => {
-                      scrollToSection("#explorar");
-                    }}
-                  >
-                    Explorar
-                  </a>
-                  <a
-                    className={`cursor-pointer hover:text-[#B1B1B1] ${activeSection === "artistas" ? "text-[#FE963D]" : ""}`}
-                    onClick={() => {
-                      scrollToSection("#artistas");
-                    }}
-                  >
-                    Artistas Destacados
-                  </a>
-                  <a
-                    className={`cursor-pointer hover:text-[#B1B1B1] ${activeSection === "eventos" ? "text-[#FE963D]" : ""}`}
-                    onClick={() => {
-                      scrollToSection("#eventos");
-                    }}
-                  >
-                    Eventos
-                  </a>
-                  <a
-                    className={`cursor-pointer hover:text-[#B1B1B1] ${activeSection === "preguntas" ? "text-[#FE963D]" : ""}`}
-                    onClick={() => {
-                      scrollToSection("#preguntas");
-                    }}
-                  >
-                    Preguntas Frecuentes
-                  </a>
-                </>
-              )}
+
+            {/* DESKTOP NAV */}
+            <nav className="text-ecos-base hidden gap-10 text-xl font-normal lg:flex 2xl:gap-20 2xl:text-2xl">
+              {isFan && location.pathname !== "/"
+                ? USER_SECTIONS.slice(1).map(({ name, hash }) => (
+                    <Link
+                      key={name}
+                      title={name}
+                      className="cursor-pointer hover:text-[#B1B1B1]"
+                      to={{ pathname: location.pathname, hash }}
+                    >
+                      {name}
+                    </Link>
+                  ))
+                : HOME_SECTIONS.slice(1).map(({ name, hash }) => (
+                    <Link
+                      key={name}
+                      title={name}
+                      className="cursor-pointer hover:text-[#B1B1B1]"
+                      to={{ pathname: "/", hash }}
+                    >
+                      {name}
+                    </Link>
+                  ))}
             </nav>
           </div>
-          <div className="flex items-center gap-14">
+
+          <div className="flex items-center justify-end">
             {!user ? (
               <>
-                <div className="hidden gap-6 text-xl font-semibold text-white lg:flex xl:mx-24 xl:gap-12">
+                <div className="text-ecos-base hidden gap-6 px-[2.438rem] md:flex">
                   <button
                     className="cursor-pointer"
                     type="button"
@@ -245,24 +170,22 @@ export const Header = () => {
                     Crear cuenta
                   </button>
                 </div>
-                <Avatar />
+                {/* <Avatar className="my-1 mr-[1.375rem] ml-[1.438rem]" /> */}
               </>
             ) : (
               <>
-                <Bell className="size-[70px]" />
                 <UserMenu />
               </>
             )}
           </div>
         </div>
-        <div className="mx-auto mb-6 w-88 md:w-192 lg:-mt-12 lg:mb-12 lg:w-4/5">
-          <Input
-            placeholder="Busca Artista, Album, Canción"
-            className="mx-auto flex w-full bg-[#ECE6F0] text-[#19233A] sm:w-4/5 lg:py-2 lg:text-xl lg:font-semibold"
-            startIcon={<MenuIcon className="my-auto" />}
-            endIcon={<Lens className="my-auto" />}
-          />
-        </div>
+
+        <Input
+          placeholder="Busca Artista, Album, Canción"
+          startIcon={<MenuIcon />}
+          endIcon={<Lens />}
+          className="mx-auto bg-white"
+        />
       </header>
       {openModal && <AuthModal mode={openModal} onClose={handleCloseModal} />}
       {showWelcomeUser && (
