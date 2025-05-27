@@ -13,9 +13,9 @@ const FollowArtist = () => {
     !!profile?.data.spotifyUrl || !!profile?.data.youtubeUrl || !!profile?.data.instagramUrl;
 
   return hasSocialLinks ? (
-    <div className="-mt-[62px] space-y-6">
+    <div className="mt-[52px] space-y-7">
       <h2 className="text-ecos-blue text-2xl font-medium uppercase">Seguinos</h2>
-      <div className="flex items-center gap-8">
+      <div className="flex items-center gap-9">
         {profile.data.spotifyUrl && (
           <Link
             title="Spotify"
