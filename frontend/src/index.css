@@ -1,9 +1,5 @@
 @import "tailwindcss";
 
-main{
-  width: 100vw;
-}
-
 @font-face {
   font-family: 'Roboto';
   src: url('@/assets/fonts/roboto.woff2') format('woff2');
@@ -21,6 +17,8 @@ main{
   --color-ecos-dark-grey: #5A5A5A;
   --color-ecos-dark-grey-light: rgba(130, 130, 130, 0.70);
   --color-ecos-skeleton: #F1F1F1;
+  --color-ecos-media-embed: #F2F2F2;
+  --color-ecos-input-placeholder: #B1B1B1;
 
   /* Fuente */
   --font-sans: 'Roboto', system-ui, sans-serif;
