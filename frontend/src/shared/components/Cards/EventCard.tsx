@@ -34,7 +34,7 @@ const EventCard = ({
         <img
           src={image ?? img}
           alt="imagen"
-          className="aspect-square h-[10.688rem] w-[10.563rem] flex-shrink rounded-[1.75rem]"
+          className="aspect-square h-[10.688rem] w-[10.563rem] flex-shrink rounded-[1.75rem] object-cover"
         />
 
         <div className="flex h-[11rem] flex-col justify-between text-white">
