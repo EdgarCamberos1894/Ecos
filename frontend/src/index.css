@@ -1,9 +1,5 @@
 @import "tailwindcss";
 
-main {
-  width: 100vw;
-}
-
 @font-face {
   font-family: 'Roboto';
   src: url('@/assets/fonts/roboto.woff2') format('woff2');
