@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "@/auth/hooks/use-auth";
 import { useNavigate } from "react-router";
-import { Settings, Avatar, Logout, UserProfileIcon, EditContainer } from "./ui/icons";
+import { Settings, Avatar, Logout, UserProfileIcon, EditContainer } from "./ui/Icons";
 import ProfileUserModal from "@/profile/components/ProfileUserModal";
 import { useProfileData } from "../hooks/useProfileData";
 import { Musician, Fan } from "../types";
