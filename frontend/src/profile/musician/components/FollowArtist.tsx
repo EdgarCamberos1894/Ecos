@@ -1,8 +1,8 @@
 import { Link, useParams } from "react-router";
 import { useApiQuery } from "@/shared/hooks/use-api-query";
-import InstagramIcon from "@/assets/RRSS/instagram.svg?react";
-import SpotifyIcon from "@/assets/RRSS/spotify.svg?react";
-import YoutubeIcon from "@/assets/RRSS/youtube.svg?react";
+import InstagramIcon from "@/assets/RRSS/instagram.svg";
+import SpotifyIcon from "@/assets/RRSS/spotify.svg";
+import YoutubeIcon from "@/assets/RRSS/youtube.svg";
 import { type MusicianProfile } from "../musician-types";
 
 const FollowArtist = () => {
@@ -25,7 +25,12 @@ const FollowArtist = () => {
             aria-label="Visitar perfil de Spotify"
             className="transition-transform hover:scale-105 focus-visible:scale-105"
           >
-            <SpotifyIcon className="size-12 cursor-pointer" aria-hidden="true" />
+            <img
+              src={SpotifyIcon}
+              alt="Logo Spotify"
+              className="size-12 cursor-pointer"
+              aria-hidden="true"
+            />
           </Link>
         )}
 
@@ -38,7 +43,12 @@ const FollowArtist = () => {
             aria-label="Visitar perfil de Youtube"
             className="transition-transform hover:scale-105 focus-visible:scale-105"
           >
-            <YoutubeIcon className="size-12 cursor-pointer" aria-hidden="true" />
+            <img
+              src={YoutubeIcon}
+              alt="Logo Youtube"
+              className="size-12 cursor-pointer"
+              aria-hidden="true"
+            />
           </Link>
         )}
 
@@ -51,7 +61,12 @@ const FollowArtist = () => {
             aria-label="Visitar perfil de Instagram"
             className="transition-transform hover:scale-105 focus-visible:scale-105"
           >
-            <InstagramIcon className="size-12 cursor-pointer" aria-hidden="true" />
+            <img
+              src={InstagramIcon}
+              alt="Logo Instagram"
+              className="size-12 cursor-pointer"
+              aria-hidden="true"
+            />
           </Link>
         )}
       </div>

@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { Avatar } from "@/auth/components/ui/icons";
+import { Avatar } from "@/auth/components/ui/Icons";
 
-interface ProfileImagenProps {
+interface ProfileImageProps {
   profileImage: string | File | null;
 }
 
-const ProfileImagen = ({ profileImage }: ProfileImagenProps) => {
+const ProfileImage = ({ profileImage }: ProfileImageProps) => {
   const [imageSrc, setImageSrc] = useState<string | null>(null);
 
   useEffect(() => {
@@ -33,7 +33,7 @@ const ProfileImagen = ({ profileImage }: ProfileImagenProps) => {
           <img
             src={imageSrc}
             className="h-60 w-60 rounded-full object-cover"
-            alt="Imagen de perfil"
+            alt="Image de perfil"
           />
         ) : (
           <Avatar className="h-60 w-60" detailColor="#FFFFFF" bgColor="var(--color-ecos-blue)" />
@@ -43,4 +43,4 @@ const ProfileImagen = ({ profileImage }: ProfileImagenProps) => {
   );
 };
 
-export default ProfileImagen;
+export default ProfileImage;
