@@ -26,7 +26,7 @@ const ProfileFanPage = () => {
   };
 
   return (
-    <div className="flex w-full flex-col items-center gap-24 px-2.5 lg:px-0">
+    <div className="flex w-screen flex-col items-center gap-24 px-2.5 lg:px-0">
       <img src={ImageBanner} alt="banner" className="w-full object-cover" />
 
       <div className="w-full lg:w-4/6">
@@ -34,18 +34,20 @@ const ProfileFanPage = () => {
         <h3 className="text-2xl sm:text-3xl">{user.name}</h3>
       </div>
 
-      <FavoriteSongList refresh={refreshFavorites} />
-      <FeaturedTopicsList onFavoriteAdded={handleFavoriteAdded} />
-      <FeaturedArtists />
-      <Link to={"/artist"} className="mx-36 mt-20 hidden lg:flex lg:justify-center">
-        <Button
-          type="button"
-          className="rounded bg-[#19233A] text-white lg:w-96"
-          children="VER MÁS"
-          bgType="secondary"
-        ></Button>
-      </Link>
-      <UpcomingEvents />
+      <div className="w-full">
+        <FavoriteSongList refresh={refreshFavorites} />
+        <FeaturedTopicsList onFavoriteAdded={handleFavoriteAdded} />
+        <FeaturedArtists />
+        <Link to={"/artist"} className="mx-36 mt-20 hidden lg:flex lg:justify-center">
+          <Button
+            type="button"
+            className="rounded bg-[#19233A] text-white lg:w-96"
+            children="VER MÁS"
+            bgType="secondary"
+          ></Button>
+        </Link>
+        <UpcomingEvents />
+      </div>
     </div>
   );
 };
