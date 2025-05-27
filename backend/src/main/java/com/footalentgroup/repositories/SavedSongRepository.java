@@ -1,4 +1,5 @@
 package com.footalentgroup.repositories;
+
 import com.footalentgroup.models.entities.SavedSongEntity;
 import com.footalentgroup.models.entities.SongEntity;
 import org.springframework.data.domain.Page;
@@ -7,9 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-
 public interface SavedSongRepository extends JpaRepository<SavedSongEntity, Long> {
-
 
     SavedSongEntity findByFanIdAndSongId(Long fan_id, Long song_id);
 
