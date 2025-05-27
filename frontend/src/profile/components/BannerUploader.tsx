@@ -1,15 +1,18 @@
 import { ComponentProps, useRef, useState } from "react";
 import { UploadCloud } from "./ui/Icons";
+import { Spinner } from "@/app/ui/Spinner";
 
 interface BannerUploaderProps extends ComponentProps<"section"> {
   onImageUpload?: (file: File | null, imageUrl: string | null) => void;
   onUpload?: () => void;
+  onDelete?: () => void;
   isUploading?: boolean;
 }
 
 export default function BannerUploader({
   onImageUpload,
   onUpload,
+  onDelete,
   isUploading,
   ...sectionProps
 }: BannerUploaderProps) {
@@ -77,6 +80,12 @@ export default function BannerUploader({
   const handleDelete = () => {
     setImageUrl(null);
     setFile(null);
+
+    if (inputRef.current) {
+      inputRef.current.value = "";
+    }
+
+    onDelete?.();
   };
 
   return (
@@ -85,21 +94,35 @@ export default function BannerUploader({
         htmlFor="fileInput"
         onDrop={handleDrop}
         onDragOver={handleDragOver}
-        className={`flex cursor-pointer flex-col items-center justify-center rounded-lg ${file ? "" : "border-2 border-dashed"} border-gray-400 px-4 py-8 text-center`}
+        className={`mt-7 mb-[11px] flex w-full flex-auto flex-col items-center justify-center ${file ? "" : "border-2 border-dashed"} border-gray-400 px-4 py-8 text-center`}
       >
         {imageUrl ? (
-          <img src={imageUrl} alt="Banner" className="h-[253px] w-full rounded-lg object-cover" />
+          isUploading ? (
+            <>
+              <img
+                src={imageUrl}
+                alt="Banner"
+                className="relative h-[263px] w-full rounded-lg object-cover opacity-30"
+              />
+              <Spinner className="absolute size-12" />
+            </>
+          ) : (
+            <img src={imageUrl} alt="Banner" className="h-[263px] w-full rounded-lg object-cover" />
+          )
         ) : (
           <>
-            <UploadCloud className="mb-2" />
-            <p className="text-lg font-semibold">Subí tu imagen aquí</p>
-            <p className="mt-2 text-sm text-balance text-gray-600">
+            <UploadCloud className="text-ecos-blue mb-2" />
+            <p className="text-ecos-blue text-lg font-semibold">Sube tu imagen aquí</p>
+            <p className="text-ecos-dark-grey mt-2 hidden text-sm text-balance md:block">
               La imagen debe tener al menos 1170 píxeles de ancho y 504 de alto
               <br />
               Formatos válidos: JPG o PNG.
             </p>
-            <span className="my-2 font-bold text-gray-500">o</span>
-            <div className="bg-ecos-blue rounded-full px-20 py-2.5 text-sm font-medium text-white uppercase">
+            <p className="text-ecos-dark-grey mt-2 block text-balance md:hidden">
+              formato JPG o PNG
+            </p>
+            <span className="text-ecos-blue my-2 text-2xl font-medium">o</span>
+            <div className="border-ecos-blue text-ecos-blue min-h-10 min-w-[204px] cursor-pointer rounded-full border bg-white px-6 py-2.5 text-sm font-medium">
               Buscar archivo
             </div>
           </>
@@ -116,22 +139,22 @@ export default function BannerUploader({
       {error && <p className="text-center text-sm text-red-500">{error}</p>}
 
       {onUpload && (
-        <div className="flex gap-4">
+        <div className="flex flex-1/4 items-start gap-10 md:gap-[46px]">
           <button
             type="button"
             onClick={onUpload}
             disabled={isUploading}
-            className="bg-ecos-orange-light text-ecos-blue cursor-pointer rounded-full px-16 py-2.5 font-medium"
+            className="bg-ecos-blue min-h-[40px] min-w-[140px] cursor-pointer rounded-[100px] px-6 py-2.5 font-medium text-white md:min-h-[63px] md:min-w-[221px]"
           >
-            {isUploading ? "Guardando" : "Guardar"}
+            {isUploading ? "Guardando..." : "Guardar"}
           </button>
           <button
             type="button"
             onClick={handleDelete}
             disabled={isUploading}
-            className="bg-ecos-blue cursor-pointer rounded-full px-16 py-2.5 font-medium text-white"
+            className="text-ecos-blue border-ecos-blue min-h-[40px] min-w-[140px] cursor-pointer rounded-[100px] border bg-white px-6 py-2.5 font-medium md:min-h-[63px] md:min-w-[221px]"
           >
-            Eliminar
+            Cancelar
           </button>
         </div>
       )}
