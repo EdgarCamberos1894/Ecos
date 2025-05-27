@@ -184,7 +184,7 @@ export const Header = () => {
           placeholder="Busca Artista, Album, Canción"
           startIcon={<MenuIcon />}
           endIcon={<Lens />}
-          className="mx-auto bg-white"
+          classNameContainer="container-search"
         />
       </header>
       {openModal && <AuthModal mode={openModal} onClose={handleCloseModal} />}

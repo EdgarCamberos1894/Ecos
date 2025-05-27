@@ -126,3 +126,8 @@
 .animate-pop {
   animation: pop 0.6s ease-in-out;
 }
+
+/*Input Search*/
+.container-search{
+  @apply text-ecos-blue mx-auto flex h-[3.5rem] w-[22.563rem] items-center rounded-[1.75rem] border bg-white px-[1.875rem] py-2 md:h-[3rem] md:w-[38rem] xl:w-[72.563rem];
+}
