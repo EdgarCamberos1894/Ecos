@@ -25,7 +25,7 @@ const Button = ({
     <button
       type={type}
       onClick={onClick}
-      className={`flex h-[50px] items-center justify-center gap-2.5 rounded-[27px] px-4 py-2 font-medium hover:cursor-pointer ${bgClass} ${className}`}
+      className={`flex h-[50px] items-center justify-center px-4 py-2 font-medium ${bgClass} ${className}`}
     >
       {startIcon}
       {children}

@@ -1,5 +1,5 @@
-import ProfileImagen from "../profilePhotoModal/components/ProfileImagen";
-import { Avatar } from "@/auth/components/ui/icons";
+import ProfileImage from "../profilePhotoModal/components/ProfileImage";
+import { Avatar } from "@/auth/components/ui/Icons";
 import { Edit } from "../../../ui/Icons";
 import { useState } from "react";
 import ProfilePhotoModal from "../profilePhotoModal/ProfilePhotoModal";
@@ -11,10 +11,10 @@ interface ProfilePhotoProps {
 }
 
 const ProfilePhotoSection = ({ profileImage, onImageChange, className }: ProfilePhotoProps) => {
-  const [openProfileImagenModal, setOpenProfileImagenModal] = useState(false);
+  const [openProfileImageModal, setOpenProfileImageModal] = useState(false);
 
   const handleCloseModal = () => {
-    setOpenProfileImagenModal(false);
+    setOpenProfileImageModal(false);
   };
 
   const handleProfileImageChange = (file: File | null) => {
@@ -28,7 +28,7 @@ const ProfilePhotoSection = ({ profileImage, onImageChange, className }: Profile
       <div className="relative">
         <div className="h-60 w-60 rounded-full">
           {profileImage ? (
-            <ProfileImagen profileImage={profileImage} />
+            <ProfileImage profileImage={profileImage} />
           ) : (
             <Avatar className="h-60 w-60" detailColor="#FFFFFF" bgColor="var(--color-ecos-blue)" />
           )}
@@ -37,19 +37,19 @@ const ProfilePhotoSection = ({ profileImage, onImageChange, className }: Profile
           type="button"
           className="bg-ecos-base absolute right-14 -bottom-6 flex h-20 w-20 items-center justify-center rounded-full drop-shadow-md"
           onClick={() => {
-            setOpenProfileImagenModal(true);
+            setOpenProfileImageModal(true);
           }}
         >
           <Edit className="stroke-ecos-blue" />
         </button>
       </div>
 
-      {openProfileImagenModal && (
+      {openProfileImageModal && (
         <ProfilePhotoModal
           mode="edit"
           open={true}
           onClose={handleCloseModal}
-          openProfileImagen={handleProfileImageChange}
+          openProfileImage={handleProfileImageChange}
           currentImage={
             profileImage instanceof File ? URL.createObjectURL(profileImage) : profileImage
           }

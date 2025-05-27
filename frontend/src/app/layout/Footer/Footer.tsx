@@ -1,6 +1,6 @@
 import { Link } from "react-router";
-import LinkedInIcon from "@/assets/RRSS/linkedin.svg?react";
-import InstagramIcon from "@/assets/RRSS/instagram.svg?react";
+import LinkedInIcon from "@/assets/RRSS/linkedin.svg";
+import InstagramIcon from "@/assets/RRSS/instagram.svg";
 import Logo from "@/assets/EcosLogoFooter.webp";
 
 export const Footer = () => {
@@ -45,7 +45,7 @@ export const Footer = () => {
               aria-label="Visitar perfil de LinkedIn de ECOS"
               className="transition-transform hover:scale-105 focus-visible:scale-105"
             >
-              <LinkedInIcon className="size-10" />
+              <img src={LinkedInIcon} alt="Icono Linkedin" className="size-10" />
             </Link>
             <Link
               title="Instagram de ECOS"
@@ -55,7 +55,7 @@ export const Footer = () => {
               aria-label="Visitar perfil de Instagram de ECOS"
               className="transition-transform hover:scale-105 focus-visible:scale-105"
             >
-              <InstagramIcon className="size-10" />
+              <img src={InstagramIcon} alt="Icono Instagram" className="size-10" />
             </Link>
           </div>
         </div>

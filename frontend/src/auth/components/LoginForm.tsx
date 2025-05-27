@@ -3,7 +3,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import Button from "@/app/ui/Button";
 import Input from "@/app/ui/Input";
-import { EyeOff, EyeOn } from "./ui/icons";
+import { EyeOff, EyeOn } from "./ui/Icons";
 import { useState } from "react";
 import { useApiMutation } from "@/shared/hooks/use-api-mutation";
 import { useAuth } from "../hooks/use-auth";
