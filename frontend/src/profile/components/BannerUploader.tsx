@@ -1,5 +1,6 @@
 import { ComponentProps, useRef, useState } from "react";
 import { UploadCloud } from "./ui/Icons";
+import { Spinner } from "@/app/ui/Spinner";
 
 interface BannerUploaderProps extends ComponentProps<"section"> {
   onImageUpload?: (file: File | null, imageUrl: string | null) => void;
@@ -96,7 +97,18 @@ export default function BannerUploader({
         className={`mt-7 mb-[11px] flex w-full flex-auto flex-col items-center justify-center ${file ? "" : "border-2 border-dashed"} border-gray-400 px-4 py-8 text-center`}
       >
         {imageUrl ? (
-          <img src={imageUrl} alt="Banner" className="h-[253px] w-full rounded-lg object-cover" />
+          isUploading ? (
+            <>
+              <img
+                src={imageUrl}
+                alt="Banner"
+                className="relative h-[263px] w-full rounded-lg object-cover opacity-30"
+              />
+              <Spinner className="absolute size-12" />
+            </>
+          ) : (
+            <img src={imageUrl} alt="Banner" className="h-[263px] w-full rounded-lg object-cover" />
+          )
         ) : (
           <>
             <UploadCloud className="text-ecos-blue mb-2" />
