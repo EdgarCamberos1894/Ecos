@@ -10,6 +10,7 @@ const MusicSearch = () => {
         placeholder="Busca Artista, Album, Canción"
         startIcon={<MenuIcon />}
         endIcon={<Lens />}
+        classNameContainer="container-search"
       />
     </section>
   );
