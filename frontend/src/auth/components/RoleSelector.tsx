@@ -6,7 +6,7 @@ const ROLES = ["MUSICIAN", "FAN"] as const;
 
 const DESCRIPTIONS: Record<(typeof ROLES)[number], string> = {
   MUSICIAN: "Promociona tu música, encuentra oportunidades y conecta con tu audiencia.",
-  FAN: "Descubre artistas emergentes, asiste a eventos exclusivos y apoya directamente a tus favoritos.",
+  FAN: "Descubre artistas emergentes, asiste a eventos exclusivos y apóyalos directamente.",
 };
 
 interface RoleSelectorProps {
@@ -29,14 +29,15 @@ const RoleSelector = ({ onSelectRole }: RoleSelectorProps) => {
           <div className="flex w-full flex-col items-start justify-between gap-4">
             <Button
               type="button"
-              className="w-full border bg-transparent font-bold"
+              bgType="primary"
+              className="w-full"
               onClick={() => {
                 onSelectRole(role);
               }}
             >
-              Registrate como {role === "MUSICIAN" ? "Músico" : "Fan"}
+              Regístrate como {role === "MUSICIAN" ? "músico" : "fan"}
             </Button>
-            <p className="text-justify break-words text-[#49454F]">{DESCRIPTIONS[role]}</p>
+            <p className="text-ecos-blue text-justify break-words">{DESCRIPTIONS[role]}</p>
           </div>
         </div>
       ))}
