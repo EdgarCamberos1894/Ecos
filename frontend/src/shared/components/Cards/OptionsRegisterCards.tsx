@@ -1,8 +1,8 @@
-import { Link } from "react-router";
+import { useEffect, useState } from "react";
+import { useAuth } from "@/auth/hooks/use-auth";
 import AuthModal, { AuthMode } from "@/auth/components/AuthModal";
 import WelcomeUserModal from "@/auth/components/WelcomeUserModal";
-import { useAuth } from "@/auth/hooks/use-auth";
-import { useEffect, useState } from "react";
+import Button from "@/app/ui/Button";
 
 interface OptionsRegisterCardsProps {
   id: string;
@@ -11,19 +11,20 @@ interface OptionsRegisterCardsProps {
   description: string;
   imageSrc: string;
   title: string;
-  parrafo2: string;
   parrafo: string;
+  parrafo2: string;
   buttonText: string;
 }
 
 const OptionsRegisterCards = ({
+  id,
   icono,
   option,
   description,
   imageSrc,
   title,
-  parrafo2,
   parrafo,
+  parrafo2,
   buttonText,
 }: OptionsRegisterCardsProps) => {
   const [openModal, setOpenModal] = useState<AuthMode | null>(null);
@@ -37,6 +38,14 @@ const OptionsRegisterCards = ({
 
   const handleCloseModal = () => {
     setOpenModal(null);
+  };
+
+  const handleRegister = (id: string) => {
+    if (id === "musicos" || id === "fans") {
+      handleOpenModal("register");
+    } else if (id === "eventos") {
+      window.location.hash = "#eventos";
+    }
   };
 
   useEffect(() => {
@@ -64,7 +73,7 @@ const OptionsRegisterCards = ({
 
   return (
     <>
-      <div className="bg-ecos-blue flex h-20 w-[22.813rem] justify-between rounded-xl text-white md:hidden">
+      <div className="text-ecos-blue flex h-20 w-[22.813rem] justify-between rounded-xl shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] md:hidden">
         {HeaderContent}
         <img
           src={imageSrc}
@@ -73,7 +82,7 @@ const OptionsRegisterCards = ({
         />
       </div>
 
-      <div className="border-ecos-blue bg-ecos-blue hidden max-w-[25rem] flex-col justify-between gap-3.5 rounded-[1.25rem] border py-3 text-white md:flex">
+      <div className="text-ecos-blue hidden max-w-[25rem] flex-col justify-between gap-3.5 rounded-[1.25rem] py-3 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] md:flex">
         {HeaderContent}
         <img src={imageSrc} alt={title} className="object-cover" />
         <div className="max-h-[6.125rem] w-[21.25rem] space-y-[0.438rem] px-4 text-start">
@@ -82,25 +91,17 @@ const OptionsRegisterCards = ({
           <p className="text-sm font-light">{parrafo2}</p>
         </div>
 
-        <div className="mt-5 flex justify-end">
-          {buttonText === "Explorar" ? (
-            <Link
-              to={{ hash: "#explorar" }}
-              className="bg-ecos-orange-light hover:bg-ecos-dark-grey-light mr-[0.813rem] cursor-pointer rounded-3xl px-6 py-2.5 text-center text-sm font-medium text-white"
-            >
-              {buttonText}
-            </Link>
-          ) : (
-            <button
-              type="button"
-              className="bg-ecos-orange-light hover:bg-ecos-dark-grey-light mr-[0.813rem] cursor-pointer rounded-3xl px-6 py-2.5 text-center text-sm font-medium text-white"
-              onClick={() => {
-                handleOpenModal("register");
-              }}
-            >
-              {buttonText}
-            </button>
-          )}
+        <div className="flex justify-end p-4">
+          <Button
+            type="button"
+            bgType="primary"
+            className="px-10 text-sm"
+            onClick={() => {
+              handleRegister(id);
+            }}
+          >
+            {buttonText}
+          </Button>
         </div>
       </div>
 

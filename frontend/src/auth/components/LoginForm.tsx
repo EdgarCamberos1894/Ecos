@@ -100,7 +100,7 @@ const LoginForm = () => {
         )}
       </div>
 
-      <Button type="submit" bgType="secondary" disabled={isPending} className="w-full text-white">
+      <Button type="submit" bgType="primary" disabled={isPending} className="w-full">
         {isPending ? (
           <>
             Iniciando sesión... <Spinner className="size-8 rounded-full bg-white/20" />

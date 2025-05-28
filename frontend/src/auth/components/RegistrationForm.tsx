@@ -85,7 +85,12 @@ const RegistrationForm = ({ role }: RegistrationFormProps) => {
     <>
       <form onSubmit={handleSubmit(onSubmit)} className="flex w-3/5 flex-col gap-6">
         <div>
-          <Input type="text" placeholder="Nombre" {...register("name")} />
+          <Input
+            type="text"
+            placeholder="Nombre y apellido"
+            className="text-ecos-blue"
+            {...register("name")}
+          />
           {errors.name && <p className="mt-1 mb-3 h-6 text-red-500">{errors.name.message}</p>}
         </div>
 
@@ -120,24 +125,19 @@ const RegistrationForm = ({ role }: RegistrationFormProps) => {
 
         <label className="flex items-center justify-center gap-2 text-sm">
           <input type="checkbox" {...register("terms")} className="size-6" />
-          <span className="checkbox-label text-[#6E6E6E]">
-            Leí y acepto los <u className="hover:cursor-pointer">Términos de uso</u>.
+          <span className="checkbox-label text-ecos-blue">
+            He leído y acepto los <u className="hover:cursor-pointer">Términos de uso</u>
           </span>
         </label>
         {errors.terms && <p className="mt-1 h-6 text-red-500">{errors.terms.message}</p>}
 
-        <Button
-          bgType="secondary"
-          className="text-white hover:cursor-pointer"
-          type="submit"
-          disabled={isPending}
-        >
+        <Button type="submit" bgType="primary" disabled={isPending}>
           {isPending ? (
             <>
               Registrándose... <Spinner className="size-8 rounded-full bg-white/20" />
             </>
           ) : (
-            "Registrate"
+            "Regístrate"
           )}
         </Button>
 
