@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "@/auth/hooks/use-auth";
 import { useNavigate } from "react-router";
-import { Settings, Avatar, Logout, UserProfileIcon, EditContainer } from "./ui/Icons";
+import { Avatar, Logout, UserProfileIcon, EditContainer } from "./ui/Icons";
 import ProfileUserModal from "@/profile/components/ProfileUserModal";
 import { useProfileData } from "../hooks/useProfileData";
 import { Musician, Fan } from "../types";
@@ -76,11 +76,7 @@ const UserMenu = () => {
                 <button
                   type="button"
                   onClick={() => {
-                    if (user.role === "MUSICIAN") {
-                      navigate("/profile/musician/edit");
-                    } else {
-                      setIsOpenProfileModal(true);
-                    }
+                    setIsOpenProfileModal(true);
                     setIsOpen(false);
                   }}
                   className="flex cursor-pointer items-center gap-5 leading-1"
@@ -88,20 +84,6 @@ const UserMenu = () => {
                   <EditContainer className="size-8" />
                   Editar perfil
                 </button>
-
-                {user.role === "MUSICIAN" && (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setIsOpenProfileModal(true);
-                      setIsOpen(false);
-                    }}
-                    className="flex cursor-pointer items-center gap-5 leading-1"
-                  >
-                    <Settings className="size-8" />
-                    Configuración
-                  </button>
-                )}
 
                 <button
                   onClick={handleLogOut}
