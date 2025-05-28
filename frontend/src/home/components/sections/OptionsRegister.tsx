@@ -5,7 +5,7 @@ import iconoE from "@/assets/iconoE.svg";
 import womenDj from "@/assets/womenDj.webp";
 import celuFestival from "@/assets/celuFestival.webp";
 import chicaAtractiva from "@/assets/chicaAtractiva.webp";
-import { Logo } from "@/app/components/Logo";
+import Logo from "@/app/components/Logo";
 
 export default function OptionsRegister() {
   const cardsData = [
