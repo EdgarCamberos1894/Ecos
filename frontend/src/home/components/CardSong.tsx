@@ -1,10 +1,11 @@
-import { PlayIcon, PlusCircle, PauseIcon } from "@/home/components/ui/Icons";
+import { PlusCircle } from "@/home/components/ui/Icons";
 import defaultImage from "@/assets/imagePlay.svg";
 import { useState, useRef, useEffect } from "react";
 import { SongList } from "./types/SongList";
 import { useApiMutation } from "@/shared/hooks/use-api-mutation";
 import { useAuth } from "@/auth/hooks/use-auth";
 import { toast } from "sonner";
+import { PauseIcon, PlayIcon } from "@/app/ui/Icons";
 
 interface CardSongProps {
   song: SongList;
@@ -120,7 +121,11 @@ const CardSong = ({ song, isPlaying, onPlay, onPause, onFavoriteAdded }: CardSon
               onClick={handlePlayPause}
               className="text-ecos-blue h-[2.375rem] w-10"
             >
-              {isPlaying ? <PauseIcon /> : <PlayIcon />}
+              {isPlaying ? (
+                <PauseIcon className="fill-ecos-blue cursor-pointer" />
+              ) : (
+                <PlayIcon className="fill-ecos-blue stroke-ecos-blue cursor-pointer" />
+              )}
             </button>
           </div>
         </div>

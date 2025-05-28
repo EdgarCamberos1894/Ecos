@@ -144,7 +144,7 @@ export default function BannerUploader({
             type="button"
             onClick={onUpload}
             disabled={isUploading}
-            className="bg-ecos-blue min-h-[40px] min-w-[140px] cursor-pointer rounded-[100px] px-6 py-2.5 font-medium text-white md:min-h-[63px] md:min-w-[221px]"
+            className="button-primary min-h-[40px] min-w-[140px] px-6 py-2.5 font-medium transition-colors md:min-h-[63px] md:min-w-[221px]"
           >
             {isUploading ? "Guardando..." : "Guardar"}
           </button>
@@ -152,7 +152,7 @@ export default function BannerUploader({
             type="button"
             onClick={handleDelete}
             disabled={isUploading}
-            className="text-ecos-blue border-ecos-blue min-h-[40px] min-w-[140px] cursor-pointer rounded-[100px] border bg-white px-6 py-2.5 font-medium md:min-h-[63px] md:min-w-[221px]"
+            className="button-secondary min-h-[40px] min-w-[140px] px-6 py-2.5 font-medium transition-colors md:min-h-[63px] md:min-w-[221px]"
           >
             Cancelar
           </button>
