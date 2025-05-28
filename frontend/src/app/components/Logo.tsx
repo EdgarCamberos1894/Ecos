@@ -4,7 +4,7 @@ interface LogoProps {
   containerClassName?: string;
 }
 
-export const Logo = ({ svgClassName, textClassName, containerClassName }: LogoProps) => {
+const Logo = ({ svgClassName, textClassName, containerClassName }: LogoProps) => {
   return (
     <div
       style={{ display: "flex", alignItems: "center", gap: "6px" }}
@@ -340,3 +340,5 @@ export const Logo = ({ svgClassName, textClassName, containerClassName }: LogoPr
     </div>
   );
 };
+
+export default Logo;
