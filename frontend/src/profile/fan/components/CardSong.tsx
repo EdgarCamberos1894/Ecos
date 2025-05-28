@@ -1,7 +1,6 @@
 import Button from "@/app/ui/Button";
 import defaultImage from "@/assets/imagePlay.svg";
 import { CloseIcon } from "../ui/CloseIcon";
-import { PlayIcon } from "../../../app/ui/Icons";
 import { RepeatLeftIcon } from "../ui/RepeatLeftIcon";
 import { RepeatRightIcon } from "../ui/RepeatRightIcon";
 import DonateIcon from "../ui/DonateIcon";
@@ -9,8 +8,8 @@ import { useState, useRef } from "react";
 import DonationModal from "../DonationModal";
 import { useApiMutation } from "@/shared/hooks/use-api-mutation";
 import { toast } from "sonner";
-import { PauseIcon } from "../../../app/ui/Icons";
 import ConfirmDialogModal from "@/shared/components/Modals/ConfirmDialogModal";
+import { PauseIcon, PlayIcon } from "@/app/ui/Icons";
 
 interface CardSongProps {
   id: number;
@@ -108,14 +107,20 @@ const CardSongFavorite = ({
             <p className="text-ecos-dark-grey">{stageName}</p>
           </div>
 
-          <div className="text-ecos-orange mt-4 flex cursor-pointer items-center justify-center gap-3">
-            <RepeatLeftIcon onClick={handleRewind} />
+          <div className="text-ecos-orange mt-4 flex items-center justify-center gap-3">
+            <RepeatLeftIcon onClick={handleRewind} className="cursor-pointer" />
             {isPlaying ? (
-              <PauseIcon onClick={handlePlayPause} />
+              <PauseIcon
+                onClick={handlePlayPause}
+                className="bg-ecos-orange size-12 cursor-pointer rounded-full border-4 border-white stroke-white p-2"
+              />
             ) : (
-              <PlayIcon onClick={handlePlayPause} />
+              <PlayIcon
+                onClick={handlePlayPause}
+                className="bg-ecos-orange size-12 cursor-pointer rounded-full border-4 border-white stroke-white p-2"
+              />
             )}
-            <RepeatRightIcon onClick={handleForward} />
+            <RepeatRightIcon onClick={handleForward} className="cursor-pointer" />
           </div>
         </div>
 
