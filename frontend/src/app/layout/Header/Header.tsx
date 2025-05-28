@@ -1,39 +1,21 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router";
-//import { Avatar } from "@/auth/components/ui/icons";
+import { Link } from "react-router";
+import { RegisterButton, LoginButton } from "@/app/components/ButtonsAuth";
 import Input from "@/app/ui/Input";
 import AuthModal, { AuthMode } from "@/auth/components/AuthModal";
-import EcosLogo from "@/app/ui/EcosIcon";
+import Logo from "@/app/components/Logo";
 import MenuIcon from "@/app/ui/MenuIcon";
 import Lens from "@/app/ui/LensIcon";
 import { useAuth } from "@/auth/hooks/use-auth";
 import UserMenu from "@/auth/components/UserMenu";
 import WelcomeUserModal from "@/auth/components/WelcomeUserModal";
 
-const HOME_SECTIONS = [
-  { name: "Inicio", hash: "" },
-  { name: "Explorar", hash: "#explorar" },
-  { name: "Artistas Destacados", hash: "#artistas-destacados" },
-  { name: "Eventos", hash: "#eventos" },
-  /*{ name: "Preguntas Frecuentes", hash: "#preguntas-frecuentes" },*/
-];
-
-const USER_SECTIONS = [
-  { name: "Inicio", hash: "" },
-  { name: "Mis Favoritos", hash: "#favoritos" },
-  { name: "Artistas Destacados", hash: "#artistas-destacados" },
-  { name: "Eventos", hash: "#eventos" },
-];
-
 export const Header = () => {
   const [openModal, setOpenModal] = useState<AuthMode | null>(null);
   const [showWelcomeUser, setShowWelcomeUser] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
-  const location = useLocation();
-
   const { user } = useAuth();
-  const isFan = user?.role === "FAN";
 
   const handleOpenModal = (mode: AuthMode) => {
     setOpenModal(mode);
@@ -66,127 +48,101 @@ export const Header = () => {
 
   return (
     <>
-      <header className="bg-ecos-blue w-full pb-8 shadow lg:h-[17.25rem]">
-        <div className="mx-auto flex items-center justify-between py-6 pr-2.5 pl-6">
-          <div className="flex flex-auto items-center gap-9">
-            <Link to="/" className="hidden lg:block">
-              <EcosLogo className="h-auto w-[7.563rem]" />
-            </Link>
+      <header className="bg-ecos-blue w-full shadow">
+        <div className="mx-auto flex items-center justify-between gap-x-8 px-4 py-2 md:py-4">
+          {/* Logo */}
+          <Link to="/" className="flex h-[120px] w-auto flex-shrink-0 items-center md:h-[141px]">
+            <Logo
+              textClassName="text-white text-4xl md:text-6xl lg:text-[6rem]"
+              svgClassName="text-white w-20 h-20 md:w-24 md:h-24 lg:w-[141px] lg:h-[141px] "
+            />
+          </Link>
 
-            <button
-              type="button"
-              className="block focus:outline-none lg:hidden"
-              onClick={toggleMobileMenu}
-            >
-              {isOpen ? (
-                <span className="text-4xl text-white md:ml-9">✖</span>
+          {/* Buscador solo visible si está logueado */}
+          {user && (
+            <Input
+              placeholder="Busca Artista, Álbum, Canción"
+              startIcon={<MenuIcon />}
+              endIcon={<Lens />}
+              classNameContainer="hidden md:flex 
+         w-full bg-white items-center gap-2 h-12 mx-6 w-full max-w-[400px] md:max-w-[800px] "
+            />
+          )}
+
+          {/* Avatar o botones de login/register */}
+          <div className="flex flex-shrink-0 items-center justify-between">
+            {/* Desktop: userMenu o botones */}
+            <div className="hidden items-center lg:flex">
+              {user ? (
+                <UserMenu />
               ) : (
-                <MenuIcon className="h-12 w-12 text-white md:ml-9" />
-              )}
-            </button>
-
-            {/* MOBILE NAV */}
-            {isOpen && (
-              <div className="fixed inset-0 z-10" onClick={closeMobileMenu}>
-                <nav
-                  className="absolute top-22 left-1 z-10 flex w-[17.875rem] flex-col items-start gap-2.5 rounded-[1.25rem] bg-white px-[1.625rem] py-[3.313rem] shadow-md lg:hidden"
-                  onClick={(event) => {
-                    event.stopPropagation();
-                  }}
-                >
-                  {isFan && location.pathname !== "/"
-                    ? USER_SECTIONS.map(({ name, hash }) => (
-                        <Link
-                          key={name}
-                          title={name}
-                          onClick={closeMobileMenu}
-                          className="cursor-pointer hover:text-[#B1B1B1]"
-                          to={{ pathname: name === "Inicio" ? "/" : location.pathname, hash }}
-                        >
-                          {name}
-                        </Link>
-                      ))
-                    : HOME_SECTIONS.map(({ name, hash }) => (
-                        <Link
-                          key={name}
-                          title={name}
-                          onClick={closeMobileMenu}
-                          className="cursor-pointer hover:text-[#B1B1B1]"
-                          to={{ pathname: "/", hash }}
-                        >
-                          {name}
-                        </Link>
-                      ))}
-                </nav>
-              </div>
-            )}
-
-            {/* DESKTOP NAV */}
-            <nav className="text-ecos-base hidden gap-10 text-xl font-normal lg:flex 2xl:gap-20 2xl:text-2xl">
-              {isFan && location.pathname !== "/"
-                ? USER_SECTIONS.slice(1).map(({ name, hash }) => (
-                    <Link
-                      key={name}
-                      title={name}
-                      className="cursor-pointer hover:text-[#B1B1B1]"
-                      to={{ pathname: location.pathname, hash }}
-                    >
-                      {name}
-                    </Link>
-                  ))
-                : HOME_SECTIONS.slice(1).map(({ name, hash }) => (
-                    <Link
-                      key={name}
-                      title={name}
-                      className="cursor-pointer hover:text-[#B1B1B1]"
-                      to={{ pathname: "/", hash }}
-                    >
-                      {name}
-                    </Link>
-                  ))}
-            </nav>
-          </div>
-
-          <div className="flex items-center justify-end">
-            {!user ? (
-              <>
-                <div className="text-ecos-base hidden gap-6 px-[2.438rem] md:flex">
-                  <button
-                    className="cursor-pointer"
-                    type="button"
+                <div className="space-x-6 px-6">
+                  <LoginButton
                     onClick={() => {
                       handleOpenModal("login");
                     }}
-                  >
-                    Iniciar Sesión
-                  </button>
-                  <button
-                    className="cursor-pointer"
-                    type="button"
+                    className="cursor-pointer text-xl text-white"
+                  />
+                  <RegisterButton
                     onClick={() => {
                       handleOpenModal("register");
                     }}
-                  >
-                    Crear cuenta
-                  </button>
+                    className="cursor-pointer text-xl text-white"
+                  />
                 </div>
-                {/* <Avatar className="my-1 mr-[1.375rem] ml-[1.438rem]" /> */}
-              </>
-            ) : (
-              <>
+              )}
+            </div>
+
+            {/* Mobile: hamburguesa solo si NO está logueado */}
+            {!user && (
+              <button
+                type="button"
+                className="block px-7 focus:outline-none lg:hidden"
+                onClick={toggleMobileMenu}
+              >
+                {isOpen ? (
+                  <span className="text-4xl text-white">✖</span>
+                ) : (
+                  <MenuIcon className="h-12 w-12 text-white" />
+                )}
+              </button>
+            )}
+
+            {/* Mobile: userMenu si está logueado */}
+            {user && (
+              <div className="lg:hidden">
                 <UserMenu />
-              </>
+              </div>
             )}
           </div>
         </div>
 
-        <Input
-          placeholder="Busca Artista, Album, Canción"
-          startIcon={<MenuIcon />}
-          endIcon={<Lens />}
-          classNameContainer="container-search"
-        />
+        {/* Mobile: menú visible solo si no hay usuario */}
+        {!user && isOpen && (
+          <nav
+            className="absolute top-[5.5rem] right-2 z-10 flex w-fit max-w-xs flex-col items-start gap-4 rounded-[1.25rem] bg-white px-[1.625rem] py-[4rem] shadow-md lg:hidden"
+            onClick={(event) => {
+              event.stopPropagation();
+            }}
+          >
+            <LoginButton
+              onClick={() => {
+                handleOpenModal("login");
+                closeMobileMenu();
+              }}
+              className="text-ecos-blue cursor-pointer text-xl"
+            />
+            <RegisterButton
+              onClick={() => {
+                handleOpenModal("register");
+                closeMobileMenu();
+              }}
+              className="text-ecos-blue cursor-pointer text-xl"
+            />
+          </nav>
+        )}
       </header>
+
       {openModal && <AuthModal mode={openModal} onClose={handleCloseModal} />}
       {showWelcomeUser && (
         <WelcomeUserModal

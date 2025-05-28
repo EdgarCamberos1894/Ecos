@@ -54,7 +54,7 @@ const UserMenu = () => {
         {isOpen && (
           <div className="fixed inset-0 z-10" onClick={toggleMenu}>
             <div
-              className="absolute top-22 right-1 z-10 mt-4 flex h-[450px] w-80 flex-col items-center justify-around bg-white text-2xl shadow-lg xl:top-32"
+              className="absolute top-22 right-1 z-10 mt-4 flex h-[350px] w-70 flex-col items-center justify-around bg-white text-2xl shadow-lg xl:top-32"
               onClick={(event) => {
                 event.stopPropagation();
               }}
