@@ -1,5 +1,6 @@
 import { ChangeEvent, useRef, useState } from "react";
 import { type SettingMusic } from "../EditProfileMusicianPage";
+import { toast } from "sonner";
 
 interface MusicUploaderProps {
   onSettingMusic?: (settings: SettingMusic) => void;
@@ -17,7 +18,7 @@ export function MusicUploader({ onSettingMusic }: MusicUploaderProps) {
     const validTypes = ["audio/mpeg", "audio/wav"];
 
     if (!validTypes.includes(selectedFile.type)) {
-      alert("Solo se permiten archivos .mp3 o .wav");
+      toast.error(`Solo se permiten archivos .mp3 o .wav`);
       event.target.value = "";
       return;
     }
@@ -30,6 +31,12 @@ export function MusicUploader({ onSettingMusic }: MusicUploaderProps) {
       inputRef.current.value = "";
     }
   }
+
+  const handleConfirmFile = () => {
+    if (!file) return;
+
+    onSettingMusic?.({ audio: file, preview: true });
+  };
 
   const handleDeleteFile = () => {
     if (!file) return;
@@ -73,9 +80,10 @@ export function MusicUploader({ onSettingMusic }: MusicUploaderProps) {
         </p>
       </div>
 
-      <div className="mb-2 flex gap-5">
+      <div className={`mb-2 flex gap-5 ${file !== null ? "" : "invisible"}`}>
         <button
           type="button"
+          onClick={handleConfirmFile}
           className="bg-ecos-blue min-w-[112px] cursor-pointer rounded-[100px] px-6 py-2.5 text-white"
         >
           Guardar

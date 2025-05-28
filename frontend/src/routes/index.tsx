@@ -9,6 +9,7 @@ import EventPage from "@/event/EventPage";
 import { EditProfileMusicianPage } from "@/profile/musician/EditProfileMusicianPage";
 import { BackButtonLayout } from "@/app/layout/BackButtonLayout";
 import { EventById } from "@/app/components/EventById";
+import NotFound from "@/app/ui/NotFound";
 
 export const AppRoutes = () => {
   return (
@@ -16,7 +17,6 @@ export const AppRoutes = () => {
       {/* Layout principal con header y footer */}
       <Route element={<MainLayout />}>
         <Route path="/" element={<HomePage />} />
-        <Route path="*" element={<div>404 NOT FOUND</div>} />
         <Route path="/artist" element={<ArtistPage />} />
         <Route path="/profile/musician/:id" element={<ProfileMusicianPage />} />
 
@@ -36,6 +36,9 @@ export const AppRoutes = () => {
           <Route path="/event" element={<EventPage />} />
         </Route>
       </Route>
+
+      {/* 404 */}
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };
