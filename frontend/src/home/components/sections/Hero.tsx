@@ -7,6 +7,7 @@ import WelcomeUserModal from "@/auth/components/WelcomeUserModal";
 export default function Hero() {
   const [openModal, setOpenModal] = useState<AuthMode | null>(null);
   const [showWelcomeUser, setShowWelcomeUser] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const { user } = useAuth();
 
   const handleOpenModal = (mode: AuthMode) => {
@@ -18,7 +19,7 @@ export default function Hero() {
   };
 
   const handleScrollToExploreSection = () => {
-    const $section = document.getElementById("explorar");
+    const $section = document.getElementById("#explorar");
     if ($section) $section.scrollIntoView({ behavior: "smooth" });
   };
 
@@ -35,7 +36,6 @@ export default function Hero() {
     }
   }, [user]);
 
-  const videoRef = useRef<HTMLVideoElement>(null);
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -55,48 +55,59 @@ export default function Hero() {
   }, []);
 
   return (
-    <>
-      <div className="relative h-[13.813rem] w-full overflow-hidden md:h-[29.313rem] lg:h-screen">
-        <video
-          ref={videoRef}
-          className="absolute inset-0 -z-10 h-full w-full object-cover"
-          src={HeroVideo}
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="none"
-        />
+    <section className="grid">
+      <video
+        ref={videoRef}
+        className="aspect[1920/986] relative max-h-[986px] w-full object-cover"
+        src={HeroVideo}
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="none"
+      />
 
-        <div className="flex h-full w-full flex-col justify-center text-white">
-          <div className="space-y-1.5 pl-[0.813rem] md:space-y-16 md:pl-[4.625rem] lg:space-y-[1.938rem] lg:pl-8">
-            <h1 className="text-2xl font-medium drop-shadow-lg md:text-5xl">
-              Bienvenido a Ecos <br /> tu plataforma <br /> musical ideal
-            </h1>
-            <p className="w-[16.063rem] text-justify text-xs md:w-[24.375rem] md:text-sm">
-              Descubre un mundo lleno de música y creatividad. Únete a nosotros para compartir tu
-              arte y conectar con otros amantes de la música.
-            </p>
-            <div className="flex gap-[0.688rem] md:gap-[2.063rem]">
-              <button
-                type="submit"
-                className="bg-ecos-blue cursor-pointer rounded-3xl px-6 py-2.5 text-xs font-medium text-white hover:bg-[#B1B1B1] md:text-sm"
-                onClick={() => {
-                  handleOpenModal("register");
-                }}
-              >
-                Regístrate
-              </button>
-              <button
-                type="submit"
-                onClick={handleScrollToExploreSection}
-                className="bg-ecos-orange-light cursor-pointer rounded-3xl px-6 py-2.5 text-xs font-medium hover:bg-[#B1B1B1] md:text-sm"
-              >
-                Explora
-              </button>
-            </div>
-          </div>
+      <div className="absolute ml-2 flex max-w-[300px] flex-col gap-5 self-center rounded-[30px] bg-white/88 px-3.5 py-3 md:ml-10 md:max-w-[520px] md:gap-11 md:px-[30px] md:py-[25px] lg:ml-[152px] lg:max-w-[640px] lg:px-[60px] lg:py-[50px]">
+        <div className="flex flex-col gap-3 md:gap-6">
+          <h1 className="text-ecos-blue text-2xl leading-tight text-shadow-[0_4px_4px_rgba(0,0,0,.25)] md:text-5xl lg:text-[64px]">
+            Bienvenido a <span className="text-ecos-orange-light">Ecos</span> tu plataforma musical
+            ideal
+          </h1>
+          <h2 className="text-ecos-blue text-xs text-balance md:text-sm md:leading-8 lg:text-2xl">
+            Descubre un mundo lleno de música y creatividad. Únete a nosotros para compartir tu arte
+            y conectar con otros amantes de la música
+          </h2>
         </div>
+        {!user ? (
+          <div className="flex gap-5 md:gap-8">
+            <button
+              type="button"
+              className="button-primary px-4 py-2 text-xs font-medium transition-colors md:px-6 md:py-2.5 md:text-base"
+              onClick={() => {
+                handleOpenModal("register");
+              }}
+            >
+              Regístrate
+            </button>
+            <button
+              type="button"
+              onClick={handleScrollToExploreSection}
+              className="button-secondary px-4 py-2 text-xs font-medium transition-colors md:px-6 md:py-2.5 md:text-base"
+            >
+              Explora
+            </button>
+          </div>
+        ) : (
+          <div>
+            <button
+              type="button"
+              onClick={handleScrollToExploreSection}
+              className="button-primary px-4 py-2 text-xs font-medium transition-colors md:px-6 md:py-2.5 md:text-base"
+            >
+              Explora
+            </button>
+          </div>
+        )}
       </div>
 
       {openModal && <AuthModal mode={openModal} onClose={handleCloseModal} />}
@@ -107,6 +118,6 @@ export default function Hero() {
           }}
         />
       )}
-    </>
+    </section>
   );
 }

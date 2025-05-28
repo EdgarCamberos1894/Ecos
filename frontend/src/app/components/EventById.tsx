@@ -17,7 +17,7 @@ export const EventById = () => {
     <div className="text-ecos-blue flex flex-col gap-8 sm:gap-[120px] sm:p-4 xl:p-[200px]">
       <section className="mt-4 flex p-2 md:mt-0">
         <div className="border-ecos-blue flex flex-col gap-y-10 rounded-[50px] border-3 pb-8 md:w-[807px] md:p-10 lg:w-full lg:px-[50px] lg:py-[38px]">
-          <header className="w-full px-[50px] pt-[38px] md:h-[400px] lg:h-[594px] lg:px-0 lg:pt-0">
+          <header className="w-full px-11 pt-[38px] md:h-[400px] lg:h-[594px] lg:px-0 lg:pt-0">
             <img
               src={event?.image ?? ImageBanner}
               alt="Imagen del evento"
