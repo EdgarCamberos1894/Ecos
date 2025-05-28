@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import { Logo } from "../components/Logo";
+import Logo from "../components/Logo";
 import Button from "./Button";
 
 const NotFound = () => {
