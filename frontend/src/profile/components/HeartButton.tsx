@@ -11,7 +11,7 @@ export const HeartButton = ({ children, isSaved, ...buttonProps }: HeartButtonPr
     <button type="button" {...buttonProps}>
       <Heart
         className={`transition-transform duration-300 ${
-          isSaved ? "animate-pop fill-red-500" : "fill-none"
+          isSaved ? "animate-pop fill-ecos-blue group-hover:fill-ecos-base" : "fill-none"
         }`}
       />
       {children}
