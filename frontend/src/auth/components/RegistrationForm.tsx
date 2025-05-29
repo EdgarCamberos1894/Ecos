@@ -134,7 +134,7 @@ const RegistrationForm = ({ role }: RegistrationFormProps) => {
         <Button type="submit" bgType="primary" disabled={isPending}>
           {isPending ? (
             <>
-              Registrándose... <Spinner className="size-8 rounded-full bg-white/20" />
+              Registrándose... <Spinner className="ml-2 size-8 rounded-full bg-white/20" />
             </>
           ) : (
             "Regístrate"

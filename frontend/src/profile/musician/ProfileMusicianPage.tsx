@@ -102,7 +102,7 @@ export default function ProfileMusicianPage() {
       <img
         src={banner?.bannerUrl ?? ImageBanner}
         alt={`Banner`}
-        className="mb-6 aspect-[1920/680] w-full object-cover"
+        className="mb-6 aspect-[1920/680] w-full object-cover md:mb-20"
       />
       <main className="mb-20 px-4 sm:px-8 lg:px-[160px]">
         <section className="flex flex-col gap-[70px]">
@@ -135,28 +135,30 @@ export default function ProfileMusicianPage() {
                 className="bg-ecos-skeleton group grid aspect-[1100/510] w-full max-w-[1100px] cursor-pointer place-content-center place-items-center rounded-[30px]"
               />
             )}
-            <div
-              className={`${isProfileFromUser ? "hidden" : "flex"} mb-16 flex-wrap justify-start gap-4 sm:gap-6`}
-            >
-              <HeartButton
-                isSaved={isSaved}
-                onClick={handleFavoriteMusic}
-                className="bg-ecos-blue flex h-14 min-w-[113px] cursor-pointer items-center justify-center gap-2.5 rounded-[37px] px-4 py-2 text-sm text-white shadow-[0_4px_4px_0_rgba(0,0,0,0.25)] sm:min-w-[178px]"
+            {user?.role === "FAN" && (
+              <div
+                className={`${isProfileFromUser ? "hidden" : "flex"} flex-wrap justify-start gap-4 sm:gap-6`}
               >
-                Guardar
-              </HeartButton>
-              <DonateButton
-                onClick={handleDonationModal}
-                className="bg-ecos-blue flex h-14 min-w-[109px] cursor-pointer items-center justify-center gap-2.5 rounded-[37px] px-4 py-2 text-sm text-white shadow-[0_4px_4px_0_rgba(0,0,0,0.25)] sm:min-w-[171px]"
-              >
-                Donar
-              </DonateButton>
-            </div>
+                <DonateButton
+                  onClick={handleDonationModal}
+                  className="button-primary flex h-14 min-w-[109px] items-center justify-center gap-2.5 rounded-[37px] px-4 py-2 text-sm sm:min-w-[171px]"
+                >
+                  Donar
+                </DonateButton>
+                <HeartButton
+                  isSaved={isSaved}
+                  onClick={handleFavoriteMusic}
+                  className="button-secondary group flex h-14 min-w-[113px] items-center justify-center gap-2.5 rounded-[37px] px-4 py-2 text-sm sm:min-w-[178px]"
+                >
+                  Guardar
+                </HeartButton>
+              </div>
+            )}
           </div>
 
           {songs?.items[0]?.youtubeUrl ? (
             <YouTubeVideo
-              className="mb-9 aspect-[1126/567] max-w-[1126px] rounded-[20px]"
+              className="aspect-[1126/567] max-w-[1126px] rounded-[20px]"
               embedUrl={songs.items[0].youtubeUrl}
             />
           ) : (
@@ -167,14 +169,18 @@ export default function ProfileMusicianPage() {
             />
           )}
 
-          <DonateSection
-            isProfileFromUser={isProfileFromUser}
-            handleDonationModal={handleDonationModal}
-          />
+          {user?.role === "FAN" && (
+            <DonateSection
+              isProfileFromUser={isProfileFromUser}
+              handleDonationModal={handleDonationModal}
+            />
+          )}
 
           <div className="flex flex-col gap-6">
             <h2 className="text-ecos-blue text-2xl font-medium uppercase">Próximos eventos</h2>
-            <div className="mb-[95px] grid grid-cols-[repeat(auto-fit,minmax(354px,1fr))] gap-4 md:mb-[153px] lg:mb-[210px]">
+            <div
+              className={`${isProfileFromUser ? "" : "mb-[95px] md:mb-[153px] lg:mb-[210px]"} grid grid-cols-[repeat(auto-fit,minmax(354px,1fr))] gap-4`}
+            >
               {events?.items[0] ? (
                 events.items.map((event) => (
                   <EventCard
@@ -199,12 +205,28 @@ export default function ProfileMusicianPage() {
           </div>
         </section>
 
-        <section className="flex flex-col gap-[84px]">
-          <h2 className="text-ecos-blue text-[40px] leading-5 font-medium uppercase">Contacto</h2>
-          <ContactForm musicianId={Number(id)} />
-        </section>
+        {!isProfileFromUser && (
+          <>
+            <section className="flex flex-col gap-[84px]">
+              <h2 className="text-ecos-blue text-[40px] leading-5 font-medium uppercase">
+                Contacto
+              </h2>
+              <ContactForm musicianId={Number(id)} />
+            </section>
 
-        <FollowArtist />
+            <FollowArtist />
+          </>
+        )}
+
+        <div className="mt-24 flex justify-end gap-7 self-center px-4 sm:px-12 md:gap-[46px] lg:px-44">
+          <button
+            type="button"
+            className="button-primary min-h-[40px] min-w-[212px] px-6 py-2.5 text-base font-medium transition-colors md:min-w-[316px]"
+            onClick={() => navigate("/profile/musician/edit")}
+          >
+            Editar
+          </button>
+        </div>
       </main>
 
       {isDonationModalOpen && <DonationModal artistId={Number(id)} onClose={handleDonationModal} />}
