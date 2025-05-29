@@ -1,3 +1,4 @@
+import Button from "@/app/ui/Button";
 import img from "@/assets/image.webp";
 import { useNavigate } from "react-router";
 
@@ -29,36 +30,42 @@ const EventCard = ({
   }).format(date);
 
   return (
-    <div className="bg-ecos-blue flex h-[22.5rem] w-[22.688rem] flex-col gap-[1.125rem] rounded-[1.25rem] shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
-      <div className="flex h-[11.438rem] w-full gap-6 px-4 py-[1.125rem]">
-        <img
-          src={image ?? img}
-          alt="imagen"
-          className="aspect-square h-[10.688rem] w-[10.563rem] flex-shrink rounded-[1.75rem] object-cover"
-        />
-
-        <div className="flex h-[11rem] flex-col justify-between text-white">
-          <div className="flex h-[3.75rem] flex-col items-start gap-1">
-            <h2 className="text-2xl font-normal">{stageName}</h2>
-            <h4 className="text-base font-medium">{supportingText}</h4>
+    <article
+      className="text-ecos-blue flex h-[22.5rem] w-[22.688rem] flex-col gap-[1.125rem] rounded-[1.25rem] shadow-[0px_4px_4px_rgba(0,0,0,0.25)]"
+      aria-label={`Evento de ${stageName}`}
+    >
+      <header className="flex h-[11.438rem] w-full gap-6 px-4 py-[1.125rem]">
+        <figure className="flex-shrink-0">
+          <img
+            src={image ?? img}
+            alt={`Evento ${supportingText} de ${stageName}`}
+            className="aspect-square h-[10.688rem] w-[10.563rem] rounded-[1.75rem] object-cover"
+          />
+        </figure>
+        <div className="flex h-[11rem] flex-1 flex-col justify-between">
+          <div>
+            <h2 className="text-2xl leading-tight font-semibold">{stageName}</h2>
+            <h3 className="mb-4 text-base font-medium">{supportingText}</h3>
           </div>
-          <button
+          <Button
             type="button"
+            bgType="primary"
+            aria-label={`Ver evento de ${stageName}`}
             onClick={() => navigate(`/event/${id.toString()}`)}
-            className="bg-ecos-orange-light cursor-pointer rounded-[1.25rem] px-6 py-2.5 text-sm font-medium"
+            className="px-8 text-sm"
           >
-            Ver más
-          </button>
+            Ver evento
+          </Button>
         </div>
-      </div>
+      </header>
 
-      <div className="flex h-[7.813rem] flex-col items-start gap-2 px-4 py-2 text-white">
-        <h5 className="text-[0.688rem] font-medium">{`${category} - ${formatted}`}</h5>
+      <section className="flex h-[7.813rem] flex-col items-start gap-2 px-4 py-2">
+        <p className="font-medium">{`${category} - ${formatted}`}</p>
         <p className="line-clamp-3 text-sm leading-5 font-normal tracking-[0.016rem] text-balance">
           {contentPublished}
         </p>
-      </div>
-    </div>
+      </section>
+    </article>
   );
 };
 
