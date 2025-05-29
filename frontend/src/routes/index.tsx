@@ -21,7 +21,7 @@ export const AppRoutes = () => {
         <Route path="/profile/musician/:id" element={<ProfileMusicianPage />} />
 
         {/* Rutas protegidas */}
-        <Route element={<ProtectedRoute />}>
+        <Route element={<ProtectedRoute allowedRoles={["FAN"]} />}>
           <Route path="/profile/fan/:id" element={<ProfileFanPage />} />
         </Route>
       </Route>
@@ -31,7 +31,7 @@ export const AppRoutes = () => {
         <Route path="/event/:id" element={<EventById />} />
 
         {/* Rutas protegidas */}
-        <Route element={<ProtectedRoute />}>
+        <Route element={<ProtectedRoute allowedRoles={["MUSICIAN"]} />}>
           <Route path="/profile/musician/edit" element={<EditProfileMusicianPage />} />
           <Route path="/event" element={<EventPage />} />
         </Route>
