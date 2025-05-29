@@ -7,9 +7,11 @@ import DiscoverArtist from "./components/sections/DiscoverArtist";
 import BannerGuitarsRegister from "./components/sections/BannerGuitarsRegister";
 import { useLocation } from "react-router";
 import { useEffect } from "react";
+import { useAuth } from "@/auth/hooks/use-auth";
 
 export const HomePage = () => {
   const location = useLocation();
+  const { user } = useAuth();
 
   useEffect(() => {
     if (location.hash) {
@@ -22,12 +24,12 @@ export const HomePage = () => {
     <main className="content-center">
       <Hero />
       <div className="mx-auto w-full max-w-screen-xl space-y-20 pl-[0.813rem] md:pl-[4.625rem] lg:pl-8">
-        <OptionsRegister />
+        {!user && <OptionsRegister />}
         <DiscoverArtist />
         <FeaturedArtists />
         <UpcomingEvents />
         <FAQList />
-        <BannerGuitarsRegister />
+        {!user && <BannerGuitarsRegister />}
       </div>
     </main>
   );
