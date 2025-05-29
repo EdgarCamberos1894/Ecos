@@ -20,6 +20,7 @@
 @theme {
   /* Colores */
   --color-ecos-base: #F5F5F5;
+  --color-ecos-base-2: #FFF4EB;
   --color-ecos-blue: #19233A;
   --color-ecos-orange-light: #FE963D;
   --color-ecos-orange: #DD4D2B;
@@ -28,6 +29,9 @@
   --color-ecos-skeleton: #F1F1F1;
   --color-ecos-media-embed: #F2F2F2;
   --color-ecos-input-placeholder: #B1B1B1;
+  --color-ecos-primary-background-hover: #3B0A67;
+  --color-ecos-secondary-background-hover: #E0E0E0;
+  --color-ecos-secodary-text-color: #1A1F36;
 
   /* Fuente */
   --font-sans: 'Roboto', system-ui, sans-serif;
@@ -41,15 +45,15 @@
 
 /* Botones */
 .button-primary {
-  color: #ffffff;
+  color: #FFF;
   background-color: var(--color-ecos-blue);
-  border: 1px solid #000000;
+  border: 1px solid #000;
   border-radius: 100px;
   
   &:hover {
     cursor: pointer;
-    color: var(--color-ecos-blue);
-    background-color: var(--color-ecos-base);
+    color: var(--color-ecos-base);
+    background-color: var(--color-ecos-primary-background-hover);
     border: 1px solid var(--color-ecos-blue);
     animation-timing-function: ease-out;
     animation-duration: 300ms;
@@ -65,9 +69,9 @@
 
   &:hover {
     cursor: pointer;
-    color: #ffffff;
-    background-color: var(--color-ecos-blue);
-    border: 1px solid #000000;
+    color: var(--color-ecos-secodary-text-color);
+    background-color: var(--color-ecos-secondary-hover);
+    border: 1px solid var(--color-ecos-secodary-text-color);
     animation-timing-function: ease-out;
     animation-duration: 300ms;
     box-shadow: 0px 4px 4px 0px #00000040;
