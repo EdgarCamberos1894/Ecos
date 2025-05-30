@@ -10,6 +10,7 @@ import { EditProfileMusicianPage } from "@/profile/musician/EditProfileMusicianP
 import { BackButtonLayout } from "@/app/layout/BackButtonLayout";
 import { EventById } from "@/app/components/EventById";
 import NotFound from "@/app/ui/NotFound";
+import FanEventsPage from "@/profile/fan/FanEventsPage";
 
 export const AppRoutes = () => {
   return (
@@ -23,6 +24,7 @@ export const AppRoutes = () => {
         {/* Rutas protegidas */}
         <Route element={<ProtectedRoute allowedRoles={["FAN"]} />}>
           <Route path="/profile/fan/:id" element={<ProfileFanPage />} />
+          <Route path="/fan/events" element={<FanEventsPage />} />
         </Route>
       </Route>
 
