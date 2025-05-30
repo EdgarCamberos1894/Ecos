@@ -66,7 +66,7 @@ const ForgotPasswordForm = ({ onChange }: ForgotPasswordFormProps) => {
         )}
       </div>
 
-      <Button type="submit" onClick={onChange} disabled={isSubmitting}>
+      <Button type="submit" bgType="primary" onClick={onChange} disabled={isSubmitting}>
         {isSubmitting ? "Enviando..." : "Enviar"}
       </Button>
     </form>

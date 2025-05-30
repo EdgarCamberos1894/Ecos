@@ -30,18 +30,18 @@ const DonationModal = ({ onClose, artistId }: DonationModalProps) => {
       firstNormalText="Dona a tu artista favorito"
       className="flex h-auto w-full max-w-6xl flex-col items-center justify-center overflow-y-auto"
     >
-      <div className="grid h-full w-full grid-cols-1 gap-6 p-15 lg:grid-cols-2 lg:gap-20">
+      <div className="grid grid-cols-1 gap-6 p-4 lg:grid-cols-2 lg:gap-20 lg:p-15">
         <img
           src={imageSrc}
           alt="Imagen del artista"
-          className="aspect-square max-h-[600px] w-full rounded-[20px] object-cover shadow-md"
+          className="aspect-square w-full max-w-[250px] place-self-center rounded-[20px] object-cover lg:max-w-[450px]"
         />
 
-        <div className="text-ecos-blue flex flex-col justify-center space-y-4">
-          <h1 className="text-2xl font-medium md:text-3xl lg:text-4xl">
+        <div className="text-ecos-blue flex max-w-96 flex-col justify-center space-y-4 place-self-center lg:max-w-[747px]">
+          <h1 className="text-2xl font-medium text-balance md:text-3xl lg:text-4xl">
             Hacemos música gracias a ti
           </h1>
-          <p className="text-base md:text-lg lg:text-xl">
+          <p className="text-base text-balance md:text-lg lg:text-xl">
             Cada donación permite grabar, viajar y compartir nuevo arte. ¡Gracias por ser parte de
             esto!
           </p>
