@@ -18,7 +18,7 @@ export function ProgressBar({ currentStep, steps }: ProgressBarProps) {
       <div className="absolute top-3 right-0 left-0 z-0 h-1 bg-gray-300" />
 
       <div
-        className="absolute top-3 left-0 z-10 h-1 bg-orange-500 transition-all duration-300"
+        className="bg-ecos-orange-light absolute top-3 left-0 z-10 h-1 transition-all duration-300"
         style={{ width: String(percentage) + "%" }}
       />
 
@@ -32,19 +32,19 @@ export function ProgressBar({ currentStep, steps }: ProgressBarProps) {
               <div
                 className={`flex h-6 w-6 items-center justify-center rounded-full border-5 ${
                   isCompleted || isCurrent
-                    ? "border-orange-500 bg-black"
+                    ? "border-ecos-orange-light bg-ecos-blue"
                     : "border-gray-300 bg-white"
                 }`}
               >
                 <div
                   className={`h-2 w-2 rounded-full ${
-                    isCompleted || isCurrent ? "bg-black" : "bg-white"
+                    isCompleted || isCurrent ? "bg-ecos-blue" : "bg-white"
                   }`}
                 />
               </div>
               <span
                 className={`mt-2 text-xs font-semibold ${
-                  isCompleted || isCurrent ? "text-black" : "text-gray-400"
+                  isCompleted || isCurrent ? "text-ecos-blue" : "text-gray-400"
                 }`}
               >
                 {label}

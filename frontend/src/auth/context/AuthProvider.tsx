@@ -12,8 +12,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     if (storedToken) {
       try {
         return jwtDecode<User>(storedToken);
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (error) {
-        console.error("Error decoding token", error);
         return null;
       }
     }

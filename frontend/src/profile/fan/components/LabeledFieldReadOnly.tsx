@@ -18,15 +18,11 @@ const LabeledFieldReadOnly = ({
 
   const handleCopy = async () => {
     if (!value) return;
-    try {
-      await navigator.clipboard.writeText(value);
-      setCopied(true);
-      setTimeout(() => {
-        setCopied(false);
-      }, 1500);
-    } catch (error) {
-      console.error("Error al copiar:", error);
-    }
+    await navigator.clipboard.writeText(value);
+    setCopied(true);
+    setTimeout(() => {
+      setCopied(false);
+    }, 1500);
   };
 
   return (

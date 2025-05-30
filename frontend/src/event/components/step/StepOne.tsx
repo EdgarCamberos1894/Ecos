@@ -138,13 +138,13 @@ export default function StepOne({ nextStep, formData, setFormData }: StepOneProp
       <div className="flex justify-center space-x-4 md:justify-end">
         <button
           type="submit"
-          className="rounded-[37px] bg-[#FE963D] px-2 py-2 text-white hover:opacity-90 md:px-6"
+          className="button-primary h-[63px] w-[155px] px-6 py-2.5 md:w-[316px]"
         >
           Guardar y continuar
         </button>
         <button
           type="button"
-          className="rounded-[37px] bg-[#19233A] px-2 py-2 text-white hover:bg-gray-400 md:px-6"
+          className="button-secondary h-[63px] w-[155px] px-6 py-2.5 md:w-[316px]"
           onClick={() => navigate(-1)}
         >
           Cancelar

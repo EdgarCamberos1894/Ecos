@@ -104,6 +104,7 @@ const UserMenu = () => {
           onClose={() => {
             setIsOpenProfileModal(false);
           }}
+          openFromUserMenu={true}
         />
       )}
     </>
