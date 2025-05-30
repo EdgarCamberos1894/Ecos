@@ -21,16 +21,18 @@ export const HomePage = () => {
   }, [location]);
 
   return (
-    <main className="content-center">
+    <main className="content-center space-y-20">
       <Hero />
-      <div className="mx-auto w-full max-w-screen-xl space-y-20 pl-[0.813rem] md:pl-[4.625rem] lg:pl-8">
-        {!user && <OptionsRegister />}
-        <DiscoverArtist />
-        <FeaturedArtists />
-        <UpcomingEvents />
-        <FAQList />
-        {!user && <BannerGuitarsRegister />}
+      {!user && <OptionsRegister />}
+      <div className="bg-ecos-base-2 w-full">
+        <div className="px-sections mx-auto w-full max-w-screen-xl space-y-20">
+          <DiscoverArtist />
+          <FeaturedArtists />
+          <UpcomingEvents />
+        </div>
       </div>
+      <FAQList />
+      {!user && <BannerGuitarsRegister />}
     </main>
   );
 };

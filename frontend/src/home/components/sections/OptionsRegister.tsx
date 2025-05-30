@@ -46,7 +46,7 @@ export default function OptionsRegister() {
   ];
 
   return (
-    <div className="mt-20 flex flex-col justify-around space-y-12 pr-[0.813rem] md:pr-[4.625rem] lg:pr-8">
+    <div className="px-sections mt-20 flex flex-col justify-around space-y-12">
       <div className="text-ecos-blue space-y-2 text-start">
         <Logo textClassName="text-8xl" />
         <h2 className="text-4xl">Conectamos músicos, fans y eventos en una sola plataforma.</h2>

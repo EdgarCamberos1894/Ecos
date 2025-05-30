@@ -5,7 +5,7 @@ const DiscoverArtist = () => {
   return (
     <section
       id="explorar"
-      className="noScrollbar w-full max-w-screen items-center gap-y-8 overflow-visible overflow-x-auto pr-[0.813rem] md:pr-[4.625rem] lg:pr-8"
+      className="noScrollbar w-full max-w-screen items-center gap-y-8 overflow-visible overflow-x-auto pt-20"
     >
       <MusicSearch />
       <FeaturedSongs />

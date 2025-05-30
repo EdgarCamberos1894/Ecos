@@ -42,7 +42,7 @@ const FAQItem = () => {
   };
 
   return (
-    <ul className="w-full list-none pr-[0.813rem] md:w-[44.938rem] md:pr-[4.625rem] lg:w-[63.375rem] lg:pr-8">
+    <ul className="px-sections w-full list-none md:w-[44.938rem] lg:w-[63.375rem]">
       {FAQItemList.map(({ id, question, answer }) => {
         const isOpen = openItemId === id;
         return (

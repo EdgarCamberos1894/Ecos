@@ -31,7 +31,7 @@ const EventCard = ({
 
   return (
     <article
-      className="text-ecos-blue flex h-[22.5rem] w-[22.688rem] flex-col gap-[1.125rem] rounded-[1.25rem] shadow-[0px_4px_4px_rgba(0,0,0,0.25)]"
+      className="text-ecos-blue flex h-[22.5rem] w-[22.688rem] flex-col gap-[1.125rem] rounded-[1.25rem] bg-white shadow-[0px_4px_4px_rgba(0,0,0,0.25)]"
       aria-label={`Evento de ${stageName}`}
     >
       <header className="flex h-[11.438rem] w-full gap-6 px-4 py-[1.125rem]">

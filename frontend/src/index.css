@@ -145,3 +145,8 @@
 .container-search{
   @apply text-ecos-blue mx-auto flex h-[3.5rem] w-[22.563rem] items-center rounded-[1.75rem] border bg-white px-[1.875rem] py-2 md:h-[3rem] md:w-[38rem] xl:w-[72.563rem];
 }
+
+/*Px Sections*/
+.px-sections{
+  @apply px-[0.813rem] md:px-[4.625rem] lg:px-8
+}
