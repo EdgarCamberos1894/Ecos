@@ -141,7 +141,7 @@ export default function StepThree({ nextStep, prevStep, formData, setFormData }:
                           removeTicket(index);
                         }}
                         aria-label="Eliminar ticket"
-                        className="flex-shrink-0 text-[#19233A]"
+                        className="flex-shrink-0 cursor-pointer text-[#19233A]"
                       >
                         <MinusCircleIcon />
                       </button>
@@ -152,7 +152,7 @@ export default function StepThree({ nextStep, prevStep, formData, setFormData }:
                           type="button"
                           onClick={addNewTicket}
                           aria-label="Agregar ticket"
-                          className="flex-shrink-0 text-[#19233A]"
+                          className="flex-shrink-0 cursor-pointer text-[#19233A]"
                         >
                           <PlusCircleIcon />
                         </button>
@@ -167,14 +167,14 @@ export default function StepThree({ nextStep, prevStep, formData, setFormData }:
         <div className="mt-6 flex justify-center space-x-4 lg:justify-end">
           <button
             type="submit"
-            className="rounded-[37px] bg-[#FE963D] px-6 py-2 text-white hover:opacity-90"
+            className="button-primary h-[63px] w-[155px] px-6 py-2.5 md:w-[316px]"
           >
             Guardar y continuar
           </button>
           <button
             type="button"
             onClick={prevStep}
-            className="rounded-[37px] bg-[#19233A] px-6 py-2 text-white hover:bg-gray-400"
+            className="button-secondary h-[63px] w-[155px] px-6 py-2.5 md:w-[316px]"
           >
             Cancelar
           </button>
