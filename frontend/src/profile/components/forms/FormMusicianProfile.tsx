@@ -133,10 +133,10 @@ const FormMusicianProfile = ({ onClose }: FormMusicianProfileProps) => {
       />
 
       <div className="containerBtnSectionProfile">
-        <Button type="submit" className="btnSectionProfile" disabled={isPending} bgType="primary">
+        <Button type="submit" disabled={isPending} bgType="primary">
           {isPending ? "GUARDANDO..." : "GUARDAR"}
         </Button>
-        <Button type="button" className="btnSectionProfile" onClick={onClose} bgType="secondary">
+        <Button type="button" onClick={onClose} bgType="secondary">
           CANCELAR
         </Button>
       </div>

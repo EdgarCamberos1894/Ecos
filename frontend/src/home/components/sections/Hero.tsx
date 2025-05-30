@@ -3,6 +3,7 @@ import HeroVideo from "@/assets/Video_Ecos.mp4";
 import AuthModal, { AuthMode } from "@/auth/components/AuthModal";
 import { useAuth } from "@/auth/hooks/use-auth";
 import WelcomeUserModal from "@/auth/components/WelcomeUserModal";
+import { Link } from "react-router";
 
 export default function Hero() {
   const [openModal, setOpenModal] = useState<AuthMode | null>(null);
@@ -16,11 +17,6 @@ export default function Hero() {
 
   const handleCloseModal = () => {
     setOpenModal(null);
-  };
-
-  const handleScrollToExploreSection = () => {
-    const $section = document.getElementById("#explorar");
-    if ($section) $section.scrollIntoView({ behavior: "smooth" });
   };
 
   useEffect(() => {
@@ -55,7 +51,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <section className="grid">
+    <section className={`grid ${user !== null ? "-mb-20 pb-20" : ""}`}>
       <video
         ref={videoRef}
         className="aspect[1920/986] relative max-h-[986px] w-full object-cover"
@@ -89,23 +85,21 @@ export default function Hero() {
             >
               Regístrate
             </button>
-            <button
-              type="button"
-              onClick={handleScrollToExploreSection}
+            <Link
+              to={{ pathname: "/", hash: "explorar" }}
               className="button-secondary px-4 py-2 text-xs font-medium transition-colors md:px-6 md:py-2.5 md:text-base"
             >
               Explora
-            </button>
+            </Link>
           </div>
         ) : (
           <div>
-            <button
-              type="button"
-              onClick={handleScrollToExploreSection}
-              className="button-primary px-4 py-2 text-xs font-medium transition-colors md:px-6 md:py-2.5 md:text-base"
+            <Link
+              to={{ pathname: "/", hash: "explorar" }}
+              className="button-secondary px-4 py-2 text-xs font-medium transition-colors md:px-6 md:py-2.5 md:text-base"
             >
               Explora
-            </button>
+            </Link>
           </div>
         )}
       </div>

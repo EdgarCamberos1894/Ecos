@@ -218,15 +218,17 @@ export default function ProfileMusicianPage() {
           </>
         )}
 
-        <div className="mt-24 flex justify-end gap-7 self-center px-4 sm:px-12 md:gap-[46px] lg:px-44">
-          <button
-            type="button"
-            className="button-primary min-h-[40px] min-w-[212px] px-6 py-2.5 text-base font-medium transition-colors md:min-w-[316px]"
-            onClick={() => navigate("/profile/musician/edit")}
-          >
-            Editar
-          </button>
-        </div>
+        {isProfileFromUser && (
+          <div className="mt-24 flex justify-end gap-7 self-center px-4 sm:px-12 md:gap-[46px] lg:px-44">
+            <button
+              type="button"
+              className="button-primary min-h-[40px] min-w-[212px] px-6 py-2.5 text-base font-medium transition-colors md:min-w-[316px]"
+              onClick={() => navigate("/profile/musician/edit")}
+            >
+              Editar
+            </button>
+          </div>
+        )}
       </main>
 
       {isDonationModalOpen && <DonationModal artistId={Number(id)} onClose={handleDonationModal} />}

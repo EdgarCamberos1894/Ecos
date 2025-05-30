@@ -95,10 +95,6 @@
   @apply relative order-last col-start-1 flex gap-6 self-end sm:justify-end lg:top-15 lg:col-start-2;
 }
 
-.btnSectionProfile {
-  @apply w-full text-white sm:w-auto;
-}
-
 /* Reproductor Home */
 .noScrollbar::-webkit-scrollbar {
   display: none;
