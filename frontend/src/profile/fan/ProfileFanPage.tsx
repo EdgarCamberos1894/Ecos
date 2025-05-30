@@ -23,7 +23,7 @@ const ProfileFanPage = () => {
     <div className="bg-ecos-base-2 flex w-screen flex-col items-center space-y-20">
       <img src={ImageBanner} alt="banner" className="w-full object-cover" />
 
-      <div className="px-sections w-full space-y-20">
+      <div className="w-full space-y-20 px-4 md:px-18 lg:px-40">
         <div className="text-ecos-blue">
           <h1 className="mb-2 text-start text-4xl font-medium sm:text-5xl">¡BIENVENIDO!</h1>
           <h3 className="text-2xl sm:text-3xl">{user.name}</h3>
@@ -31,6 +31,7 @@ const ProfileFanPage = () => {
 
         <FavoriteSongList />
         <MusicSearch />
+
         <FeaturedArtists />
         <UpcomingEvents />
       </div>
