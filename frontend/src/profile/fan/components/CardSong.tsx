@@ -45,8 +45,7 @@ const CardSongFavorite = ({
         setIsVisible(false);
         toast.success("¡Canción eliminada con éxito!");
       },
-      onError: (error) => {
-        console.error("Error al eliminar la canción:", error);
+      onError: () => {
         toast.error("Ocurrió un error al eliminar la canción. Intentá nuevamente.");
       },
     });
