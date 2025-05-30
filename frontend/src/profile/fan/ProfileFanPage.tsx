@@ -7,6 +7,7 @@ import FeaturedTopicsList from "@/home/components/FeaturedSongs";
 import UpcomingEvents from "@/home/components/sections/UpcomingEvents";
 import { useRequiredUser } from "@/auth/hooks/use-required-user";
 import Button from "@/app/ui/Button";
+import MusicSearch from "@/app/components/MusicSearch";
 
 const ProfileFanPage = () => {
   const location = useLocation();
@@ -36,6 +37,7 @@ const ProfileFanPage = () => {
 
       <div className="w-full">
         <FavoriteSongList refresh={refreshFavorites} />
+        <MusicSearch />
         <FeaturedTopicsList onFavoriteAdded={handleFavoriteAdded} />
         <FeaturedArtists />
         <Link to={"/artist"} className="mx-36 mt-20 hidden lg:flex lg:justify-center">

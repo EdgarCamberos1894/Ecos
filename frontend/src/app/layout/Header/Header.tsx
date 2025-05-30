@@ -10,6 +10,12 @@ import { useAuth } from "@/auth/hooks/use-auth";
 import UserMenu from "@/auth/components/UserMenu";
 import WelcomeUserModal from "@/auth/components/WelcomeUserModal";
 
+const FAN_NAVBAR = [
+  { name: "Mis Favoritos", hash: "/profile/fan/:id/#favoritos" },
+  { name: "Explorar", hash: "/profile/fan/:id/#explorar" },
+  { name: "Eventos", hash: "/eventos" },
+];
+
 export const Header = () => {
   const [openModal, setOpenModal] = useState<AuthMode | null>(null);
   const [showWelcomeUser, setShowWelcomeUser] = useState(false);
@@ -59,7 +65,7 @@ export const Header = () => {
           </Link>
 
           {/* Buscador solo visible si está logueado */}
-          {user && (
+          {user?.role === "MUSICIAN" ? (
             <Input
               placeholder="Busca Artista, Álbum, Canción"
               startIcon={<MenuIcon />}
@@ -67,7 +73,18 @@ export const Header = () => {
               classNameContainer="hidden md:flex 
          w-full bg-white items-center gap-2 h-12 mx-6 w-full max-w-[400px] md:max-w-[800px] "
             />
-          )}
+          ) : user?.role === "FAN" ? (
+            <nav className="hidden gap-20 lg:flex">
+              {FAN_NAVBAR.map((item) => {
+                const path = item.hash.replace(":id", user.id);
+                return (
+                  <Link key={item.name} to={path} className="text-2xl text-white">
+                    {item.name}
+                  </Link>
+                );
+              })}
+            </nav>
+          ) : null}
 
           {/* Avatar o botones de login/register */}
           <div className="flex flex-shrink-0 items-center justify-between">
