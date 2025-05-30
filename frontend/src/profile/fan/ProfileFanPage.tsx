@@ -1,17 +1,14 @@
-import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router";
+import { useEffect } from "react";
+import { useLocation } from "react-router";
 import ImageBanner from "@/assets/bannerProfileFan.webp";
 import FavoriteSongList from "./components/FavoriteSongList";
 import FeaturedArtists from "@/home/components/sections/FeaturedArtists";
-import FeaturedTopicsList from "@/home/components/FeaturedSongs";
 import UpcomingEvents from "@/home/components/sections/UpcomingEvents";
 import { useRequiredUser } from "@/auth/hooks/use-required-user";
-import Button from "@/app/ui/Button";
 import MusicSearch from "@/app/components/MusicSearch";
 
 const ProfileFanPage = () => {
   const location = useLocation();
-  const [refreshFavorites, setRefreshFavorites] = useState(0);
 
   const user = useRequiredUser();
 
@@ -22,32 +19,19 @@ const ProfileFanPage = () => {
     }
   }, [location]);
 
-  const handleFavoriteAdded = () => {
-    setRefreshFavorites((prev) => prev + 1);
-  };
-
   return (
-    <div className="flex w-screen flex-col items-center gap-24 px-2.5 lg:px-0">
+    <div className="bg-ecos-base-2 flex w-screen flex-col items-center space-y-20">
       <img src={ImageBanner} alt="banner" className="w-full object-cover" />
 
-      <div className="w-full lg:w-4/6">
-        <h1 className="mb-2 text-start text-4xl font-medium sm:text-5xl">¡BIENVENIDO!</h1>
-        <h3 className="text-2xl sm:text-3xl">{user.name}</h3>
-      </div>
+      <div className="px-sections w-full space-y-20">
+        <div className="text-ecos-blue">
+          <h1 className="mb-2 text-start text-4xl font-medium sm:text-5xl">¡BIENVENIDO!</h1>
+          <h3 className="text-2xl sm:text-3xl">{user.name}</h3>
+        </div>
 
-      <div className="w-full">
-        <FavoriteSongList refresh={refreshFavorites} />
+        <FavoriteSongList />
         <MusicSearch />
-        <FeaturedTopicsList onFavoriteAdded={handleFavoriteAdded} />
         <FeaturedArtists />
-        <Link to={"/artist"} className="mx-36 mt-20 hidden lg:flex lg:justify-center">
-          <Button
-            type="button"
-            className="rounded bg-[#19233A] text-white lg:w-96"
-            children="VER MÁS"
-            bgType="secondary"
-          ></Button>
-        </Link>
         <UpcomingEvents />
       </div>
     </div>
