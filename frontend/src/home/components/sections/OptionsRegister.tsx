@@ -46,16 +46,16 @@ export default function OptionsRegister() {
   ];
 
   return (
-    <div className="px-sections mt-20 flex flex-col justify-around space-y-12">
-      <div className="text-ecos-blue space-y-2 text-start">
+    <section className="mx-auto mt-20 flex w-full flex-col gap-24 px-2 xl:max-w-[1610px]">
+      <div className="text-ecos-blue space-y-2 px-4 text-start xl:px-0">
         <Logo textClassName="text-8xl" />
         <h2 className="text-4xl">Conectamos músicos, fans y eventos en una sola plataforma.</h2>
       </div>
-      <div className="flex w-full flex-col items-center justify-around gap-[1.875rem] lg:flex-row">
+      <div className="flex flex-col items-center justify-center gap-7.5 xl:flex-row xl:gap-6">
         {cardsData.map((data) => (
           <OptionsRegisterCards key={data.id} {...data} />
         ))}
       </div>
-    </div>
+    </section>
   );
 }

@@ -44,7 +44,9 @@ const OptionsRegisterCards = ({
     if (id === "musicos" || id === "fans") {
       handleOpenModal("register");
     } else if (id === "eventos") {
-      window.location.hash = "#eventos";
+      const $section = document.getElementById("eventos");
+      if ($section) $section.scrollIntoView({ behavior: "smooth" });
+      history.pushState(null, "null", "#eventos");
     }
   };
 
@@ -82,7 +84,7 @@ const OptionsRegisterCards = ({
         />
       </div>
 
-      <div className="text-ecos-blue hidden max-w-[25rem] flex-col justify-between gap-3.5 rounded-[1.25rem] py-3 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] md:flex">
+      <div className="text-ecos-blue hidden max-w-[520px] flex-col justify-between gap-3.5 rounded-[1.25rem] py-3 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] md:flex">
         {HeaderContent}
         <img src={imageSrc} alt={title} className="object-cover" />
         <div className="max-h-[6.125rem] w-[21.25rem] space-y-[0.438rem] px-4 text-start">
