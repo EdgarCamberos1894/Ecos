@@ -19,7 +19,7 @@ const ProfileUserModal = ({ onClose }: ProfileModalProps) => {
       firstNormalText={"Registrate en "}
       highlightedText={"ECOS"}
       secondNormalText={" como músico"}
-      className="h-full w-full max-w-max items-center justify-center overflow-y-auto"
+      className="h-full w-full max-w-[1080px] items-center justify-center overflow-y-auto"
     >
       {role === "MUSICIAN" && <FormMusicianProfile onClose={onClose} />}
       {role === "FAN" && <FormFanProfile onClose={onClose} />}

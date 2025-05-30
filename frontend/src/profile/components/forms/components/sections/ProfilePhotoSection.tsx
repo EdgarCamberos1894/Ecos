@@ -35,7 +35,7 @@ const ProfilePhotoSection = ({ profileImage, onImageChange, className }: Profile
         </div>
         <button
           type="button"
-          className="bg-ecos-base absolute right-14 -bottom-6 flex h-20 w-20 items-center justify-center rounded-full drop-shadow-md"
+          className="bg-ecos-base absolute right-14 -bottom-6 flex h-20 w-20 cursor-pointer items-center justify-center rounded-full drop-shadow-md"
           onClick={() => {
             setOpenProfileImageModal(true);
           }}

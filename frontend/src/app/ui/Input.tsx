@@ -16,7 +16,7 @@ const Input = ({
 }: InputProps) => {
   return (
     <div
-      className={`border-ecos-blue placeholder-ecos-blue rounded-[1.688rem] border px-4 py-2 text-[#291117] ${classNameContainer}`}
+      className={`border-ecos-blue placeholder-ecos-blue w-full rounded-[1.688rem] border px-4 py-2 text-[#291117] ${classNameContainer}`}
     >
       {startIcon}
       <input {...props} className={`w-full focus:outline-none ${className}`} />
