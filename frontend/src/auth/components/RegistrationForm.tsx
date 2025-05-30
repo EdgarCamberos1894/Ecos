@@ -83,7 +83,7 @@ const RegistrationForm = ({ role }: RegistrationFormProps) => {
 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex w-3/5 flex-col gap-6">
+      <form onSubmit={handleSubmit(onSubmit)} className="flex w-full max-w-[329px] flex-col gap-5">
         <div>
           <Input
             type="text"
@@ -123,15 +123,15 @@ const RegistrationForm = ({ role }: RegistrationFormProps) => {
           </button>
         </div>
 
-        <label className="flex items-center justify-center gap-2 text-sm">
-          <input type="checkbox" {...register("terms")} className="size-6" />
+        <label className="-mt-3 flex items-center justify-start gap-2 text-sm">
+          <input type="checkbox" {...register("terms")} className="m-2.5 size-6" />
           <span className="checkbox-label text-ecos-blue">
             He leído y acepto los <u className="hover:cursor-pointer">Términos de uso</u>
           </span>
         </label>
         {errors.terms && <p className="mt-1 h-6 text-red-500">{errors.terms.message}</p>}
 
-        <Button type="submit" bgType="primary" disabled={isPending}>
+        <Button type="submit" bgType="primary" disabled={isPending} className="mt-5">
           {isPending ? (
             <>
               Registrándose... <Spinner className="ml-2 size-8 rounded-full bg-white/20" />
