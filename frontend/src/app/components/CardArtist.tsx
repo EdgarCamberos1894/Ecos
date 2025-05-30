@@ -25,20 +25,20 @@ const CardArtist = ({ musician }: CardArtistProps) => {
 
       <div className="text-ecos-blue flex h-[16.25rem] flex-col justify-between text-start md:h-[13.75rem] lg:h-[12.5rem]">
         <div className="flex flex-col gap-1">
-          <h3 className="text-2xl font-semibold uppercase">{stageName}</h3>
-          <p className="text-[0.688rem] font-medium">{genre}</p>
-          <p className="w-max-[26.625rem] line-clamp-7 text-sm break-words whitespace-pre-line">
+          <h3 className="text-2xl font-medium uppercase">{stageName}</h3>
+          <p className="text-base font-medium">{genre}</p>
+          <p className="w-max-[26.625rem] line-clamp-7 text-base font-light break-words whitespace-pre-line">
             {description}
           </p>
         </div>
 
         <div>
           <Button
-            children="Ver más"
+            children="Ver contenido"
             bgType="primary"
             type="button"
             onClick={goToMusicianProfile}
-            className="w-full max-w-[7.5rem] px-6 py-2.5 text-white"
+            className="w-fit px-6 py-2.5 text-white"
           />
         </div>
       </div>
