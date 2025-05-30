@@ -13,7 +13,7 @@ import WelcomeUserModal from "@/auth/components/WelcomeUserModal";
 const FAN_NAVBAR = [
   { name: "Mis Favoritos", hash: "/profile/fan/:id/#favoritos" },
   { name: "Explorar", hash: "/profile/fan/:id/#explorar" },
-  { name: "Eventos", hash: "/eventos" },
+  { name: "Eventos", hash: "/fan/events" },
 ];
 
 export const Header = () => {
