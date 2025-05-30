@@ -2,7 +2,6 @@ import { Route, Routes } from "react-router";
 import { HomePage } from "@/home/HomePage";
 import { MainLayout } from "@/app/layout/MainLayout";
 import ProfileMusicianPage from "@/profile/musician/ProfileMusicianPage";
-import ArtistPage from "@/artist/components/ArtistPage";
 import ProfileFanPage from "@/profile/fan/ProfileFanPage";
 import ProtectedRoute from "@/auth/components/ProtectedRoute";
 import EventPage from "@/event/EventPage";
@@ -18,7 +17,6 @@ export const AppRoutes = () => {
       {/* Layout principal con header y footer */}
       <Route element={<MainLayout />}>
         <Route path="/" element={<HomePage />} />
-        <Route path="/artist" element={<ArtistPage />} />
         <Route path="/profile/musician/:id" element={<ProfileMusicianPage />} />
 
         {/* Rutas protegidas */}
