@@ -46,7 +46,9 @@ interface Item {
 }
 
 interface MusicianInfo {
+  artistId: number;
   stageName: string | null;
+  photoUrl: string | null;
   artistName: string;
   spotifyUrl: string | null;
   youtubeUrl: string | null;
