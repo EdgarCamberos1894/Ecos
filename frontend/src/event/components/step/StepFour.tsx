@@ -4,7 +4,7 @@ import { useApiMutation } from "@/shared/hooks/use-api-mutation";
 import { toast } from "sonner";
 import { useRequiredUser } from "@/auth/hooks/use-required-user";
 import { useNavigate } from "react-router";
-import { CalendarIcon, ClockIcon, TicketIcon, LocationIcon } from "../ui/Icons";
+import { CalendarIcon, ClockIcon, TicketIcon, LocationIcon } from "../../../app/ui/Icons";
 import { CalendarButton } from "../ui/CalendarButton";
 
 interface StepFourProps {

@@ -1,6 +1,5 @@
 import ProfileImage from "../profilePhotoModal/components/ProfileImage";
-import { Avatar } from "@/auth/components/ui/Icons";
-import { Edit } from "../../../ui/Icons";
+import { Avatar, Edit } from "@/app/ui/Icons";
 import { useState } from "react";
 import ProfilePhotoModal from "../profilePhotoModal/ProfilePhotoModal";
 

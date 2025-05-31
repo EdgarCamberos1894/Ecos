@@ -1,9 +1,7 @@
 import { z, ZodError } from "zod";
 import { useState } from "react";
 import { FormData } from "@/event/type/FormData";
-import { HollowCircle, PlusCircleIcon } from "../ui/Icons";
-import { MinusCircleIcon } from "../ui/Icons";
-import { DollarIcon } from "../ui/Icons";
+import { DollarIcon, HollowCircle, MinusCircleIcon, PlusCircleIcon } from "@/app/ui/Icons";
 
 interface StepThreeProps {
   nextStep: () => void;

@@ -1,4 +1,4 @@
-import { ClipboardCopyIcon } from "../ui/ClipboardCopyIcon";
+import { ClipboardCopyIcon } from "@/app/ui/Icons";
 import { useState } from "react";
 
 interface LabeledFieldReadOnlyProps {

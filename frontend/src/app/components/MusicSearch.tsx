@@ -1,6 +1,5 @@
 import Input from "@/app/ui/Input";
-import MenuIcon from "@/app/ui/MenuIcon";
-import Lens from "@/app/ui/LensIcon";
+import { LensIcon, MenuIcon } from "../ui/Icons";
 
 const MusicSearch = () => {
   return (
@@ -11,7 +10,7 @@ const MusicSearch = () => {
       <Input
         placeholder="Busca Artista, Album, Canción"
         startIcon={<MenuIcon />}
-        endIcon={<Lens />}
+        endIcon={<LensIcon />}
         classNameContainer="container-search"
       />
     </section>

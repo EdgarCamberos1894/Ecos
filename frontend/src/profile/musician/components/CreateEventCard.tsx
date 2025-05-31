@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import { CalendarPlus } from "../../components/ui/Icons";
+import { CalendarPlus } from "@/app/ui/Icons";
 
 export default function CreateEventoCard() {
   return (

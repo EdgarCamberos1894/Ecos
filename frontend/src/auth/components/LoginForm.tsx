@@ -3,7 +3,6 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import Button from "@/app/ui/Button";
 import Input from "@/app/ui/Input";
-import { EyeOff, EyeOn } from "./ui/Icons";
 import { useState } from "react";
 import { useApiMutation } from "@/shared/hooks/use-api-mutation";
 import { useAuth } from "../hooks/use-auth";
@@ -11,6 +10,7 @@ import { useNavigate } from "react-router";
 import { toast } from "sonner";
 import { User } from "../types";
 import { Spinner } from "@/app/ui/Spinner";
+import { EyeOff, EyeOn } from "@/app/ui/Icons";
 
 const LoginSchema = z.object({
   email: z.string().email({ message: "El email ingresado no es válido" }),

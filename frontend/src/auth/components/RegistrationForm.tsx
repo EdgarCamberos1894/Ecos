@@ -3,12 +3,12 @@ import Input from "@/app/ui/Input";
 import { z } from "zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { EyeOff, EyeOn } from "./ui/Icons";
 import { useApiMutation } from "@/shared/hooks/use-api-mutation";
 import { useAuth } from "../hooks/use-auth";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Spinner } from "@/app/ui/Spinner";
+import { EyeOff, EyeOn } from "@/app/ui/Icons";
 
 const nameRegex = /^[\p{L}0-9\s]+$/u;
 const noOnlySpaces = /^(?!\s*$).+/;
