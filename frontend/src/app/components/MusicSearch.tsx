@@ -9,7 +9,6 @@ import { SearchResult } from "../types/search-normalize-data";
 import SearchCard from "./SearchCard";
 import { Spinner } from "../ui/Spinner";
 
-
 const MusicSearch = () => {
   const [query, setQuery] = useState("");
   const debouncedQuery = useDebounce(query);
@@ -61,7 +60,7 @@ const MusicSearch = () => {
 
       <div className="group relative">
         <Input
-          placeholder="Busca Artista, Album, Canción"
+          placeholder="Buscar artista, canción"
           startIcon={<MenuIcon />}
           endIcon={
             isSongsPending && isMusiciansPending ? <Spinner className="m-2 size-6" /> : <LensIcon />

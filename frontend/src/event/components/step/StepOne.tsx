@@ -82,7 +82,7 @@ export default function StepOne({ nextStep, formData, setFormData }: StepOneProp
             required
             onChange={handleChange}
             error={formErrors.name}
-            placeholder="Introduce el nombre de tu evento"
+            placeholder="Ingresa el nombre de tu evento"
           />
 
           <InputField
@@ -93,7 +93,7 @@ export default function StepOne({ nextStep, formData, setFormData }: StepOneProp
             required
             onChange={handleChange}
             error={formErrors.category}
-            placeholder="Introduce la categoría del evento"
+            placeholder="Ingresa la categoría"
           />
         </div>
       </div>
@@ -103,10 +103,10 @@ export default function StepOne({ nextStep, formData, setFormData }: StepOneProp
       <InputTime form={formData} handleChange={handleChange} errors={formErrors} />
 
       <div className="flex flex-col">
-        <p className="mb-2 font-[Roboto] text-2xl font-medium">Lugar</p>
+        <p className="mb-2 font-[Roboto] text-2xl font-medium">Lugar del evento</p>
         <InputField
           type="text"
-          label="¿Dónde se realiza el evento?"
+          label="¿Dónde se realizará?"
           name="location"
           value={formData.location}
           required
