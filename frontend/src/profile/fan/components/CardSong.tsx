@@ -89,7 +89,7 @@ const CardSongFavorite = ({
 
   return (
     <>
-      <div className="group card-shadow relative max-w-[390px] justify-items-center space-y-6 rounded-[40px] bg-white px-[25px] py-[42px] sm:px-8 sm:py-10">
+      <div className="group card-shadow relative flex max-w-[390px] flex-col items-center justify-between space-y-6 rounded-[40px] bg-white px-[25px] py-[42px] sm:px-8 sm:py-10">
         <div className="w-full">
           <CloseIcon
             className="absolute top-5 right-5 z-10 h-[43px] w-[43px] cursor-pointer"
