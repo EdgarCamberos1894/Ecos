@@ -81,14 +81,14 @@ export default function StepThree({ nextStep, prevStep, formData, setFormData }:
     <div className="flex h-screen w-full flex-col items-center md:h-full">
       <form
         onSubmit={handleSubmit}
-        className="flex h-full w-full max-w-7xl flex-col justify-between px-4 py-8"
+        className="flex h-full w-full max-w-7xl flex-col gap-y-6 px-4 py-8"
       >
         <div className="space-y-8 overflow-auto pb-4">
-          <ul className="w-full max-w-[864px] space-y-6">
+          <ul className="w-full max-w-[864px] space-y-8">
             {entryPoints.map((ticket, index) => (
               <li
                 key={ticket.id}
-                className="flex w-full flex-col gap-x-8 md:flex-row md:items-center"
+                className="flex w-full flex-col gap-x-8 gap-y-4 md:flex-row md:items-center"
               >
                 <div className="flex w-[316px] items-center gap-1 md:w-[380px]">
                   <HollowCircle />
@@ -165,14 +165,14 @@ export default function StepThree({ nextStep, prevStep, formData, setFormData }:
         <div className="mt-6 flex justify-center space-x-4 lg:justify-end">
           <button
             type="submit"
-            className="button-primary h-[63px] w-[155px] px-6 py-2.5 md:w-[316px]"
+            className="button-primary h-[63px] w-[160px] py-2.5 md:w-[316px] md:px-6"
           >
             Guardar y continuar
           </button>
           <button
             type="button"
             onClick={prevStep}
-            className="button-secondary h-[63px] w-[155px] px-6 py-2.5 md:w-[316px]"
+            className="button-secondary h-[63px] w-[160px] py-2.5 md:w-[316px]"
           >
             Cancelar
           </button>
