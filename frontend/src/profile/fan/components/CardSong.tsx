@@ -1,17 +1,11 @@
-import Button from "@/app/ui/Button";
 import defaultImage from "@/assets/imagePlay.svg";
-import { CloseIcon } from "../ui/CloseIcon";
-import { NextIcon } from "../ui/NextIcon";
-import { PlayIcon } from "../../../app/ui/PlayIcon";
-import { PrevIcon } from "../ui/PrevIcon";
-import { RepeatLeftIcon } from "../ui/RepeatLeftIcon";
-import { RepeatRightIcon } from "../ui/RepeatRightIcon";
-import DonateIcon from "../ui/DonateIcon";
+import { RepeatLeftIcon, RepeatRightIcon, PauseIcon, PlayIcon, CloseIcon } from "@/app/ui/Icons";
 import { useState, useRef } from "react";
 import DonationModal from "../DonationModal";
 import { useApiMutation } from "@/shared/hooks/use-api-mutation";
 import { toast } from "sonner";
-import { PauseIcon } from "../../../app/ui/PauseIcon";
+import ConfirmDialogModal from "@/shared/components/Modals/ConfirmDialogModal";
+import { DonateButton } from "@/profile/components/DonateButton";
 
 interface CardSongProps {
   id: number;
@@ -31,6 +25,7 @@ const CardSongFavorite = ({
   audioUrl,
 }: CardSongProps) => {
   const [isDonationModalOpen, setIsDonationModalOpen] = useState(false);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -47,19 +42,18 @@ const CardSongFavorite = ({
         setIsVisible(false);
         toast.success("¡Canción eliminada con éxito!");
       },
-      onError: (error) => {
-        console.error("Error al eliminar la canción:", error);
+      onError: () => {
         toast.error("Ocurrió un error al eliminar la canción. Intentá nuevamente.");
       },
     });
   };
 
-  const handleOpenDonationModal = () => {
-    setIsDonationModalOpen(true);
+  const handleDonationModal = () => {
+    setIsDonationModalOpen(!isDonationModalOpen);
   };
 
-  const handleCloseDonationModal = () => {
-    setIsDonationModalOpen(false);
+  const handleConfirmModal = () => {
+    setIsConfirmModalOpen(!isConfirmModalOpen);
   };
 
   const handlePlayPause = () => {
@@ -88,71 +82,62 @@ const CardSongFavorite = ({
     }
   };
 
-  const handleRestart = () => {
-    if (audioRef.current) {
-      audioRef.current.currentTime = 0;
-      audioRef.current.play();
-      setIsPlaying(true);
-    }
-  };
-
-  const handleStop = () => {
-    if (audioRef.current) {
-      audioRef.current.pause();
-      audioRef.current.currentTime = Math.max(0, audioRef.current.duration - 10);
-      audioRef.current.play();
-      setIsPlaying(true);
-    }
-  };
-
   if (!isVisible) return null;
 
   return (
     <>
-      <div className="mx-auto w-full max-w-[390px] space-y-5">
-        <div className="group relative space-y-8 rounded-[40px] border-4 border-[#9898A6] px-6 py-8 sm:px-8 sm:py-10">
+      <div className="group card-shadow relative flex max-w-[390px] flex-col items-center justify-between space-y-6 rounded-[40px] bg-white px-[25px] py-[42px] sm:px-8 sm:py-10">
+        <div className="w-full">
           <CloseIcon
-            className="absolute top-5 right-5 z-10 h-4 w-4 cursor-pointer"
-            onClick={handleDelete}
+            className="absolute top-5 right-5 z-10 h-[43px] w-[43px] cursor-pointer"
+            onClick={handleConfirmModal}
           />
-          <img
-            src={imageSrc}
-            alt={`Imagen de ${stageName}`}
-            className="mx-auto aspect-square max-h-[320px] max-w-[320px] rounded-[42px] object-cover"
-          />
-          <div className="text-center">
-            <h3 className="text-ecos-blue text-center text-xl">{title}</h3>
-            <p className="text-ecos-dark-grey">{stageName}</p>
-          </div>
-
-          <div className="text-ecos-orange mt-4 flex cursor-pointer items-center justify-center gap-3">
-            <PrevIcon onClick={handleRestart} />
-            <RepeatLeftIcon onClick={handleRewind} />
-            {isPlaying ? (
-              <PauseIcon onClick={handlePlayPause} />
-            ) : (
-              <PlayIcon onClick={handlePlayPause} />
-            )}
-            <RepeatRightIcon onClick={handleForward} />
-            <NextIcon onClick={handleStop} />
-          </div>
         </div>
 
-        <Button
-          type="button"
+        <img
+          src={imageSrc}
+          alt={`Imagen de ${stageName}`}
+          className="mx-auto aspect-square w-full max-w-[320px] rounded-[42px] object-cover"
+        />
+        <div className="text-ecos-blue text-center text-2xl">
+          <h3 className="text-center font-medium">{title}</h3>
+          <p className="font-light">{stageName}</p>
+        </div>
+
+        <div className="text-ecos-orange flex items-center justify-center gap-3">
+          <RepeatLeftIcon onClick={handleRewind} className="cursor-pointer" />
+          {isPlaying ? (
+            <PauseIcon
+              onClick={handlePlayPause}
+              className="bg-ecos-orange size-12 cursor-pointer rounded-full border-4 border-white stroke-white p-2"
+            />
+          ) : (
+            <PlayIcon
+              onClick={handlePlayPause}
+              className="bg-ecos-orange size-12 cursor-pointer rounded-full border-4 border-white stroke-white p-2"
+            />
+          )}
+          <RepeatRightIcon onClick={handleForward} className="cursor-pointer" />
+        </div>
+
+        <DonateButton
           children="Donar"
-          startIcon={<DonateIcon />}
-          bgType="secondary"
-          className="self-start text-white shadow-md"
+          className="button-primary flex h-14 w-full max-w-[194px] items-center justify-center gap-2.5 rounded-[37px] px-[41px] py-1.5"
           onClick={() => {
-            handleOpenDonationModal();
+            handleDonationModal();
           }}
         />
       </div>
 
-      {isDonationModalOpen && (
-        <DonationModal artistId={artistId} onClose={handleCloseDonationModal} />
+      {isConfirmModalOpen && (
+        <ConfirmDialogModal
+          onClose={handleConfirmModal}
+          onConfirm={handleDelete}
+          message={`¿Estás seguro de que deseas eliminar la canción "${title}" de tu lista de favoritos?`}
+        />
       )}
+
+      {isDonationModalOpen && <DonationModal artistId={artistId} onClose={handleDonationModal} />}
 
       <audio ref={audioRef} src={audioUrl} />
     </>

@@ -3,12 +3,12 @@ import Input from "@/app/ui/Input";
 import { z } from "zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { EyeOff } from "./ui/EyeOff";
-import { EyeOn } from "./ui/EyeOn";
 import { useApiMutation } from "@/shared/hooks/use-api-mutation";
 import { useAuth } from "../hooks/use-auth";
 import { useState } from "react";
 import { toast } from "sonner";
+import { Spinner } from "@/app/ui/Spinner";
+import { EyeOff, EyeOn } from "@/app/ui/Icons";
 
 const nameRegex = /^[\p{L}0-9\s]+$/u;
 const noOnlySpaces = /^(?!\s*$).+/;
@@ -83,9 +83,14 @@ const RegistrationForm = ({ role }: RegistrationFormProps) => {
 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex w-3/5 flex-col gap-6">
+      <form onSubmit={handleSubmit(onSubmit)} className="flex w-full max-w-[329px] flex-col gap-5">
         <div>
-          <Input type="text" placeholder="Nombre" {...register("name")} />
+          <Input
+            type="text"
+            placeholder="Nombre y apellido"
+            className="text-ecos-blue"
+            {...register("name")}
+          />
           {errors.name && <p className="mt-1 mb-3 h-6 text-red-500">{errors.name.message}</p>}
         </div>
 
@@ -118,21 +123,22 @@ const RegistrationForm = ({ role }: RegistrationFormProps) => {
           </button>
         </div>
 
-        <label className="flex items-center justify-center gap-2 text-sm">
-          <input type="checkbox" {...register("terms")} className="size-6" />
-          <span className="checkbox-label text-[#6E6E6E]">
-            Leí y acepto los <u className="hover:cursor-pointer">Términos de uso</u>.
+        <label className="-mt-3 flex items-center justify-start gap-2 text-sm">
+          <input type="checkbox" {...register("terms")} className="m-2.5 size-6" />
+          <span className="checkbox-label text-ecos-blue">
+            He leído y acepto los <u className="hover:cursor-pointer">Términos de uso</u>
           </span>
         </label>
         {errors.terms && <p className="mt-1 h-6 text-red-500">{errors.terms.message}</p>}
 
-        <Button
-          bgType="secondary"
-          className="text-white hover:cursor-pointer"
-          type="submit"
-          disabled={isPending}
-        >
-          {isPending ? "Registrándose..." : "Registrate"}
+        <Button type="submit" bgType="primary" disabled={isPending} className="mt-5">
+          {isPending ? (
+            <>
+              Registrándose... <Spinner className="ml-2 size-8 rounded-full bg-white/20" />
+            </>
+          ) : (
+            "Regístrate"
+          )}
         </Button>
 
         {errors.root && <p className="text-red-500">{errors.root.message}</p>}

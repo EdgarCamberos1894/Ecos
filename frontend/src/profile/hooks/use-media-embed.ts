@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { extractEmbedUrl, type MediaType } from "../utils/media-utils";
+import { toast } from "sonner";
 
 export const useMediaEmbed = (platform: string) => {
   const [input, setInput] = useState<string>("");
@@ -13,7 +14,7 @@ export const useMediaEmbed = (platform: string) => {
       setEmbedUrl(url);
       setMediaType(type);
     } else {
-      alert(`No se pudo detectar un link válido de ${platform}.`);
+      toast.error(`No se pudo detectar un link válido de ${platform}`);
     }
 
     return { url, type };

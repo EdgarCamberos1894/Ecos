@@ -1,21 +1,21 @@
-import { PlayIcon } from "@/home/components/ui/PlayIcon";
-import { PlusCircle } from "@/home/components/ui/PlusCircle";
+import { PlusCircle } from "@/app/ui/Icons";
 import defaultImage from "@/assets/imagePlay.svg";
 import { useState, useRef, useEffect } from "react";
-import { PauseIcon } from "./ui/PauseIcon";
 import { SongList } from "./types/SongList";
 import { useApiMutation } from "@/shared/hooks/use-api-mutation";
 import { useAuth } from "@/auth/hooks/use-auth";
 import { toast } from "sonner";
+import { PauseIcon, PlayIcon } from "@/app/ui/Icons";
 
 interface CardSongProps {
   song: SongList;
   isPlaying: boolean;
   onPlay: () => void;
   onPause: () => void;
+  onFavoriteAdded?: () => void;
 }
 
-const CardSong = ({ song, isPlaying, onPlay, onPause }: CardSongProps) => {
+const CardSong = ({ song, isPlaying, onPlay, onPause, onFavoriteAdded }: CardSongProps) => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const imageSrc = song.musicianInfo.photoUrl ?? defaultImage;
   const { title, genre, audioUrl } = song;
@@ -39,6 +39,7 @@ const CardSong = ({ song, isPlaying, onPlay, onPause }: CardSongProps) => {
     saveFavoriteMutation.mutate(undefined, {
       onSuccess: () => {
         toast.success("Canción guardada en favoritos.");
+        if (onFavoriteAdded) onFavoriteAdded();
       },
       onError: () => toast.error("No se pudo guardar la canción."),
     });
@@ -89,34 +90,47 @@ const CardSong = ({ song, isPlaying, onPlay, onPause }: CardSongProps) => {
 
   return (
     <>
-      <div className="flex w-[600px] items-center gap-4 rounded-lg py-2">
+      <div className="flex h-[9.563rem] w-[22.75rem] items-center gap-[1.188rem] pt-3.5 pb-[1.188rem] pl-2 md:w-[39.625rem] lg:h-[7.5rem]">
         <img
           src={imageSrc}
           alt={stageName}
-          className="roundend-[20px] aspect-square h-[120px] w-[120px]"
+          className="roundend-[1.25rem] aspect-square h-[7.5rem] w-[7.5rem]"
         />
-        <div className="flex w-full flex-col gap-1 text-start">
-          <h3 className="text-ecos-blue text-[22px]">{title}</h3>
+        <div className="flex h-28 w-full flex-col justify-center gap-1 text-start">
+          <h3 className="text-ecos-blue text-[1.375rem]">{title}</h3>
 
-          <span className="text-ecos-dark-grey text-sm">
+          <span className="text-sm text-[#49454f]">
             Artista: {stageName} / Género: {genre}{" "}
           </span>
 
           <div className="flex justify-between">
-            <div className="text-ecos-dark-grey flex gap-1">
-              <button type="button" className="flex gap-1" onClick={handleSaveFavorite}>
-                <PlusCircle className="text-ecos-blue" />
+            <div className="flex items-center gap-1 text-xs text-[#49454f]">
+              <button
+                type="button"
+                onClick={handleSaveFavorite}
+                className="flex items-center gap-1 hover:cursor-pointer"
+              >
+                <PlusCircle className="text-ecos-blue h-6" />
                 <span>Me gusta</span>
               </button>
               <span>•</span>
               <span>{duration} min</span>
             </div>
-            <button type="button" onClick={handlePlayPause} className="text-ecos-blue">
-              {isPlaying ? <PauseIcon /> : <PlayIcon />}
+            <button
+              type="button"
+              onClick={handlePlayPause}
+              className="text-ecos-blue h-[2.375rem] w-10"
+            >
+              {isPlaying ? (
+                <PauseIcon className="fill-ecos-blue cursor-pointer" />
+              ) : (
+                <PlayIcon className="fill-ecos-blue stroke-ecos-blue cursor-pointer" />
+              )}
             </button>
           </div>
         </div>
       </div>
+
       <audio ref={audioRef} src={audioUrl} hidden />
     </>
   );

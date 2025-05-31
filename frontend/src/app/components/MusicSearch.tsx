@@ -1,21 +1,13 @@
-import Input from "@/app/ui/Input";
-import MenuIcon from "@/assets/hamburgerMenu.svg?react";
-import Lens from "@/assets/lens.svg?react";
+import SearchBar from "./SearchBar";
 
 const MusicSearch = () => {
   return (
-    <section className="w-full">
-      <h1 className="mb-12 text-center text-2xl font-semibold text-[#19233A] sm:text-4xl lg:text-5xl">
+    <section id="explorar" className="flex w-full flex-col items-center justify-center gap-y-8">
+      <h1 className="subtitles text-start uppercase md:text-center">
         Encuentra tu artista favorito
       </h1>
-      <div className="container mx-auto w-full px-4 pb-6">
-        <Input
-          placeholder="Busca Artista, Album, Canción"
-          className="mx-auto flex w-full bg-[#ECE6F0] sm:w-4/5"
-          startIcon={<MenuIcon />}
-          endIcon={<Lens />}
-        />
-      </div>
+
+      <SearchBar />
     </section>
   );
 };

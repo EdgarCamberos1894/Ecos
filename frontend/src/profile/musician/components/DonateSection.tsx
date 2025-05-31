@@ -1,25 +1,27 @@
-import { Donate } from "@/profile/components/ui/Donate";
+import { DonateButton } from "@/profile/components/DonateButton";
+import { Donate } from "@/app/ui/Icons";
 
 interface DonateSectionProps {
   handleDonationModal: () => void;
+  isProfileFromUser: boolean;
 }
 
-export const DonateSection = ({ handleDonationModal }: DonateSectionProps) => {
+export const DonateSection = ({ handleDonationModal, isProfileFromUser }: DonateSectionProps) => {
   return (
-    <div className="mb-9 flex flex-col gap-4">
-      <div className="flex flex-col gap-1">
-        <Donate />
-        <h3 className="text-2xl">Dona</h3>
-        <small className="text-[11px]">Cada aporte es un acorde nuevo.</small>
-        <p className="text-sm">Ayudanos a crear más canciones como esta.</p>
+    <div className={`${isProfileFromUser ? "hidden" : "flex"} text-ecos-blue flex-col gap-4.5`}>
+      <Donate className="text-ecos-orange-light size-[52px]" />
+      <h3 className="text-4xl">Dona</h3>
+      <small className="text-[20px] font-normal">Cada aporte es un acorde nuevo.</small>
+      <p className="text-[20px] font-light">Ayudanos a crear más canciones como esta.</p>
+      <div>
+        <DonateButton
+          fromDonateSection={true}
+          onClick={handleDonationModal}
+          className="button-primary flex h-14 w-full max-w-[346px] items-center justify-center gap-7.5 rounded-[37px] px-4 py-2"
+        >
+          <p className="basis-28 text-start">Donar</p>
+        </DonateButton>
       </div>
-      <button
-        type="button"
-        onClick={handleDonationModal}
-        className="bg-ecos-orange-light text-ecos-blue h-10 w-[298px] cursor-pointer rounded-full px-6 py-2.5 text-sm font-medium uppercase"
-      >
-        Donar
-      </button>
     </div>
   );
 };

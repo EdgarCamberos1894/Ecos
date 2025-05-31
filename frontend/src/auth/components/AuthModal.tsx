@@ -35,26 +35,23 @@ const AuthModal = ({ mode, onClose }: AuthModalProps) => {
       onClose={onClose}
       firstNormalText={
         authMode === "login"
-          ? "Inicia sesión en "
+          ? "Inicio de sesión en"
           : authMode === "register"
-            ? "Registrate en "
+            ? "Regístrate en"
             : "Olvidé mi contraseña"
       }
       highlightedText={authMode !== "forgot" ? "ECOS" : ""}
-      className="h-full max-h-[540px] w-full max-w-[700px]"
+      className="h-full max-h-[516px] w-full max-w-[700px] gap-12"
     >
       {authMode === "login" && (
-        <div className="flex h-full flex-col items-center justify-center">
+        <div className="flex h-full flex-col items-center justify-start gap-9">
           <LoginForm />
-          <div className="mt-9 flex flex-col items-center text-sm text-[#6E6E6E]">
-            <u onClick={switchToForgot} className="hover:cursor-pointer">
+          <div className="text-ecos-blue flex flex-col items-center pb-7 text-sm">
+            <u onClick={switchToForgot} className="mb-2 hover:cursor-pointer">
               ¿Olvidaste tu contraseña?
             </u>
-            <p>
-              ¿No tienes una cuenta?{" "}
-              <u onClick={switchToRegister} className="hover:cursor-pointer">
-                Regístrate
-              </u>
+            <p onClick={switchToRegister} className="hover:cursor-pointer">
+              ¿No tienes una cuenta? Regístrate
             </p>
           </div>
         </div>
@@ -62,12 +59,12 @@ const AuthModal = ({ mode, onClose }: AuthModalProps) => {
 
       {authMode === "register" &&
         (selectedRole ? (
-          <div className="flex h-full flex-col items-center justify-center">
+          <div className="flex h-full flex-col items-center justify-start gap-6">
             <RegistrationForm role={selectedRole} />
-            <p className="mt-4 text-center text-sm">
-              ¿Ya tenés cuenta?{" "}
+            <p className="text-ecos-blue text-center text-sm">
+              ¿Ya tienes cuenta?{" "}
               <u onClick={switchToLogin} className="hover:cursor-pointer">
-                Iniciá sesión
+                Iniciar sesión
               </u>
             </p>
           </div>
@@ -76,7 +73,7 @@ const AuthModal = ({ mode, onClose }: AuthModalProps) => {
         ))}
 
       {authMode === "forgot" && (
-        <div className="flex h-full flex-col items-center justify-center">
+        <div className="flex h-full flex-col items-center justify-start">
           <ForgotPasswordForm onChange={switchToLogin} />
         </div>
       )}

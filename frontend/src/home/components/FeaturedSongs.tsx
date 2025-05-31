@@ -6,13 +6,18 @@ interface ApiResponseSongs {
   items: SongList[];
 }
 
-const FeaturedSongs = () => {
+interface FeaturedSongsProps {
+  onFavoriteAdded?: () => void;
+}
+
+const FeaturedSongs = ({ onFavoriteAdded }: FeaturedSongsProps) => {
   const { data } = useApiQuery<ApiResponseSongs>("songs", "songs", "featured");
+
   return (
-    <div id="#temas" className="flex flex-col gap-4 overflow-hidden sm:mx-36">
-      <h2 className="mx-2 mb-4 text-start text-3xl font-bold text-[#19233A]">Temas destacados</h2>
-      {data && <SongsGrid songs={data.items} />}
-    </div>
+    <section className="flex w-full flex-col space-y-8 overflow-visible">
+      <h2 className="subtitles mt-8 text-start">Canciones destacadas</h2>
+      {data && <SongsGrid songs={data.items} onFavoriteAdded={onFavoriteAdded} />}
+    </section>
   );
 };
 

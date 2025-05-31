@@ -1,3 +1,4 @@
+import { PauseIcon, PlayIcon } from "@/app/ui/Icons";
 import { useRef, useState, useEffect } from "react";
 
 interface AudioPlayerProps {
@@ -64,13 +65,23 @@ export const AudioPlayer = ({ audioUrl, title }: AudioPlayerProps) => {
 
   return (
     <div className="text-ecos-blue flex w-full max-w-screen-md items-center gap-4">
-      <button
-        type="button"
-        onClick={togglePlay}
-        className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 text-xl"
-      >
-        {isPlaying ? "⏸" : "▶"}
-      </button>
+      {isPlaying ? (
+        <button
+          type="button"
+          onClick={togglePlay}
+          className="cursor-pointer rounded-full bg-[#FCFCFC] p-4.5 shadow-[0_4px_4px_0_rgba(0,0,0,.25)]"
+        >
+          <PauseIcon onClick={togglePlay} className="stroke-ecos-blue fill-ecos-blue size-4" />
+        </button>
+      ) : (
+        <button
+          type="button"
+          onClick={togglePlay}
+          className="cursor-pointer rounded-full bg-[#FCFCFC] p-4.5 shadow-[0_4px_4px_0_rgba(0,0,0,.25)]"
+        >
+          <PlayIcon className="stroke-ecos-blue fill-ecos-blue size-4" />
+        </button>
+      )}
 
       <div className="flex w-full max-w-md flex-col gap-1">
         <div className="flex items-center gap-8">
@@ -81,11 +92,11 @@ export const AudioPlayer = ({ audioUrl, title }: AudioPlayerProps) => {
         </div>
 
         <div
-          className="relative h-2 min-h-[11px] w-full max-w-[404px] cursor-pointer rounded bg-gray-300"
+          className="border-ecos-blue relative h-2 min-h-[11px] w-full max-w-[404px] cursor-pointer rounded border-2"
           onClick={handleProgressClick}
         >
           <div
-            className="bg-ecos-blue h-full rounded"
+            className="bg-ecos-blue h-full"
             style={{ width: `${((currentTime / duration) * 100 || 0).toString()}%` }}
           ></div>
         </div>

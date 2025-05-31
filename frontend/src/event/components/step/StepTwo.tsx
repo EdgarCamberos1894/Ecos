@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { FormData } from "@/event/type/FormData";
 import { z, ZodError } from "zod";
-import { UploadCloud } from "@/profile/components/ui/UploadCloud";
+import { UploadCloud } from "@/app/ui/Icons";
 import { toast } from "sonner";
 
 interface StepTwoProps {
@@ -100,7 +100,7 @@ export default function StepTwo({ nextStep, prevStep, setFormData }: StepTwoProp
   };
 
   return (
-    <div className="mb-20 h-full w-full flex-1 md:mx-auto md:max-w-7xl md:p-6 lg:space-y-25">
+    <div className="mb-20 h-full w-full flex-1 space-y-10 md:mx-auto md:max-w-7xl md:p-6 lg:space-y-25">
       <section className="border[#19233A] flex h-[604px] w-[364px] flex-col items-center justify-center gap-y-9 rounded-3xl border md:w-[801px]">
         <label
           htmlFor="fileInput"
@@ -109,11 +109,15 @@ export default function StepTwo({ nextStep, prevStep, setFormData }: StepTwoProp
           className={`flex h-[390px] w-[327px] cursor-pointer flex-col items-center justify-center rounded-lg md:w-[686px] ${file ? "" : "border-2 border-dashed"} border-gray-400 px-4 py-8 text-center`}
         >
           {imageUrl ? (
-            <img src={imageUrl} alt="Banner" className="w-full rounded-lg object-cover" />
+            <img
+              src={imageUrl}
+              alt="Banner"
+              className="w-full overflow-hidden rounded-lg object-contain"
+            />
           ) : (
             <>
               <UploadCloud className="mb-4" />
-              <p className="text-lg font-semibold">Subí tu imagen aquí</p>
+              <p className="text-lg font-semibold">Sube tu imagen aquí</p>
               <p className="mt-2 text-sm text-gray-600">
                 <span className="block sm:hidden">formatos jpg.....</span>
                 <span className="hidden sm:block">
@@ -122,9 +126,7 @@ export default function StepTwo({ nextStep, prevStep, setFormData }: StepTwoProp
                 </span>
               </p>
               <span className="my-2 font-bold text-gray-500">o</span>
-              <div className="rounded-full bg-[#19233A] px-6 py-2 text-sm font-semibold text-white">
-                BUSCAR ARCHIVO
-              </div>
+              <div className="button-secondary h-[42px] w-[236px] px-6 py-2.5">Buscar archivo</div>
             </>
           )}
           <input
@@ -143,7 +145,7 @@ export default function StepTwo({ nextStep, prevStep, setFormData }: StepTwoProp
             type="button"
             onClick={handleSubmit}
             disabled={!file}
-            className="rounded-full bg-[#FE963D] px-6 py-2 font-semibold text-white hover:bg-purple-800"
+            className="button-primary h-[42px] w-[154px] px-6 py-2.5"
           >
             Guardar
           </button>
@@ -151,24 +153,24 @@ export default function StepTwo({ nextStep, prevStep, setFormData }: StepTwoProp
             type="button"
             onClick={handleDelete}
             disabled={!file}
-            className="rounded-full bg-[#19233A] px-6 py-2 font-semibold text-white hover:bg-gray-400"
+            className="button-secondary h-[42px] w-[154px] px-6 py-2.5"
           >
             Eliminar
           </button>
         </div>
       </section>
-      <div className="flex justify-end space-x-4">
+      <div className="flex justify-center space-x-4 lg:justify-end">
         <button
           type="submit"
           onClick={handleNext}
-          className="rounded-[37px] bg-[#FE963D] px-6 py-2 text-white hover:opacity-90"
+          className="button-primary h-[63px] w-[155px] px-6 py-2.5 md:w-[316px]"
         >
           Guardar y continuar
         </button>
         <button
           type="button"
           onClick={prevStep}
-          className="rounded-[37px] bg-[#19233A] px-6 py-2 text-white hover:bg-gray-400"
+          className="button-secondary h-[63px] w-[155px] px-6 py-2.5 md:w-[316px]"
         >
           Cancelar
         </button>

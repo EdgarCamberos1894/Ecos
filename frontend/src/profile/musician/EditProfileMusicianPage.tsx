@@ -12,12 +12,15 @@ import ImageBanner from "@/assets/imageBanner.webp";
 import { MediaType } from "../utils/media-utils";
 import { type ApiSongs, type BannerUrl } from "./musician-types";
 import { musicalGenreOptions as GENRES } from "../utils/musicalGenreOptions";
-import { ArrowDown } from "../components/ui/ArrowDown";
+import { ArrowDown, FillArrowDown } from "@/app/ui/Icons";
+import { SpotifyTrack } from "./components/SpotifyTrack";
+import { AudioPlayer } from "./components/AudioPlayer";
 
 export interface SettingMusic {
   url?: string;
   type?: MediaType;
   audio?: File;
+  preview?: boolean;
 }
 
 interface MusicData {
@@ -39,6 +42,8 @@ export const EditProfileMusicianPage = () => {
     genre: "",
     sourceType: "SPOTIFY",
   });
+
+  const [musicPreview, setMusicPreview] = useState<string | undefined>(undefined);
 
   const navigate = useNavigate();
 
@@ -73,7 +78,29 @@ export const EditProfileMusicianPage = () => {
   };
 
   const onSettingMusic = (settings: SettingMusic) => {
-    const { url, type, audio } = settings;
+    const { url, type, audio, preview } = settings;
+
+    if (preview && (audio || type === "spotify")) {
+      if (!musicData.title || !musicData.genre) {
+        toast.info("Los campos de título y género son obligatorios");
+        return;
+      }
+
+      if (type === "spotify") {
+        setMusicPreview(url);
+      }
+
+      if (audio) {
+        const audioFileUrl = URL.createObjectURL(audio);
+        setMusicPreview(audioFileUrl);
+      }
+
+      return;
+    }
+
+    if (preview && type === "youtube") {
+      toast.info("El video está listo para guardarse");
+    }
 
     setMusicData((prevMusicData) => {
       if (type === "spotify") {
@@ -91,6 +118,25 @@ export const EditProfileMusicianPage = () => {
       }
 
       return prevMusicData;
+    });
+  };
+
+  const handleRemoveMusicPreview = () => {
+    setMusicPreview(undefined);
+    setMusicData({
+      ...musicData,
+      genre: "",
+      sourceType: "SPOTIFY",
+      title: "",
+      audio: undefined,
+      spotifyUrl: undefined,
+    });
+  };
+
+  const handleRemoveVideoPreview = () => {
+    setMusicData((prevMusicData) => {
+      const { youtubeUrl: _, ...rest } = prevMusicData;
+      return { ...rest };
     });
   };
 
@@ -116,6 +162,10 @@ export const EditProfileMusicianPage = () => {
     });
   };
 
+  const handleBannerDelete = () => {
+    setFile(null);
+  };
+
   const handleSubmit = () => {
     if (!musicData.title || !musicData.genre) {
       toast.info("Los campos de título y género son obligatorios");
@@ -123,7 +173,7 @@ export const EditProfileMusicianPage = () => {
     }
 
     if (!musicData.spotifyUrl && !musicData.audio) {
-      toast.info("Se debe agregar como mínimo un enlace de Spotify o subir un archivo");
+      toast.info("Agrega al menos un enlace de Spotify o sube un archivo");
       return;
     }
 
@@ -146,7 +196,7 @@ export const EditProfileMusicianPage = () => {
 
     songsMutate(formData, {
       onSuccess: () => {
-        toast.success("Música guardado con éxito");
+        toast.success("Contenido guardado con éxito");
         navigate(`/profile/musician/${user.id}`);
       },
       onError: () => {
@@ -156,111 +206,164 @@ export const EditProfileMusicianPage = () => {
   };
 
   return (
-    <main className="space-y-32">
+    <main className="">
       <section className="justify-items-center xl:relative">
         <img
           src={banner?.bannerUrl ?? imagePreview ?? ImageBanner}
           alt={`Banner`}
-          className="mb-10 hidden h-[clamp(140px,35.4vw,680px)] w-full object-cover xl:block"
+          className="mb-10 hidden aspect-[1920/680] w-full object-cover 2xl:block"
         />
         {!isBannerUploaded && (
           <BannerUploader
             onUpload={handleBannerUpload}
+            onDelete={handleBannerDelete}
             isUploading={isBannerPending}
             onImageUpload={onImageUpload}
-            className={`flex h-[454px] w-full max-w-[734px] flex-col content-center items-center justify-center justify-items-center gap-7 rounded-[20px] p-4 xl:absolute xl:top-1/2 xl:left-1/2 xl:z-10 xl:flex xl:-translate-x-1/2 xl:-translate-y-1/2 xl:bg-white/50`}
+            className="mb-4 flex min-h-[549px] w-full max-w-[734px] flex-col items-center justify-center justify-items-center gap-6 rounded-[30px] px-[25px] 2xl:absolute 2xl:top-1/2 2xl:left-1/2 2xl:z-10 2xl:mb-0 2xl:flex 2xl:-translate-x-1/2 2xl:-translate-y-1/2 2xl:bg-white"
           />
         )}
       </section>
-      <section className="text-ecos-blue mb-24 space-y-2 px-4 sm:px-12 lg:px-[clamp(48px,8vw,160px)]">
-        <h2 className="text-4xl">¡Bienvenido!</h2>
-        <h1 className="text-[clamp(2.5rem,10vw,6rem)] font-bold">{user.name}</h1>
-        <h4 className="mt-6 mb-10 text-2xl font-medium text-wrap">Editar Panel</h4>
-        <h3 className="text-2xl font-bold text-balance uppercase">
-          Compartí tu música a través de spotify o subí tu archivo mp3/wav
+
+      <section className="text-ecos-blue mb-24 space-y-2 px-4 sm:px-12 lg:px-44">
+        <div className="mb-[63px] flex flex-col gap-6">
+          <h2 className="text-[40px] font-medium">¡Bienvenido!</h2>
+          <h1 className="text-[64px] font-medium break-words md:text-8xl">{user.name}</h1>
+          <h4 className="text-2xl font-medium md:text-[32px]">Editar Panel</h4>
+        </div>
+        <h3 className="mb-6 text-2xl font-medium text-balance uppercase">
+          Comparte tu música desde Spotify o sube tu archivo en formato MP3 o WAV
         </h3>
-        <section className="text-ecos-blue mt-12 mb-24 flex w-full max-w-[clamp(320px,90vw,777px)] flex-col gap-9 rounded-2xl border px-4 py-3">
-          <label htmlFor="title" className="flex flex-col gap-3.5 text-2xl">
-            Título
-            <input
-              id="title"
-              type="text"
-              placeholder="Escribí el nombre del tema"
-              value={musicData.title}
-              onChange={(event) => {
-                setMusicData({ ...musicData, title: event.target.value });
-              }}
-              className="border-ecos-dark-grey-light rounded-[20px] border px-6 py-3.5 text-lg focus:outline-none"
-            />
-            <p className="text-sm">El audio puede ser formato mp3 o wav</p>
-          </label>
-          <label htmlFor="genre" className="flex flex-col gap-3.5 text-2xl">
-            Género
-            <div className="relative w-full">
-              <select
-                id="genre"
-                value={musicData.genre}
-                onChange={(event) => {
-                  setMusicData({ ...musicData, genre: event.target.value });
-                }}
-                className="border-ecos-dark-grey w-full appearance-none rounded-[20px] border px-3.5 py-3 pr-10 text-lg focus:outline-none"
-              >
-                <option value="" disabled>
-                  Seleccioná un género
-                </option>
-                {GENRES.map((genre) => (
-                  <option key={genre} value={genre}>
-                    {genre}
-                  </option>
-                ))}
-              </select>
-              <ArrowDown className="text-ecos-dark-grey pointer-events-none absolute top-1/2 right-6 h-5 w-5 -translate-y-1/2" />
+        <div className="flex flex-col gap-[70px]">
+          {/* MUSIC */}
+          {musicPreview ? (
+            <div className="space-y-6">
+              {musicPreview.includes("spotify") ? (
+                <SpotifyTrack
+                  embedUrl={musicPreview}
+                  className="w-full max-w-screen-md rounded-2xl"
+                />
+              ) : (
+                <AudioPlayer audioUrl={musicPreview} title={musicData.title} />
+              )}
+              <div className="mt-6 flex gap-10">
+                <button
+                  type="button"
+                  onClick={() => toast.info("La canción está lista para guardarse")}
+                  className="button-primary min-h-10 min-w-[104px] px-6 py-2.5 transition-colors md:min-w-[119px]"
+                >
+                  Guardar
+                </button>
+                <button
+                  type="button"
+                  onClick={handleRemoveMusicPreview}
+                  className="button-secondary min-h-10 min-w-[104px] px-6 py-2.5 transition-colors md:min-w-[119px]"
+                >
+                  Cancelar
+                </button>
+              </div>
             </div>
-          </label>
-          <label htmlFor="sourceType" className="flex flex-col gap-3.5 text-2xl">
-            Elegí como subir tu música
-            <div className="border-ecos-dark-grey-light relative rounded-[20px] border px-6 py-3.5 text-center">
-              <select
-                id="sourceType"
-                value={musicData.sourceType}
-                onChange={(event) => {
-                  setMusicData({
-                    ...musicData,
-                    sourceType: event.target.value as MusicData["sourceType"],
-                  });
-                }}
-                className="border-ecos-dark-grey mx-auto w-[270px] appearance-none rounded-[20px] border px-3.5 py-3 text-[22px] font-bold focus:outline-none"
-              >
-                <option value="SPOTIFY">Spotify</option>
-                <option value="FILE">Mp3/Wav</option>
-              </select>
-              <ArrowDown className="text-ecos-dark-grey pointer-events-none absolute top-1/2 right-[calc(50%-135px+10px)] h-5 w-5 -translate-y-1/2" />
-            </div>
-          </label>
-          {musicData.sourceType === "SPOTIFY" ? (
-            <MediaEmbedForm platform="spotify" onSettingMusic={onSettingMusic} />
           ) : (
-            <MusicUploader onSettingMusic={onSettingMusic} />
+            <section className="text-ecos-blue flex min-h-[1018px] w-full max-w-[762px] flex-col gap-[43px] rounded-[20px] border px-4 py-[38px] md:px-6">
+              <label htmlFor="title" className="flex flex-col gap-3.5 text-2xl">
+                Título
+                <input
+                  id="title"
+                  type="text"
+                  placeholder="Escribe el nombre del tema"
+                  value={musicData.title}
+                  onChange={(event) => {
+                    setMusicData({ ...musicData, title: event.target.value });
+                  }}
+                  className="border-ecos-dark-grey-light rounded-[15px] border px-6 py-3.5 text-lg focus:outline-none"
+                />
+                <p className="text-ecos-dark-grey text-base font-normal">
+                  El audio debe estar en formato MP3 o WAV
+                </p>
+              </label>
+
+              <label htmlFor="genre" className="flex flex-col gap-3.5 text-2xl">
+                Género
+                <div className="border-ecos-dark-grey-light w-full rounded-[15px] border px-6 py-3.5">
+                  <div className="flex items-center justify-start sm:justify-center">
+                    <select
+                      id="genre"
+                      value={musicData.genre}
+                      onChange={(event) => {
+                        setMusicData({ ...musicData, genre: event.target.value });
+                      }}
+                      className={`w-full max-w-[396px] appearance-none rounded-[5px] border border-[#333] px-3.5 py-3 pr-10 text-xs ${musicData.genre === "" ? "text-ecos-input-placeholder" : "text-[#333]"} focus:outline-none`}
+                    >
+                      <option value="" disabled>
+                        Selecciona un género
+                      </option>
+                      {GENRES.map((genre) => (
+                        <option key={genre} value={genre}>
+                          {genre}
+                        </option>
+                      ))}
+                    </select>
+                    <FillArrowDown className="text-ecos-dark-grey pointer-events-none -ml-8" />
+                  </div>
+                </div>
+              </label>
+
+              <label htmlFor="sourceType" className="flex flex-col gap-3.5 text-2xl">
+                Elige dónde subir tu música
+                <div className="border-ecos-dark-grey-light relative rounded-[20px] border px-6 py-3.5 text-center">
+                  <div className="flex items-center justify-start sm:justify-center">
+                    <select
+                      id="sourceType"
+                      value={musicData.sourceType}
+                      onChange={(event) => {
+                        setMusicData({
+                          ...musicData,
+                          sourceType: event.target.value as MusicData["sourceType"],
+                        });
+                      }}
+                      className="border-ecos-dark-grey w-full max-w-[270px] appearance-none rounded-[5px] border px-3.5 py-3 text-[22px] font-bold focus:outline-none"
+                    >
+                      <option value="SPOTIFY">Spotify</option>
+                      <option value="FILE">Mp3/Wav</option>
+                    </select>
+                    <ArrowDown className="text-ecos-dark-grey pointer-events-none -ml-10" />
+                  </div>
+                </div>
+              </label>
+
+              {musicData.sourceType === "SPOTIFY" ? (
+                <MediaEmbedForm platform="spotify" onSettingMusic={onSettingMusic} />
+              ) : (
+                <MusicUploader onSettingMusic={onSettingMusic} />
+              )}
+            </section>
           )}
-        </section>
-        <section className="mb-32 space-y-9">
-          <h3 className="text-2xl font-bold uppercase">Compartí tu VIDEOS a través de YOUTUBE</h3>
-          <MediaEmbedForm platform="youtube" onSettingMusic={onSettingMusic} />
-        </section>
-        <CreateEventoCard />
+
+          {/* VIDEO */}
+          <section className="space-y-6">
+            <h3 className="text-2xl font-bold uppercase">Comparte tu VIDEO desde YOUTUBE</h3>
+            <MediaEmbedForm
+              platform="youtube"
+              onSettingMusic={onSettingMusic}
+              onRemovingMusic={handleRemoveVideoPreview}
+            />
+          </section>
+
+          <CreateEventoCard />
+        </div>
       </section>
-      <div className="mb-24 flex flex-col gap-6 self-center px-4 sm:flex-row sm:justify-start lg:px-[clamp(48px,8vw,160px)] xl:justify-end">
+
+      <div className="mb-24 flex justify-end gap-7 self-center px-4 sm:px-12 md:gap-[46px] lg:px-44">
         <button
           type="button"
           onClick={handleSubmit}
           disabled={isSongsPending}
-          className="bg-ecos-orange-light cursor-pointer rounded-full py-5 text-base text-white sm:px-[120px]"
+          className="button-primary min-h-[63px] min-w-[155px] px-6 py-2.5 text-base font-medium transition-colors md:min-w-[316px]"
         >
-          {isSongsPending ? "Guardando" : "Guardar"}
+          {isSongsPending ? "Guardando..." : "Guardar"}
         </button>
         <button
           type="button"
-          className="bg-ecos-blue cursor-pointer rounded-full px-[120px] py-5 text-base text-white"
+          className="button-secondary min-h-[63px] min-w-[155px] px-6 py-2.5 text-base font-medium transition-colors md:min-w-[316px]"
           onClick={() => navigate(`/profile/musician/${user.id}`)}
         >
           Cancelar

@@ -67,16 +67,16 @@ const ContactForm = ({ musicianId }: ContactFormProps) => {
 
   return (
     <form
-      className="text-ecos-blue flex max-w-[810px] flex-col gap-6"
+      className="text-ecos-blue flex max-w-[810px] flex-col gap-[29px]"
       onSubmit={handleSubmit(onSubmit)}
     >
       <label className="flex flex-col gap-2 text-2xl font-normal" htmlFor="name">
-        Nombre
+        Nombre *
         <input
           id="name"
           type="text"
           placeholder="Escribí tu nombre"
-          className="border border-gray-300 p-3 text-sm"
+          className="placeholder:text-ecos-input-placeholder focus:outline-ecos-blue text-ecos-blue rounded-[20px] border border-[#D9D9D9] p-3 text-sm"
           {...register("name")}
         />
         {errors.name && (
@@ -85,12 +85,12 @@ const ContactForm = ({ musicianId }: ContactFormProps) => {
       </label>
 
       <label className="flex flex-col gap-2 text-2xl font-normal" htmlFor="email">
-        Email
+        E - Mail *
         <input
           id="senderEmail"
           type="text"
           placeholder="Escribí tu email"
-          className="border border-gray-300 p-3 text-sm"
+          className="placeholder:text-ecos-input-placeholder focus:outline-ecos-blue text-ecos-blue rounded-[20px] border border-[#D9D9D9] p-3 text-sm"
           {...register("senderEmail")}
         />
         {errors.senderEmail && (
@@ -98,12 +98,12 @@ const ContactForm = ({ musicianId }: ContactFormProps) => {
         )}
       </label>
 
-      <label className="flex flex-col gap-2 text-2xl font-normal" htmlFor="message">
-        Mensaje
+      <label className="flex flex-col gap-[29px] text-2xl font-normal" htmlFor="message">
+        Mensaje *
         <textarea
           id="message"
           placeholder="Escribí tu mensaje"
-          className="border border-gray-300 p-3 text-sm"
+          className="placeholder:text-ecos-input-placeholder focus:outline-ecos-blue text-ecos-blue resize-none rounded-[20px] border border-[#D9D9D9] p-3 text-sm"
           rows={9}
           {...register("message")}
         />
@@ -115,7 +115,7 @@ const ContactForm = ({ musicianId }: ContactFormProps) => {
       <button
         type="submit"
         disabled={isPending}
-        className="bg-ecos-blue cursor-pointer rounded-full py-2.5 text-white"
+        className="bg-ecos-blue min-h-12 cursor-pointer rounded-full px-6 py-2.5 text-sm leading-5 font-medium text-white"
       >
         {isPending ? "Enviando" : "Enviar"}
       </button>

@@ -3,13 +3,14 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import Button from "@/app/ui/Button";
 import Input from "@/app/ui/Input";
-import { EyeOff } from "./ui/EyeOff";
-import { EyeOn } from "./ui/EyeOn";
 import { useState } from "react";
 import { useApiMutation } from "@/shared/hooks/use-api-mutation";
 import { useAuth } from "../hooks/use-auth";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
+import { User } from "../types";
+import { Spinner } from "@/app/ui/Spinner";
+import { EyeOff, EyeOn } from "@/app/ui/Icons";
 
 const LoginSchema = z.object({
   email: z.string().email({ message: "El email ingresado no es válido" }),
@@ -45,7 +46,7 @@ const LoginForm = () => {
       onSuccess: (response) => {
         const user = handleLogin(response.token);
         toast.success(`Bienvenido ${user.name}`);
-        navigate("/");
+        handleNavigate(user);
       },
       onError: (error) => {
         setError("root", {
@@ -55,8 +56,16 @@ const LoginForm = () => {
     });
   };
 
+  const handleNavigate = ({ role, id }: Pick<User, "role" | "id">) => {
+    const route = role === "MUSICIAN" ? `/profile/musician/${id}` : "/";
+    navigate(route);
+  };
+
   return (
-    <form onSubmit={handleSubmit(handleFormSubmit)} className="flex w-3/5 flex-col gap-6">
+    <form
+      onSubmit={handleSubmit(handleFormSubmit)}
+      className="flex w-full max-w-[329px] flex-col gap-4"
+    >
       <div>
         <Input type="email" {...register("email")} placeholder="e-mail@mail.com" />
         {errors.email && (
@@ -94,8 +103,14 @@ const LoginForm = () => {
         )}
       </div>
 
-      <Button type="submit" bgType="secondary" disabled={isPending} className="w-full text-white">
-        {isPending ? "Iniciando sesión..." : "Iniciar sesión"}
+      <Button type="submit" bgType="primary" disabled={isPending} className="mt-5">
+        {isPending ? (
+          <>
+            Iniciando sesión... <Spinner className="ml-2 size-8 rounded-full bg-white/20" />
+          </>
+        ) : (
+          "Iniciar sesión"
+        )}
       </Button>
 
       {errors.root && <p className="text-red-500">{errors.root.message}</p>}

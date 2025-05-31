@@ -1,5 +1,5 @@
 import LabeledInput from "../labeledFields/LabeledInput";
-import { FormMusicianProfileSchema } from "../../shemas/ProfileSchema";
+import { FormMusicianProfileSchema } from "../../schemas/ProfileSchema";
 import { UseFormRegister, FieldErrors } from "react-hook-form";
 
 interface SocialLinksProps {
@@ -13,7 +13,6 @@ export const SocialLinksSection = ({ errors, register, className }: SocialLinksP
     { label: "Spotify", id: "spotifyUrl", placeholder: "Spotify URL" },
     { label: "YouTube", id: "youtubeUrl", placeholder: "YouTube URL" },
     { label: "Instagram", id: "instagramUrl", placeholder: "Instagram URL" },
-    { label: "TikTok", id: "tiktokUrl", placeholder: "TikTok URL" },
   ];
 
   return (

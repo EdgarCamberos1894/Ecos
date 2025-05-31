@@ -3,9 +3,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import Button from "@/app/ui/Button";
 import Input from "@/app/ui/Input";
-import { EyeOff } from "./ui/EyeOff";
-import { EyeOn } from "./ui/EyeOn";
 import { useState } from "react";
+import { EyeOff, EyeOn } from "@/app/ui/Icons";
 
 interface ForgotPasswordFormProps {
   onChange: () => void;
@@ -29,9 +28,8 @@ const ForgotPasswordForm = ({ onChange }: ForgotPasswordFormProps) => {
     resolver: zodResolver(ForgotPasswordSchema),
   });
 
-  const handleFormSubmit: SubmitHandler<FormFields> = (data: FormFields) => {
-    console.log("Datos enviados:", data);
-  };
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
+  const handleFormSubmit: SubmitHandler<FormFields> = (_data: FormFields) => {};
 
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)} className="flex w-[329px] flex-col gap-4">
@@ -67,7 +65,7 @@ const ForgotPasswordForm = ({ onChange }: ForgotPasswordFormProps) => {
         )}
       </div>
 
-      <Button type="submit" onClick={onChange} disabled={isSubmitting}>
+      <Button type="submit" bgType="primary" onClick={onChange} disabled={isSubmitting}>
         {isSubmitting ? "Enviando..." : "Enviar"}
       </Button>
     </form>

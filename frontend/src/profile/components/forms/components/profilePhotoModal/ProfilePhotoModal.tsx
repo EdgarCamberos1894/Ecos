@@ -1,10 +1,9 @@
 import Modal from "@/app/ui/Modal";
 import { useState, useEffect } from "react";
-import ProfileImagen from "./components/ProfileImagen";
+import ProfileImage from "./components/ProfileImage";
 import ImageUpload from "./components/ImageUpdload";
 import Button from "@/app/ui/Button";
-import { Edit } from "@/profile/components/ui/Edit";
-import { Trash } from "@/profile/components/ui/Trash";
+import { Edit, Trash } from "@/app/ui/Icons";
 
 export type Transition = "edit" | "upload";
 
@@ -12,7 +11,7 @@ interface ProfilePhotoPropsModal {
   open: boolean;
   mode: Transition;
   onClose: () => void;
-  openProfileImagen: (file: File | null, imageUrl: string | null) => void;
+  openProfileImage: (file: File | null, imageUrl: string | null) => void;
   initialImage?: string | null;
   currentImage?: string | null;
 }
@@ -21,7 +20,7 @@ const ProfilePhotoModal = ({
   open,
   mode,
   onClose,
-  openProfileImagen,
+  openProfileImage,
   currentImage,
 }: ProfilePhotoPropsModal) => {
   const [transition, setTransition] = useState<Transition>(mode);
@@ -47,7 +46,7 @@ const ProfilePhotoModal = ({
 
   const handleSave = () => {
     if (file && preview) {
-      openProfileImagen(file, preview);
+      openProfileImage(file, preview);
       onClose();
     }
   };
@@ -59,7 +58,7 @@ const ProfilePhotoModal = ({
       <h2 className="px-6 py-2 text-start text-2xl font-medium">IMAGEN DE PERFIL</h2>
       {transition === "edit" && (
         <div className="flex flex-col items-center justify-around gap-20 px-3.5 pb-10">
-          <ProfileImagen profileImage={preview ?? null} />
+          <ProfileImage profileImage={preview ?? null} />
           <div className="flex items-center gap-11">
             <Button
               startIcon={<Edit className="h-10 w-10 stroke-white" />}
@@ -76,7 +75,7 @@ const ProfilePhotoModal = ({
               onClick={() => {
                 setFile(null);
                 setPreview(null);
-                openProfileImagen(null, null);
+                openProfileImage(null, null);
                 onClose();
               }}
             />

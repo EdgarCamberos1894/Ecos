@@ -6,76 +6,72 @@ import { YouTubeVideo } from "./YoutubeVideo";
 interface MediaEmbedFormProps {
   platform: "spotify" | "youtube";
   onSettingMusic?: (settings: SettingMusic) => void;
+  onRemovingMusic?: () => void;
 }
 
-export const MediaEmbedForm = ({ platform, onSettingMusic }: MediaEmbedFormProps) => {
+export const MediaEmbedForm = ({
+  platform,
+  onSettingMusic,
+  onRemovingMusic,
+}: MediaEmbedFormProps) => {
   const { input, embedUrl, mediaType, setInput, handleEmbed, handleCancel } =
     useMediaEmbed(platform);
 
-  const handleSetMusic = () => {
+  const handleSetMusic = (preview?: true) => {
     const { url, type } = handleEmbed();
-    onSettingMusic?.({ url, type });
+    onSettingMusic?.({ url, type, preview });
+  };
+
+  const handleUnsetMusic = () => {
+    handleCancel();
+    onRemovingMusic?.();
   };
 
   return embedUrl ? (
     <>
       {mediaType === "spotify" ? (
-        <>
-          <SpotifyTrack embedUrl={embedUrl} />
-          <div className="mb-2 flex gap-10">
-            <button
-              type="button"
-              className="bg-ecos-orange-light text-ecos-blue rounded-full px-6 py-2.5"
-            >
-              Guardar
-            </button>
-            <button
-              type="button"
-              onClick={handleCancel}
-              className="bg-ecos-blue rounded-full px-6 py-2.5 text-white"
-            >
-              Cancelar
-            </button>
-          </div>
-        </>
+        <SpotifyTrack embedUrl={embedUrl} />
       ) : (
-        <div className="space-y-9">
-          <YouTubeVideo
-            embedUrl={embedUrl}
-            className="aspect-[1126/567] max-h-[567px] min-h-[196px] w-full max-w-[1126px] min-w-[358px] rounded-[20px]"
-          />
-          <div className="mb-2 flex gap-10">
-            <button
-              type="button"
-              className="bg-ecos-orange-light text-ecos-blue rounded-full px-6 py-2.5"
-            >
-              Guardar
-            </button>
-            <button
-              type="button"
-              onClick={handleCancel}
-              className="bg-ecos-blue rounded-full px-6 py-2.5 text-white"
-            >
-              Cancelar
-            </button>
-          </div>
-        </div>
+        <YouTubeVideo
+          embedUrl={embedUrl}
+          className="aspect-[1126/567] min-h-[196px] w-full max-w-[1126px] rounded-[20px]"
+        />
       )}
+      <div className="flex gap-5">
+        <button
+          type="button"
+          onClick={() => {
+            handleSetMusic(true);
+          }}
+          className="button-primary min-w-[112px] px-6 py-2.5 transition-colors"
+        >
+          Guardar
+        </button>
+        <button
+          type="button"
+          onClick={handleUnsetMusic}
+          className="button-secondary min-w-[112px] px-6 py-2.5 transition-colors"
+        >
+          Cancelar
+        </button>
+      </div>
     </>
   ) : (
-    <div className="flex w-full max-w-[clamp(320px,90vw,743px)] flex-col justify-start rounded-[20px] bg-[#F2F2F2] p-6">
-      <h2 className="text-lg font-semibold text-black">Incrustar medio</h2>
-      <p className="mt-1 text-sm text-gray-600">
-        Comparte tu música a través de {platform === "spotify" ? "spotify" : "youtube"}
+    <div className="bg-ecos-media-embed text-ecos-blue flex w-full max-w-[762px] flex-col justify-start rounded-[20px] p-6">
+      <h2 className="text-2xl font-medium">
+        Publica tu {platform === "spotify" ? "música" : "video"}
+      </h2>
+      <p className="text-base">
+        Copia y pega el enlace de tu {platform === "spotify" ? "canción" : "video"}
       </p>
 
-      <div className="mt-5 rounded-[20px] border border-gray-400 p-4">
+      <div className="mt-5 rounded-[20px] border border-gray-400 px-6 pt-3.5 pb-[50px]">
         <label htmlFor="embed-input" className="text-sm text-gray-700">
-          Pegá el código incrustado
+          Pega el código de inserción
         </label>
         <textarea
           id="embed-input"
-          className="mt-2 h-28 w-full resize-none rounded-[20px] border border-gray-300 p-2 text-sm"
+          className="mt-3.5 h-28 w-full resize-none rounded-[20px] border border-gray-300 p-4 text-sm"
           value={input}
           onChange={(e) => {
             setInput(e.target.value);
@@ -83,18 +79,20 @@ export const MediaEmbedForm = ({ platform, onSettingMusic }: MediaEmbedFormProps
         />
       </div>
 
-      <div className="mt-6 flex gap-4">
+      <div className="mt-6 flex gap-10">
         <button
           type="button"
-          onClick={handleSetMusic}
-          className="bg-ecos-orange-light text-ecos-blue rounded-full px-6 py-2.5"
+          onClick={() => {
+            handleSetMusic();
+          }}
+          className="button-primary min-h-10 min-w-[104px] px-6 py-2.5 transition-colors md:min-w-[119px]"
         >
-          Incrustar
+          Insertar
         </button>
         <button
           type="button"
           onClick={handleCancel}
-          className="bg-ecos-blue rounded-full px-6 py-2.5 text-white"
+          className="button-secondary min-h-10 min-w-[104px] px-6 py-2.5 transition-colors md:min-w-[119px]"
         >
           Cancelar
         </button>

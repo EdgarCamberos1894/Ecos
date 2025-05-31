@@ -4,10 +4,8 @@ import { useApiMutation } from "@/shared/hooks/use-api-mutation";
 import { toast } from "sonner";
 import { useRequiredUser } from "@/auth/hooks/use-required-user";
 import { useNavigate } from "react-router";
-import CalendarIcon from "../ui/CalendarIcon";
-import ClockIcon from "../ui/ClockIcon";
-import LocationIcon from "../ui/LocationIcon";
-import TicketIcon from "../ui/TicketIcon";
+import { CalendarIcon, ClockIcon, TicketIcon, LocationIcon } from "../../../app/ui/Icons";
+import { CalendarButton } from "../ui/CalendarButton";
 
 interface StepFourProps {
   prevStep: () => void;
@@ -19,11 +17,6 @@ export default function StepFour({ prevStep, formData }: StepFourProps) {
   const userId = user.id;
 
   const navigate = useNavigate();
-
-  function formatDateToDDMMYYYY(dateString: string): string {
-    const [year, month, day] = dateString.split("-");
-    return `${day}/${month}/${year}`;
-  }
 
   const [error, setError] = useState<string | null>(null);
 
@@ -40,12 +33,10 @@ export default function StepFour({ prevStep, formData }: StepFourProps) {
       return;
     }
 
-    const formattedDate = formatDateToDDMMYYYY(formData.dateString);
-
     const data = new FormData();
     data.append("name", formData.name);
     data.append("category", formData.category);
-    data.append("dateString", formattedDate);
+    data.append("dateString", formData.dateString);
     data.append("startTime", formData.startTime);
     data.append("endTime", formData.endTime);
     data.append("type", formData.type);
@@ -63,36 +54,38 @@ export default function StepFour({ prevStep, formData }: StepFourProps) {
     if (formData.image) {
       data.append("image", formData.image);
     }
+
     mutate(data, {
       onSuccess: () => {
         setError(null);
         toast.success(`Tu evento fué públicado con éxito`);
         navigate(`/profile/musician/${user.id}`);
       },
-      onError: () => {
+      onError: (error) => {
         toast.error("Error al publicar evento");
+        setError("Error al publicar evento: " + error.message);
       },
     });
   };
 
   return (
-    <form className="w-full">
+    <form className="text-ecos-blue w-full">
       <p className="mb-4 text-sm font-normal">
         ¡Casi terminamos! Revisa que los datos sean correctos.
       </p>
-      <section className="flex p-3 lg:pr-[77px] lg:pl-[23px]">
-        <div className="flex flex-col gap-y-10 rounded-[50px] border-3 border-[#19233A] p-3 md:w-[807px] md:p-10 lg:w-full lg:px-[50px] lg:py-[38px]">
+      <section className="mt-4 flex p-2 md:mt-0">
+        <div className="border-ecos-blue flex flex-col gap-y-10 rounded-[50px] border-3 pb-8 md:w-[807px] md:p-10 lg:w-full lg:px-[50px] lg:py-[38px]">
           {formData.image && (
-            <header className="h-[297px] w-full md:h-[400px] lg:h-[594px]">
+            <header className="w-full px-11 pt-[38px] md:h-[400px] lg:h-[594px] lg:px-0 lg:pt-0">
               <img
                 src={URL.createObjectURL(formData.image)}
                 alt="Imagen del evento"
-                className="h-full w-full rounded-[50px] object-cover"
+                className="h-full min-h-[196px] w-full min-w-[275px] rounded-[50px] object-cover"
               />
             </header>
           )}
-          <main className="flex flex-col gap-y-8 lg:gap-y-[80px] lg:pr-[271px]">
-            <h2 className="text-center text-4xl font-extrabold md:text-start md:text-5xl">
+          <main className="flex flex-col gap-y-8 px-8 lg:gap-y-[80px] lg:px-0">
+            <h2 className="text-[32px] font-extrabold md:text-start md:text-5xl">
               {formData.name}
             </h2>
             <div className="flex flex-col gap-y-4">
@@ -105,41 +98,46 @@ export default function StepFour({ prevStep, formData }: StepFourProps) {
                 <ClockIcon />
                 <p className="text-2xl font-semibold">{formData.startTime}</p>
               </div>
-              <button
-                className="text-center text-xl font-semibold text-[#2C53AE] md:text-start lg:mt-5"
-                type="button"
-              >
-                + Agregar a Calendario
-              </button>
+              <CalendarButton
+                title={formData.name}
+                description={formData.description}
+                location={formData.location}
+                start={new Date(`${formData.dateString}T${formData.startTime}`)}
+                end={new Date(`${formData.dateString}T${formData.endTime}`)}
+              />
             </div>
             <div className="flex flex-col gap-y-4">
-              <h3 className="text-2xl font-bold md:text-[32px]">Lugar</h3>
-              <div className="flex items-end gap-x-1">
-                <LocationIcon className="h-[30px] w-[30px]" />
-                <p className="text-2xl font-semibold">Dirección: </p>
-                <span>{formData.location}</span>
+              <h3 className="text-2xl font-bold md:text-[32px]">Lugar del evento</h3>
+              <div className="flex flex-col items-start gap-4 gap-x-1 md:flex-row md:items-end">
+                <div className="flex gap-5">
+                  <LocationIcon />
+                  <p className="text-2xl font-semibold">Dirección: </p>
+                </div>
+                <span className="flex text-2xl text-balance">{formData.location}</span>
               </div>
             </div>
             <div className="flex flex-col gap-y-4">
-              <h3 className="text-2xl font-bold md:text-[32px]">Información de las entradas</h3>
-              <div className="flex items-center gap-x-1">
-                <TicketIcon className="h-[30px] w-[30px]" />
-                <div>
-                  <p className="text-2xl font-semibold">Puntos de venta:</p>
-                  <div className="flex gap-x-4">
-                    <p>Puerta:</p>
-                    <span>$ {formData.tickets[0]?.price}</span>
-                  </div>
-                  <div className="flex gap-x-4">
-                    <p>Locuras</p>
-                    <span>$ {formData.tickets[1]?.price}</span>
+              <h3 className="text-[32px] font-bold">Información de las entradas</h3>
+              <div className="gap-x-1">
+                <p className="pl-9 font-semibold">Puntos de venta:</p>
+                <div className="flex items-center gap-2">
+                  <TicketIcon />
+                  <div>
+                    {formData.tickets.map((ticket) => (
+                      <div key={ticket.location} className="flex gap-x-4">
+                        <p className="text-balance">{ticket.location}</p>
+                        <span className="min-w-16 text-center">$ {ticket.price}</span>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
             </div>
             <div className="flex flex-col gap-y-4">
-              <h3 className="text-3xl font-bold">Descripción del Evento</h3>
-              <p className="text-lg font-normal">{formData.description}</p>
+              <h3 className="text-[32px] font-bold">Descripción del Evento</h3>
+              <p className="md:text-2x1 text-base leading-9 font-normal text-balance">
+                {formData.description}
+              </p>
             </div>
           </main>
         </div>
@@ -148,14 +146,14 @@ export default function StepFour({ prevStep, formData }: StepFourProps) {
         <button
           type="button"
           onClick={handleSubmit}
-          className="rounded-[37px] bg-[#FE963D] px-6 py-2 text-white hover:opacity-90"
+          className="button-primary h-[63px] w-[155px] px-6 py-2.5 md:w-[316px]"
         >
           Publicar Evento
         </button>
         <button
           type="button"
           onClick={prevStep}
-          className="rounded-[37px] bg-[#19233A] px-6 py-2 text-white hover:bg-gray-400"
+          className="button-secondary h-[63px] w-[155px] px-6 py-2.5 md:w-[316px]"
         >
           Cancelar
         </button>

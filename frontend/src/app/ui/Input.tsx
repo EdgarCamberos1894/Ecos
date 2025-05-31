@@ -4,12 +4,19 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   className?: string;
   startIcon?: ReactNode;
   endIcon?: ReactNode;
+  classNameContainer?: string;
 }
 
-const Input = ({ className = "", startIcon, endIcon, ...props }: InputProps) => {
+const Input = ({
+  className = "",
+  startIcon,
+  endIcon,
+  classNameContainer = "",
+  ...props
+}: InputProps) => {
   return (
     <div
-      className={`rounded-[27px] border border-[#19233A] px-4 py-2 text-[#291117] placeholder-[#19233A] ${className}`}
+      className={`border-ecos-blue placeholder-ecos-blue w-full rounded-[1.688rem] border px-4 py-2 text-[#291117] ${classNameContainer}`}
     >
       {startIcon}
       <input {...props} className={`w-full focus:outline-none ${className}`} />

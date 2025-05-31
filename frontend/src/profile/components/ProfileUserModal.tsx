@@ -5,9 +5,10 @@ import FormFanProfile from "./forms/FormFanProfile";
 
 interface ProfileModalProps {
   onClose: () => void;
+  openFromUserMenu?: boolean;
 }
 
-const ProfileUserModal = ({ onClose }: ProfileModalProps) => {
+const ProfileUserModal = ({ onClose, openFromUserMenu }: ProfileModalProps) => {
   const { user } = useAuth();
   const role = user?.role;
 
@@ -16,10 +17,12 @@ const ProfileUserModal = ({ onClose }: ProfileModalProps) => {
   return (
     <Modal
       onClose={onClose}
-      firstNormalText={"Registrate en "}
+      firstNormalText={openFromUserMenu ? "Edita tu perfil en" : "Registrate en "}
       highlightedText={"ECOS"}
-      secondNormalText={" como músico"}
-      className="h-full w-min items-center justify-center overflow-y-auto md:w-3/5"
+      secondNormalText={
+        !openFromUserMenu ? (user.role === "MUSICIAN" ? "como músico" : "como fan") : undefined
+      }
+      className="h-full w-full max-w-[1080px] items-center justify-center overflow-y-auto"
     >
       {role === "MUSICIAN" && <FormMusicianProfile onClose={onClose} />}
       {role === "FAN" && <FormFanProfile onClose={onClose} />}
