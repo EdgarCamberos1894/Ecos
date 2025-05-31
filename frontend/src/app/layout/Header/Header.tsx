@@ -1,26 +1,21 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router";
-import { RegisterButton, LoginButton } from "@/app/components/ButtonsAuth";
 import Input from "@/app/ui/Input";
 import AuthModal, { AuthMode } from "@/auth/components/AuthModal";
-import Logo from "@/app/components/Logo";
 import MenuIcon from "@/app/ui/MenuIcon";
 import Lens from "@/app/ui/LensIcon";
 import { useAuth } from "@/auth/hooks/use-auth";
 import UserMenu from "@/auth/components/UserMenu";
 import WelcomeUserModal from "@/auth/components/WelcomeUserModal";
-
-const FAN_NAVBAR = [
-  { name: "Mis Favoritos", hash: "/profile/fan/:id/#favoritos" },
-  { name: "Explorar", hash: "/profile/fan/:id/#explorar" },
-  { name: "Eventos", hash: "/fan/events" },
-];
+import { FanNavbar } from "./components/FanNavbar";
+import { LogoLink } from "./components/LogoLink";
+import { MobileAuthMenu } from "./components/MobileAuthMenu";
+import { MobileFanMenu } from "./components/MobileFanMenu";
+import { RegisterButton, LoginButton } from "@/app/components/ButtonsAuth";
 
 export const Header = () => {
   const [openModal, setOpenModal] = useState<AuthMode | null>(null);
   const [showWelcomeUser, setShowWelcomeUser] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-
   const { user } = useAuth();
 
   const handleOpenModal = (mode: AuthMode) => {
@@ -38,7 +33,6 @@ export const Header = () => {
   const closeMobileMenu = () => {
     setIsOpen(false);
   };
-
   useEffect(() => {
     if (user) setOpenModal(null);
   }, [user]);
@@ -56,39 +50,38 @@ export const Header = () => {
     <>
       <header className="bg-ecos-blue w-full shadow">
         <div className="mx-auto flex items-center justify-between gap-x-8 px-4 py-2 md:py-4">
-          {/* Logo */}
-          <Link to="/" className="flex h-[120px] w-auto flex-shrink-0 items-center md:h-[141px]">
-            <Logo
-              textClassName="text-white text-4xl md:text-6xl lg:text-[6rem]"
-              svgClassName="text-white w-20 h-20 md:w-24 md:h-24 lg:w-[141px] lg:h-[141px] "
+          <div>
+            <LogoLink
+              className={`h-[120px] w-auto flex-shrink-0 items-center md:h-[141px] ${
+                user?.role === "FAN" ? "hidden lg:flex" : "flex"
+              }`}
             />
-          </Link>
+            {user?.role === "FAN" && (
+              <div className="relative block px-7 focus:outline-none lg:hidden">
+                <button type="button" onClick={toggleMobileMenu} className="relative z-20">
+                  {isOpen ? (
+                    <span className="text-4xl text-white">✖</span>
+                  ) : (
+                    <MenuIcon className="h-12 w-12 text-white" />
+                  )}
+                </button>
+                <MobileFanMenu userId={user.id} isOpen={isOpen} closeMenu={closeMobileMenu} />
+              </div>
+            )}
+          </div>
 
-          {/* Buscador solo visible si está logueado */}
-          {user?.role === "MUSICIAN" ? (
+          {user?.role === "MUSICIAN" && (
             <Input
               placeholder="Busca Artista, Álbum, Canción"
               startIcon={<MenuIcon />}
               endIcon={<Lens />}
-              classNameContainer="hidden md:flex 
-         w-full bg-white items-center gap-2 h-12 mx-6 w-full max-w-[400px] md:max-w-[800px] "
+              classNameContainer="hidden md:flex w-full bg-white items-center gap-2 h-12 mx-6 max-w-[800px]"
             />
-          ) : user?.role === "FAN" ? (
-            <nav className="hidden gap-20 lg:flex">
-              {FAN_NAVBAR.map((item) => {
-                const path = item.hash.replace(":id", user.id);
-                return (
-                  <Link key={item.name} to={path} className="text-2xl text-white">
-                    {item.name}
-                  </Link>
-                );
-              })}
-            </nav>
-          ) : null}
+          )}
 
-          {/* Avatar o botones de login/register */}
+          {user?.role === "FAN" && <FanNavbar userId={user.id} />}
+
           <div className="flex flex-shrink-0 items-center justify-between">
-            {/* Desktop: userMenu o botones */}
             <div className="hidden items-center lg:flex">
               {user ? (
                 <UserMenu />
@@ -110,22 +103,28 @@ export const Header = () => {
               )}
             </div>
 
-            {/* Mobile: hamburguesa solo si NO está logueado */}
             {!user && (
-              <button
-                type="button"
-                className="block px-7 focus:outline-none lg:hidden"
-                onClick={toggleMobileMenu}
-              >
-                {isOpen ? (
-                  <span className="text-4xl text-white">✖</span>
-                ) : (
-                  <MenuIcon className="h-12 w-12 text-white" />
-                )}
-              </button>
+              <div className="relative block px-7 focus:outline-none lg:hidden">
+                <button type="button" onClick={toggleMobileMenu} className="relative z-20">
+                  {isOpen ? (
+                    <span className="text-4xl text-white">✖</span>
+                  ) : (
+                    <MenuIcon className="h-12 w-12 text-white" />
+                  )}
+                </button>
+                <MobileAuthMenu
+                  isOpen={isOpen}
+                  onLogin={() => {
+                    handleOpenModal("login");
+                  }}
+                  onRegister={() => {
+                    handleOpenModal("register");
+                  }}
+                  closeMenu={closeMobileMenu}
+                />
+              </div>
             )}
 
-            {/* Mobile: userMenu si está logueado */}
             {user && (
               <div className="lg:hidden">
                 <UserMenu />
@@ -133,31 +132,6 @@ export const Header = () => {
             )}
           </div>
         </div>
-
-        {/* Mobile: menú visible solo si no hay usuario */}
-        {!user && isOpen && (
-          <nav
-            className="absolute top-[5.5rem] right-2 z-10 flex w-fit max-w-xs flex-col items-start gap-4 rounded-[1.25rem] bg-white px-[1.625rem] py-[4rem] shadow-md lg:hidden"
-            onClick={(event) => {
-              event.stopPropagation();
-            }}
-          >
-            <LoginButton
-              onClick={() => {
-                handleOpenModal("login");
-                closeMobileMenu();
-              }}
-              className="text-ecos-blue cursor-pointer text-xl"
-            />
-            <RegisterButton
-              onClick={() => {
-                handleOpenModal("register");
-                closeMobileMenu();
-              }}
-              className="text-ecos-blue cursor-pointer text-xl"
-            />
-          </nav>
-        )}
       </header>
 
       {openModal && <AuthModal mode={openModal} onClose={handleCloseModal} />}
