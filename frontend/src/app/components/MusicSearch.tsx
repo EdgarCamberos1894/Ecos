@@ -64,7 +64,7 @@ const MusicSearch = () => {
           placeholder="Busca Artista, Album, Canción"
           startIcon={<MenuIcon />}
           endIcon={
-            isSongsPending && isMusiciansPending ? <Spinner className="m-2 size-6" /> : <Lens />
+            isSongsPending && isMusiciansPending ? <Spinner className="m-2 size-6" /> : <LensIcon />
           }
           classNameContainer="container-search group"
           value={query}
