@@ -1,13 +1,10 @@
 import defaultImage from "@/assets/imagePlay.svg";
-import { CloseIcon } from "../ui/CloseIcon";
-import { RepeatLeftIcon } from "../ui/RepeatLeftIcon";
-import { RepeatRightIcon } from "../ui/RepeatRightIcon";
+import { RepeatLeftIcon, RepeatRightIcon, PauseIcon, PlayIcon, CloseIcon } from "@/app/ui/Icons";
 import { useState, useRef } from "react";
 import DonationModal from "../DonationModal";
 import { useApiMutation } from "@/shared/hooks/use-api-mutation";
 import { toast } from "sonner";
 import ConfirmDialogModal from "@/shared/components/Modals/ConfirmDialogModal";
-import { PauseIcon, PlayIcon } from "@/app/ui/Icons";
 import { DonateButton } from "@/profile/components/DonateButton";
 
 interface CardSongProps {

@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import Input from "@/app/ui/Input";
 import AuthModal, { AuthMode } from "@/auth/components/AuthModal";
-import MenuIcon from "@/app/ui/MenuIcon";
-import Lens from "@/app/ui/LensIcon";
 import { useAuth } from "@/auth/hooks/use-auth";
 import UserMenu from "@/auth/components/UserMenu";
 import WelcomeUserModal from "@/auth/components/WelcomeUserModal";
@@ -11,6 +9,7 @@ import { LogoLink } from "./components/LogoLink";
 import { MobileAuthMenu } from "./components/MobileAuthMenu";
 import { MobileFanMenu } from "./components/MobileFanMenu";
 import { RegisterButton, LoginButton } from "@/app/components/ButtonsAuth";
+import { LensIcon, MenuIcon } from "@/app/ui/Icons";
 
 export const Header = () => {
   const [openModal, setOpenModal] = useState<AuthMode | null>(null);
@@ -74,7 +73,7 @@ export const Header = () => {
             <Input
               placeholder="Busca Artista, Álbum, Canción"
               startIcon={<MenuIcon />}
-              endIcon={<Lens />}
+              endIcon={<LensIcon />}
               classNameContainer="hidden md:flex w-full bg-white items-center gap-2 h-12 mx-6 max-w-[800px]"
             />
           )}

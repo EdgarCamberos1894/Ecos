@@ -1,4 +1,4 @@
-import { CalendarIcon, ClockIcon } from "./Icons";
+import { CalendarIcon, ClockIcon } from "@/app/ui/Icons";
 
 interface InputTimeProps {
   form: {
@@ -19,7 +19,7 @@ export default function InputTime({ form, handleChange, errors }: InputTimeProps
             Fecha <span className="text-red-500">*</span>
           </label>
           <div className="relative items-center">
-            <div className="absolute top-1/2 flex h-[58px] w-[58px] -translate-y-1/2 items-center justify-center bg-black p-3 text-white lg:rounded-l-[20px]">
+            <div className="absolute top-1/2 flex h-[58px] w-[58px] -translate-y-1/2 items-center justify-center rounded-l-[20px] bg-black p-3 text-white">
               <CalendarIcon />
             </div>
             <input
@@ -52,7 +52,7 @@ export default function InputTime({ form, handleChange, errors }: InputTimeProps
             Comienza <span className="text-red-500">*</span>
           </label>
           <div className="relative">
-            <div className="absolute top-1/2 flex h-[58px] w-[58px] -translate-y-1/2 items-center justify-center bg-black p-3 text-white lg:rounded-l-[20px]">
+            <div className="absolute top-1/2 flex h-[58px] w-[58px] -translate-y-1/2 items-center justify-center rounded-l-[20px] bg-black p-3 text-white">
               <ClockIcon />
             </div>
             <input
@@ -82,7 +82,7 @@ export default function InputTime({ form, handleChange, errors }: InputTimeProps
             Termina <span className="text-red-500">*</span>
           </label>
           <div className="relative">
-            <div className="absolute top-1/2 flex h-[58px] w-[58px] -translate-y-1/2 items-center justify-center bg-black p-3 text-white lg:rounded-l-[20px]">
+            <div className="absolute top-1/2 flex h-[58px] w-[58px] -translate-y-1/2 items-center justify-center rounded-l-[20px] bg-black p-3 text-white">
               <ClockIcon />
             </div>
             <input

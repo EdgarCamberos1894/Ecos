@@ -4,7 +4,7 @@ import { useApiMutation } from "@/shared/hooks/use-api-mutation";
 import { toast } from "sonner";
 import { useRequiredUser } from "@/auth/hooks/use-required-user";
 import { useNavigate } from "react-router";
-import { CalendarIcon, ClockIcon, TicketIcon, LocationIcon } from "../ui/Icons";
+import { CalendarIcon, ClockIcon, TicketIcon, LocationIcon } from "../../../app/ui/Icons";
 import { CalendarButton } from "../ui/CalendarButton";
 
 interface StepFourProps {
@@ -69,23 +69,23 @@ export default function StepFour({ prevStep, formData }: StepFourProps) {
   };
 
   return (
-    <form className="w-full">
+    <form className="text-ecos-blue w-full">
       <p className="mb-4 text-sm font-normal">
         ¡Casi terminamos! Revisa que los datos sean correctos.
       </p>
-      <section className="flex p-3 lg:pr-[77px] lg:pl-[23px]">
-        <div className="flex flex-col gap-y-10 rounded-[50px] border-3 border-[#19233A] p-3 md:w-[807px] md:p-10 lg:w-full lg:px-[50px] lg:py-[38px]">
+      <section className="mt-4 flex p-2 md:mt-0">
+        <div className="border-ecos-blue flex flex-col gap-y-10 rounded-[50px] border-3 pb-8 md:w-[807px] md:p-10 lg:w-full lg:px-[50px] lg:py-[38px]">
           {formData.image && (
-            <header className="h-[297px] w-full md:h-[400px] lg:h-[594px]">
+            <header className="w-full px-11 pt-[38px] md:h-[400px] lg:h-[594px] lg:px-0 lg:pt-0">
               <img
                 src={URL.createObjectURL(formData.image)}
                 alt="Imagen del evento"
-                className="h-full w-full rounded-[50px] object-cover"
+                className="h-full min-h-[196px] w-full min-w-[275px] rounded-[50px] object-cover"
               />
             </header>
           )}
-          <main className="flex flex-col gap-y-8 lg:gap-y-[80px] lg:pr-[271px]">
-            <h2 className="text-center text-4xl font-extrabold md:text-start md:text-5xl">
+          <main className="flex flex-col gap-y-8 px-8 lg:gap-y-[80px] lg:px-0">
+            <h2 className="text-[32px] font-extrabold md:text-start md:text-5xl">
               {formData.name}
             </h2>
             <div className="flex flex-col gap-y-4">
@@ -108,14 +108,16 @@ export default function StepFour({ prevStep, formData }: StepFourProps) {
             </div>
             <div className="flex flex-col gap-y-4">
               <h3 className="text-2xl font-bold md:text-[32px]">Lugar</h3>
-              <div className="flex items-end gap-x-1">
-                <LocationIcon />
-                <p className="text-2xl font-semibold">Dirección: </p>
-                <span className="hidden lg:flex">{formData.location}</span>
+              <div className="flex flex-col items-start gap-4 gap-x-1 md:flex-row md:items-end">
+                <div className="flex gap-5">
+                  <LocationIcon />
+                  <p className="text-2xl font-semibold">Dirección: </p>
+                </div>
+                <span className="flex text-2xl text-balance">{formData.location}</span>
               </div>
             </div>
             <div className="flex flex-col gap-y-4">
-              <h3 className="text-2xl font-bold md:text-[32px]">Información de las entradas</h3>
+              <h3 className="text-[32px] font-bold">Información de las entradas</h3>
               <div className="gap-x-1">
                 <p className="pl-9 font-semibold">Puntos de venta:</p>
                 <div className="flex items-center gap-2">
@@ -123,8 +125,8 @@ export default function StepFour({ prevStep, formData }: StepFourProps) {
                   <div>
                     {formData.tickets.map((ticket) => (
                       <div key={ticket.location} className="flex gap-x-4">
-                        <p>{ticket.location}</p>
-                        <span>$ {ticket.price}</span>
+                        <p className="text-balance">{ticket.location}</p>
+                        <span className="min-w-16 text-center">$ {ticket.price}</span>
                       </div>
                     ))}
                   </div>
@@ -132,8 +134,10 @@ export default function StepFour({ prevStep, formData }: StepFourProps) {
               </div>
             </div>
             <div className="flex flex-col gap-y-4">
-              <h3 className="text-3xl font-bold">Descripción del Evento</h3>
-              <p className="text-lg font-normal">{formData.description}</p>
+              <h3 className="text-[32px] font-bold">Descripción del Evento</h3>
+              <p className="md:text-2x1 text-base leading-9 font-normal text-balance">
+                {formData.description}
+              </p>
             </div>
           </main>
         </div>

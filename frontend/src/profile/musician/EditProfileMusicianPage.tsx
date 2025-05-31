@@ -12,7 +12,7 @@ import ImageBanner from "@/assets/imageBanner.webp";
 import { MediaType } from "../utils/media-utils";
 import { type ApiSongs, type BannerUrl } from "./musician-types";
 import { musicalGenreOptions as GENRES } from "../utils/musicalGenreOptions";
-import { ArrowDown, FillArrowDown } from "../components/ui/Icons";
+import { ArrowDown, FillArrowDown } from "@/app/ui/Icons";
 import { SpotifyTrack } from "./components/SpotifyTrack";
 import { AudioPlayer } from "./components/AudioPlayer";
 

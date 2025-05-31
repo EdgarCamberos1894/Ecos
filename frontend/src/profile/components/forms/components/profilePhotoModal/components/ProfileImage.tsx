@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Avatar } from "@/auth/components/ui/Icons";
+import { Avatar } from "@/app/ui/Icons";
 
 interface ProfileImageProps {
   profileImage: string | File | null;

@@ -1,5 +1,5 @@
 import { ComponentProps } from "react";
-import { Donate } from "./ui/Icons";
+import { Donate } from "@/app/ui/Icons";
 
 type HeartButtonProps = ComponentProps<"button"> & {
   fromDonateSection?: boolean;

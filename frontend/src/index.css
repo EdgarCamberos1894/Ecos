@@ -114,11 +114,11 @@
 }
 
 .input-field-event {
-  @apply h-[58px] w-full border px-3 py-2 text-[16px] placeholder:text-[#ACACAC] lg:rounded-[20px] xl:text-[22px];
+  @apply h-[58px] w-full border px-3 py-2 text-[16px] placeholder:text-[#ACACAC] rounded-[20px] xl:text-[22px];
 }
 
 .input-time-event {
-  @apply h-[58px] w-full border px-3 py-2 pl-18 text-[16px] placeholder:text-[#ACACAC] lg:rounded-[20px] xl:text-[22px];
+  @apply h-[58px] w-full border px-3 py-2 pl-18 text-[16px] placeholder:text-[#ACACAC] rounded-[20px] xl:text-[22px];
 }
 
 @keyframes pop {

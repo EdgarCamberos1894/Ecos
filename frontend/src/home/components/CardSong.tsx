@@ -1,4 +1,4 @@
-import { PlusCircle } from "@/home/components/ui/Icons";
+import { PlusCircle } from "@/app/ui/Icons";
 import defaultImage from "@/assets/imagePlay.svg";
 import { useState, useRef, useEffect } from "react";
 import { SongList } from "./types/SongList";

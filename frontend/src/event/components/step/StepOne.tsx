@@ -126,7 +126,7 @@ export default function StepOne({ nextStep, formData, setFormData }: StepOneProp
             name="description"
             value={formData.description}
             onChange={handleChange}
-            className={`flex h-28 w-full border p-2 text-[16px] placeholder:text-[#ACACAC] focus:ring-2 focus:outline-none lg:rounded-[20px] lg:text-[22px]`}
+            className={`flex h-28 w-full rounded-[20px] border p-2 text-[16px] placeholder:text-[#ACACAC] focus:ring-2 focus:outline-none lg:text-[22px]`}
             placeholder="Describe un poco más tu evento para atraer al público"
           />
           {formErrors.description && (

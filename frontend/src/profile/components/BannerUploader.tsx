@@ -1,5 +1,5 @@
 import { ComponentProps, useRef, useState } from "react";
-import { UploadCloud } from "./ui/Icons";
+import { UploadCloud } from "@/app/ui/Icons";
 import { Spinner } from "@/app/ui/Spinner";
 
 interface BannerUploaderProps extends ComponentProps<"section"> {

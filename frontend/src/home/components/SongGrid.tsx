@@ -1,8 +1,8 @@
 import { useRef, useState } from "react";
 import { SongList } from "./types/SongList";
 import CardSong from "./CardSong";
-import { ArrowScroll } from "./ui/Icons";
 import { useEffect } from "react";
+import { ArrowScroll } from "@/app/ui/Icons";
 
 interface SongsGridProps {
   songs: SongList[];

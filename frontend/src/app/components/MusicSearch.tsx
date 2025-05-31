@@ -1,6 +1,5 @@
 import Input from "@/app/ui/Input";
-import MenuIcon from "@/app/ui/MenuIcon";
-import Lens from "@/app/ui/LensIcon";
+import { LensIcon, MenuIcon } from "../ui/Icons";
 import { useState } from "react";
 import { useApiQuery } from "@/shared/hooks/use-api-query";
 import { type ApiSongs } from "@/profile/musician/musician-types";
@@ -9,6 +8,7 @@ import useDebounce from "@/shared/hooks/use-debounce";
 import { SearchResult } from "../types/search-normalize-data";
 import SearchCard from "./SearchCard";
 import { Spinner } from "../ui/Spinner";
+
 
 const MusicSearch = () => {
   const [query, setQuery] = useState("");
@@ -58,12 +58,13 @@ const MusicSearch = () => {
       <h1 className="subtitles text-start uppercase md:text-center">
         Encuentra tu artista favorito
       </h1>
+
       <div className="group relative">
         <Input
           placeholder="Busca Artista, Album, Canción"
           startIcon={<MenuIcon />}
           endIcon={
-            isSongsPending && isMusiciansPending ? <Spinner className="m-2 size-6" /> : <Lens />
+            isSongsPending && isMusiciansPending ? <Spinner className="m-2 size-6" /> : <LensIcon />
           }
           classNameContainer="container-search group"
           value={query}
