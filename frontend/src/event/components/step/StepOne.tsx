@@ -106,7 +106,7 @@ export default function StepOne({ nextStep, formData, setFormData }: StepOneProp
         <p className="mb-2 font-[Roboto] text-2xl font-medium">Lugar del evento</p>
         <InputField
           type="text"
-          label="¿Dónde se realizará"
+          label="¿Dónde se realizará?"
           name="location"
           value={formData.location}
           required
