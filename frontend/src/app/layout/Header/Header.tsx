@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import Input from "@/app/ui/Input";
 import AuthModal, { AuthMode } from "@/auth/components/AuthModal";
 import { useAuth } from "@/auth/hooks/use-auth";
 import UserMenu from "@/auth/components/UserMenu";
@@ -9,7 +8,8 @@ import { LogoLink } from "./components/LogoLink";
 import { MobileAuthMenu } from "./components/MobileAuthMenu";
 import { MobileFanMenu } from "./components/MobileFanMenu";
 import { RegisterButton, LoginButton } from "@/app/components/ButtonsAuth";
-import { LensIcon, MenuIcon } from "@/app/ui/Icons";
+import { MenuIcon } from "@/app/ui/Icons";
+import SearchBar from "@/app/components/SearchBar";
 
 export const Header = () => {
   const [openModal, setOpenModal] = useState<AuthMode | null>(null);
@@ -70,12 +70,9 @@ export const Header = () => {
           </div>
 
           {user?.role === "MUSICIAN" && (
-            <Input
-              placeholder="Buscar artista, canción"
-              startIcon={<MenuIcon />}
-              endIcon={<LensIcon />}
-              classNameContainer="hidden md:flex w-full bg-white items-center gap-2 h-12 mx-6 max-w-[800px]"
-            />
+            <div className="hidden max-w-[800px] md:flex md:flex-auto">
+              <SearchBar isFromHeader={true} />
+            </div>
           )}
 
           {user?.role === "FAN" && <FanNavbar userId={user.id} />}
