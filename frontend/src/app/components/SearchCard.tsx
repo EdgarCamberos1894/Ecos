@@ -1,21 +1,16 @@
-import { useNavigate } from "react-router";
 import { type SearchResult } from "../types/search-normalize-data";
 import defaultImage from "@/assets/image.webp";
 
 interface SearchCardProps {
   result: SearchResult;
+  onSelect?: (result: SearchResult) => void;
 }
-const SearchCard = ({ result }: SearchCardProps) => {
-  const navigate = useNavigate();
 
-  const handleClick = () => {
-    const id = result.type === "song" ? result.artistId : result.id;
-    navigate(`/profile/musician/${id.toString()}`);
-  };
-
+const SearchCard = ({ result, onSelect }: SearchCardProps) => {
   return (
     <div
-      onClick={handleClick}
+      tabIndex={0}
+      onMouseDown={() => onSelect?.(result)}
       className="hover:bg-ecos-base-2 flex cursor-pointer items-center gap-3 bg-white p-3"
     >
       <img

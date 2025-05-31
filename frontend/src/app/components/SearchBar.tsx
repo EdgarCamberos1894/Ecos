@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
 import { useApiQuery } from "@/shared/hooks/use-api-query";
 import useDebounce from "@/shared/hooks/use-debounce";
 import SearchCard from "./SearchCard";
@@ -16,6 +17,7 @@ interface SearchBarProps {
 const SearchBar = ({ isFromHeader }: SearchBarProps) => {
   const [query, setQuery] = useState("");
   const debouncedQuery = useDebounce(query);
+  const navigate = useNavigate();
 
   const isEnabled = debouncedQuery.trim().length > 0;
 
@@ -56,6 +58,13 @@ const SearchBar = ({ isFromHeader }: SearchBarProps) => {
 
   const combinedResults: SearchResult[] = [...musicianResults, ...songResults];
 
+  const handleSelect = (result: SearchResult) => {
+    setQuery("");
+
+    const id = result.type === "song" ? result.artistId : result.id;
+    navigate(`/profile/musician/${id.toString()}`);
+  };
+
   return (
     <div className={`group relative ${isFromHeader ? "w-full" : ""}`}>
       <Input
@@ -76,7 +85,11 @@ const SearchBar = ({ isFromHeader }: SearchBarProps) => {
           className={`border-ecos-input-placeholder absolute z-10 mt-1 hidden max-h-[300px] w-full overflow-y-auto rounded-lg border bg-white shadow-[0_4px_4px_rgba(0,0,0,.25)] group-focus-within:block ${isFromHeader ? "" : "md:right-10 md:left-10 md:max-w-1/2"}`}
         >
           {combinedResults.map((result) => (
-            <SearchCard key={`${result.type}-${result.id.toString()}`} result={result} />
+            <SearchCard
+              key={`${result.type}-${result.id.toString()}`}
+              result={result}
+              onSelect={handleSelect}
+            />
           ))}
         </div>
       ) : (
