@@ -107,7 +107,7 @@ export default function StepFour({ prevStep, formData }: StepFourProps) {
               />
             </div>
             <div className="flex flex-col gap-y-4">
-              <h3 className="text-2xl font-bold md:text-[32px]">Lugar</h3>
+              <h3 className="text-2xl font-bold md:text-[32px]">Lugar del evento</h3>
               <div className="flex flex-col items-start gap-4 gap-x-1 md:flex-row md:items-end">
                 <div className="flex gap-5">
                   <LocationIcon />

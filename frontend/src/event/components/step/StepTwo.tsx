@@ -117,7 +117,7 @@ export default function StepTwo({ nextStep, prevStep, setFormData }: StepTwoProp
           ) : (
             <>
               <UploadCloud className="mb-4" />
-              <p className="text-lg font-semibold">Subí tu imagen aquí</p>
+              <p className="text-lg font-semibold">Sube tu imagen aquí</p>
               <p className="mt-2 text-sm text-gray-600">
                 <span className="block sm:hidden">formatos jpg.....</span>
                 <span className="hidden sm:block">

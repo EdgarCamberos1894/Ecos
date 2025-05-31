@@ -107,8 +107,8 @@ const CardSong = ({ song, isPlaying, onPlay, onPause, onFavoriteAdded }: CardSon
             <div className="flex items-center gap-1 text-xs text-[#49454f]">
               <button
                 type="button"
-                className="flex items-center gap-1"
                 onClick={handleSaveFavorite}
+                className="flex items-center gap-1 hover:cursor-pointer"
               >
                 <PlusCircle className="text-ecos-blue h-6" />
                 <span>Me gusta</span>

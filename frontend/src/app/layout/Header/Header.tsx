@@ -71,7 +71,7 @@ export const Header = () => {
 
           {user?.role === "MUSICIAN" && (
             <Input
-              placeholder="Busca Artista, Álbum, Canción"
+              placeholder="Buscar artista, canción"
               startIcon={<MenuIcon />}
               endIcon={<LensIcon />}
               classNameContainer="hidden md:flex w-full bg-white items-center gap-2 h-12 mx-6 max-w-[800px]"
