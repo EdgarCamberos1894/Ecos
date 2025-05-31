@@ -34,11 +34,11 @@ const CardArtist = ({ musician }: CardArtistProps) => {
 
         <div>
           <Button
-            children="Ver más"
+            children="Ver contenido"
             bgType="primary"
             type="button"
             onClick={goToMusicianProfile}
-            className="w-fit px-6 py-2.5 text-white"
+            className="w-fit px-6 py-2.5"
           />
         </div>
       </div>

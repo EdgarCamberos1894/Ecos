@@ -31,12 +31,12 @@ export const ContactDetailMusicianSection = ({
       />
 
       <LabeledInput
-        label="Whatsapp"
+        label="WhatsApp"
         htmlFor="whatsapp"
         inputProps={{
           id: "whatsapp",
           type: "tel",
-          placeholder: "Whatsapp",
+          placeholder: "WhatsApp",
           ...register("whatsapp"),
         }}
         error={errors.whatsapp?.message}
