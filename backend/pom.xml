@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -8,7 +8,7 @@
 		<version>3.4.4</version>
 		<relativePath/>
 	</parent>
-	
+
 	<groupId>com.footalentgroup</groupId>
 	<artifactId>backend</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
@@ -16,23 +16,23 @@
 	<description>Foo Talent Group - Equipo 22 Noche - Backend</description>
 	<packaging>jar</packaging>
 	<url/>
-	
+
 	<properties>
 		<!-- Encode -->
 		<encoding>UTF-8</encoding>
 		<project.build.sourceEncoding>${encoding}</project.build.sourceEncoding>
-    	<project.reporting.outputEncoding>${encoding}</project.reporting.outputEncoding>
-    	<project.resources.sourceEncoding>${encoding}</project.resources.sourceEncoding>
-		
-		<!-- Java -->	
+		<project.reporting.outputEncoding>${encoding}</project.reporting.outputEncoding>
+		<project.resources.sourceEncoding>${encoding}</project.resources.sourceEncoding>
+
+		<!-- Java -->
 		<java.version>17</java.version>
-		
+
 		<!-- Maven -->
 		<maven.version>3.14.0</maven.version>
 
 		<!-- Lombok -->
 		<lombok.version>1.18.32</lombok.version>
-		
+
 		<!-- MapStruct -->
 		<mapstruct.version>1.5.5.Final</mapstruct.version>
 
@@ -42,7 +42,7 @@
 		<!-- OpenAPI -->
 		<springdoc.version>2.8.6</springdoc.version>
 	</properties>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -64,7 +64,14 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-mail</artifactId>
 		</dependency>
-
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-database-postgresql</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>me.paulschwarz</groupId>
 			<artifactId>spring-dotenv</artifactId>
@@ -153,7 +160,7 @@
 					</annotationProcessorPaths>
 				</configuration>
 			</plugin>
-			
+
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>

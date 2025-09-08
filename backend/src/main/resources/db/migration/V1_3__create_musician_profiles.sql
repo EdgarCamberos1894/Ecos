@@ -1,0 +1,20 @@
+CREATE TABLE musician_profiles (
+    id BIGINT PRIMARY KEY,
+    stage_name VARCHAR(255),
+    genre VARCHAR(100),
+    country VARCHAR(100),
+    description TEXT,
+    photo_url VARCHAR(255),
+    photo_public_id VARCHAR(255),
+    banner_url VARCHAR(255),
+    banner_public_id VARCHAR(255),
+    whatsapp VARCHAR(50),
+    payment_link VARCHAR(255),
+    payment_alias VARCHAR(100),
+    cbu VARCHAR(100),
+    spotify_url VARCHAR(255),
+    youtube_url VARCHAR(255),
+    instagram_url VARCHAR(255),
+    tiktok_url VARCHAR(255),
+    CONSTRAINT fk_musician_profiles_user FOREIGN KEY (id) REFERENCES users(id) ON DELETE CASCADE
+);
