@@ -18,7 +18,12 @@ public class CloudinaryServiceImpl implements CloudinaryService {
 
     public Map<String, Object> uploadImage(MultipartFile file) {
         try {
-            return cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
+            return cloudinary.uploader().upload(
+                    file.getBytes(),
+                    ObjectUtils.asMap(
+                            "folder", "Ecos/images"
+                    )
+            );
         } catch (IOException e) {
             throw new RuntimeException("Error al subir la imagen a Cloudinary", e);
         }
@@ -28,7 +33,10 @@ public class CloudinaryServiceImpl implements CloudinaryService {
         try {
             return cloudinary.uploader().upload(
                     file.getBytes(),
-                    ObjectUtils.asMap("resource_type", "video")
+                    ObjectUtils.asMap(
+                            "resource_type", "video", // 👈 Importante para audios
+                            "folder", "Ecos/music"
+                    )
             );
         } catch (IOException e) {
             throw new RuntimeException("Error al subir el audio", e);
