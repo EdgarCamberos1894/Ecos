@@ -1,5 +1,5 @@
 -- Datos de prueba para fan_profiles
-INSERT INTO fan_profiles (id, photo_url, photo_public_id, country) VALUES
+INSERT INTO fan_profiles_ecos (id, photo_url, photo_public_id, country) VALUES
     (1, '', '', 'USA'),
     (2, '', '', 'Canada'),
     (3, '', '', 'UK'),
@@ -17,7 +17,7 @@ INSERT INTO fan_profiles (id, photo_url, photo_public_id, country) VALUES
 (15, '', '', 'South Korea');
 
 -- Datos de prueba para fan_interest_genres
-INSERT INTO fan_interest_genres (fan_profile_id, genre) VALUES
+INSERT INTO fan_interest_genres_ecos (fan_profile_id, genre) VALUES
     (1, 'Rock'),
     (1, 'Pop'),
     (2, 'Jazz'),

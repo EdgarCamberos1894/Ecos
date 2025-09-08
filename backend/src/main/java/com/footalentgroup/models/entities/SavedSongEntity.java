@@ -12,7 +12,7 @@ import java.time.OffsetDateTime;
 @Entity
 @Data
 @NoArgsConstructor
-@Table(name = "saved_songs",
+@Table(name = "saved_songs_ecos",
         uniqueConstraints = {@UniqueConstraint(columnNames = {"fan_id", "song_id"})})
 public class SavedSongEntity {
     @Id

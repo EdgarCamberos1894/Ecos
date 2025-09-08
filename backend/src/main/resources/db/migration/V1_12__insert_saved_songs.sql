@@ -1,4 +1,4 @@
-INSERT INTO saved_songs (song_id, fan_id)
+INSERT INTO saved_songs_ecos (song_id, fan_id)
 VALUES
     -- Fan 1
     (1, 1),

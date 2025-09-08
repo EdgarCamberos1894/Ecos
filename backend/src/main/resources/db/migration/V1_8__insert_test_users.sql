@@ -1,4 +1,4 @@
-INSERT INTO users (name, email, password, role) VALUES
+INSERT INTO users_ecos (name, email, password, role) VALUES
 -- FAN users
 ('Alice Johnson', 'alice.johnson@example.com', '$2a$10$bNTIJoN929SFN5/yYzpsjuGCZt2MYSRQrdWGjpGao2Px5VH0QE2rS', 'FAN'),
 ('Benjamin Carter', 'benjamin.carter@example.com', '$2a$10$bNTIJoN929SFN5/yYzpsjuGCZt2MYSRQrdWGjpGao2Px5VH0QE2rS', 'FAN'),

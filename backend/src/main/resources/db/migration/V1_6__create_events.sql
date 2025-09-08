@@ -1,4 +1,4 @@
-CREATE TABLE events (
+CREATE TABLE events_ecos (
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     category VARCHAR(100) NOT NULL,
@@ -12,5 +12,5 @@ CREATE TABLE events (
     image_public_id VARCHAR(255),
     active CHAR(1),
     musician_id BIGINT NOT NULL,
-    CONSTRAINT fk_events_musician FOREIGN KEY (musician_id) REFERENCES musician_profiles(id) ON DELETE CASCADE
+    CONSTRAINT fk_events_musician FOREIGN KEY (musician_id) REFERENCES musician_profiles_ecos(id) ON DELETE CASCADE
 );

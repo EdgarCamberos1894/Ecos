@@ -12,7 +12,7 @@ import java.util.List;
 @Entity
 @Data
 @NoArgsConstructor
-@Table(name = "fan_profiles")
+@Table(name = "fan_profiles_ecos")
 public class FanProfileEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +22,7 @@ public class FanProfileEntity {
     private String photoPublicId;
 
     @ElementCollection
-    @CollectionTable(name = "fan_interest_genres", joinColumns = @JoinColumn(name = "fan_profile_id"))
+    @CollectionTable(name = "fan_interest_genres_ecos", joinColumns = @JoinColumn(name = "fan_profile_id"))
     @Column(name = "genre")
     private List<String> genreInterest;
 

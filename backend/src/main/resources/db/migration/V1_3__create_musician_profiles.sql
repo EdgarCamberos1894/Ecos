@@ -1,4 +1,4 @@
-CREATE TABLE musician_profiles (
+CREATE TABLE musician_profiles_ecos (
     id BIGINT PRIMARY KEY,
     stage_name VARCHAR(255),
     genre VARCHAR(100),
@@ -16,5 +16,5 @@ CREATE TABLE musician_profiles (
     youtube_url VARCHAR(255),
     instagram_url VARCHAR(255),
     tiktok_url VARCHAR(255),
-    CONSTRAINT fk_musician_profiles_user FOREIGN KEY (id) REFERENCES users(id) ON DELETE CASCADE
+    CONSTRAINT fk_musician_profiles_user FOREIGN KEY (id) REFERENCES users_ecos(id) ON DELETE CASCADE
 );

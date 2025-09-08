@@ -1,5 +1,5 @@
 -- Datos de prueba para musician_profiles
-INSERT INTO musician_profiles
+INSERT INTO musician_profiles_ecos
 (id, stage_name, genre, country, description, photo_url, photo_public_id, banner_url, banner_public_id, whatsapp, payment_link, payment_alias, cbu, spotify_url, youtube_url, instagram_url, tiktok_url)
 VALUES
     (16, 'DJ Echo', 'Electronic', 'USA', 'DJ Echo creates immersive electronic music with a modern twist.', 'https://res.cloudinary.com/dggmk0peo/image/upload/v1757149048/DJ_Echo_e_pypbkb.jpg', 'DJ_Echo_e_pypbkb', 'https://res.cloudinary.com/dggmk0peo/image/upload/v1757149047/DJ_Echo_banner_mwlpoj.jpg', 'DJ_Echo_banner_mwlpoj', '+1-202-555-0171', 'https://paypal.me/djecho', 'DJECHO', '12345678901', 'https://open.spotify.com/artist/djecho', 'https://youtube.com/djecho', 'https://instagram.com/djecho', 'https://tiktok.com/@djecho'),

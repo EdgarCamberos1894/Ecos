@@ -1,4 +1,4 @@
-INSERT INTO tickets (location, price, event_id) VALUES
+INSERT INTO tickets_ecos (location, price, event_id) VALUES
 -- Evento 1 (Echo Beats Festival)
 ('Front Row', 150.00, 1),
 ('General Admission', 80.00, 1),

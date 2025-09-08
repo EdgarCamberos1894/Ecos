@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "users")
+@Entity(name = "users_ecos")
 public class UserEntity {
 
     @Id

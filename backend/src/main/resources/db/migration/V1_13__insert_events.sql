@@ -1,5 +1,5 @@
 -- Datos de prueba para events con type ajustado al enum EventType
-INSERT INTO events (name, category, type, date, start_time, end_time, location, description, image, image_public_id, active, musician_id) VALUES
+INSERT INTO events_ecos (name, category, type, date, start_time, end_time, location, description, image, image_public_id, active, musician_id) VALUES
 -- Músico 16
 ('Echo Beats Festival', 'Music Festival', 'Single', '2025-09-15', '20:00', '23:00', 'Madison Square Garden, NY', 'Una noche de vibrantes ritmos electrónicos con DJ Echo.', 'https://res.cloudinary.com/dggmk0peo/image/upload/v1757154495/Echo_beats_festival_d2uzzi.jpg', 'Echo_beats_festival_d2uzzi', 'Y', 16),
 -- Músico 18

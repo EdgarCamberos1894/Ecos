@@ -1,5 +1,5 @@
 -- Datos de prueba para songs
-INSERT INTO songs (title, genre, audio_url, audio_public_id, spotify_url, youtube_url, musician_id) VALUES
+INSERT INTO songs_ecos (title, genre, audio_url, audio_public_id, spotify_url, youtube_url, musician_id) VALUES
 -- Músico 16
 ('Echoes of Tomorrow', 'Electronic', 'https://res.cloudinary.com/dggmk0peo/video/upload/v1757207878/Echoes_of_Tomorrow_nyhnht.mp3', 'Echoes_of_Tomorrow_nyhnht', 'https://open.spotify.com/track/echoes_tomorrow', 'https://youtube.com/watch?v=echoes_tomorrow', 16),
 ('Night Pulse', 'Electronic', 'https://res.cloudinary.com/dggmk0peo/video/upload/v1757207850/Night_Pulse_ybtyhx.mp3', 'Night_Pulse_ybtyhx', 'https://open.spotify.com/track/night_pulse', 'https://youtube.com/watch?v=night_pulse', 16),
