@@ -64,6 +64,7 @@ public class EventEntity {
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
+    @Builder.Default
     private List<TicketEntity> tickets = new ArrayList<>();
 
     @ManyToOne

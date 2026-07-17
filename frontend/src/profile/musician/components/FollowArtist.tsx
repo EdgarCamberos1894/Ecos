@@ -8,70 +8,46 @@ import { type MusicianProfile } from "../musician-types";
 const FollowArtist = () => {
   const { id } = useParams() as { id: string };
   const { data: profile } = useApiQuery<MusicianProfile>("profile", `musician-profile/${id}`, id);
+  const links = [
+    { label: "Spotify", url: profile?.data.spotifyUrl, icon: SpotifyIcon },
+    { label: "YouTube", url: profile?.data.youtubeUrl, icon: YoutubeIcon },
+    { label: "Instagram", url: profile?.data.instagramUrl, icon: InstagramIcon },
+  ].filter((link): link is { label: string; url: string; icon: string } =>
+    Boolean(link.url?.startsWith("http")),
+  );
 
-  const hasSocialLinks =
-    !!profile?.data.spotifyUrl || !!profile?.data.youtubeUrl || !!profile?.data.instagramUrl;
+  if (!links.length) return null;
 
-  return hasSocialLinks ? (
-    <div className="mt-[52px] space-y-7">
-      <h2 className="text-ecos-blue text-2xl font-medium uppercase">Seguinos</h2>
-      <div className="flex items-center gap-9">
-        {profile.data.spotifyUrl && (
-          <Link
-            title="Spotify"
-            to={profile.data.spotifyUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Visitar perfil de Spotify"
-            className="transition-transform hover:scale-105 focus-visible:scale-105"
-          >
-            <img
-              src={SpotifyIcon}
-              alt="Logo Spotify"
-              className="size-12 cursor-pointer"
-              aria-hidden="true"
-            />
-          </Link>
-        )}
-
-        {profile.data.youtubeUrl && (
-          <Link
-            title="Youtube"
-            to={profile.data.youtubeUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Visitar perfil de Youtube"
-            className="transition-transform hover:scale-105 focus-visible:scale-105"
-          >
-            <img
-              src={YoutubeIcon}
-              alt="Logo Youtube"
-              className="size-12 cursor-pointer"
-              aria-hidden="true"
-            />
-          </Link>
-        )}
-
-        {profile.data.instagramUrl && (
-          <Link
-            title="Instagram"
-            to={profile.data.instagramUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Visitar perfil de Instagram"
-            className="transition-transform hover:scale-105 focus-visible:scale-105"
-          >
-            <img
-              src={InstagramIcon}
-              alt="Logo Instagram"
-              className="size-12 cursor-pointer"
-              aria-hidden="true"
-            />
-          </Link>
-        )}
+  return (
+    <section className="bg-ecos-blue rounded-lg border border-slate-200 p-6 text-white shadow-sm sm:p-8">
+      <p className="text-ecos-orange-light text-xs font-bold tracking-[0.16em] uppercase">
+        Comunidad
+      </p>
+      <div className="mt-2 flex flex-wrap items-end justify-between gap-5">
+        <div>
+          <h2 className="font-nunito text-3xl font-bold">Sigue al artista</h2>
+          <p className="mt-1 text-sm text-white/70">
+            Encuentra nuevos lanzamientos y proximas fechas.
+          </p>
+        </div>
+        <div className="flex flex-wrap gap-3">
+          {links.map(({ label, url, icon }) => (
+            <Link
+              key={label}
+              title={label}
+              to={url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:border-ecos-orange-light focus-visible:outline-ecos-orange-light flex items-center gap-2 rounded-md border border-white/20 px-3 py-2 text-sm font-bold transition-colors hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-3"
+            >
+              <img src={icon} alt="" className="size-5" />
+              {label}
+            </Link>
+          ))}
+        </div>
       </div>
-    </div>
-  ) : null;
+    </section>
+  );
 };
 
 export default FollowArtist;

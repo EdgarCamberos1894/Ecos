@@ -2,19 +2,29 @@ package com.footalentgroup.controllers;
 
 import com.footalentgroup.models.dtos.request.LoginRequestDto;
 import com.footalentgroup.models.dtos.request.UserRequestDto;
+import com.footalentgroup.models.dtos.response.ApiResponse;
 import com.footalentgroup.models.dtos.response.TokenResponseDto;
+import com.footalentgroup.repositories.UserRepository;
+import com.footalentgroup.services.EmailService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.function.BodyInserters;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 @RestTestConfig
 class AuthControllerIT {
 
     @Autowired
     private WebTestClient webTestClient;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @MockitoBean
+    private EmailService emailService;
 
     @Test
     void testRegister() {
@@ -30,7 +40,7 @@ class AuthControllerIT {
                 .body(BodyInserters.fromValue(userDto))
                 .exchange()
                 .expectStatus().isCreated()
-                .expectBody(TokenResponseDto.class)
+                .expectBody(ApiResponse.class)
                 .value(System.out::println);
     }
 
@@ -38,7 +48,7 @@ class AuthControllerIT {
     void testRegisterConflict() {
         UserRequestDto userDto = UserRequestDto.builder()
                 .name("Doe John")
-                .email("john.doe@example.com")  // Email already exists
+                .email("alice.johnson@example.com")  // Email already exists
                 .password("12345678")
                 .build();
 
@@ -75,6 +85,11 @@ class AuthControllerIT {
                 .body(BodyInserters.fromValue(userDto))
                 .exchange()
                 .expectStatus().isCreated();
+
+        userRepository.findByEmail(userDto.getEmail()).ifPresent(user -> {
+            user.setEmailVerified(true);
+            userRepository.save(user);
+        });
 
         LoginRequestDto loginDto = LoginRequestDto.builder().email(userDto.getEmail()).password(userDto.getPassword()).build();
         this.webTestClient

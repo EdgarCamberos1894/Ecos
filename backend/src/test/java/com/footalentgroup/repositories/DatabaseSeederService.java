@@ -12,7 +12,6 @@ public class DatabaseSeederService {
     @Autowired
     public DatabaseSeederService(UserSeederService userSeederService) {
         this.userSeederService = userSeederService;
-        this.seedDatabase();
     }
 
     public void seedDatabase() {

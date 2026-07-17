@@ -3,20 +3,23 @@ import { CalendarPlus } from "@/app/ui/Icons";
 
 export default function CreateEventoCard() {
   return (
-    <section className="bg-ecos-media-embed flex min-h-[259px] max-w-[762px] flex-col justify-center gap-11 rounded-[20px] px-6 pt-[51px] pb-[37px] md:px-14">
-      <div className="flex flex-col gap-5">
-        <h2 className="text-2xl font-semibold text-gray-800">Crear un evento en Ecos</h2>
-        <p className="text-balance text-gray-600">
+    <section className="bg-ecos-blue flex flex-col justify-between rounded-lg border border-slate-200 px-5 py-6 text-white shadow-sm sm:px-6">
+      <div>
+        <p className="text-ecos-orange-light text-xs font-bold tracking-[0.16em] uppercase">
+          En vivo
+        </p>
+        <h2 className="font-nunito mt-2 text-2xl font-bold">Crea un evento en Ecos</h2>
+        <p className="mt-3 text-sm leading-6 text-white/75">
           ¿Tienes un evento, show o actividad? <br />
           Carga tu evento, gestiona todo desde un solo lugar y gana visibilidad.
         </p>
       </div>
-      <div>
+      <div className="mt-6">
         <Link
           to="/event"
-          className="bg-ecos-blue inline-flex w-[190px] items-center justify-center gap-2.5 rounded-[40px] py-[5px] text-white"
+          className="button-primary inline-flex items-center gap-2 px-5 py-2 text-sm"
         >
-          <CalendarPlus className="size-[30px] fill-white" />
+          <CalendarPlus className="size-5 fill-white" />
           Crear evento
         </Link>
       </div>

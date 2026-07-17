@@ -21,11 +21,11 @@ export const HomePage = () => {
   }, [location]);
 
   return (
-    <main className="content-center space-y-20">
+    <main className="content-center">
       <Hero />
       {!user && <OptionsRegister />}
       <div className="bg-ecos-base-2 w-full">
-        <div className="px-sections mx-auto w-full max-w-screen-xl space-y-20">
+        <div className="px-sections mx-auto w-full max-w-screen-xl space-y-14 py-14 md:space-y-20 md:py-20">
           <DiscoverArtist />
           <FeaturedArtists />
           <UpcomingEvents />

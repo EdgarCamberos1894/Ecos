@@ -20,7 +20,7 @@ export const MobileFanMenu = ({
       {RoutesFanNavbar.map((item) => (
         <Link
           key={item.name}
-          to={item.hash.replace(":id", userId)}
+          to={item.path.replace(":id", userId)}
           onClick={closeMenu}
           className="text-ecos-blue text-xl"
         >

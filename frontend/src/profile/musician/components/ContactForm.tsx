@@ -5,9 +5,9 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 const ContactSchema = z.object({
-  name: z.string().min(3, { message: "Tu nombre no puede tener menos de 3 caracteres" }),
-  senderEmail: z.string().email({ message: "El email ingresado no es válido" }),
-  message: z.string().max(300, { message: "Tu mensaje como máximo puede tener 300 caracteres" }),
+  name: z.string().min(3, { message: "Tu nombre debe tener al menos 3 caracteres" }),
+  senderEmail: z.string().email({ message: "Ingresa un email valido" }),
+  message: z.string().max(300, { message: "Tu mensaje puede tener hasta 300 caracteres" }),
 });
 
 type FormFields = z.infer<typeof ContactSchema>;
@@ -15,17 +15,18 @@ type FormFields = z.infer<typeof ContactSchema>;
 interface ContactFormProps {
   musicianId: number;
 }
-
 interface Body {
   subject: string;
   message: string;
   senderEmail: string;
   musicianId: number;
 }
-
 interface ContactResponse {
   message: string;
 }
+
+const fieldClassName =
+  "w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm text-ecos-blue placeholder:text-slate-400 transition-colors focus:border-ecos-orange focus:outline-none focus:ring-3 focus:ring-orange-100";
 
 const ContactForm = ({ musicianId }: ContactFormProps) => {
   const {
@@ -33,94 +34,81 @@ const ContactForm = ({ musicianId }: ContactFormProps) => {
     handleSubmit,
     setError,
     formState: { errors },
-  } = useForm<FormFields>({
-    resolver: zodResolver(ContactSchema),
-  });
-
+  } = useForm<FormFields>({ resolver: zodResolver(ContactSchema) });
   const { mutate, isPending } = useApiMutation<ContactResponse, Body>(
     "musician-profile/contact",
     "POST",
   );
 
-  const onSubmit: SubmitHandler<FormFields> = (data: FormFields) => {
-    const { message, name, senderEmail } = data;
-
-    const body = {
-      subject: `Ecos - ${name}`,
-      message,
-      senderEmail,
-      musicianId,
-    };
-
-    mutate(body, {
-      onSuccess: (response) => {
-        toast.success(response.message);
+  const onSubmit: SubmitHandler<FormFields> = ({ message, name, senderEmail }) => {
+    mutate(
+      { subject: `Ecos - ${name}`, message, senderEmail, musicianId },
+      {
+        onSuccess: (response) => toast.success(response.message),
+        onError: (error) => {
+          toast.error("No se pudo enviar el mensaje");
+          setError("root", { message: error.message });
+        },
       },
-      onError: (error) => {
-        toast.error("Error al enviar correo");
-        setError("root", {
-          message: error.message,
-        });
-      },
-    });
+    );
   };
 
   return (
-    <form
-      className="text-ecos-blue flex max-w-[810px] flex-col gap-[29px]"
-      onSubmit={handleSubmit(onSubmit)}
-    >
-      <label className="flex flex-col gap-2 text-2xl font-normal" htmlFor="name">
-        Nombre *
-        <input
-          id="name"
-          type="text"
-          placeholder="Escribí tu nombre"
-          className="placeholder:text-ecos-input-placeholder focus:outline-ecos-blue text-ecos-blue rounded-[20px] border border-[#D9D9D9] p-3 text-sm"
-          {...register("name")}
-        />
-        {errors.name && (
-          <span className="mt-1 h-6 text-sm text-red-500">{errors.name.message}</span>
-        )}
-      </label>
-
-      <label className="flex flex-col gap-2 text-2xl font-normal" htmlFor="email">
-        E - Mail *
-        <input
-          id="senderEmail"
-          type="text"
-          placeholder="Escribí tu email"
-          className="placeholder:text-ecos-input-placeholder focus:outline-ecos-blue text-ecos-blue rounded-[20px] border border-[#D9D9D9] p-3 text-sm"
-          {...register("senderEmail")}
-        />
-        {errors.senderEmail && (
-          <span className="mt-1 h-6 text-sm text-red-500">{errors.senderEmail.message}</span>
-        )}
-      </label>
-
-      <label className="flex flex-col gap-[29px] text-2xl font-normal" htmlFor="message">
-        Mensaje *
+    <form className="grid gap-5" onSubmit={handleSubmit(onSubmit)}>
+      <div className="grid gap-5 sm:grid-cols-2">
+        <label className="text-ecos-blue space-y-2 text-sm font-bold" htmlFor="name">
+          Nombre
+          <input
+            id="name"
+            type="text"
+            placeholder="Tu nombre"
+            className={fieldClassName}
+            {...register("name")}
+          />
+          {errors.name && (
+            <span className="block text-xs font-normal text-red-600">{errors.name.message}</span>
+          )}
+        </label>
+        <label className="text-ecos-blue space-y-2 text-sm font-bold" htmlFor="senderEmail">
+          Email
+          <input
+            id="senderEmail"
+            type="email"
+            placeholder="tu@email.com"
+            className={fieldClassName}
+            {...register("senderEmail")}
+          />
+          {errors.senderEmail && (
+            <span className="block text-xs font-normal text-red-600">
+              {errors.senderEmail.message}
+            </span>
+          )}
+        </label>
+      </div>
+      <label className="text-ecos-blue space-y-2 text-sm font-bold" htmlFor="message">
+        Mensaje
         <textarea
           id="message"
-          placeholder="Escribí tu mensaje"
-          className="placeholder:text-ecos-input-placeholder focus:outline-ecos-blue text-ecos-blue resize-none rounded-[20px] border border-[#D9D9D9] p-3 text-sm"
-          rows={9}
+          placeholder="Cuentale por que quieres contactarlo"
+          className={`${fieldClassName} min-h-36 resize-y`}
+          rows={6}
           {...register("message")}
         />
         {errors.message && (
-          <span className="mt-1 h-6 text-sm text-red-500">{errors.message.message}</span>
+          <span className="block text-xs font-normal text-red-600">{errors.message.message}</span>
         )}
       </label>
-
-      <button
-        type="submit"
-        disabled={isPending}
-        className="bg-ecos-blue min-h-12 cursor-pointer rounded-full px-6 py-2.5 text-sm leading-5 font-medium text-white"
-      >
-        {isPending ? "Enviando" : "Enviar"}
-      </button>
-
-      {errors.root && <p className="text-red-500">{errors.root.message}</p>}
+      <div className="flex flex-wrap items-center justify-between gap-4 pt-1">
+        <p className="text-xs text-slate-500">El artista recibira tu mensaje por correo.</p>
+        <button
+          type="submit"
+          disabled={isPending}
+          className="button-primary px-6 py-3 text-sm font-bold"
+        >
+          {isPending ? "Enviando..." : "Enviar mensaje"}
+        </button>
+      </div>
+      {errors.root && <p className="text-sm text-red-600">{errors.root.message}</p>}
     </form>
   );
 };

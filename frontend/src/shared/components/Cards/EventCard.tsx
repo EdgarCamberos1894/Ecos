@@ -31,39 +31,37 @@ const EventCard = ({
 
   return (
     <article
-      className="text-ecos-blue flex h-[22.5rem] w-[22.688rem] flex-col gap-[1.125rem] rounded-[1.25rem] bg-white shadow-[0px_4px_4px_rgba(0,0,0,0.25)]"
+      className="text-ecos-blue group flex min-h-[26rem] w-full flex-col overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-xl"
       aria-label={`Evento de ${stageName}`}
     >
-      <header className="flex h-[11.438rem] w-full gap-6 px-4 py-[1.125rem]">
-        <figure className="flex-shrink-0">
+      <header className="bg-ecos-blue relative h-48 overflow-hidden sm:h-56">
+        <figure className="h-full w-full">
           <img
             src={image ?? img}
             alt={`Evento ${supportingText} de ${stageName}`}
-            className="aspect-square h-[10.688rem] w-[10.563rem] rounded-[1.75rem] object-cover"
+            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
         </figure>
-        <div className="flex h-[11rem] flex-1 flex-col justify-between">
-          <div>
-            <h2 className="text-2xl leading-tight font-semibold">{stageName}</h2>
-            <h3 className="mb-4 text-base font-medium">{supportingText}</h3>
-          </div>
-          <Button
-            type="button"
-            bgType="primary"
-            aria-label={`Ver evento de ${stageName}`}
-            onClick={() => navigate(`/event/${id.toString()}`)}
-            className="px-8 text-sm"
-          >
-            Ver evento
-          </Button>
-        </div>
+        <div className="bg-ecos-blue/25 absolute inset-0" />
+        <p className="text-ecos-blue absolute top-4 left-4 bg-white px-3 py-1.5 text-xs font-bold tracking-[0.12em] uppercase shadow-sm">
+          {formatted}
+        </p>
       </header>
 
-      <section className="flex h-[7.813rem] flex-col items-start gap-2 px-4 py-2">
-        <p className="font-medium">{`${category} - ${formatted}`}</p>
-        <p className="line-clamp-3 text-sm leading-5 font-normal tracking-[0.016rem] text-balance">
-          {contentPublished}
-        </p>
+      <section className="flex flex-1 flex-col items-start px-5 py-5 sm:px-6 sm:py-6">
+        <p className="text-ecos-orange text-xs font-bold tracking-[0.14em] uppercase">{category}</p>
+        <h2 className="font-nunito mt-2 text-2xl leading-tight font-bold">{stageName}</h2>
+        <h3 className="mt-1 text-base font-semibold text-slate-700">{supportingText}</h3>
+        <p className="mt-3 line-clamp-2 text-sm leading-6 text-slate-600">{contentPublished}</p>
+        <Button
+          type="button"
+          bgType="primary"
+          aria-label={`Ver evento de ${stageName}`}
+          onClick={() => navigate(`/event/${id.toString()}`)}
+          className="mt-auto w-full text-sm sm:w-auto sm:px-8"
+        >
+          Ver evento
+        </Button>
       </section>
     </article>
   );

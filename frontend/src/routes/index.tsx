@@ -10,6 +10,8 @@ import { BackButtonLayout } from "@/app/layout/BackButtonLayout";
 import { EventById } from "@/app/components/EventById";
 import NotFound from "@/app/ui/NotFound";
 import FanEventsPage from "@/profile/fan/FanEventsPage";
+import VerifyEmailPage from "@/auth/pages/VerifyEmailPage";
+import ResetPasswordPage from "@/auth/pages/ResetPasswordPage";
 
 export const AppRoutes = () => {
   return (
@@ -17,6 +19,8 @@ export const AppRoutes = () => {
       {/* Layout principal con header y footer */}
       <Route element={<MainLayout />}>
         <Route path="/" element={<HomePage />} />
+        <Route path="/verify-email" element={<VerifyEmailPage />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
         <Route path="/profile/musician/:id" element={<ProfileMusicianPage />} />
 
         {/* Rutas protegidas */}

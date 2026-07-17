@@ -16,18 +16,18 @@ const CardArtist = ({ musician }: CardArtistProps) => {
   };
 
   return (
-    <div key={id} className="flex h-[16.25rem] w-full max-w-[34.375rem] flex-row gap-6">
+    <article className="group flex w-full max-w-[34.375rem] gap-5 rounded-lg border border-transparent p-3 transition-all duration-200 hover:border-slate-200 hover:bg-white hover:shadow-lg">
       <img
         src={photoUrl ?? defaultImage}
         alt={`Foto de ${stageName}`}
-        className="aspect-square h-[8.25rem] w-[8.25rem] rounded-[1.75rem] object-cover md:h-[14.313rem] md:w-[14.313rem] lg:h-[13.5rem] lg:w-[13.5rem]"
+        className="aspect-square h-28 w-28 rounded-lg object-cover md:h-48 md:w-48 lg:h-52 lg:w-52"
       />
 
-      <div className="text-ecos-blue flex h-[16.25rem] flex-col gap-6 text-start md:h-[13.75rem] md:justify-between md:gap-0 lg:h-[12.5rem]">
+      <div className="text-ecos-blue flex min-w-0 flex-1 flex-col gap-5 text-start md:justify-between md:gap-0">
         <div className="flex flex-col gap-1">
-          <h3 className="text-2xl font-medium uppercase">{stageName}</h3>
-          <p className="text-base font-medium">{genre}</p>
-          <p className="w-max-[26.625rem] line-clamp-7 text-base font-light break-words whitespace-pre-line">
+          <p className="text-ecos-orange text-xs font-bold tracking-[0.12em] uppercase">{genre}</p>
+          <h3 className="text-2xl font-bold">{stageName}</h3>
+          <p className="line-clamp-4 text-sm leading-6 break-words whitespace-pre-line text-slate-600">
             {description}
           </p>
         </div>
@@ -42,7 +42,7 @@ const CardArtist = ({ musician }: CardArtistProps) => {
           />
         </div>
       </div>
-    </div>
+    </article>
   );
 };
 

@@ -32,46 +32,44 @@ export const MediaEmbedForm = ({
       {mediaType === "spotify" ? (
         <SpotifyTrack embedUrl={embedUrl} />
       ) : (
-        <YouTubeVideo
-          embedUrl={embedUrl}
-          className="aspect-[1126/567] min-h-[196px] w-full max-w-[1126px] rounded-[20px]"
-        />
+        <YouTubeVideo embedUrl={embedUrl} className="aspect-video w-full rounded-lg" />
       )}
-      <div className="flex gap-5">
+      <div className="flex flex-wrap gap-3">
         <button
           type="button"
           onClick={() => {
             handleSetMusic(true);
           }}
-          className="button-primary min-w-[112px] px-6 py-2.5 transition-colors"
+          className="button-primary px-5 py-2 text-sm transition-colors"
         >
           Guardar
         </button>
         <button
           type="button"
           onClick={handleUnsetMusic}
-          className="button-secondary min-w-[112px] px-6 py-2.5 transition-colors"
+          className="button-secondary px-5 py-2 text-sm transition-colors"
         >
           Cancelar
         </button>
       </div>
     </>
   ) : (
-    <div className="bg-ecos-media-embed text-ecos-blue flex w-full max-w-[762px] flex-col justify-start rounded-[20px] p-6">
-      <h2 className="text-2xl font-medium">
-        Publica tu {platform === "spotify" ? "música" : "video"}
+    <div className="text-ecos-blue flex w-full flex-col justify-start rounded-lg border border-slate-200 bg-slate-50 p-4">
+      <h2 className="text-lg font-bold">
+        {platform === "spotify" ? "Enlace de Spotify" : "Enlace de YouTube"}
       </h2>
-      <p className="text-base">
-        Copia y pega el enlace de tu {platform === "spotify" ? "canción" : "video"}
+      <p className="mt-1 text-sm text-slate-600">
+        Pega el enlace o el codigo de insercion de tu {platform === "spotify" ? "cancion" : "video"}
+        .
       </p>
 
-      <div className="mt-5 rounded-[20px] border border-gray-400 px-6 pt-3.5 pb-[50px]">
+      <div className="mt-4 rounded-lg border border-slate-300 bg-white p-4">
         <label htmlFor="embed-input" className="text-sm text-gray-700">
-          Pega el código de inserción
+          Enlace o codigo de insercion
         </label>
         <textarea
           id="embed-input"
-          className="mt-3.5 h-28 w-full resize-none rounded-[20px] border border-gray-300 p-4 text-sm"
+          className="focus:border-ecos-orange mt-2 h-24 w-full resize-none rounded-lg border border-slate-300 p-3 text-sm outline-none"
           value={input}
           onChange={(e) => {
             setInput(e.target.value);
@@ -79,20 +77,20 @@ export const MediaEmbedForm = ({
         />
       </div>
 
-      <div className="mt-6 flex gap-10">
+      <div className="mt-4 flex flex-wrap gap-3">
         <button
           type="button"
           onClick={() => {
             handleSetMusic();
           }}
-          className="button-primary min-h-10 min-w-[104px] px-6 py-2.5 transition-colors md:min-w-[119px]"
+          className="button-primary px-5 py-2 text-sm transition-colors"
         >
           Insertar
         </button>
         <button
           type="button"
           onClick={handleCancel}
-          className="button-secondary min-h-10 min-w-[104px] px-6 py-2.5 transition-colors md:min-w-[119px]"
+          className="button-secondary px-5 py-2 text-sm transition-colors"
         >
           Cancelar
         </button>

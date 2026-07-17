@@ -11,21 +11,12 @@ export default function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const { user } = useAuth();
 
-  const handleOpenModal = (mode: AuthMode) => {
-    setOpenModal(mode);
-  };
-
-  const handleCloseModal = () => {
-    setOpenModal(null);
-  };
-
   useEffect(() => {
     if (user) setOpenModal(null);
   }, [user]);
 
   useEffect(() => {
-    const shouldShow = localStorage.getItem("showWelcomeUser");
-    if (shouldShow) {
+    if (localStorage.getItem("showWelcomeUser")) {
       setShowWelcomeUser(true);
       setOpenModal(null);
       localStorage.removeItem("showWelcomeUser");
@@ -33,28 +24,23 @@ export default function Hero() {
   }, [user]);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && videoRef.current instanceof HTMLVideoElement) {
-          videoRef.current.setAttribute("preload", "auto");
-        }
-      },
-      { threshold: 0.5 },
-    );
-    if (videoRef.current instanceof HTMLVideoElement) {
-      observer.observe(videoRef.current);
-    }
+    const video = videoRef.current;
+    if (!video) return;
 
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) video.preload = "auto";
+    });
+    observer.observe(video);
     return () => {
       observer.disconnect();
     };
   }, []);
 
   return (
-    <section className={`grid ${user !== null ? "-mb-20 pb-20" : ""}`}>
+    <section className="bg-ecos-blue relative isolate flex h-[calc(100svh-112px)] min-h-[500px] items-end overflow-hidden md:h-[calc(100svh-128px)] md:min-h-[540px]">
       <video
         ref={videoRef}
-        className="aspect[1920/986] relative max-h-[986px] w-full object-cover"
+        className="absolute inset-0 -z-20 h-full w-full object-cover"
         src={HeroVideo}
         autoPlay
         loop
@@ -62,49 +48,51 @@ export default function Hero() {
         playsInline
         preload="none"
       />
+      <div className="bg-ecos-blue/70 absolute inset-0 -z-10" />
 
-      <div className="absolute ml-2 flex max-w-[300px] flex-col gap-5 self-center rounded-[30px] bg-white/88 px-3.5 py-3 md:ml-10 md:max-w-[520px] md:gap-11 md:px-[30px] md:py-[25px] lg:ml-[152px] lg:max-w-[640px] lg:px-[60px] lg:py-[50px]">
-        <div className="flex flex-col gap-3 md:gap-6">
-          <h1 className="text-ecos-blue text-2xl leading-tight text-shadow-[0_4px_4px_rgba(0,0,0,.25)] md:text-5xl lg:text-[64px]">
-            Bienvenido a <span className="text-ecos-orange-light">Ecos</span> tu plataforma musical
-            ideal
+      <div className="px-sections mx-auto flex w-full max-w-screen-xl flex-col items-start gap-5 pt-28 pb-10 text-white sm:gap-6 sm:pb-14 md:gap-7 md:pt-32 md:pb-16">
+        <p className="border-ecos-orange-light border-l-2 pl-3 text-sm font-bold tracking-[0.16em] uppercase">
+          Musica independiente en movimiento
+        </p>
+        <div className="max-w-3xl space-y-5">
+          <h1 className="font-nunito text-3xl leading-tight font-bold sm:text-4xl md:text-5xl lg:text-6xl">
+            Tu proxima conexion musical empieza en{" "}
+            <span className="text-ecos-orange-light">Ecos.</span>
           </h1>
-          <h2 className="text-ecos-blue text-xs text-balance md:text-sm md:leading-8 lg:text-2xl">
-            Descubre un mundo lleno de música y creatividad. Únete a nosotros para compartir tu arte
-            y conectar con otros amantes de la música
-          </h2>
+          <p className="max-w-2xl text-sm leading-6 text-white/90 sm:text-base sm:leading-7 md:text-lg">
+            Descubre artistas emergentes, comparte tu propuesta y encuentra eventos que merecen ser
+            escuchados en vivo.
+          </p>
         </div>
-        {!user ? (
-          <div className="flex gap-5 md:gap-8">
+        <div className="flex flex-wrap gap-4">
+          {!user && (
             <button
               type="button"
-              className="button-primary px-4 py-2 text-xs font-medium transition-colors md:px-6 md:py-2.5 md:text-base"
+              className="button-primary bg-ecos-orange hover:bg-ecos-orange px-5 py-2.5 text-sm font-bold sm:px-6 sm:py-3 sm:text-base"
               onClick={() => {
-                handleOpenModal("register");
+                setOpenModal("register");
               }}
             >
-              Regístrate
+              Crear cuenta
             </button>
-            <Link
-              to={{ pathname: "/", hash: "explorar" }}
-              className="button-secondary px-4 py-2 text-xs font-medium transition-colors md:px-6 md:py-2.5 md:text-base"
-            >
-              Explora
-            </Link>
-          </div>
-        ) : (
-          <div>
-            <Link
-              to={{ pathname: "/", hash: "explorar" }}
-              className="button-secondary px-4 py-2 text-xs font-medium transition-colors md:px-6 md:py-2.5 md:text-base"
-            >
-              Explora
-            </Link>
-          </div>
-        )}
+          )}
+          <Link
+            to={{ pathname: "/", hash: "explorar" }}
+            className="button-secondary hover:text-ecos-blue border-white bg-transparent px-5 py-2.5 text-sm font-bold text-white hover:border-white hover:bg-white sm:px-6 sm:py-3 sm:text-base"
+          >
+            Explorar artistas
+          </Link>
+        </div>
       </div>
 
-      {openModal && <AuthModal mode={openModal} onClose={handleCloseModal} />}
+      {openModal && (
+        <AuthModal
+          mode={openModal}
+          onClose={() => {
+            setOpenModal(null);
+          }}
+        />
+      )}
       {showWelcomeUser && (
         <WelcomeUserModal
           onClose={() => {

@@ -8,37 +8,52 @@ export default function BannerGuitarsRegister() {
   const [showWelcomeUser, setShowWelcomeUser] = useState(false);
   const { user } = useAuth();
 
-  const handleOpenModal = (mode: AuthMode) => {
-    setOpenModal(mode);
-  };
-  const handleCloseModal = () => {
-    setOpenModal(null);
-  };
   useEffect(() => {
     if (user) setOpenModal(null);
   }, [user]);
   useEffect(() => {
-    const shouldShow = localStorage.getItem("showWelcomeUser");
-    if (shouldShow) {
+    if (localStorage.getItem("showWelcomeUser")) {
       setShowWelcomeUser(true);
       setOpenModal(null);
       localStorage.removeItem("showWelcomeUser");
     }
   }, [user]);
+
   return (
-    <section className="bg-ecos-base-2 flex justify-center px-3.5 py-16 md:px-14 md:py-28 lg:px-[175px] lg:pt-[123px] lg:pb-[165px]">
-      <div className="flex h-[182px] w-full max-w-[364px] items-end rounded-[30px] bg-[url('/assets/register-bottom-banner.webp')] bg-cover bg-center bg-no-repeat pb-6 pl-7.5 shadow-[0_4px_4px_0_rgba(0,0,0,.25)] md:h-[471px] md:max-w-[687px] md:px-[70px] md:py-20 lg:h-[486px] lg:max-w-[1570px]">
-        <button
-          type="button"
-          className="button-primary h-[36px] w-[194px] px-6 py-2.5 text-sm md:h-[63px] md:w-[339px] md:text-2xl"
-          onClick={() => {
-            handleOpenModal("register");
-          }}
-        >
-          Regístrate
-        </button>
+    <section className="bg-ecos-base-2 px-sections py-14 md:py-20">
+      <div className="mx-auto max-w-screen-xl overflow-hidden rounded-lg bg-[url('/assets/register-bottom-banner.webp')] bg-cover bg-center shadow-xl">
+        <div className="bg-ecos-blue/75 flex min-h-[300px] items-end p-6 sm:min-h-[360px] sm:p-10 lg:min-h-[410px] lg:p-14">
+          <div className="max-w-xl space-y-5 text-white">
+            <p className="text-ecos-orange-light text-xs font-bold tracking-[0.16em] uppercase">
+              Tu lugar en la escena
+            </p>
+            <h2 className="font-nunito text-3xl leading-tight font-bold sm:text-4xl lg:text-5xl">
+              Lo que haces merece una audiencia.
+            </h2>
+            <p className="max-w-lg text-sm leading-6 text-white/85 sm:text-base">
+              Crea tu perfil, descubre artistas y forma parte de una comunidad que impulsa la musica
+              independiente.
+            </p>
+            <button
+              type="button"
+              className="button-primary bg-ecos-orange hover:bg-ecos-orange px-6 py-3 text-base font-bold"
+              onClick={() => {
+                setOpenModal("register");
+              }}
+            >
+              Crear mi cuenta
+            </button>
+          </div>
+        </div>
       </div>
-      {openModal && <AuthModal mode={openModal} onClose={handleCloseModal} />}
+      {openModal && (
+        <AuthModal
+          mode={openModal}
+          onClose={() => {
+            setOpenModal(null);
+          }}
+        />
+      )}
       {showWelcomeUser && (
         <WelcomeUserModal
           onClose={() => {

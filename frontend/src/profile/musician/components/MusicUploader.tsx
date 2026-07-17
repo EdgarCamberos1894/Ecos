@@ -49,11 +49,11 @@ export function MusicUploader({ onSettingMusic }: MusicUploaderProps) {
   };
 
   return (
-    <section className="border-ecos-blue space-y-4 rounded-[20px] border px-4 py-3">
+    <section className="space-y-4 rounded-lg border border-slate-200 bg-slate-50 p-4">
       <div className="space-y-2">
-        <label className="text-ecos-blue block text-2xl font-semibold">Cargar audio</label>
+        <label className="text-ecos-blue block text-lg font-bold">Cargar audio</label>
 
-        <div className="border-ecos-dark-grey-light relative flex items-center gap-2.5 rounded-[20px] border px-6 py-3.5">
+        <div className="relative mt-2 flex items-center gap-3 rounded-lg border border-slate-300 bg-white px-3 py-3">
           <input
             id="audio-upload"
             type="file"
@@ -65,12 +65,12 @@ export function MusicUploader({ onSettingMusic }: MusicUploaderProps) {
 
           <label
             htmlFor="audio-upload"
-            className="bg-ecos-blue inline-block shrink-0 cursor-pointer rounded-md border px-2.5 py-1 text-sm text-white md:text-xl"
+            className="button-primary inline-block shrink-0 cursor-pointer px-3 py-1.5 text-sm"
           >
             Buscar Archivo
           </label>
 
-          <span className="text-ecos-dark-grey-light text-sm md:text-[22px]">
+          <span className="min-w-0 truncate text-sm text-slate-500">
             {file ? file.name : "No se ha elegido ningún archivo"}
           </span>
         </div>
@@ -80,18 +80,18 @@ export function MusicUploader({ onSettingMusic }: MusicUploaderProps) {
         </p>
       </div>
 
-      <div className={`mb-2 flex gap-5 ${file !== null ? "" : "invisible"}`}>
+      <div className={`flex flex-wrap gap-3 ${file !== null ? "" : "hidden"}`}>
         <button
           type="button"
           onClick={handleConfirmFile}
-          className="bg-ecos-blue min-w-[112px] cursor-pointer rounded-[100px] px-6 py-2.5 text-white"
+          className="button-primary cursor-pointer px-5 py-2 text-sm"
         >
           Guardar
         </button>
         <button
           type="button"
           onClick={handleDeleteFile}
-          className="border-ecos-blue text-ecos-blue min-w-[112px] cursor-pointer rounded-[100px] border bg-white px-6 py-2.5"
+          className="button-secondary cursor-pointer px-5 py-2 text-sm"
         >
           Cancelar
         </button>

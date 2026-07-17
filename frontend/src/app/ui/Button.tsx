@@ -17,6 +17,7 @@ const Button = ({
   type = "button",
   className = "",
   bgType = "",
+  disabled = false,
 }: ButtonProps) => {
   const bgClass =
     bgType === "primary" ? "button-primary" : bgType === "secondary" ? "button-secondary" : "";
@@ -25,6 +26,7 @@ const Button = ({
     <button
       type={type}
       onClick={onClick}
+      disabled={disabled}
       className={`flex h-[50px] items-center justify-center px-4 py-2 font-medium ${bgClass} ${className}`}
     >
       {startIcon}

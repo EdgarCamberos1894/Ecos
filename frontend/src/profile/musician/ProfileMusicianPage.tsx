@@ -12,7 +12,6 @@ import { YouTubeVideo } from "./components/YoutubeVideo";
 import { DonateSection } from "./components/DonateSection";
 import ContactForm from "./components/ContactForm";
 import FollowArtist from "./components/FollowArtist";
-import { MediaSkeleton } from "./components/MediaSkeleton";
 import DonationModal from "../fan/DonationModal";
 import { HeartButton } from "../components/HeartButton";
 import { DonateButton } from "../components/DonateButton";
@@ -24,6 +23,37 @@ import {
   type FavoriteMusic,
   type ApiEvents,
 } from "./musician-types";
+
+interface ContentEmptyStateProps {
+  eyebrow: string;
+  title: string;
+  description: string;
+  actionLabel?: string;
+  onAction?: () => void;
+}
+
+const ContentEmptyState = ({
+  eyebrow,
+  title,
+  description,
+  actionLabel,
+  onAction,
+}: ContentEmptyStateProps) => (
+  <div className="flex min-h-52 flex-col justify-center border border-dashed border-slate-300 bg-slate-50 px-6 py-7 sm:px-8">
+    <p className="text-ecos-orange text-xs font-bold tracking-[0.16em] uppercase">{eyebrow}</p>
+    <h3 className="font-nunito text-ecos-blue mt-2 text-2xl font-bold">{title}</h3>
+    <p className="mt-3 max-w-xl text-sm leading-6 text-slate-600">{description}</p>
+    {actionLabel && onAction && (
+      <button
+        type="button"
+        onClick={onAction}
+        className="button-primary mt-5 w-fit px-5 py-2.5 text-sm"
+      >
+        {actionLabel}
+      </button>
+    )}
+  </div>
+);
 
 export default function ProfileMusicianPage() {
   const [isDonationModalOpen, setIsDonationModalOpen] = useState(false);
@@ -99,75 +129,165 @@ export default function ProfileMusicianPage() {
 
   return (
     <>
-      <img
-        src={banner?.bannerUrl ?? ImageBanner}
-        alt={`Banner`}
-        className="mb-6 aspect-[1920/680] w-full object-cover md:mb-20"
-      />
-      <main className="mb-20 px-4 sm:px-8 lg:px-[160px]">
-        <section className="flex flex-col gap-[70px]">
-          <div className="flex max-w-[636px] flex-col gap-4">
-            <h1 className="text-ecos-blue text-[40px] font-medium break-words md:text-8xl">
-              {profile?.data.stageName}
+      <header className="bg-ecos-blue relative mb-8 h-[clamp(280px,38svh,460px)] w-full overflow-hidden md:mb-12">
+        <img
+          src={banner?.bannerUrl ?? ImageBanner}
+          alt={`Banner de ${profile?.data.stageName ?? "artista"}`}
+          className="h-full w-full object-cover object-center"
+        />
+        <div className="bg-ecos-blue/85 absolute inset-x-0 bottom-0 px-5 py-6 text-white sm:px-8 sm:py-8 lg:px-[max(2.5rem,calc((100vw-1280px)/2+2.5rem))]">
+          <p className="text-ecos-orange-light text-xs font-bold tracking-[0.16em] uppercase">
+            Artista Ecos
+          </p>
+          <div className="mt-2 flex flex-wrap items-baseline gap-x-5 gap-y-2">
+            <h1 className="font-nunito text-4xl leading-tight font-bold sm:text-5xl lg:text-6xl">
+              {profile?.data.stageName ?? "Artista"}
             </h1>
-            <h2 className="text-ecos-blue text-2xl font-medium sm:text-2xl">
-              {profile?.data.genre}
-            </h2>
-            <h3 className="text-ecos-blue text-xl leading-9 font-normal text-balance sm:text-2xl">
-              {profile?.data.description}
-            </h3>
-          </div>
-
-          <div className={`flex flex-col ${songs?.items[0]?.audioUrl ? "gap-20" : "gap-6"}`}>
-            {songs?.items[0]?.audioUrl ? (
-              <AudioPlayer audioUrl={songs.items[0].audioUrl} title={songs.items[0].title} />
-            ) : songs?.items[0]?.spotifyUrl ? (
-              <SpotifyTrack
-                className="w-full max-w-screen-md rounded-2xl"
-                embedUrl={songs.items[0].spotifyUrl}
-              />
-            ) : (
-              <MediaSkeleton
-                onClick={isProfileFromUser ? () => navigate("/profile/musician/edit") : undefined}
-                message={
-                  isProfileFromUser ? "Sube tus canciones aquí" : "El usuario no tiene canciones"
-                }
-                className="bg-ecos-skeleton group grid aspect-[1100/510] w-full max-w-[1100px] cursor-pointer place-content-center place-items-center rounded-[30px]"
-              />
+            {profile?.data.genre && (
+              <p className="text-base font-bold text-white/75 sm:text-lg">{profile.data.genre}</p>
             )}
-            {user?.role === "FAN" && (
-              <div
-                className={`${isProfileFromUser ? "hidden" : "flex"} flex-wrap justify-start gap-4 sm:gap-6`}
-              >
-                <DonateButton
-                  onClick={handleDonationModal}
-                  className="button-primary flex h-14 min-w-[109px] items-center justify-center gap-2.5 rounded-[37px] px-4 py-2 text-sm sm:min-w-[171px]"
-                >
-                  Donar
-                </DonateButton>
-                <HeartButton
-                  isSaved={isSaved}
-                  onClick={handleFavoriteMusic}
-                  className="button-secondary group flex h-14 min-w-[113px] items-center justify-center gap-2.5 rounded-[37px] px-4 py-2 text-sm sm:min-w-[178px]"
-                >
-                  Guardar
-                </HeartButton>
+          </div>
+        </div>
+      </header>
+      <main className="mx-auto mb-16 w-full max-w-screen-xl px-4 sm:px-8 md:mb-20 lg:px-10">
+        <section className="flex flex-col gap-10 md:gap-14">
+          {isProfileFromUser && (
+            <section className="flex flex-wrap items-center justify-between gap-5 rounded-lg border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+              <div>
+                <p className="text-ecos-orange text-xs font-bold tracking-[0.16em] uppercase">
+                  Espacio del artista
+                </p>
+                <h2 className="font-nunito text-ecos-blue mt-1 text-2xl font-bold">
+                  Gestiona lo que ve tu audiencia
+                </h2>
+                <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
+                  Tu perfil se ira completando a medida que publiques contenido.
+                </p>
               </div>
-            )}
+              <button
+                type="button"
+                className="button-primary px-5 py-2.5 text-sm"
+                onClick={() => navigate("/profile/musician/edit?section=overview")}
+              >
+                Abrir panel
+              </button>
+            </section>
+          )}
+          <div className="border-ecos-orange flex max-w-3xl flex-col gap-4 border-l-4 pl-5">
+            <p className="text-ecos-orange text-sm font-bold tracking-[0.16em] uppercase">
+              Acerca de
+            </p>
+            <h2 className="text-ecos-blue font-nunito text-3xl font-bold sm:text-4xl">
+              La propuesta de {profile?.data.stageName ?? "este artista"}
+            </h2>
+            <p className="text-ecos-blue text-base leading-7 font-normal text-balance sm:text-lg">
+              {profile?.data.description ??
+                (isProfileFromUser
+                  ? "Este espacio contara la historia de tu proyecto. Completa tus datos de perfil para que tu audiencia sepa que hay detras de tu musica."
+                  : "Este artista todavia no ha compartido una descripcion de su proyecto.")}
+            </p>
           </div>
 
-          {songs?.items[0]?.youtubeUrl ? (
-            <YouTubeVideo
-              className="aspect-[1126/567] max-w-[1126px] rounded-[20px]"
-              embedUrl={songs.items[0].youtubeUrl}
-            />
-          ) : (
-            <MediaSkeleton
-              onClick={isProfileFromUser ? () => navigate("/profile/musician/edit") : undefined}
-              message={isProfileFromUser ? "Sube tu video aquí" : "El usuario no tiene video"}
-              className="bg-ecos-skeleton group grid aspect-[1120/560] w-full max-w-[1120px] cursor-pointer place-content-center place-items-center rounded-[30px]"
-            />
-          )}
+          <section className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)] lg:gap-12">
+            <div className="space-y-5">
+              <div className="space-y-2">
+                <p className="text-ecos-orange text-sm font-bold tracking-[0.16em] uppercase">
+                  Discografia
+                </p>
+                <h2 className="subtitles">Canciones para escuchar</h2>
+              </div>
+              {songs?.items.length ? (
+                <div className="divide-y divide-slate-200 overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
+                  {songs.items.map((song, index) => (
+                    <div key={song.id} className="flex items-center gap-4 px-4 py-4 sm:px-5">
+                      <span className="text-ecos-orange w-5 text-xs font-bold">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                      <AudioPlayer audioUrl={song.audioUrl} title={song.title} />
+                    </div>
+                  ))}
+                </div>
+              ) : songs?.items[0]?.spotifyUrl ? (
+                <SpotifyTrack
+                  className="w-full max-w-screen-md rounded-2xl"
+                  embedUrl={songs.items[0].spotifyUrl}
+                />
+              ) : (
+                <ContentEmptyState
+                  eyebrow="Primer lanzamiento"
+                  title={
+                    isProfileFromUser
+                      ? "Comparte una cancion para empezar"
+                      : "Aun no hay canciones publicadas"
+                  }
+                  description={
+                    isProfileFromUser
+                      ? "Tu musica aparecera aqui y sera lo primero que podran escuchar quienes visiten tu perfil."
+                      : "Este artista todavia no ha compartido musica en Ecos."
+                  }
+                  actionLabel={isProfileFromUser ? "Publicar musica" : undefined}
+                  onAction={
+                    isProfileFromUser
+                      ? () => navigate("/profile/musician/edit?section=music")
+                      : undefined
+                  }
+                />
+              )}
+              {user?.role === "FAN" && (
+                <div
+                  className={`${isProfileFromUser ? "hidden" : "flex"} flex-wrap justify-start gap-3 pt-2 sm:gap-4`}
+                >
+                  <DonateButton
+                    onClick={handleDonationModal}
+                    className="button-primary flex h-14 min-w-[109px] items-center justify-center gap-2.5 rounded-[37px] px-4 py-2 text-sm sm:min-w-[171px]"
+                  >
+                    Donar
+                  </DonateButton>
+                  <HeartButton
+                    isSaved={isSaved}
+                    onClick={handleFavoriteMusic}
+                    className="button-secondary group flex h-14 min-w-[113px] items-center justify-center gap-2.5 rounded-[37px] px-4 py-2 text-sm sm:min-w-[178px]"
+                  >
+                    Guardar
+                  </HeartButton>
+                </div>
+              )}
+            </div>
+            <div className="space-y-5">
+              <div className="space-y-2">
+                <p className="text-ecos-orange text-sm font-bold tracking-[0.16em] uppercase">
+                  En pantalla
+                </p>
+                <h2 className="subtitles">Video destacado</h2>
+              </div>
+              {songs?.items[0]?.youtubeUrl ? (
+                <div className="bg-ecos-blue overflow-hidden rounded-lg border border-slate-200 p-2 shadow-lg">
+                  <YouTubeVideo
+                    className="aspect-video w-full rounded-md bg-black"
+                    embedUrl={songs.items[0].youtubeUrl}
+                  />
+                </div>
+              ) : (
+                <ContentEmptyState
+                  eyebrow="En pantalla"
+                  title={
+                    isProfileFromUser ? "Dale movimiento a tu perfil" : "Aun no hay video destacado"
+                  }
+                  description={
+                    isProfileFromUser
+                      ? "Agrega un video para acompañar tu proximo lanzamiento y mostrar mejor tu propuesta."
+                      : "Este artista todavia no tiene una pieza visual destacada."
+                  }
+                  actionLabel={isProfileFromUser ? "Agregar video" : undefined}
+                  onAction={
+                    isProfileFromUser
+                      ? () => navigate("/profile/musician/edit?section=video")
+                      : undefined
+                  }
+                />
+              )}
+            </div>
+          </section>
 
           {user?.role === "FAN" && (
             <DonateSection
@@ -176,11 +296,22 @@ export default function ProfileMusicianPage() {
             />
           )}
 
-          <div className="flex flex-col gap-6">
-            <h2 className="text-ecos-blue text-2xl font-medium uppercase">Próximos eventos</h2>
-            <div
-              className={`${isProfileFromUser ? "" : "mb-[95px] md:mb-[153px] lg:mb-[210px]"} grid grid-cols-[repeat(auto-fit,minmax(354px,1fr))] gap-4`}
-            >
+          <section className="flex flex-col gap-5">
+            <div className="flex flex-wrap items-end justify-between gap-3">
+              <div>
+                <p className="text-ecos-orange text-sm font-bold tracking-[0.16em] uppercase">
+                  En vivo
+                </p>
+                <h2 className="subtitles mt-1">Próximos eventos</h2>
+              </div>
+              {events?.items.length ? (
+                <span className="text-sm font-medium text-slate-500">
+                  {events.items.length}{" "}
+                  {events.items.length === 1 ? "fecha publicada" : "fechas publicadas"}
+                </span>
+              ) : null}
+            </div>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
               {events?.items[0] ? (
                 events.items.map((event) => (
                   <EventCard
@@ -195,39 +326,51 @@ export default function ProfileMusicianPage() {
                   />
                 ))
               ) : (
-                <MediaSkeleton
-                  onClick={isProfileFromUser ? () => navigate("/event") : undefined}
-                  message={isProfileFromUser ? "Sube tu evento" : "El usuario no tiene eventos"}
-                  className="bg-ecos-skeleton group grid aspect-[516/440] w-full max-w-[516px] cursor-pointer place-content-center place-items-center rounded-[30px]"
-                />
+                <div className="flex min-h-56 max-w-2xl flex-col justify-center border border-dashed border-slate-300 bg-slate-50 px-6 py-8 sm:px-8">
+                  <p className="text-ecos-orange text-sm font-bold tracking-[0.16em] uppercase">
+                    Agenda
+                  </p>
+                  <h3 className="font-nunito text-ecos-blue mt-2 text-2xl font-bold sm:text-3xl">
+                    {isProfileFromUser
+                      ? "Tu siguiente fecha merece estar aquí"
+                      : "Próximamente en vivo"}
+                  </h3>
+                  <p className="mt-3 max-w-xl text-sm leading-6 text-slate-600 sm:text-base">
+                    {isProfileFromUser
+                      ? "Aún no has publicado eventos. Comparte tu próxima presentación para que tu comunidad pueda encontrarla."
+                      : "Este artista todavía no tiene fechas anunciadas. Vuelve pronto para descubrir su próxima presentación."}
+                  </p>
+                  {isProfileFromUser && (
+                    <button
+                      type="button"
+                      onClick={() => navigate("/event")}
+                      className="button-primary mt-6 w-fit px-5 py-2.5 text-sm"
+                    >
+                      Publicar evento
+                    </button>
+                  )}
+                </div>
               )}
             </div>
-          </div>
+          </section>
         </section>
 
         {!isProfileFromUser && (
-          <>
-            <section className="flex flex-col gap-[84px]">
-              <h2 className="text-ecos-blue text-[40px] leading-5 font-medium uppercase">
-                Contacto
+          <section className="mt-10 grid gap-8 border-t border-slate-200 pt-10 md:mt-12 md:pt-12 lg:grid-cols-[minmax(0,1.35fr)_minmax(280px,0.65fr)] lg:items-start">
+            <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+              <p className="text-ecos-orange text-sm font-bold tracking-[0.16em] uppercase">
+                Contacto directo
+              </p>
+              <h2 className="font-nunito text-ecos-blue mt-2 text-3xl font-bold">
+                Escribe al artista
               </h2>
+              <p className="mt-2 mb-7 text-sm leading-6 text-slate-600">
+                Comparte una propuesta, una fecha o una idea para colaborar.
+              </p>
               <ContactForm musicianId={Number(id)} />
-            </section>
-
+            </div>
             <FollowArtist />
-          </>
-        )}
-
-        {isProfileFromUser && (
-          <div className="mt-24 flex justify-end gap-7 self-center px-4 sm:px-12 md:gap-[46px] lg:px-44">
-            <button
-              type="button"
-              className="button-primary min-h-[40px] min-w-[212px] px-6 py-2.5 text-base font-medium transition-colors md:min-w-[316px]"
-              onClick={() => navigate("/profile/musician/edit")}
-            >
-              Editar
-            </button>
-          </div>
+          </section>
         )}
       </main>
 

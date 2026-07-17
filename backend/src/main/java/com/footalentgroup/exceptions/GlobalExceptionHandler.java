@@ -23,7 +23,7 @@ public class GlobalExceptionHandler {
     public ErrorResponse unauthorized(BadCredentialsException ex) {
         return new ErrorResponse(
                 "BadCredentialsException",
-                "Nombre de usuario o contraseña incorrectos.",
+                ex.getMessage().isBlank() ? "Nombre de usuario o contraseña incorrectos." : ex.getMessage(),
                 HttpStatus.UNAUTHORIZED.value()
         );
     }

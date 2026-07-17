@@ -1,0 +1,14 @@
+# Local editor metadata
+.idea/
+.vscode/
+*.iml
+
+# Local environment and runtime output
+.env
+**/.env
+*.log
+
+# Build output
+frontend/dist/
+frontend/coverage/
+backend/target/

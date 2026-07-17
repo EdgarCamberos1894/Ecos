@@ -12,7 +12,7 @@ export const SpotifyTrack = ({ embedUrl, ...iframeProps }: PlatformIframeProps) 
       height="352"
       allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
       loading="lazy"
-      sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-presentation"
+      sandbox="allow-scripts allow-popups allow-forms allow-presentation"
       {...iframeProps}
     />
   );

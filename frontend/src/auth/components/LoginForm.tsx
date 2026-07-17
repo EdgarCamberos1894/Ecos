@@ -57,7 +57,8 @@ const LoginForm = () => {
   };
 
   const handleNavigate = ({ role, id }: Pick<User, "role" | "id">) => {
-    const route = role === "MUSICIAN" ? `/profile/musician/${id}` : "/";
+    const route =
+      role === "MUSICIAN" ? "/profile/musician/edit?section=overview" : `/profile/fan/${id}`;
     navigate(route);
   };
 

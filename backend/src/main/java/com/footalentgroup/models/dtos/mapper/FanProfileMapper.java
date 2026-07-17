@@ -9,12 +9,20 @@ import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface FanProfileMapper {
-    @Mapping(target="photoUrl", ignore = true)
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "photoUrl", ignore = true)
+    @Mapping(target = "photoPublicId", ignore = true)
+    @Mapping(target = "user", ignore = true)
+    @Mapping(target = "savedSongs", ignore = true)
     FanProfileEntity toEntity(FanProfileRequestDto dto);
 
-    @Mapping(source = "photoUrl", target="photoUrl")
+    @Mapping(source = "photoUrl", target = "photoUrl")
     FanProfileResponseDto toResponse(FanProfileEntity entity);
 
-    @Mapping(target="photoUrl", ignore = true)
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "photoUrl", ignore = true)
+    @Mapping(target = "photoPublicId", ignore = true)
+    @Mapping(target = "user", ignore = true)
+    @Mapping(target = "savedSongs", ignore = true)
     void updateEntity(FanProfileRequestDto dto, @MappingTarget FanProfileEntity entity);
 }

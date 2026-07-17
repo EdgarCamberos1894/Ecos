@@ -11,9 +11,9 @@ const NotFound = () => {
 
       <section>
         <h1 className="mb-4 text-6xl font-extrabold md:text-8xl">404</h1>
-        <p className="mb-2 text-xl font-semibold md:text-2xl">Página no encontrada</p>
+        <p className="mb-2 text-xl font-semibold md:text-2xl">Pagina no encontrada</p>
         <p className="text-ecos-blue/80 md:text-xl">
-          Lo sentimos, la página que buscas no existe o fue movida.
+          Lo sentimos, la pagina que buscas no existe o fue movida.
           <br />
           Por favor, verifica la URL o vuelve al inicio.
         </p>

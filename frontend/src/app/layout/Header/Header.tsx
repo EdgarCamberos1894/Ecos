@@ -10,127 +10,143 @@ import { MobileFanMenu } from "./components/MobileFanMenu";
 import { RegisterButton, LoginButton } from "@/app/components/ButtonsAuth";
 import { MenuIcon } from "@/app/ui/Icons";
 import SearchBar from "@/app/components/SearchBar";
+import { Link, useLocation } from "react-router";
 
 export const Header = () => {
   const [openModal, setOpenModal] = useState<AuthMode | null>(null);
   const [showWelcomeUser, setShowWelcomeUser] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const { user } = useAuth();
+  const location = useLocation();
 
-  const handleOpenModal = (mode: AuthMode) => {
-    setOpenModal(mode);
-  };
-
-  const handleCloseModal = () => {
-    setOpenModal(null);
-  };
-
-  const toggleMobileMenu = () => {
-    setIsOpen(!isOpen);
-  };
-
-  const closeMobileMenu = () => {
-    setIsOpen(false);
-  };
   useEffect(() => {
     if (user) setOpenModal(null);
   }, [user]);
-
   useEffect(() => {
-    const shouldShow = localStorage.getItem("showWelcomeUser");
-    if (shouldShow) {
+    if (localStorage.getItem("showWelcomeUser")) {
       setShowWelcomeUser(true);
       setOpenModal(null);
       localStorage.removeItem("showWelcomeUser");
     }
   }, [user]);
 
+  const mobileToggle = (
+    <button
+      type="button"
+      aria-label={isOpen ? "Cerrar menu" : "Abrir menu"}
+      onClick={() => {
+        setIsOpen((open) => !open);
+      }}
+      className="focus-visible:outline-ecos-orange-light relative z-20 rounded-md p-2 text-white focus-visible:outline-2"
+    >
+      {isOpen ? <span className="text-2xl">X</span> : <MenuIcon className="h-7 w-7" />}
+    </button>
+  );
+
   return (
     <>
-      <header className="bg-ecos-blue w-full shadow">
-        <div className="mx-auto flex items-center justify-between gap-x-8 px-4 py-2 md:py-4">
-          <div>
+      <header className="bg-ecos-blue sticky top-0 z-10 w-full border-b border-white/10 shadow-lg">
+        <div className="mx-auto flex w-full max-w-screen-2xl items-center justify-between gap-3 px-4 py-2 sm:gap-5 md:px-8">
+          <div className="flex min-w-0 items-center">
             <LogoLink
-              className={`h-[120px] w-auto flex-shrink-0 items-center md:h-[141px] ${
-                user?.role === "FAN" ? "hidden lg:flex" : "flex"
-              }`}
+              className={`h-14 w-auto flex-shrink-0 items-center sm:h-16 ${user?.role === "FAN" ? "hidden xl:flex" : "flex"}`}
             />
             {user?.role === "FAN" && (
-              <div className="relative block px-7 focus:outline-none lg:hidden">
-                <button type="button" onClick={toggleMobileMenu} className="relative z-20">
-                  {isOpen ? (
-                    <span className="text-4xl text-white">✖</span>
-                  ) : (
-                    <MenuIcon className="h-12 w-12 text-white" />
-                  )}
-                </button>
-                <MobileFanMenu userId={user.id} isOpen={isOpen} closeMenu={closeMobileMenu} />
+              <div className="relative block xl:hidden">
+                {mobileToggle}
+                <MobileFanMenu
+                  userId={user.id}
+                  isOpen={isOpen}
+                  closeMenu={() => {
+                    setIsOpen(false);
+                  }}
+                />
               </div>
             )}
           </div>
 
           {user?.role === "MUSICIAN" && (
-            <div className="hidden max-w-[800px] md:flex md:flex-auto">
+            <nav
+              aria-label="Navegacion del artista"
+              className="hidden min-w-0 items-center gap-5 xl:flex"
+            >
+              <Link
+                to={`/profile/musician/${user.id}`}
+                className={`border-b-2 pb-1 text-sm font-bold whitespace-nowrap transition-colors ${location.pathname === `/profile/musician/${user.id}` ? "border-ecos-orange-light text-white" : "hover:text-ecos-orange-light border-transparent text-white/75"}`}
+              >
+                Mi perfil
+              </Link>
+              <Link
+                to="/profile/musician/edit?section=overview"
+                className={`border-b-2 pb-1 text-sm font-bold whitespace-nowrap transition-colors ${location.pathname === "/profile/musician/edit" ? "border-ecos-orange-light text-white" : "hover:text-ecos-orange-light border-transparent text-white/75"}`}
+              >
+                Panel
+              </Link>
+            </nav>
+          )}
+          {user?.role === "MUSICIAN" && (
+            <div className="hidden max-w-[620px] min-w-0 flex-1 md:flex">
               <SearchBar isFromHeader={true} />
             </div>
           )}
-
           {user?.role === "FAN" && <FanNavbar userId={user.id} />}
 
-          <div className="flex flex-shrink-0 items-center justify-between">
-            <div className="hidden items-center lg:flex">
+          <div className="flex flex-shrink-0 items-center">
+            <div className={`${user ? "hidden xl:flex" : "hidden min-[480px]:flex"} items-center`}>
               {user ? (
                 <UserMenu />
               ) : (
-                <div className="space-x-6 px-6">
+                <div className="flex items-center gap-2 sm:gap-3">
                   <LoginButton
                     onClick={() => {
-                      handleOpenModal("login");
+                      setOpenModal("login");
                     }}
-                    className="cursor-pointer text-xl text-white"
+                    className="cursor-pointer text-sm text-white sm:text-base"
+                    label="Ingresar"
                   />
                   <RegisterButton
                     onClick={() => {
-                      handleOpenModal("register");
+                      setOpenModal("register");
                     }}
-                    className="cursor-pointer text-xl text-white"
+                    className="text-ecos-blue cursor-pointer px-3 py-2 text-sm sm:px-4 sm:text-base"
+                    label="Registro"
                   />
                 </div>
               )}
             </div>
-
             {!user && (
-              <div className="relative block px-7 focus:outline-none lg:hidden">
-                <button type="button" onClick={toggleMobileMenu} className="relative z-20">
-                  {isOpen ? (
-                    <span className="text-4xl text-white">✖</span>
-                  ) : (
-                    <MenuIcon className="h-12 w-12 text-white" />
-                  )}
-                </button>
+              <div className="relative block min-[480px]:hidden">
+                {mobileToggle}
                 <MobileAuthMenu
                   isOpen={isOpen}
                   onLogin={() => {
-                    handleOpenModal("login");
+                    setOpenModal("login");
                   }}
                   onRegister={() => {
-                    handleOpenModal("register");
+                    setOpenModal("register");
                   }}
-                  closeMenu={closeMobileMenu}
+                  closeMenu={() => {
+                    setIsOpen(false);
+                  }}
                 />
               </div>
             )}
-
             {user && (
-              <div className="lg:hidden">
+              <div className="xl:hidden">
                 <UserMenu />
               </div>
             )}
           </div>
         </div>
       </header>
-
-      {openModal && <AuthModal mode={openModal} onClose={handleCloseModal} />}
+      {openModal && (
+        <AuthModal
+          mode={openModal}
+          onClose={() => {
+            setOpenModal(null);
+          }}
+        />
+      )}
       {showWelcomeUser && (
         <WelcomeUserModal
           onClose={() => {

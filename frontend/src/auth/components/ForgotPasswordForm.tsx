@@ -3,71 +3,60 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import Button from "@/app/ui/Button";
 import Input from "@/app/ui/Input";
-import { useState } from "react";
-import { EyeOff, EyeOn } from "@/app/ui/Icons";
+import { useApiMutation } from "@/shared/hooks/use-api-mutation";
 
 interface ForgotPasswordFormProps {
   onChange: () => void;
 }
-
-const ForgotPasswordSchema = z.object({
-  name: z.string().min(3, { message: "Su nombre es obligatorio" }),
-  password: z.string().min(8, { message: "Su contraseña debe tener al menos 8 caracteres" }),
-});
-
-type FormFields = z.infer<typeof ForgotPasswordSchema>;
+const schema = z.object({ email: z.string().email({ message: "Ingresa un email válido." }) });
+type FormFields = z.infer<typeof schema>;
+interface ApiMessage {
+  message: string;
+}
 
 const ForgotPasswordForm = ({ onChange }: ForgotPasswordFormProps) => {
-  const [showPassword, setShowPassword] = useState(false);
-
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<FormFields>({
-    resolver: zodResolver(ForgotPasswordSchema),
-  });
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
-  const handleFormSubmit: SubmitHandler<FormFields> = (_data: FormFields) => {};
+    setError,
+    formState: { errors },
+  } = useForm<FormFields>({ resolver: zodResolver(schema) });
+  const { mutate, isPending, isSuccess } = useApiMutation<ApiMessage, FormFields>(
+    "/auth/forgot-password",
+    "POST",
+  );
+  const onSubmit: SubmitHandler<FormFields> = (data) => {
+    mutate(data, {
+      onError: (error) => {
+        setError("root", { message: error.message });
+      },
+    });
+  };
 
   return (
-    <form onSubmit={handleSubmit(handleFormSubmit)} className="flex w-[329px] flex-col gap-4">
-      <div>
-        <Input type="text" {...register("name")} placeholder="Cambiar nombre" />
-        {errors.name && (
-          <span className="mt-1 h-6 text-sm text-red-500">{errors.name.message}</span>
-        )}
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex w-full max-w-[329px] flex-col gap-5 text-center"
+    >
+      <p className="text-sm leading-6 text-slate-600">
+        Escribe tu correo y te enviaremos un enlace para crear una nueva contraseña.
+      </p>
+      <div className="text-left">
+        <Input type="email" {...register("email")} placeholder="e-mail@mail.com" />
+        {errors.email && <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>}
       </div>
-
-      <div>
-        <div className="relative">
-          <Input
-            type={showPassword ? "text" : "password"}
-            placeholder="Cambiar contraseña"
-            {...register("password")}
-          />
-          <button
-            type="button"
-            onClick={() => {
-              setShowPassword(!showPassword);
-            }}
-            className="absolute top-2 right-4 text-gray-500"
-          >
-            {showPassword ? <EyeOn /> : <EyeOff />}
-            <span className="sr-only">
-              {showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
-            </span>
-          </button>
-        </div>
-        {errors.password && (
-          <p className="mt-1 h-6 text-sm text-red-500">{errors.password.message}</p>
-        )}
-      </div>
-
-      <Button type="submit" bgType="primary" onClick={onChange} disabled={isSubmitting}>
-        {isSubmitting ? "Enviando..." : "Enviar"}
+      {isSuccess && (
+        <p className="text-sm leading-6 text-emerald-700">
+          Si existe una cuenta con ese correo, recibirás las instrucciones en unos minutos.
+        </p>
+      )}
+      <Button type="submit" bgType="primary" disabled={isPending}>
+        {isPending ? "Enviando..." : "Enviar enlace"}
       </Button>
+      <button type="button" onClick={onChange} className="text-ecos-blue text-sm underline">
+        Volver a iniciar sesión
+      </button>
+      {errors.root && <p className="text-sm text-red-500">{errors.root.message}</p>}
     </form>
   );
 };

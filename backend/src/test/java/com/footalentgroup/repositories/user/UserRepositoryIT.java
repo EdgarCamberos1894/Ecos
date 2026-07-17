@@ -20,19 +20,19 @@ class UserRepositoryIT {
     void testFindById() {
         assertTrue(userRepository.findById(1L).isPresent());
         UserEntity userFan = userRepository.findById(1L).get();
-        assertEquals("John Doe", userFan.getName());
-        assertEquals("john.doe@example.com", userFan.getEmail());
+        assertEquals("Alice Johnson", userFan.getName());
+        assertEquals("alice.johnson@example.com", userFan.getEmail());
         assertEquals(Role.FAN, userFan.getRole());
 
-        assertTrue(userRepository.findById(2L).isPresent());
-        UserEntity userMusician = userRepository.findById(2L).get();
-        assertEquals("Jane Doe", userMusician.getName());
-        assertEquals("jane.doe@example.com", userMusician.getEmail());
+        assertTrue(userRepository.findById(16L).isPresent());
+        UserEntity userMusician = userRepository.findById(16L).get();
+        assertEquals("Peter Donovan", userMusician.getName());
+        assertEquals("peter.donovan@example.com", userMusician.getEmail());
         assertEquals(Role.MUSICIAN, userMusician.getRole());
     }
 
     @Test
     void testFindByEmail() {
-        assertTrue(userRepository.findByEmail("john.doe@example.com").isPresent());
+        assertTrue(userRepository.findByEmail("alice.johnson@example.com").isPresent());
     }
 }

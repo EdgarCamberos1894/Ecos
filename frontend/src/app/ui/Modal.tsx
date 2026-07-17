@@ -23,23 +23,27 @@ const Modal = ({
   if (!portalRoot) return;
 
   return createPortal(
-    <div className="fixed inset-0 z-20 grid bg-black/50 p-2 sm:p-4 md:p-8" onClick={onClose}>
+    <div
+      className="fixed inset-0 z-20 grid bg-slate-950/60 p-4 backdrop-blur-sm sm:p-6"
+      onClick={onClose}
+    >
       <div
-        className={`flex flex-col place-self-center bg-white shadow-lg ${className}`}
+        className={`flex flex-col place-self-center overflow-hidden rounded-lg bg-white shadow-2xl ${className}`}
         onClick={(event) => {
           event.stopPropagation();
         }}
       >
         <div className="bg-ecos-blue flex h-fit w-full items-center">
-          <h1 className="flex w-full flex-wrap items-center justify-center overflow-hidden px-4 py-4 text-center text-2xl text-white md:h-14">
+          <h1 className="flex w-full flex-wrap items-center justify-center overflow-hidden px-4 py-4 text-center text-xl text-white md:h-16 md:text-2xl">
             {firstNormalText}&nbsp;<span className="font-bold">{highlightedText}</span>&nbsp;
             {secondNormalText}
           </h1>
           <button
             type="button"
-            title="CloseArrow"
+            title="Cerrar"
+            aria-label="Cerrar"
             onClick={onClose}
-            className="p-2 hover:cursor-pointer"
+            className="rounded-md p-3 transition-colors hover:cursor-pointer hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
           >
             <CloseArrow fill="white" />
           </button>

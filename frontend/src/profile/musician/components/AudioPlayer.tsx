@@ -64,39 +64,39 @@ export const AudioPlayer = ({ audioUrl, title }: AudioPlayerProps) => {
   }, []);
 
   return (
-    <div className="text-ecos-blue flex w-full max-w-screen-md items-center gap-4">
+    <div className="text-ecos-blue flex w-full items-center gap-4">
       {isPlaying ? (
         <button
           type="button"
           onClick={togglePlay}
-          className="cursor-pointer rounded-full bg-[#FCFCFC] p-4.5 shadow-[0_4px_4px_0_rgba(0,0,0,.25)]"
+          className="bg-ecos-blue focus-visible:outline-ecos-orange cursor-pointer rounded-full p-4 text-white transition-transform hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-3"
         >
-          <PauseIcon onClick={togglePlay} className="stroke-ecos-blue fill-ecos-blue size-4" />
+          <PauseIcon onClick={togglePlay} className="size-4 fill-white stroke-white" />
         </button>
       ) : (
         <button
           type="button"
           onClick={togglePlay}
-          className="cursor-pointer rounded-full bg-[#FCFCFC] p-4.5 shadow-[0_4px_4px_0_rgba(0,0,0,.25)]"
+          className="bg-ecos-blue focus-visible:outline-ecos-orange cursor-pointer rounded-full p-4 text-white transition-transform hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-3"
         >
-          <PlayIcon className="stroke-ecos-blue fill-ecos-blue size-4" />
+          <PlayIcon className="size-4 fill-white stroke-white" />
         </button>
       )}
 
-      <div className="flex w-full max-w-md flex-col gap-1">
-        <div className="flex items-center gap-8">
-          <span className="text-sm font-medium">{title}</span>
-          <span className="text-xs text-gray-500">
+      <div className="flex w-full min-w-0 flex-col gap-2">
+        <div className="flex items-center justify-between gap-4">
+          <span className="truncate text-sm font-bold">{title}</span>
+          <span className="shrink-0 text-xs text-slate-500">
             {formatTime(currentTime)} / {formatTime(duration || 270)}
           </span>
         </div>
 
         <div
-          className="border-ecos-blue relative h-2 min-h-[11px] w-full max-w-[404px] cursor-pointer rounded border-2"
+          className="relative h-2 min-h-[8px] w-full cursor-pointer overflow-hidden rounded-full bg-slate-200"
           onClick={handleProgressClick}
         >
           <div
-            className="bg-ecos-blue h-full"
+            className="bg-ecos-orange h-full"
             style={{ width: `${((currentTime / duration) * 100 || 0).toString()}%` }}
           ></div>
         </div>

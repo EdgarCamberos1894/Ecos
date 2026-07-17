@@ -16,10 +16,13 @@ const Input = ({
 }: InputProps) => {
   return (
     <div
-      className={`border-ecos-blue placeholder-ecos-blue w-full rounded-[1.688rem] border px-4 py-2 text-[#291117] ${classNameContainer}`}
+      className={`text-ecos-blue focus-within:border-ecos-orange flex w-full items-center gap-2 rounded-lg border border-slate-300 bg-white px-4 py-3 shadow-sm transition-colors focus-within:ring-3 focus-within:ring-orange-100 ${classNameContainer}`}
     >
       {startIcon}
-      <input {...props} className={`w-full focus:outline-none ${className}`} />
+      <input
+        {...props}
+        className={`w-full min-w-0 bg-transparent placeholder:text-slate-400 focus:outline-none ${className}`}
+      />
       {endIcon}
     </div>
   );

@@ -90,16 +90,16 @@ const CardSong = ({ song, isPlaying, onPlay, onPause, onFavoriteAdded }: CardSon
 
   return (
     <>
-      <div className="flex h-[9.563rem] w-[22.75rem] items-center gap-[1.188rem] pt-3.5 pb-[1.188rem] pl-2 md:w-[39.625rem] lg:h-[7.5rem]">
+      <div className="flex min-w-0 items-center gap-3 rounded-lg border border-slate-200 bg-white p-3 shadow-sm">
         <img
           src={imageSrc}
           alt={stageName}
-          className="roundend-[1.25rem] aspect-square h-[7.5rem] w-[7.5rem]"
+          className="aspect-square h-20 w-20 rounded-md object-cover sm:h-24 sm:w-24"
         />
-        <div className="flex h-28 w-full flex-col justify-center gap-1 text-start">
-          <h3 className="text-ecos-blue text-[1.375rem]">{title}</h3>
+        <div className="flex min-w-0 flex-1 flex-col justify-center gap-1 text-start">
+          <h3 className="text-ecos-blue truncate text-lg font-bold">{title}</h3>
 
-          <span className="text-sm text-[#49454f]">
+          <span className="truncate text-sm text-[#49454f]">
             Artista: {stageName} / Género: {genre}{" "}
           </span>
 

@@ -1,15 +1,16 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { SongList } from "./types/SongList";
 import CardSong from "./CardSong";
-import { useEffect } from "react";
 import { ArrowScroll } from "@/app/ui/Icons";
 
 interface SongsGridProps {
-  songs: SongList[];
+  songs?: SongList[];
   onFavoriteAdded?: () => void;
 }
 
-const SongsGrid = ({ songs, onFavoriteAdded }: SongsGridProps) => {
+const emptySongs: SongList[] = [];
+
+const SongsGrid = ({ songs = emptySongs, onFavoriteAdded }: SongsGridProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [playingId, setPlayingId] = useState<string | null>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
@@ -50,8 +51,8 @@ const SongsGrid = ({ songs, onFavoriteAdded }: SongsGridProps) => {
 
   return (
     <div className="relative overflow-visible">
-      <div ref={containerRef} className="noScrollbar w-full lg:overflow-x-auto">
-        <div className="grid w-max grid-cols-1 justify-items-end gap-y-2.5 lg:auto-cols-[40.125rem] lg:grid-flow-col lg:grid-cols-3 lg:grid-rows-3 lg:gap-x-[8.125rem] lg:gap-y-[1.188rem]">
+      <div ref={containerRef} className="w-full">
+        <div className="grid w-full grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
           {songs.map((song) => (
             <CardSong
               key={song.id}
@@ -74,7 +75,7 @@ const SongsGrid = ({ songs, onFavoriteAdded }: SongsGridProps) => {
           scroll("left");
         }}
         disabled={!canScrollLeft}
-        className={`btnScroll left-2 ${!canScrollLeft ? "btnScrollDisabled" : "bg-ecos-orange"}`}
+        className="hidden"
       >
         <ArrowScroll className="h-6 w-6 rotate-180" />
       </button>
@@ -85,7 +86,7 @@ const SongsGrid = ({ songs, onFavoriteAdded }: SongsGridProps) => {
           scroll("right");
         }}
         disabled={!canScrollRight}
-        className={`btnScroll right-2 ${!canScrollRight ? "btnScrollDisabled" : "bg-ecos-orange"}`}
+        className="hidden"
       >
         <ArrowScroll className="h-6 w-6" />
       </button>

@@ -29,86 +29,64 @@ const OptionsRegisterCards = ({
 }: OptionsRegisterCardsProps) => {
   const [openModal, setOpenModal] = useState<AuthMode | null>(null);
   const [showWelcomeUser, setShowWelcomeUser] = useState(false);
-
   const { user } = useAuth();
-
-  const handleOpenModal = (mode: AuthMode) => {
-    setOpenModal(mode);
-  };
-
-  const handleCloseModal = () => {
-    setOpenModal(null);
-  };
-
-  const handleRegister = (id: string) => {
-    if (id === "musicos" || id === "fans") {
-      handleOpenModal("register");
-    } else if (id === "eventos") {
-      const $section = document.getElementById("eventos");
-      if ($section) $section.scrollIntoView({ behavior: "smooth" });
-      history.pushState(null, "null", "#eventos");
-    }
-  };
 
   useEffect(() => {
     if (user) setOpenModal(null);
   }, [user]);
-
   useEffect(() => {
-    const shouldShow = localStorage.getItem("showWelcomeUser");
-    if (shouldShow) {
+    if (localStorage.getItem("showWelcomeUser")) {
       setShowWelcomeUser(true);
       setOpenModal(null);
       localStorage.removeItem("showWelcomeUser");
     }
   }, [user]);
 
-  const HeaderContent = (
-    <div className="flex items-center space-x-4 px-4">
-      <img src={icono} alt={option} className="h-10 w-10" />
-      <div className="gap-1 text-start">
-        <h2 className="font-bold">{option}</h2>
-        <p className="text-sm">{description}</p>
-      </div>
-    </div>
-  );
+  const handleAction = () => {
+    if (id === "eventos") {
+      document.getElementById("eventos")?.scrollIntoView({ behavior: "smooth" });
+      history.pushState(null, "", "#eventos");
+      return;
+    }
+    setOpenModal("register");
+  };
 
   return (
     <>
-      <div className="text-ecos-blue flex h-20 w-[22.813rem] justify-between rounded-xl shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] md:hidden">
-        {HeaderContent}
-        <img
-          src={imageSrc}
-          alt={title}
-          className="h-20 w-[7.5rem] rounded-r-[0.625rem] object-cover"
-        />
-      </div>
-
-      <div className="text-ecos-blue hidden max-w-[520px] flex-col justify-between gap-3.5 rounded-[1.25rem] py-3 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] md:flex">
-        {HeaderContent}
-        <img src={imageSrc} alt={title} className="object-cover" />
-        <div className="max-h-[6.125rem] w-[21.25rem] space-y-[0.438rem] px-4 text-start">
-          <h1 className="font-medium">{title}</h1>
-          <p className="text-sm leading-5 tracking-tight">{parrafo}</p>
-          <p className="text-sm font-light">{parrafo2}</p>
+      <article className="group flex h-full flex-col overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-xl">
+        <div className="relative h-48 overflow-hidden">
+          <img
+            src={imageSrc}
+            alt={title}
+            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+          <div className="bg-ecos-blue/85 absolute inset-x-0 bottom-0 px-5 py-3 text-white">
+            <div className="flex items-center gap-3">
+              <img src={icono} alt="" className="h-8 w-8" />
+              <div>
+                <p className="text-sm font-bold tracking-[0.12em] uppercase">{option}</p>
+                <p className="text-xs text-white/80">{description}</p>
+              </div>
+            </div>
+          </div>
         </div>
-
-        <div className="flex justify-end p-4">
-          <Button
-            type="button"
-            bgType="primary"
-            className="px-10 text-sm"
-            onClick={() => {
-              handleRegister(id);
-            }}
-          >
+        <div className="flex flex-1 flex-col gap-4 p-5 text-left">
+          <h3 className="text-ecos-blue text-xl font-bold">{title}</h3>
+          <p className="text-sm leading-6 text-slate-600">{parrafo}</p>
+          <p className="text-ecos-orange mt-auto text-sm font-semibold">{parrafo2}</p>
+          <Button type="button" bgType="primary" className="mt-2 w-full" onClick={handleAction}>
             {buttonText}
           </Button>
         </div>
-      </div>
-
-      {openModal && <AuthModal mode={openModal} onClose={handleCloseModal} />}
-
+      </article>
+      {openModal && (
+        <AuthModal
+          mode={openModal}
+          onClose={() => {
+            setOpenModal(null);
+          }}
+        />
+      )}
       {showWelcomeUser && (
         <WelcomeUserModal
           onClose={() => {

@@ -1,5 +1,5 @@
 export const RoutesFanNavbar = [
-  { name: "Mis Favoritos", hash: "/profile/fan/:id/#favoritos" },
-  { name: "Explorar", hash: "/profile/fan/:id/#explorar" },
-  { name: "Eventos", hash: "/fan/events" },
+  { name: "Inicio", path: "/profile/fan/:id" },
+  { name: "Explorar", path: "/profile/fan/:id#explorar" },
+  { name: "Eventos", path: "/fan/events" },
 ];

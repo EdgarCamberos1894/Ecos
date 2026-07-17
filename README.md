@@ -1,6 +1,6 @@
 # ECOS
 
-Este proyecto fue desarrollado como parte del programa Smart Projects de [@Foo Talent Group](https://www.linkedin.com/company/footalentgroup).
+Proyecto desarrollado como parte del programa Smart Projects de [Foo Talent Group](https://www.linkedin.com/company/footalentgroup).
 
 <p align="center">
   <img
@@ -9,31 +9,49 @@ Este proyecto fue desarrollado como parte del programa Smart Projects de [@Foo T
   />
 </p>
 
-## 🎶 Descripción
+## Descripcion
 
-**Ecos** es una plataforma digital creada para músicos independientes que desean difundir su trabajo, gestionar su carrera artística y monetizar de manera justa sus creaciones.
+**Ecos** es una plataforma digital para musicos independientes que quieren difundir su trabajo, gestionar su carrera artistica y monetizar sus creaciones de forma mas directa.
 
-Ofrece un espacio propio para compartir contenido musical, conectar con otros profesionales del sector y acceder a herramientas que simplifican la gestión artística.
+La aplicacion ofrece perfiles para musicos y fans, publicacion de canciones, eventos, favoritos, contacto y herramientas para construir una presencia artistica sin depender completamente de plataformas externas.
 
-A diferencia de las plataformas tradicionales, que imponen algoritmos o comisiones, **Ecos** permite que los artistas alcancen a su audiencia y generen ingresos de forma directa, sin depender de servicios externos que reduzcan su visibilidad o ganancias.  
+El producto fue concebido a partir de necesidades reales relevadas en entrevistas, priorizando autonomia, visibilidad y crecimiento sostenible para artistas independientes.
 
-La plataforma fue concebida a partir de necesidades reales relevadas en entrevistas, priorizando la autonomía, el empoderamiento y el crecimiento sostenible de los músicos.
+## Objetivo
 
-## 🎯 Objetivo
+Empoderar a musicos independientes con una herramienta accesible, efectiva y centrada en sus necesidades reales, que promueva su crecimiento profesional y les permita generar ingresos de manera directa y justa.
 
-Empoderar a los músicos independientes proporcionándoles una herramienta accesible, efectiva y centrada en sus necesidades reales, que promueva su crecimiento profesional y les permita obtener ingresos de manera directa y justa.
+## Stack principal
 
-## 📚 Documentación
+- Frontend: React, TypeScript, Vite, Tailwind CSS, TanStack Query, React Hook Form, Zod.
+- Backend: Java 17, Spring Boot, Spring Security, JWT, JPA, PostgreSQL, Flyway, MapStruct.
+- Infraestructura: Docker, Netlify, Render, Swagger/OpenAPI.
 
-- [Documentación BackEnd](/backend/README.md)
-- [Documentación FrontEnd](/frontend/README.md)
+## Que demuestra este proyecto
 
-## 🔗 Enlaces Útiles
+- Autenticacion basada en JWT, control de roles y gestion segura de cuentas.
+- Persistencia en PostgreSQL con migraciones versionadas mediante Flyway.
+- Flujos reales para artistas y fans: musica, eventos, favoritos, contacto y carga de medios.
+- Integracion de Cloudinary para archivos y Resend para correos de verificacion y recuperacion.
+- Frontend responsive con React, TypeScript, formularios validados y cache de datos.
+
+## Demo para portafolio
+
+La base de datos incluye contenido inicial para que la plataforma pueda recorrerse desde el primer acceso. La demostracion recomendada es: explorar la landing, visitar un perfil de artista, reproducir una cancion, revisar eventos y entrar con los roles de fan y musico para mostrar sus flujos diferenciados.
+
+Antes de desplegar, configura las variables de `backend/.env.example` y `frontend/.env.example` en el proveedor. En produccion, deja `JPA_SHOW_SQL=false` y usa una direccion remitente verificada en Resend.
+
+## Documentacion
+
+- [Documentacion Backend](/backend/README.md)
+- [Documentacion Frontend](/frontend/README.md)
+
+## Enlaces utiles
 
 - [Sitio Web](https://ftg-ecos.netlify.app/)
-- ​[API Docs](https://ecos-ed30.onrender.com/swagger-ui/index.html)
+- [API Docs](https://ecos-ed30.onrender.com/swagger-ui/index.html)
 
-## 👥 Colaboradores
+## Colaboradores
 
 <p align="center" id="FrontEnd">
   <a href="https://github.com/Itnardoel">
@@ -61,4 +79,3 @@ Empoderar a los músicos independientes proporcionándoles una herramienta acces
     <img src="https://github.com/ZairBulos.png" width="80" alt="@ZairBulos" style="border-radius: 50%;" />
   </a>
 </p>
-

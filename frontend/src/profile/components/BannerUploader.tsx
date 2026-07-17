@@ -53,24 +53,24 @@ export default function BannerUploader({
   };
 
   const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const [selectedFile] = event.target.files ?? [];
+    const selectedFile = event.target.files?.item(0);
 
-    if (selectedFile.size > 0) {
-      await handleFile(selectedFile);
+    if (!selectedFile || selectedFile.size === 0) return;
 
-      if (inputRef.current) {
-        inputRef.current.value = "";
-      }
+    await handleFile(selectedFile);
+
+    if (inputRef.current) {
+      inputRef.current.value = "";
     }
   };
 
   const handleDrop = (event: React.DragEvent<HTMLLabelElement>) => {
     event.preventDefault();
-    const [droppedFile] = event.dataTransfer.files;
+    const droppedFile = event.dataTransfer.files.item(0);
 
-    if (droppedFile.size > 0) {
-      handleFile(droppedFile);
-    }
+    if (!droppedFile || droppedFile.size === 0) return;
+
+    void handleFile(droppedFile);
   };
 
   const handleDragOver = (event: React.DragEvent<HTMLLabelElement>) => {
@@ -94,7 +94,7 @@ export default function BannerUploader({
         htmlFor="fileInput"
         onDrop={handleDrop}
         onDragOver={handleDragOver}
-        className={`mt-7 mb-[11px] flex w-full flex-auto flex-col items-center justify-center ${file ? "" : "border-2 border-dashed"} border-gray-400 px-4 py-8 text-center`}
+        className={`mb-4 flex min-h-52 w-full flex-col items-center justify-center rounded-lg ${file ? "" : "border-2 border-dashed"} border-slate-300 bg-slate-50 px-4 py-6 text-center`}
       >
         {imageUrl ? (
           isUploading ? (
@@ -102,12 +102,12 @@ export default function BannerUploader({
               <img
                 src={imageUrl}
                 alt="Banner"
-                className="relative h-[263px] w-full rounded-lg object-cover opacity-30"
+                className="relative h-48 w-full rounded-lg object-cover opacity-30"
               />
               <Spinner className="absolute size-12" />
             </>
           ) : (
-            <img src={imageUrl} alt="Banner" className="h-[263px] w-full rounded-lg object-cover" />
+            <img src={imageUrl} alt="Banner" className="h-48 w-full rounded-lg object-cover" />
           )
         ) : (
           <>
@@ -121,10 +121,8 @@ export default function BannerUploader({
             <p className="text-ecos-dark-grey mt-2 block text-balance md:hidden">
               formato JPG o PNG
             </p>
-            <span className="text-ecos-blue my-2 text-2xl font-medium">o</span>
-            <div className="border-ecos-blue text-ecos-blue min-h-10 min-w-[204px] cursor-pointer rounded-full border bg-white px-6 py-2.5 text-sm font-medium">
-              Buscar archivo
-            </div>
+            <span className="text-ecos-blue my-2 text-sm font-medium">o</span>
+            <div className="button-secondary cursor-pointer px-5 py-2 text-sm">Buscar archivo</div>
           </>
         )}
         <input
@@ -139,12 +137,12 @@ export default function BannerUploader({
       {error && <p className="text-center text-sm text-red-500">{error}</p>}
 
       {onUpload && (
-        <div className="flex flex-1/4 items-start gap-10 md:gap-[46px]">
+        <div className="flex flex-wrap items-start gap-3">
           <button
             type="button"
             onClick={onUpload}
             disabled={isUploading}
-            className="button-primary min-h-[40px] min-w-[140px] px-6 py-2.5 font-medium transition-colors md:min-h-[63px] md:min-w-[221px]"
+            className="button-primary px-5 py-2 text-sm font-medium transition-colors"
           >
             {isUploading ? "Guardando..." : "Guardar"}
           </button>
@@ -152,7 +150,7 @@ export default function BannerUploader({
             type="button"
             onClick={handleDelete}
             disabled={isUploading}
-            className="button-secondary min-h-[40px] min-w-[140px] px-6 py-2.5 font-medium transition-colors md:min-h-[63px] md:min-w-[221px]"
+            className="button-secondary px-5 py-2 text-sm font-medium transition-colors"
           >
             Cancelar
           </button>

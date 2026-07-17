@@ -21,6 +21,14 @@ export default defineConfig({
   build: {
     rollupOptions: {
       external: ["@rollup/rollup-linux-x64-gnu"],
+      output: {
+        manualChunks: {
+          react: ["react", "react-dom", "react-router"],
+          query: ["@tanstack/react-query"],
+          forms: ["@hookform/resolvers", "react-hook-form", "zod"],
+          http: ["axios"],
+        },
+      },
     },
   },
 });
