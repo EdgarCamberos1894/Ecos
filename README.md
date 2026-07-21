@@ -39,6 +39,12 @@ Empoderar a musicos independientes con una herramienta accesible, efectiva y cen
 
 La base de datos incluye contenido inicial para que la plataforma pueda recorrerse desde el primer acceso. La demostracion recomendada es: explorar la landing, visitar un perfil de artista, reproducir una cancion, revisar eventos y entrar con los roles de fan y musico para mostrar sus flujos diferenciados.
 
+El formulario de inicio de sesion permite cargar estas cuentas con un clic:
+
+- Fan: `alice.johnson@example.com`
+- Musico: `peter.donovan@example.com`
+- Contrasena para ambas: `Demo123!`
+
 Antes de desplegar, configura las variables de `backend/.env.example` y `frontend/.env.example` en el proveedor. En produccion, deja `JPA_SHOW_SQL=false` y usa una direccion remitente verificada en Resend.
 
 ## Documentacion

@@ -23,6 +23,13 @@ interface LoginResponse {
   token: string;
 }
 
+const demoAccounts = [
+  { label: "Fan", email: "alice.johnson@example.com" },
+  { label: "Músico", email: "peter.donovan@example.com" },
+] as const;
+
+const demoPassword = "Demo123!";
+
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -30,6 +37,8 @@ const LoginForm = () => {
     register,
     handleSubmit,
     setError,
+    setValue,
+    clearErrors,
     formState: { errors },
   } = useForm<FormFields>({
     resolver: zodResolver(LoginSchema),
@@ -60,6 +69,12 @@ const LoginForm = () => {
     const route =
       role === "MUSICIAN" ? "/profile/musician/edit?section=overview" : `/profile/fan/${id}`;
     navigate(route);
+  };
+
+  const loadDemoCredentials = (email: string) => {
+    setValue("email", email, { shouldValidate: true });
+    setValue("password", demoPassword, { shouldValidate: true });
+    clearErrors();
   };
 
   return (
@@ -115,6 +130,29 @@ const LoginForm = () => {
       </Button>
 
       {errors.root && <p className="text-red-500">{errors.root.message}</p>}
+
+      <section className="mt-2 border-t border-slate-200 pt-4" aria-labelledby="ecos-demo-title">
+        <div className="mb-3">
+          <p id="ecos-demo-title" className="text-ecos-blue font-semibold">
+            Acceso de demostración
+          </p>
+          <p className="text-sm text-slate-600">
+            Elige un rol para recorrer sus funciones. Contraseña: {demoPassword}
+          </p>
+        </div>
+        <div className="grid grid-cols-2 gap-2">
+          {demoAccounts.map((account) => (
+            <button
+              key={account.email}
+              type="button"
+              onClick={() => loadDemoCredentials(account.email)}
+              className="text-ecos-blue rounded-md border border-blue-200 bg-blue-50 px-3 py-2 text-sm font-medium transition-colors hover:bg-blue-100"
+            >
+              Usar {account.label}
+            </button>
+          ))}
+        </div>
+      </section>
     </form>
   );
 };

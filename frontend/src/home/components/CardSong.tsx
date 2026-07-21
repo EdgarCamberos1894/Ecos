@@ -114,7 +114,7 @@ const CardSong = ({ song, isPlaying, onPlay, onPause, onFavoriteAdded }: CardSon
                 <span>Me gusta</span>
               </button>
               <span>•</span>
-              <span>{duration} min</span>
+              <span>{duration || "--:--"} min</span>
             </div>
             <button
               type="button"

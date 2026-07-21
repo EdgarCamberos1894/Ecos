@@ -41,10 +41,12 @@ const AuthModal = ({ mode, onClose }: AuthModalProps) => {
             : "Olvidé mi contraseña"
       }
       highlightedText={authMode !== "forgot" ? "ECOS" : ""}
-      className="h-full max-h-[516px] w-full max-w-[700px] gap-12"
+      className={`h-full w-full max-w-[700px] gap-8 ${
+        authMode === "login" ? "max-h-[min(720px,calc(100vh-2rem))]" : "max-h-[516px]"
+      }`}
     >
       {authMode === "login" && (
-        <div className="flex h-full flex-col items-center justify-start gap-9">
+        <div className="flex h-full flex-col items-center justify-start gap-6 overflow-y-auto px-4">
           <LoginForm />
           <div className="text-ecos-blue flex flex-col items-center pb-7 text-sm">
             <u onClick={switchToForgot} className="mb-2 hover:cursor-pointer">
