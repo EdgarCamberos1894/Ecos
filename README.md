@@ -48,8 +48,8 @@ Antes de desplegar, configura las variables de `backend/.env.example` y `fronten
 
 ## Enlaces utiles
 
-- [Sitio Web](https://ftg-ecos.netlify.app/)
-- [API Docs](https://ecos-ed30.onrender.com/swagger-ui/index.html)
+- [Sitio Web](https://ecos-rosy.vercel.app)
+- [API Docs (Swagger)](https://ecos-ec.onrender.com/swagger-ui/index.html)
 
 ## Colaboradores
 
