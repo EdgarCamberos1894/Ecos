@@ -145,7 +145,9 @@ const LoginForm = () => {
             <button
               key={account.email}
               type="button"
-              onClick={() => loadDemoCredentials(account.email)}
+              onClick={() => {
+                loadDemoCredentials(account.email);
+              }}
               className="text-ecos-blue rounded-md border border-blue-200 bg-blue-50 px-3 py-2 text-sm font-medium transition-colors hover:bg-blue-100"
             >
               Usar {account.label}
