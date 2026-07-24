@@ -54,7 +54,7 @@ Antes de desplegar, configura las variables de `backend/.env.example` y `fronten
 
 ## Enlaces utiles
 
-- [Sitio Web](https://ecos-rosy.vercel.app)
+- [Sitio Web](https://ecos.cambers.lat)
 - [API Docs (Swagger)](https://ecos-ec.onrender.com/swagger-ui/index.html)
 
 ## Colaboradores
